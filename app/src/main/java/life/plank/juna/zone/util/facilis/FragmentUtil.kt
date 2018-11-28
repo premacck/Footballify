@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.util.Log
 import life.plank.juna.zone.R
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
@@ -15,6 +16,15 @@ fun FragmentManager.findCard(tag: String): BaseCard? {
 
 fun FragmentManager.findLastCard(): BaseCard? {
     return fragments[fragments.size - 1] as? BaseCard
+}
+
+inline fun <reified T : Any> FragmentManager.findFragment(): BaseFragment? {
+    for (fragment in fragments.reversed()) {
+        if (fragment is T && fragment is BaseFragment) {
+            return fragment
+        }
+    }
+    return null
 }
 
 fun FragmentManager.findLastFragment(): BaseFragment? {
@@ -34,10 +44,10 @@ fun FragmentManager.findPopupDialog(tag: String): BaseBlurPopup? {
     return findFragmentByTag(tag) as? BaseBlurPopup
 }
 
-inline fun <reified T : BaseFragment> FragmentManager.removeBoardIfExists() {
-    for (fragment in fragments) {
+inline fun <reified T : BaseFragment> BaseCardActivity.removeFragmentIfExists() {
+    for (fragment in supportFragmentManager.fragments.reversed()) {
         if (fragment is T) {
-            beginTransaction().remove(fragment).commit()
+            popBackStack()
         }
     }
 }

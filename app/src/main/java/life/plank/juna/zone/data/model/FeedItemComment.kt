@@ -10,6 +10,7 @@ data class FeedItemComment(
         var id: String,
         var message: String,
         var commenterDisplayName: String,
+        var commenterHandle: String,
         var commenterProfilePictureUrl: String?,
         var likeCount: Long,
         var hasLiked: Boolean,

@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -97,7 +98,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     private boolean isNotificationOn;
     private boolean isFollowing;
     private int layoutRefreshState = -1;
-    ;
+
     private int matchTimeValue;
     private long lastStopTime;
     private long baseTime;
@@ -391,58 +392,31 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     }
 
     @Override
-    public void setPeopleCount(String peopleCount) {
+    public void setPeopleCount(@NonNull String peopleCount) {
         peopleCountView.setText(peopleCount);
     }
 
     @Override
-    public void setCommentCount(String commentsCount) {
+    public void setCommentCount(@NonNull String commentsCount) {
         commentCountView.setText(commentsCount);
     }
 
     @Override
-    public void setBoardTitle(String boardTitle) {
-    }
+    public void setBoardTitle(@NonNull String boardTitle) { }
 
     @Override
-    public void showLock(boolean showLock) {
-    }
+    public void showLock(boolean showLock) { }
 
-    public boolean isFavourite() {
-        return isFavourite;
-    }
-
-    public void setFavourite(boolean favourite) {
-        isFavourite = favourite;
-    }
-
-    public boolean isNotificationOn() {
-        return isNotificationOn;
-    }
-
-    public void setNotificationOn(boolean notificationOn) {
-        isNotificationOn = notificationOn;
-    }
-
-    @Override
-    public boolean isFollowing() {
-        return isFollowing;
-    }
-
-    @Override
-    public void setFollowing(boolean isFollowing) {
-        this.isFollowing = isFollowing;
-    }
-
+    @NonNull
     @Override
     public TabLayout getInfoTilesTabLayout() {
         return infoTilesTabLayout;
     }
 
     @Override
-    public void setupWithViewPager(ViewPager viewPager) {
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(infoTilesTabLayout));
-        infoTilesTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+    public void setupWithViewPager(@NonNull ViewPager viewPager, int defaultSelection) {
+        infoTilesTabLayout.setupWithViewPager(viewPager);
+        viewPager.setCurrentItem(defaultSelection, true);
     }
 
     public void setBoardTemperature(BoardTemperature boardTemperature) {

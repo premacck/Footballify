@@ -159,19 +159,30 @@ public interface RestApi {
 
     //working
     @GET(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/emojiCounts")
-    Observable<Response<List<Emoji>>> getTopEmoji(@Path("feedItemId") String feedItemId, @Header("Authorization") String authHeader);
+    Observable<Response<List<Emoji>>> getTopFeedItemEmoji(@Path("feedItemId") String feedItemId, @Header("Authorization") String authHeader);
 
     //working
     @POST(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/emojis")
-    Observable<Response<JsonObject>> postReaction(@Path("feedItemId") String feedItemId,
-                                                  @Query("boardId") String boardId,
-                                                  @Query("reaction") Integer emojiUnicode,
-                                                  @Query("time") String dateCreated,
-                                                  @Header("Authorization") String authHeader);
+    Observable<Response<JsonObject>> postEmojiOnFeedItem(@Path("feedItemId") String feedItemId,
+                                                         @Query("boardId") String boardId,
+                                                         @Query("reaction") Integer emojiUnicode,
+                                                         @Query("time") String dateCreated,
+                                                         @Header("Authorization") String authHeader);
 
     //working
-    @GET(ZONE_BACKEND_SUFFIX + "/users/handle")
-    Observable<Response<List<User>>> getSearchedUsers(@Header("Authorization") String authHeader, @Query("handle") String displayName);
+    @GET(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/emojiCounts")
+    Observable<Response<List<Emoji>>> getTopBoardEmoji(@Path("boardId") String boardId, @Header("Authorization") String authHeader);
+
+    //working
+    @POST(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/emojis")
+    Observable<Response<JsonObject>> postEmojiOnBoard(@Path("boardId") String boardId,
+                                                      @Query("reaction") Integer emojiUnicode,
+                                                      @Query("time") String dateCreated,
+                                                      @Header("Authorization") String authHeader);
+
+    //working
+    @GET(ZONE_BACKEND_SUFFIX + "/users/search")
+    Observable<Response<List<User>>> getSearchedUsers(@Header("Authorization") String authHeader, @Query("q") String displayName);
 
     //working
     @GET(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/members")

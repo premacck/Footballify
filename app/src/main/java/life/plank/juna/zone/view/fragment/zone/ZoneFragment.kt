@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_zone.*
@@ -22,12 +23,11 @@ import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AN
 import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import life.plank.juna.zone.view.adapter.FootballLeagueAdapter
-import life.plank.juna.zone.view.adapter.SearchViewAdapter
+import life.plank.juna.zone.view.adapter.common.SearchViewAdapter
+import life.plank.juna.zone.view.adapter.league.FootballLeagueAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import org.jetbrains.anko.support.v4.find
 import java.net.HttpURLConnection
-import java.util.*
 import javax.inject.Inject
 
 class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClickListener {
@@ -98,7 +98,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
 
     private fun initBottomSheetRecyclerView() {
         recycler_view.layoutManager = GridLayoutManager(context, 5)
-        searchViewAdapter = SearchViewAdapter(userList, context, this, picasso)
+        searchViewAdapter = SearchViewAdapter(userList, Glide.with(this))
         recycler_view.adapter = searchViewAdapter
         search_view.setOnQueryTextListener(this)
 
@@ -124,7 +124,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
             Log.e(TAG, "getSearchedUsers() : onError: ", it)
         }, {
             when (it.code()) {
-                HttpURLConnection.HTTP_OK -> searchViewAdapter.update(it.body())
+                HttpURLConnection.HTTP_OK -> searchViewAdapter.update(it.body() as ArrayList)
                 HttpURLConnection.HTTP_NOT_FOUND -> {
                     userList.clear()
                     searchViewAdapter.notifyDataSetChanged()

@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.alterac.blurkit.BlurLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root_blur_layout"
-    style="@style/BlurLayoutFullScreen">
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MatchParentSize">
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/root_blur_layout"
+        style="@style/BlurLayoutFullScreen" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/root_card"
         style="@style/CardView.Root"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible">
+        android:layout_gravity="center">
 
         <ScrollView style="@style/MatchParentSize">
 
-            <RelativeLayout style="@style/MatchParentSize">
+            <RelativeLayout
+                style="@style/MatchParentSize"
+                android:animateLayoutChanges="true">
+
+                <View
+                    android:id="@+id/drag_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp" />
 
                 <TextView
                     android:id="@+id/preview_title"
@@ -26,7 +36,6 @@
                     android:paddingTop="5dp"
                     android:paddingEnd="10dp"
                     android:paddingBottom="10dp"
-                    android:text="@string/preview_your_board"
                     android:textColor="@color/grey"
                     android:textSize="16sp" />
 
@@ -96,28 +105,67 @@
 
                 <Button
                     android:id="@+id/create_board_button"
-                    android:layout_width="187dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/board_parent_layout"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/button_background"
                     android:fontFamily="@font/raleway_bold"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
                     android:text="@string/create_board"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="19sp" />
+                    android:textSize="19sp"
+                    android:visibility="invisible" />
+
+                <LinearLayout
+                    android:id="@+id/board_invite_action_button_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/board_parent_layout"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="horizontal"
+                    android:visibility="invisible">
+
+                    <Button
+                        android:id="@+id/reject_invite_button"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="4dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/raleway_bold"
+                        android:gravity="center"
+                        android:text="@string/reject"
+                        android:textAllCaps="false"
+                        android:textColor="@color/dark_sky_blue"
+                        android:textSize="19sp" />
+
+                    <Button
+                        android:id="@+id/accept_invite_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_background"
+                        android:fontFamily="@font/raleway_bold"
+                        android:text="@string/accept"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="19sp"
+                        tools:ignore="ButtonStyle" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
         </ScrollView>
 
-        <View
-            android:id="@+id/drag_area"
-            android:layout_width="match_parent"
-            android:layout_height="40dp" />
-
     </android.support.v7.widget.CardView>
 
-</io.alterac.blurkit.BlurLayout>
+</FrameLayout>

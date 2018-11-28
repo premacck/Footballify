@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.EditText
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_forum.*
@@ -44,7 +43,6 @@ class ForumFragment : BaseCommentContainerFragment() {
         super.onCreate(savedInstanceState)
         getApplication().uiComponent.inject(this)
         arguments?.run { boardId = getString(getString(R.string.intent_board_id)) }
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_forum, container, false)
@@ -54,13 +52,10 @@ class ForumFragment : BaseCommentContainerFragment() {
         
         adapter = PostCommentAdapter(Glide.with(this), this, getString(R.string.forum))
         post_comments_list.adapter = adapter
-        setAdapterData()
 
         Glide.with(this)
                 .load(PreferenceManager.CurrentUser.getProfilePicUrl())
                 .into(commenter_image)
-
-        getComments(false)
 
         post_comment.onDebouncingClick {
             if (!comment_edit_text.text.toString().isEmpty() && !isNullOrEmpty(boardId)) {
@@ -71,10 +66,9 @@ class ForumFragment : BaseCommentContainerFragment() {
         forum_swipe_refresh_layout.setOnRefreshListener { getComments(true) }
     }
 
-    //TODO: Remove hard coded data after backend integration.
-    private fun setAdapterData() {
-        val commentList = ArrayList<FeedItemComment>()
-        adapter!!.setComments(commentList)
+    override fun onResume() {
+        super.onResume()
+        getComments(false)
     }
 
     private fun getComments(isRefreshing: Boolean) {
@@ -86,7 +80,7 @@ class ForumFragment : BaseCommentContainerFragment() {
                     errorToast(R.string.failed_to_get_feed_comments, it)
                 }, {
                     when (it.code()) {
-                        HTTP_OK -> adapter!!.setComments(it.body())
+                        HTTP_OK -> adapter?.setComments(it.body())
                         HTTP_NOT_FOUND, HTTP_NO_CONTENT -> {
                             no_comment_text_view.setText(R.string.be_the_first_to_comment_on_this_forum)
                             no_comment_text_view.visibility = View.VISIBLE
@@ -121,7 +115,7 @@ class ForumFragment : BaseCommentContainerFragment() {
     override fun onCommentSuccessful(responseComment: FeedItemComment) {
         comment_edit_text.text = null
         no_comment_text_view.visibility = View.GONE
-        adapter!!.addComment(responseComment)
+        adapter?.addComment(responseComment)
         post_comments_list.smoothScrollToPosition(0)
     }
 
@@ -132,7 +126,7 @@ class ForumFragment : BaseCommentContainerFragment() {
                 replies = ArrayList()
             }
             (replies as ArrayList).add(replyPosition, responseReply)
-            adapter!!.onReplyPostedOnComment(parentCommentPosition, this)
+            adapter?.onReplyPostedOnComment(parentCommentPosition, this)
         }
     }
 }

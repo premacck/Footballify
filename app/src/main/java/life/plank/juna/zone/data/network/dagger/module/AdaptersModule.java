@@ -1,15 +1,12 @@
 package life.plank.juna.zone.data.network.dagger.module;
 
-import com.squareup.picasso.Picasso;
-
 import dagger.Module;
 import dagger.Provides;
 import life.plank.juna.zone.data.network.dagger.scope.UiScope;
-import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter;
-import life.plank.juna.zone.view.adapter.BoardIconAdapter;
-import life.plank.juna.zone.view.adapter.GetCoinsAdapter;
-import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
-import life.plank.juna.zone.view.adapter.MyBoardsAdapter;
+import life.plank.juna.zone.view.adapter.board.creation.BoardColorThemeAdapter;
+import life.plank.juna.zone.view.adapter.board.creation.BoardIconAdapter;
+import life.plank.juna.zone.view.adapter.user.GetCoinsAdapter;
+import life.plank.juna.zone.view.adapter.user.LastTransactionsAdapter;
 
 @Module
 public class AdaptersModule {
@@ -30,12 +27,6 @@ public class AdaptersModule {
     @Provides
     public GetCoinsAdapter provideGetCoinsAdapter() {
         return new GetCoinsAdapter();
-    }
-
-    @UiScope
-    @Provides
-    public MyBoardsAdapter provideMyBoardsAdapter(Picasso picasso) {
-        return new MyBoardsAdapter(picasso);
     }
 
     @UiScope

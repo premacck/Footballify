@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blur_layout"
+        style="@style/BlurLayoutFullScreen" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/root_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:animateLayoutChanges="true"
+        android:elevation="8dp"
+        app:cardCornerRadius="@dimen/feed_card_corner_radius"
+        app:cardUseCompatPadding="true">
+
+        <View
+            android:id="@+id/drag_area"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/raleway_semibold"
+            android:lineSpacingExtra="-1sp"
+            android:textColor="@color/grey"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="10dp"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="6dp"
+            android:fontFamily="@font/rajdhani_medium"
+            android:hint="@string/search_query_hint"
+            android:inputType="textCapSentences"
+            android:textColor="@color/grey"
+            android:textSize="14sp"
+            tools:ignore="Autofill" />
+
+        <TextView
+            android:id="@+id/no_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="90dp"
+            android:fontFamily="@font/rajdhani_medium"
+            android:gravity="center"
+            android:text="@string/search_for_users_or_handles"
+            android:textColor="@color/grey"
+            android:textSize="16sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_result_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/search_view"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="90dp"
+            android:minHeight="100dp"
+            android:visibility="invisible"
+            app:layoutManager="android.support.v7.widget.GridLayoutManager"
+            app:spanCount="5" />
+
+        <Button
+            android:id="@+id/invite_user"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/search_result_recycler_view"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="20dp"
+            android:alpha="0.5"
+            android:enabled="false"
+            android:background="@drawable/blue_border_button"
+            android:fontFamily="@font/raleway_semibold"
+            android:text="@string/invite_string"
+            android:textAllCaps="false"
+            android:textColor="@color/accent"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/thumbnail"
+            android:src="@drawable/drag_handle_dark" />
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

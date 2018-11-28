@@ -17,12 +17,7 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager
-import life.plank.juna.zone.view.activity.board.JoinBoardActivity
-import life.plank.juna.zone.view.activity.home.HomeActivity
-import org.jetbrains.anko.clearTop
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.uiThread
 
 private const val CHANNEL_ID = "juna_notification_channel"
@@ -35,43 +30,16 @@ fun JunaNotification.prepareDrawerNotification() {
     val pendingIntent = PendingIntent.getActivity(
             ZoneApplication.getContext(),
             0,
-            ZoneApplication.getContext().run {
-                when (action) {
-                    findString(intent_invite) -> {
-                        intentFor<JoinBoardActivity>(findString(intent_board_id) to boardId).clearTop()
-                    }
-                    findString(intent_image), findString(intent_video), findString(intent_board_react) -> {
-                        intentFor<HomeActivity>(findString(intent_board_id) to boardId).clearTop()
-                    }
-                    findString(intent_board_comment), findString(intent_board_comment_reply) -> {
-                        intentFor<HomeActivity>(
-                                findString(intent_board_id) to boardId,
-                                findString(intent_comment_id) to commentId
-                        ).clearTop()
-                    }
-                    findString(intent_feed_item_comment), findString(intent_feed_item_reply), findString(intent_feed_item_react) -> {
-                        intentFor<HomeActivity>(
-                                findString(intent_board_id) to boardId,
-                                findString(intent_feed_item_id) to feedItemId,
-                                findString(intent_comment_id) to commentId
-                        ).clearTop()
-                    }
-                    else -> intentFor<HomeActivity>().clearTop()
-                }
-            },
+            getSocialNotificationIntent(),
             FLAG_ONE_SHOT
     )
-    if (actor != PreferenceManager.CurrentUser.getDisplayName()) {
-        when (action) {
-            findString(intent_invite), findString(intent_board_comment), findString(intent_feed_item_comment),
-            findString(intent_feed_item_reply), findString(intent_feed_item_react), findString(intent_kick),
-            findString(intent_board_comment_reply) -> {
-                sendTextNotification(pendingIntent)
-            }
-            findString(intent_image), findString(intent_video), findString(intent_board_react) -> {
-                sendNotification(pendingIntent)
-            }
-        }
+    when (action) {
+        findString(intent_comment), findString(intent_react), findString(intent_kick) ->
+            sendTextNotification(pendingIntent)
+        findString(intent_invite) ->
+            sendNotification(pendingIntent, false)
+        findString(intent_post) ->
+            sendNotification(pendingIntent, true)
     }
 }
 
@@ -88,7 +56,7 @@ fun JunaNotification.sendTextNotification(pendingIntent: PendingIntent) {
             .notify(0, getNotificationBuilder(buildNotificationMessage(), pendingIntent).build())
 }
 
-fun JunaNotification.sendNotification(pendingIntent: PendingIntent) {
+fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: Boolean) {
     val notificationManager = ZoneApplication.getContext().getNotificationManager().setNotificationChannel()
     val notificationBuilder = getNotificationBuilder(buildNotificationMessage(), pendingIntent)
     try {
@@ -100,7 +68,11 @@ fun JunaNotification.sendNotification(pendingIntent: PendingIntent) {
                             .submit()
                             .get()
             uiThread {
-                notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigLargeIcon(bitmap))
+                if (isBigImage) {
+                    notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigLargeIcon(bitmap))
+                } else {
+                    notificationBuilder.setLargeIcon(bitmap)
+                }
                 notificationManager.notify(1, notificationBuilder.build())
             }
         }

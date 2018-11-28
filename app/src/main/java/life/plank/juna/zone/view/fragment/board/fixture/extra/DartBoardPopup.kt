@@ -12,7 +12,6 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.throwDart
@@ -39,7 +38,6 @@ class DartBoardPopup : BaseBlurPopup() {
             inflater.inflate(R.layout.popup_dart_board, container, false)
 
     override fun doOnStart() {
-        dartboard_layout.floatUp()
         dart_remaining_count_text_view.text = remainingDarts.toString()
 
         //TODO: Replace with playerId
@@ -70,8 +68,6 @@ class DartBoardPopup : BaseBlurPopup() {
             remainingDarts--
         }
     }
-
-    override fun dismissAnimation(): Int = R.anim.sink_down
 
     override fun getBlurLayout(): BlurLayout? = blur_layout
 

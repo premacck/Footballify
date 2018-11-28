@@ -1,9 +1,6 @@
 package life.plank.juna.zone.view.fragment.board.user
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -22,15 +19,20 @@ import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.model.FeedItem
 import life.plank.juna.zone.data.model.Thumbnail
+import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.*
+import life.plank.juna.zone.notification.getIntentActionFromActivity
 import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_OWNER_POPUP
 import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_USER_POPUP
 import life.plank.juna.zone.util.DataUtil.findString
+import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.customToast
+import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.util.facilis.floatUp
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment
@@ -48,12 +50,6 @@ class PrivateBoardFragment : CardTileFragment() {
     lateinit var board: Board
     private var pagerAdapter: PrivateBoardPagerAdapter? = null
     private val deleteBoardListener = View.OnClickListener { deletePrivateBoard() }
-
-    private val mMessageReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            setDataReceivedFromPushNotification(intent)
-        }
-    }
 
     companion object {
         val TAG: String = PrivateBoardFragment::class.java.simpleName
@@ -95,26 +91,24 @@ class PrivateBoardFragment : CardTileFragment() {
     }
 
     fun setDataReceivedFromPushNotification(intent: Intent) {
-        if (intent.hasExtra(getString(R.string.intent_content_type))) {
-            val title = intent.getStringExtra(getString(R.string.intent_comment_title))
-            val contentType = intent.getStringExtra(getString(R.string.intent_content_type))
-            val thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0)
-            val thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0)
-            val imageUrl = intent.getStringExtra(getString(R.string.intent_image_url))
+
+        if (intent.hasExtra(getString(R.string.intent_juna_notification))) {
+
+            val junaNotification = intent.getParcelableExtra<JunaNotification>(getString(R.string.intent_juna_notification))
+            val imageUrl = junaNotification.imageUrl
             val feed = FeedEntry()
             val feedItem = FeedItem()
 
             feed.feedItem = feedItem
-            feed.feedItem.contentType = contentType
-            if (contentType == AppConstants.ROOT_COMMENT) {
-                feed.feedItem.title = title
-            } else {
-                val thumbnail = Thumbnail()
-                thumbnail.imageWidth = thumbnailWidth
-                thumbnail.imageHeight = thumbnailHeight
-                thumbnail.imageUrl = imageUrl
-                feed.feedItem.thumbnail = thumbnail
-                feed.feedItem.url = imageUrl
+            feed.feedItem.contentType = junaNotification.action
+
+            when (junaNotification.action) {
+                getString(R.string.intent_image) -> {
+                    val thumbnail = Thumbnail()
+                    thumbnail.imageUrl = imageUrl!!
+                    feed.feedItem.thumbnail = thumbnail
+                    feed.feedItem.url = imageUrl
+                }
             }
             try {
                 if (pagerAdapter!!.currentFragment is BoardTilesFragment) {
@@ -129,7 +123,15 @@ class PrivateBoardFragment : CardTileFragment() {
     private fun setupViewPagerWithFragments() {
         pagerAdapter = PrivateBoardPagerAdapter(childFragmentManager, board)
         private_board_view_pager.adapter = pagerAdapter
-        private_board_toolbar.setupWithViewPager(private_board_view_pager)
+        val defaultTabSelection = getIntentActionFromActivity()?.run {
+            //            TODO: refine the following hardcoded integer constants
+            when (this) {
+                getString(R.string.intent_post), getString(R.string.intent_react) -> 2
+                getString(R.string.intent_comment) -> 1
+                else -> 2
+            }
+        } ?: 2
+        private_board_toolbar.setupWithViewPager(private_board_view_pager, defaultTabSelection)
     }
 
     override fun getBackgroundBlurLayout(): ViewGroup? = root_blur_layout
@@ -137,20 +139,6 @@ class PrivateBoardFragment : CardTileFragment() {
     override fun getRootCard(): CardView? = root_card
 
     override fun getDragHandle(): View? = drag_area
-
-    override fun onResume() {
-        super.onResume()
-        context?.registerReceiver(mMessageReceiver, IntentFilter(getString(R.string.intent_board)))
-    }
-
-    override fun onPause() {
-        super.onPause()
-        try {
-            context?.unregisterReceiver(mMessageReceiver)
-        } catch (e: Exception) {
-            Log.e("unregisterReceiver()", "ERROR", e)
-        }
-    }
 
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {
         feedEntries = feedEntryList
@@ -187,6 +175,15 @@ class PrivateBoardFragment : CardTileFragment() {
                 0 -> PrivateBoardInfoFragment.newInstance(board.description!!, board.id, board.owner.displayName, board.name!!)
                 1 -> ForumFragment.newInstance(board.id)
                 2 -> BoardTilesFragment.newInstance(board.id, true)
+                else -> null
+            }
+        }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return when (position) {
+                0 -> findString(R.string.info)
+                1 -> findString(R.string.forum)
+                2 -> findString(R.string.tiles)
                 else -> null
             }
         }

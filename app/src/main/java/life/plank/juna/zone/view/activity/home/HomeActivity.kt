@@ -5,6 +5,7 @@ import android.os.Bundle
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.notification.handleNotificationIntentIfAny
 import life.plank.juna.zone.util.common.handleBoardIntentIfAny
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.home.HomeFragment
@@ -35,8 +36,12 @@ class HomeActivity : BaseCardActivity() {
 
         pushFragment(HomeFragment.newInstance())
 
+        handleNotificationIntentIfAny(restApi)
+
         handleBoardIntentIfAny(restApi)
     }
 
     override fun getFragmentContainer(): Int = R.id.main_fragment_container
+
+    override fun restApi(): RestApi? = restApi
 }

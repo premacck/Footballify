@@ -19,13 +19,17 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.*
+import com.ahamed.multiviewadapter.DataItemManager
+import com.ahamed.multiviewadapter.ItemBinder
+import com.ahamed.multiviewadapter.ItemViewHolder
+import com.ahamed.multiviewadapter.RecyclerAdapter
 import io.alterac.blurkit.BlurLayout
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
-import life.plank.juna.zone.view.adapter.EmojiAdapter
+import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 
@@ -70,10 +74,18 @@ fun ObjectAnimator.prepare(): ObjectAnimator {
 }
 
 fun View.setSwipeDownListener(activity: Activity, rootView: View, backgroundLayout: ViewGroup? = null) {
-    this.setOnTouchListener(object : SwipeDownToDismissListener(activity, this@setSwipeDownListener, rootView, backgroundLayout) {
-        override fun onSwipeDown() {
-            activity.onBackPressed()
-        }
+    onSwipeDown(activity, rootView, backgroundLayout, { activity.onBackPressed() })
+}
+
+fun View.onSwipeDown(activity: Activity, rootView: View? = null, backgroundLayout: ViewGroup? = null, swipeDownAction: () -> Unit, singleTapAction: () -> Boolean = { false }) {
+    setOnTouchListener(object : SwipeDownToDismissListener(
+            activity,
+            this@onSwipeDown,
+            rootView ?: this@onSwipeDown,
+            backgroundLayout
+    ) {
+        override fun onSwipeDown() = swipeDownAction()
+        override fun onSingleTap(): Boolean = singleTapAction()
     })
 }
 
@@ -239,8 +251,8 @@ fun BottomSheetBehavior<*>.show(peekHeight: Int = 850) {
     this.peekHeight = peekHeight
 }
 
-fun BottomSheetBehavior<*>.showFor(emojiAdapter: EmojiAdapter, feedItemId: String?, peekHeight: Int = 850) {
-    emojiAdapter.update(feedItemId)
+fun BottomSheetBehavior<*>.showFor(emojiAdapter: EmojiAdapter?, id: String?, peekHeight: Int = 850) {
+    emojiAdapter?.update(id!!)
     show(peekHeight)
 }
 
@@ -259,4 +271,22 @@ fun BottomSheetBehavior<*>.hideIfShown(): Boolean {
 
 fun TextView.setEmoji(emoji: Int) {
     text = StringBuilder().appendCodePoint(emoji).toString()
+}
+
+inline fun <reified T : View> ViewGroup.getIfPresent(): T? {
+    if (childCount <= 0) {
+        return null
+    }
+    for (i in 0..childCount) {
+        val child = getChildAt(i)
+        if (child is T) {
+            return child
+        }
+    }
+    return null
+}
+
+fun <BM> RecyclerAdapter.addDataManagerAndRegisterBinder(dataManager: DataItemManager<BM>, binderToRegister: ItemBinder<BM, out ItemViewHolder<BM>>) {
+    addDataManager(dataManager)
+    registerBinder(binderToRegister)
 }

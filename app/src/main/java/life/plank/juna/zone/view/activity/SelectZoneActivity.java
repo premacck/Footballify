@@ -9,14 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
-import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -27,9 +25,8 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.Zones;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.interfaces.OnClickZoneItemListener;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
-import life.plank.juna.zone.view.adapter.ZoneAdapter;
+import life.plank.juna.zone.view.adapter.onboarding.SelectZoneAdapter;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -42,21 +39,19 @@ import static life.plank.juna.zone.util.RestUtilKt.errorToast;
  * Created by plank-dhamini on 18/7/2018.
  */
 
-public class SelectZoneActivity extends AppCompatActivity implements OnClickZoneItemListener {
+public class SelectZoneActivity extends AppCompatActivity {
     private static final String TAG = SelectZoneActivity.class.getSimpleName();
 
     @BindView(R.id.board_recycler_view)
     RecyclerView boardRecyclerView;
     @BindView(R.id.follow_button)
     Button followButton;
-    @Inject
-    Picasso picasso;
-    ZoneAdapter zoneAdapter;
-    Set<String> zoneIdList = new HashSet<>();
 
     @Inject
     RestApi restApi;
-    private ArrayList<Zones> zones = new ArrayList<>();
+
+    SelectZoneAdapter selectZoneAdapter;
+    private ArrayList<Zones> zonesList = new ArrayList<>();
     Zones zone = new Zones();
 
     @Override
@@ -73,6 +68,7 @@ public class SelectZoneActivity extends AppCompatActivity implements OnClickZone
 
     @OnClick(R.id.follow_button)
     public void onFollowButtonClick() {
+        zone.setZoneIds(selectZoneAdapter.getSelectedZoneNames());
         followZones(zone);
     }
 
@@ -141,36 +137,16 @@ public class SelectZoneActivity extends AppCompatActivity implements OnClickZone
     }
 
     private void setUpAdapterWithNewData(List<Zones> zonesList) {
-        zones.clear();
-        zones.addAll(zonesList);
-        zoneAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
+        this.zonesList.clear();
+        this.zonesList.addAll(zonesList);
+        selectZoneAdapter.notifyDataSetChanged();
     }
 
     private void initRecyclerView() {
-        zoneAdapter = new ZoneAdapter(this, zones, this, picasso);
+        selectZoneAdapter = new SelectZoneAdapter(zonesList, Glide.with(this));
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         boardRecyclerView.setLayoutManager(gridLayoutManager);
-        boardRecyclerView.setAdapter(zoneAdapter);
+        boardRecyclerView.setAdapter(selectZoneAdapter);
 
-    }
-
-    @Override
-    public void onItemClick(String id, Boolean isSelected) {
-        if (isSelected) {
-            zoneIdList.add(id);
-        } else {
-            zoneIdList.remove(id);
-        }
-        zone.setZoneIds(zoneIdList);
     }
 }

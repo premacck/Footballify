@@ -62,6 +62,20 @@ android {
         }
     }
 
+    task('releaseToInternalTrack') << {
+        ant.propertyfile(
+                file: "/var/jenkins/.gradle/gradle.properties") {
+            entry(key: "releaseTrack", value: "internal")
+        }
+    }
+
+    task('releaseToAlphaTrack') << {
+        ant.propertyfile(
+                file: "/var/jenkins/.gradle/gradle.properties") {
+            entry(key: "releaseTrack", value: "alpha")
+        }
+    }
+
     defaultConfig {
         multiDexEnabled true
         applicationId "life.plank.juna.zone"
@@ -100,6 +114,10 @@ android {
         unitTests.returnDefaultValues = true
         animationsDisabled = true
     }
+}
+
+play{
+    track = releaseTrack
 }
 
 dependencies {

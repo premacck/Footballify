@@ -33,9 +33,9 @@ import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
-import life.plank.juna.zone.view.adapter.UserBoardsAdapter
-import life.plank.juna.zone.view.adapter.UserFeedAdapter
-import life.plank.juna.zone.view.adapter.UserZoneAdapter
+import life.plank.juna.zone.view.adapter.board.user.UserBoardsAdapter
+import life.plank.juna.zone.view.adapter.user.UserFeedAdapter
+import life.plank.juna.zone.view.adapter.user.UserZoneAdapter
 import life.plank.juna.zone.view.fragment.base.FlatTileFragment
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import net.openid.appauth.AuthorizationService

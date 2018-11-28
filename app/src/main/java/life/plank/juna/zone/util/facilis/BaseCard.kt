@@ -3,11 +3,11 @@ package life.plank.juna.zone.util.facilis
 import android.app.Activity
 import android.os.Bundle
 import android.support.annotation.CallSuper
-import android.support.v7.widget.CardView
 import android.view.View
 import android.view.ViewGroup
 import io.alterac.blurkit.BlurLayout
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.UIDisplayUtil
+import life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
@@ -16,7 +16,10 @@ abstract class BaseCard : BaseFragment() {
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        getRootCard()?.setTopMargin(getDp(if (getParentActivity().index > 0) 20f else 0f).toInt())
+        getRootCard()?.run {
+            setTopMargin(UIDisplayUtil.getDp(if (getParentActivity().index > 0) 20f else 0f).toInt())
+            isClickable = true
+        }
         activity?.let { setupSwipeDownGesture(it) }
         (getBackgroundBlurLayout() as? BlurLayout)?.beginBlur()
     }
@@ -43,7 +46,7 @@ abstract class BaseCard : BaseFragment() {
 
     abstract fun getBackgroundBlurLayout(): ViewGroup?
 
-    abstract fun getRootCard(): CardView?
+    abstract fun getRootCard(): ViewGroup?
 
     abstract fun getDragHandle(): View?
 
@@ -54,6 +57,7 @@ abstract class BaseCard : BaseFragment() {
     }
 
     override fun onDestroyView() {
+        hideSoftKeyboard(getRootCard())
         (getBackgroundBlurLayout() as? BlurLayout)?.pauseBlur()
         dispose()
         super.onDestroyView()

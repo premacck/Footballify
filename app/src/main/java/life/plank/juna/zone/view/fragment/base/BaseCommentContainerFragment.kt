@@ -8,11 +8,15 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.CommentEvent
 import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.*
+import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
+import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard
 import life.plank.juna.zone.util.UIDisplayUtil.showSoftKeyboard
+import life.plank.juna.zone.util.errorToast
+import life.plank.juna.zone.util.semiBold
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import java.net.HttpURLConnection
 
@@ -74,7 +78,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
 
     abstract fun onReplySuccessful(responseReply: FeedItemComment, parentComment: FeedItemComment?, parentCommentPosition: Int, replyPosition: Int)
 
-    fun replyAction(replyTextView: TextView, itemView: View, commenterDisplayName: String, parentComment: FeedItemComment, parentCommentPosition: Int, replyPosition: Int = -1) {
+    fun replyAction(replyTextView: TextView, itemView: View, commenterHandle: String, parentComment: FeedItemComment, parentCommentPosition: Int, replyPosition: Int = -1) {
         if (replyTextView.text == getString(R.string.reply)) {
 //            Resetting old focused items, if any
             selectedReplyTextView?.text = getString(R.string.reply)
@@ -86,7 +90,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
             selectedItemView?.background = resources.getDrawable(R.drawable.shimmer_rectangle, null)
 
             replyTextView.setText(R.string.cancel)
-            val mentionText = "@$commenterDisplayName ".semiBold()
+            val mentionText = "@$commenterHandle ".semiBold()
             getCommentEditText().setText(mentionText)
             getCommentEditText().setSelection(mentionText.length)
             getCommentEditText().requestFocus()
@@ -192,10 +196,10 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
     }
 
     private fun FeedItemComment.addNameAndPhotoIfNotPresent() {
-        if (DataUtil.isNullOrEmpty(commenterDisplayName)) {
-            commenterDisplayName = PreferenceManager.CurrentUser.getDisplayName()
+        if (isNullOrEmpty(commenterHandle)) {
+            commenterHandle = PreferenceManager.CurrentUser.getHandle()
         }
-        if (DataUtil.isNullOrEmpty(commenterProfilePictureUrl)) {
+        if (isNullOrEmpty(commenterProfilePictureUrl)) {
             commenterProfilePictureUrl = PreferenceManager.CurrentUser.getProfilePicUrl()
         }
     }

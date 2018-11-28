@@ -6,107 +6,106 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout"
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v4.widget.NestedScrollView
-                android:id="@+id/nestedScrollView"
+            <RelativeLayout
+                android:id="@+id/tile_content_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <life.plank.juna.zone.util.customview.BoardPoll
+                    android:id="@+id/board_poll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
-                    android:id="@+id/tile_content_layout"
+                    android:id="@+id/extras_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:animateLayoutChanges="true">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/board_poll"
+                    android:baselineAligned="false"
+                    android:gravity="center_horizontal"
+                    android:paddingStart="1dp"
+                    android:paddingEnd="1dp">
 
-                    <life.plank.juna.zone.util.customview.BoardPoll
-                        android:id="@+id/poll"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                    <include
+                        android:id="@+id/key_board"
+                        layout="@layout/item_key_board"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="1" />
 
-                    <LinearLayout
-                        android:id="@+id/extras_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:baselineAligned="false"
-                        android:gravity="center_horizontal"
-                        android:paddingStart="1dp"
-                        android:paddingEnd="1dp">
+                    <include
+                        android:id="@+id/react"
+                        layout="@layout/item_react"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="1" />
 
-                        <include
-                            android:id="@+id/key_board"
-                            layout="@layout/item_key_board"
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:layout_margin="1dp"
-                            android:layout_weight="1" />
-
-                        <include
-                            android:id="@+id/react"
-                            layout="@layout/item_react"
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:layout_margin="1dp"
-                            android:layout_weight="1" />
-
-                        <include
-                            android:id="@+id/dart_board"
-                            layout="@layout/item_dart_board"
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:layout_margin="1dp"
-                            android:layout_weight="1" />
-
-                    </LinearLayout>
-
-                    <com.prembros.asymmetricrecyclerview.widget.AsymmetricRecyclerView
-                        android:id="@+id/board_tiles_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToPadding="false"
-                        android:nestedScrollingEnabled="false"
-                        android:paddingBottom="80dp"
-                        tools:listitem="@layout/item_board_tile" />
+                    <include
+                        android:id="@+id/dart_board"
+                        layout="@layout/item_dart_board"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_margin="1dp"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
 
-            </android.support.v4.widget.NestedScrollView>
+                <com.prembros.asymmetricrecyclerview.widget.AsymmetricRecyclerView
+                    android:id="@+id/board_tiles_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/extras_layout"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingBottom="80dp"
+                    tools:listitem="@layout/item_board_tile" />
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/extras_layout"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:visibility="visible" />
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:visibility="gone" />
+                <TextView
+                    android:id="@+id/no_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/extras_layout"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginBottom="100dp"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/no_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/rajdhani_medium"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
+            </RelativeLayout>
 
-        <com.bvapp.arcmenulibrary.ArcMenu
-            android:id="@+id/arc_menu"
-            style="@style/ArcMenuDefault" />
+        </android.support.v4.widget.NestedScrollView>
 
-    </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <com.bvapp.arcmenulibrary.ArcMenu
+        android:id="@+id/arc_menu"
+        style="@style/ArcMenuDefault" />
 
     <include layout="@layout/emoji_bottom_sheet" />
 

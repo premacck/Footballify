@@ -7,24 +7,25 @@ import android.support.v7.widget.PagerSnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.popup_feed_item_peek.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.model.Emoji
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.interfaces.EmojiContainer
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.facilis.hideIfShown
-import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter
-import life.plank.juna.zone.view.adapter.EmojiAdapter
+import life.plank.juna.zone.view.adapter.common.BoardFeedDetailAdapter
+import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import java.util.*
 import javax.inject.Inject
 
 @Suppress("DeferredResultUnused")
-class FeedItemPeekPopup : BaseBlurPopup() {
+class FeedItemPeekPopup : BaseBlurPopup(), EmojiContainer {
 
     @Inject
     lateinit var restApi: RestApi
@@ -72,6 +73,8 @@ class FeedItemPeekPopup : BaseBlurPopup() {
         initRecyclerView()
     }
 
+    override fun enterAnimation(): Int = R.anim.zoom_in
+
     override fun dismissAnimation(): Int = R.anim.zoom_out
 
     override fun getBlurLayout(): BlurLayout? = blur_layout
@@ -82,11 +85,13 @@ class FeedItemPeekPopup : BaseBlurPopup() {
 
     override fun getBackgroundLayout(): ViewGroup? = root_peek_layout
 
+    override fun onEmojiPosted(emoji: Emoji) {}
+
     private fun initBottomSheet() {
         boardId?.run {
             emojiBottomSheetBehavior = BottomSheetBehavior.from(emoji_bottom_sheet)
             emojiBottomSheetBehavior?.peekHeight = 0
-            emojiAdapter = EmojiAdapter(restApi, this, emojiBottomSheetBehavior)
+            emojiAdapter = EmojiAdapter(restApi, this, emojiBottomSheetBehavior, isFeedItem = true, emojiContainer = this@FeedItemPeekPopup)
             emoji_recycler_view.adapter = emojiAdapter
             emoji_bottom_sheet.visibility = View.VISIBLE
         }
@@ -98,7 +103,6 @@ class FeedItemPeekPopup : BaseBlurPopup() {
         boardFeedDetailAdapter?.update(feedEntries)
         PagerSnapHelper().attachToRecyclerView(board_tiles_full_recycler_view)
         board_tiles_full_recycler_view.scrollToPosition(position)
-        board_tiles_full_recycler_view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in))
     }
 
     override fun onBackPressed(): Boolean = emojiBottomSheetBehavior?.hideIfShown() ?: true

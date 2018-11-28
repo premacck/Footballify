@@ -18,7 +18,7 @@ import life.plank.juna.zone.util.AppConstants.PAST_MATCHES
 import life.plank.juna.zone.util.AppConstants.TODAY_MATCHES
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.view.adapter.FixtureMatchdayAdapter
+import life.plank.juna.zone.view.adapter.fixture.FixtureMatchdayAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.Companion.fixtureByMatchDayList
 import org.jetbrains.anko.doAsync

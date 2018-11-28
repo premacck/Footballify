@@ -28,7 +28,7 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
 
     private var isFollowing: Boolean = false
 
-    internal var listener: PublicBoardHeaderListener? = null
+    private var listener: PublicBoardHeaderListener? = null
 
     init {
         init(context, attrs)
@@ -41,7 +41,7 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
         val array = context.obtainStyledAttributes(attrs, R.styleable.GenericToolbar)
         setBackgroundColor(array.getColor(R.styleable.GenericToolbar_backgroundColor, resources.getColor(R.color.transparent, null)))
         setTitle(array.getString(R.styleable.GenericToolbar_toolbarTitle))
-        setBoardTitle(array.getString(R.styleable.GenericToolbar_boardTypeTitle))
+        setBoardTitle(array.getString(R.styleable.GenericToolbar_boardTypeTitle)!!)
         setLeagueLogo(array.getResourceId(R.styleable.GenericToolbar_logo, R.drawable.ic_board_beer))
         share_btn?.visibility = if (array.getInt(R.styleable.GenericToolbar_shareButtonVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
         options_menu?.visibility = if (array.getInt(R.styleable.GenericToolbar_optionsMenuVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
@@ -112,7 +112,7 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
         comment_count?.text = commentsCount
     }
 
-    override fun setBoardTitle(boardTitle: String?) {
+    override fun setBoardTitle(boardTitle: String) {
         board_type_title?.text = boardTitle
     }
 
@@ -124,21 +124,13 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
         lock?.visibility = if (showLock) View.VISIBLE else View.GONE
     }
 
-    override fun isFollowing(): Boolean {
-        return isFollowing
-    }
-
-    override fun setFollowing(isFollowing: Boolean) {
-        this.isFollowing = isFollowing
-    }
-
-    override fun getInfoTilesTabLayout(): TabLayout? {
+    override fun getInfoTilesTabLayout(): TabLayout {
         return info_tiles_tab_layout
     }
 
-    override fun setupWithViewPager(viewPager: ViewPager) {
-        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(infoTilesTabLayout))
-        info_tiles_tab_layout?.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
+    override fun setupWithViewPager(viewPager: ViewPager, defaultSelection: Int) {
+        info_tiles_tab_layout.setupWithViewPager(viewPager)
+        viewPager.setCurrentItem(defaultSelection, true)
     }
 
     fun setupForPreview() {

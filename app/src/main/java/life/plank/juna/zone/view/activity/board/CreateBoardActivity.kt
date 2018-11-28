@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_create_board.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
+import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT
 import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.UIDisplayUtil
@@ -21,8 +22,8 @@ import life.plank.juna.zone.util.facilis.onClick
 import life.plank.juna.zone.util.facilis.onTextChanged
 import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter
-import life.plank.juna.zone.view.adapter.BoardIconAdapter
+import life.plank.juna.zone.view.adapter.board.creation.BoardColorThemeAdapter
+import life.plank.juna.zone.view.adapter.board.creation.BoardIconAdapter
 import life.plank.juna.zone.view.fragment.board.user.BoardPreviewPopup
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import javax.inject.Inject
@@ -69,6 +70,8 @@ class CreateBoardActivity : BaseCardActivity() {
     }
 
     override fun getFragmentContainer(): Int = R.id.board_maker_fragment_container
+
+    override fun restApi(): RestApi? = null
 
     private fun setupListeners() {
         arrayOf(football, music, drama, tune, skill, other).onClick { toggleView(it as ToggleButton) }

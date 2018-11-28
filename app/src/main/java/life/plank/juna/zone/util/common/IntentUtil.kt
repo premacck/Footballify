@@ -10,14 +10,11 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.facilis.removeBoardIfExists
+import life.plank.juna.zone.util.facilis.removeFragmentIfExists
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
-import org.jetbrains.anko.clearTop
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 import retrofit2.Response
 import java.net.HttpURLConnection
 
@@ -27,28 +24,43 @@ inline fun <reified T : Activity> Activity.launch() = startActivity(intentFor<T>
  * Function Launch any [BaseCardActivity] with [PrivateBoardFragment] or [MatchBoardFragment] from any [Activity] with the [Board] object
  */
 inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(board: Board) {
-    startActivity(intentFor<T>(findString(R.string.intent_board) to board).clearTop())
+    if (this is T) {
+        restApi()?.run { launchPrivateOrMatchBoard(this, board) }
+                ?: toast(R.string.rest_api_is_null)
+    } else {
+        startActivity(intentFor<T>(findString(R.string.intent_board) to board).clearTop())
+        finish()
+    }
 }
 
 /**
  * Function Launch [BaseCardActivity] with [PrivateBoardFragment] or [MatchBoardFragment] from any [Activity] with the Private Board's ID
  */
-inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(boardId: String) =
+inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(boardId: String) {
+    if (this is T) {
+        restApi()?.run { findAndLaunchBoardById(this) }
+    } else {
         startActivity(intentFor<T>(findString(R.string.intent_board_id) to boardId).clearTop())
+        finish()
+    }
+}
 
 /**
  * Function to handle the board/boardId intent (if any) passed to the [BaseCardActivity] and launch [PrivateBoardFragment] or [MatchBoardFragment]
  */
 fun BaseCardActivity.handleBoardIntentIfAny(restApi: RestApi) {
+    if (intent.hasExtra(getString(R.string.intent_action))) return
     when {
         intent.hasExtra(getString(R.string.intent_board)) -> launchPrivateOrMatchBoard(restApi, intent.getParcelableExtra(getString(R.string.intent_board)))
-        intent.hasExtra(getString(R.string.intent_board_id)) -> {
-            restApi.getBoardById(intent.getStringExtra(getString(R.string.intent_board_id)), getToken())
-                    .setObserverThreadsAndSmartSubscribe({}, {
-                        it.body()?.run { launchPrivateOrMatchBoard(restApi, this) }
-                    })
-        }
+        intent.hasExtra(getString(R.string.intent_board_id)) -> findAndLaunchBoardById(restApi)
     }
+}
+
+fun BaseCardActivity.findAndLaunchBoardById(restApi: RestApi) {
+    restApi.getBoardById(intent.getStringExtra(getString(R.string.intent_board_id)), getToken())
+            .setObserverThreadsAndSmartSubscribe({}, {
+                it.body()?.run { launchPrivateOrMatchBoard(restApi, this) }
+            })
 }
 
 fun BaseCardActivity.launchPrivateOrMatchBoard(restApi: RestApi, board: Board) {
@@ -65,7 +77,7 @@ fun BaseCardActivity.launchPrivateOrMatchBoard(restApi: RestApi, board: Board) {
 }
 
 fun BaseCardActivity.launchPrivateBoard(board: Board) {
-    supportFragmentManager.removeBoardIfExists<PrivateBoardFragment>()
+    removeFragmentIfExists<PrivateBoardFragment>()
     pushFragment(PrivateBoardFragment.newInstance(board), true)
 }
 
@@ -79,7 +91,7 @@ fun BaseCardActivity.launchPrivateBoard(restApi: RestApi, boardId: String) {
 }
 
 fun BaseCardActivity.launchMatchBoard(board: Board, matchDetails: MatchDetails) {
-    supportFragmentManager.removeBoardIfExists<MatchBoardFragment>()
+    removeFragmentIfExists<MatchBoardFragment>()
     pushFragment(MatchBoardFragment.newInstance(board, matchDetails), true)
 }
 

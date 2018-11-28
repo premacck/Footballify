@@ -4,8 +4,6 @@ import dagger.Subcomponent;
 import life.plank.juna.zone.data.network.dagger.module.AdaptersModule;
 import life.plank.juna.zone.data.network.dagger.module.UiModule;
 import life.plank.juna.zone.data.network.dagger.scope.UiScope;
-import life.plank.juna.zone.view.activity.InviteToBoardActivity;
-import life.plank.juna.zone.view.activity.OnboardingActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
 import life.plank.juna.zone.view.activity.SelectZoneActivity;
 import life.plank.juna.zone.view.activity.SignInActivity;
@@ -14,14 +12,11 @@ import life.plank.juna.zone.view.activity.SplashScreenActivity;
 import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.UserNotificationActivity;
 import life.plank.juna.zone.view.activity.board.CreateBoardActivity;
-import life.plank.juna.zone.view.activity.board.JoinBoardActivity;
 import life.plank.juna.zone.view.activity.camera.UploadActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity;
 import life.plank.juna.zone.view.activity.zone.ZoneActivity;
-import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
-import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
-import life.plank.juna.zone.view.fragment.board.fixture.BoardMembersFragment;
+import life.plank.juna.zone.view.adapter.common.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.CommentaryPopup;
 import life.plank.juna.zone.view.fragment.board.fixture.LineupFragment;
@@ -32,6 +27,7 @@ import life.plank.juna.zone.view.fragment.board.fixture.TimelinePopup;
 import life.plank.juna.zone.view.fragment.board.fixture.extra.DartBoardPopup;
 import life.plank.juna.zone.view.fragment.board.fixture.extra.KeyBoardPopup;
 import life.plank.juna.zone.view.fragment.board.user.BoardPreviewPopup;
+import life.plank.juna.zone.view.fragment.board.user.JoinBoardPopup;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup;
@@ -41,6 +37,8 @@ import life.plank.juna.zone.view.fragment.football.LeagueStatsFragment;
 import life.plank.juna.zone.view.fragment.football.StandingsFragment;
 import life.plank.juna.zone.view.fragment.forum.ForumFragment;
 import life.plank.juna.zone.view.fragment.home.HomeFragment;
+import life.plank.juna.zone.view.fragment.onboarding.SearchUserPopup;
+import life.plank.juna.zone.view.fragment.onboarding.TeamSelectionFragment;
 import life.plank.juna.zone.view.fragment.post.PostDetailFragment;
 import life.plank.juna.zone.view.fragment.profile.EditProfilePopup;
 import life.plank.juna.zone.view.fragment.zone.ZoneFragment;
@@ -75,13 +73,9 @@ public interface UiComponent {
 
     void inject(BoardTilesFragment boardTilesFragment);
 
-    void inject(BoardInfoFragment boardInfoFragment);
-
     void inject(TimelinePopup timelinePopup);
 
     void inject(CommentaryPopup commentaryPopup);
-
-    void inject(InviteToBoardActivity inviteToBoardActivity);
 
     void inject(PrivateBoardInfoFragment privateBoardInfoFragment);
 
@@ -89,7 +83,7 @@ public interface UiComponent {
 
     void inject(EditProfilePopup editProfilePopup);
 
-    void inject(JoinBoardActivity joinBoardActivity);
+    void inject(JoinBoardPopup joinBoardPopup);
 
     void inject(SelectZoneActivity selectZoneActivity);
 
@@ -115,8 +109,6 @@ public interface UiComponent {
 
     void inject(MatchStatsFragment matchStatsFragment);
 
-    void inject(BoardMembersFragment boardMembersFragment);
-
     void inject(HomeActivity homeActivity);
 
     void inject(ZoneActivity zoneActivity);
@@ -131,7 +123,9 @@ public interface UiComponent {
 
     void inject(DartBoardPopup dartBoardPopup);
 
-    void inject(OnboardingActivity onboardingActivity);
+    void inject(TeamSelectionFragment teamSelectionFragment);
+
+    void inject(SearchUserPopup searchUserPopup);
 
     @Subcomponent.Builder
     interface Builder {

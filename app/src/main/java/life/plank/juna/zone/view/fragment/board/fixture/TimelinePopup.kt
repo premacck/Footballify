@@ -23,12 +23,10 @@ import life.plank.juna.zone.util.DataUtil.*
 import life.plank.juna.zone.util.DateUtil.getTimelineDateHeader
 import life.plank.juna.zone.util.FixtureListUpdateTask
 import life.plank.juna.zone.util.UIDisplayUtil.*
-import life.plank.juna.zone.util.facilis.floatUp
-import life.plank.juna.zone.view.adapter.TimelineAdapter
+import life.plank.juna.zone.view.adapter.board.match.TimelineAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import java.util.*
 import javax.inject.Inject
 
 class TimelinePopup : BaseBlurPopup() {
@@ -50,10 +48,9 @@ class TimelinePopup : BaseBlurPopup() {
 
     companion object {
         val TAG: String = TimelinePopup::class.java.simpleName
-        fun newInstance(currentMatchId: Long, matchEvents: ArrayList<MatchEvent>, matchDetails: MatchDetails) = TimelinePopup().apply {
+        fun newInstance(currentMatchId: Long, matchDetails: MatchDetails) = TimelinePopup().apply {
             arguments = Bundle().apply {
                 putLong(findString(R.string.match_id_string), currentMatchId)
-                putParcelableArrayList(findString(R.string.intent_match_event_list), matchEvents)
                 putParcelable(findString(R.string.intent_match_fixture), matchDetails)
             }
         }
@@ -69,7 +66,6 @@ class TimelinePopup : BaseBlurPopup() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.popup_timeline, container, false)
 
     override fun doOnStart() {
-        root_card.floatUp()
         initRecyclerView()
         mergeCommentaryAndMatchEvents()
     }
@@ -83,8 +79,6 @@ class TimelinePopup : BaseBlurPopup() {
         super.onPause()
         context?.unregisterReceiver(mMessageReceiver)
     }
-
-    override fun dismissAnimation(): Int = R.anim.sink_down
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
 
@@ -156,7 +150,7 @@ class TimelinePopup : BaseBlurPopup() {
 
     private fun mergeCommentaryAndMatchEvents() {
         doAsync {
-            val matchEvents: List<MatchEvent> = getAllTimelineEvents(matchDetails.commentary, arguments?.getParcelableArrayList(getString(R.string.intent_match_event_list)))
+            val matchEvents: List<MatchEvent> = getAllTimelineEvents(matchDetails.commentary, matchDetails.matchEvents)
             uiThread {
                 adapter!!.updateEvents(matchEvents)
                 prepareViews()

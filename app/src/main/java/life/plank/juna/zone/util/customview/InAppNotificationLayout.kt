@@ -4,17 +4,23 @@ import android.content.Context
 import android.os.Handler
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
+import android.view.animation.Animation
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_in_app_notification.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.notification.InAppNotification
+import life.plank.juna.zone.notification.getSocialNotificationIntent
+import life.plank.juna.zone.notification.triggerNotificationIntent
+import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
-import life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTarget
-import life.plank.juna.zone.util.facilis.floatDown
-import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.facilis.sinkUp
+import life.plank.juna.zone.util.facilis.floatUp
+import life.plank.juna.zone.util.facilis.onSwipeDown
+import life.plank.juna.zone.util.facilis.sinkDown
+import life.plank.juna.zone.util.facilis.then
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
 
 class InAppNotificationLayout @JvmOverloads constructor(
         context: Context,
@@ -25,43 +31,93 @@ class InAppNotificationLayout @JvmOverloads constructor(
 
     private var isShowing: Boolean = false
     private val animHandler: Handler = Handler()
-    private val animRunnable = Runnable { dismiss() }
+    private val animRunnable = Runnable { detach() }
+    private var parentActivity: BaseCardActivity? = null
 
     init {
         View.inflate(context, R.layout.item_in_app_notification, this)
         visibility = View.INVISIBLE
-
-        notification_action.onDebouncingClick { dismiss() }
     }
 
-    fun load(inAppNotification: InAppNotification) {
+    fun load(inAppNotification: InAppNotification, activity: BaseCardActivity? = null, dismissDelay: Long = 10000) {
         notification_message.text = inAppNotification.message
-        notification_message.isSelected = true
+        notification_sub_message.text = inAppNotification.subMessage
+        notification_sub_message.isSelected = true
+        parentActivity = activity
+
+//        Check if notification image URL is null or empty, assign imageUrl, or feedItemThumbnailUrl, or boardIconUrl
+//        (whichever is not null gets assigned) in that precedence order
+        inAppNotification.validateImageUrl()
+
+//        If notification image URL is still null or empty, hide image view and expand the width of the message layout
+        if (isNullOrEmpty(inAppNotification.imageUrl)) {
+            notification_image.visibility = View.GONE
+            (notification_message_layout.layoutParams as FrameLayout.LayoutParams).marginStart = 0
+        }
 
         inAppNotification.imageUrl?.run {
             Glide.with(context).load(this)
-                    .apply(RequestOptions.circleCropTransform()
-                            .centerCrop()
-                            .override(getDp(24f).toInt(), getDp(24f).toInt()))
-                    .into(getStartDrawableTarget(notification_message))
+                    .apply(RequestOptions.overrideOf(getDp(90f).toInt(), getDp(90f).toInt()))
+                    .into(notification_image)
         }
-        show()
+        setListeners(inAppNotification)
+        show(dismissDelay)
     }
 
-    private fun show() {
+    private fun InAppNotification.validateImageUrl() {
+        if (!isNullOrEmpty(imageUrl)) {
+            return
+        }
+        junaNotification?.run {
+            if (!isNullOrEmpty(imageUrl)) {
+                this@validateImageUrl.imageUrl = imageUrl
+            }
+            if (!isNullOrEmpty(feedItemThumbnailUrl)) {
+                this@validateImageUrl.imageUrl = feedItemThumbnailUrl
+            }
+            if (!isNullOrEmpty(boardIconUrl)) {
+                this@validateImageUrl.imageUrl = boardIconUrl
+            }
+        }
+    }
+
+    private fun setListeners(inAppNotification: InAppNotification) {
+        parentActivity?.run {
+            in_app_notification_card.onSwipeDown(this, null, null, { detach() }, {
+                dismiss()?.then {
+                    inAppNotification.junaNotification?.run {
+                        parentActivity?.triggerNotificationIntent(getSocialNotificationIntent())
+                        parentActivity = null
+                    }
+                    detachFormParent()
+                }
+                return@onSwipeDown true
+            })
+        }
+    }
+
+    private fun show(dismissDelay: Long) {
         if (!isShowing) {
-            floatDown()
+            floatUp()
             isShowing = true
-            animHandler.postDelayed(animRunnable, 4000)
+            animHandler.postDelayed(animRunnable, dismissDelay)
         }
     }
 
-    fun dismiss() {
+    private fun detach() = dismiss()?.then {
+        detachFormParent()
+        parentActivity = null
+    }
+
+    private fun detachFormParent() = (parent as? ViewGroup)?.removeView(this)
+
+    fun dismiss(): Animation? {
 //        TODO: add notification read API call when it's ready
         if (isShowing) {
-            sinkUp()
             isShowing = false
             animHandler.removeCallbacks(animRunnable)
+            return sinkDown()
         }
+        return null
     }
 }

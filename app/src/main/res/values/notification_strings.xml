@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="invited_you_to_board_x">invited you to join %1$s board</string>
-    <string name="posted_image_on_board_x">posted an image on %1$s board</string>
-    <string name="posted_video_on_board_x">posted a video on %1$s board</string>
-    <string name="reacted_on_board_x">reacted on %1$s board</string>
-    <string name="commented_on_board_x">commented on %1$s board</string>
+    <string name="invited_you_to_board_x">invited you to join&#160;</string>
+    <string name="posted_image_on_board_x">posted an image on&#160;</string>
+    <string name="posted_video_on_board_x">posted a video on&#160;</string>
+    <string name="posted_audio_on_board_x">posted audio on&#160;</string>
+    <string name="reacted_on_board_x">reacted on&#160;</string>
+    <string name="commented_on_board_x">commented on&#160;</string>
+    <string name="posted_on_board_x">posted on&#160;</string>
     <string name="commented_on_your_post">commented on your post</string>
-    <string name="replied_to_your_comment">replied to your comment</string>
+    <string name="replied_on_">replied on&#160;</string>
     <string name="mentioned_you_in_a_comment">mentioned you in a comment</string>
     <string name="mentioned_you_in_a_reply">mentioned you in a reply</string>
-    <string name="reacted_on_your_post">reacted on your post</string>
-    <string name="kicked_from_board_x">You just got kicked from %1$s board</string>
+    <string name="reacted_on_your_post">reacted on your post on&#160;</string>
+    <string name="kicked_from_board_x">You just got kicked from&#160;</string>
+    <string name="_board">&#160;board</string>
 </resources>

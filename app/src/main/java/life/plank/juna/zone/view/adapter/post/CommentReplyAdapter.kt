@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.item_base_comment.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.util.*
+import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
@@ -32,22 +33,27 @@ class CommentReplyAdapter(
 
     override fun onBindViewHolder(holder: PostCommentReplyViewHolder, position: Int) {
         holder.itemView.run {
+            val reply = replies[position]
             doAsync {
+                //            TODO: remove the if block below when backend completes forum comment mentions
+                if (isNullOrEmpty(reply.commenterHandle)) {
+                    reply.commenterHandle = reply.commenterDisplayName.replace(" ", "")
+                }
                 val formattedReply =
-                        SpannableStringBuilder(replies[position].commenterDisplayName.semiBold().color(R.color.black))
+                        SpannableStringBuilder(reply.commenterHandle.semiBold().color(R.color.black))
                                 .append(AppConstants.SPACE)
-                                .append(replies[position].message.formatMentions())
+                                .append(reply.message.formatMentions())
                 uiThread { comment_text_view.text = formattedReply }
             }
 
-            comment_time_text.text = DateUtil.getCommentDateAndTimeFormat(replies[position].time)
+            comment_time_text.text = DateUtil.getCommentDateAndTimeFormat(reply.time)
 
-            glide.load(replies[position].commenterProfilePictureUrl)
+            glide.load(reply.commenterProfilePictureUrl)
                     .apply(RequestOptions.overrideOf(getDp(20f).toInt(), getDp(20f).toInt()))
                     .into(profile_pic!!)
 
             reply_text_view.onDebouncingClick {
-                commentContainerFragment.replyAction(reply_text_view, holder.itemView, replies[position].commenterDisplayName, parentComment, parentCommentPosition, position)
+                commentContainerFragment.replyAction(reply_text_view, holder.itemView, reply.commenterHandle, parentComment, parentCommentPosition, position)
             }
         }
     }

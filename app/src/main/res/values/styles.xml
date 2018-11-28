@@ -269,6 +269,7 @@
         <item name="tabIndicatorColor">@color/white</item>
         <item name="tabIndicatorHeight">3dp</item>
         <item name="tabMode">scrollable</item>
+        <item name="tabTextColor">@color/off_white</item>
         <item name="tabGravity">fill</item>
         <item name="android:gravity">end</item>
         <item name="android:layout_gravity">end</item>

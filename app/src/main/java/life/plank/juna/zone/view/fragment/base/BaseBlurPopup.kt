@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import io.alterac.blurkit.BlurLayout
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
+import life.plank.juna.zone.R
+import life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard
 import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -17,10 +19,17 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
 
     override fun onStart() {
         super.onStart()
+        getRootView()?.visibility = View.INVISIBLE
         async {
             delay(10)
             runOnUiThread {
                 getBlurLayout()?.beginBlur()
+                getRootView()?.run {
+                    animate(enterAnimation()).then {
+                        visibility = View.VISIBLE
+                        isClickable = true
+                    }
+                }
                 setupSwipeDownToCloseGesture()
                 doOnStart()
             }
@@ -40,12 +49,11 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
         getParentActivity()?.pushFragment(baseFragment, isAddToBackStack)
     }
 
-    protected fun getParentActivity(): BaseCardActivity? {
-        return activity as? BaseCardActivity
-    }
+    protected fun getParentActivity(): BaseCardActivity? = activity as? BaseCardActivity
 
     @CallSuper
     override fun dismiss() {
+        hideSoftKeyboard(getRootView())
         getBlurLayout()?.fadeOut()
         getRootView()?.animation?.run {}
                 ?: getRootView()?.animate(dismissAnimation())?.then { super.dismiss() }
@@ -60,7 +68,10 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
     open fun doOnStop() {}
 
     @AnimRes
-    abstract fun dismissAnimation(): Int
+    open fun enterAnimation(): Int = R.anim.float_up
+
+    @AnimRes
+    open fun dismissAnimation(): Int = R.anim.sink_down
 
     abstract fun getBlurLayout(): BlurLayout?
 

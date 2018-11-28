@@ -31,6 +31,7 @@ node('docker') {
 		executeTests()
         uploadToNexus()
 		
+		
     }
 
     def buildBugfixBranch(){
@@ -44,6 +45,7 @@ node('docker') {
         executeTests()
         uploadToNexus()
         publishApkToInternalTestTrackPlayStore()
+		emailnotify()
     }
 
     def buildHotfixBranch(){
@@ -110,13 +112,15 @@ node('docker') {
 
     def publishApkToAlphaTrackPlayStore(){
         stage 'Upload Signed APK to Playstore'
-        sh "./gradlew -Ptrack=alpha publishApkRelease"
+        sh "./gradlew releaseToAlphaTrack"
+        sh "./gradlew publishApkRelease --info"
         echo  '********************************************************************************'
     }
 
     def publishApkToInternalTestTrackPlayStore(){
         stage 'Upload Signed APK to Playstore Internal test track'
-        sh "./gradlew -Ptrack=internal publishApkRelease"
+        sh "./gradlew releaseToInternalTrack"
+        sh "./gradlew publishApkRelease --info"
         echo  '********************************************************************************'
     }
 
@@ -138,6 +142,19 @@ node('docker') {
         sh "./gradlew sonarqube"
         echo  '********************************************************************************'
     }
+	
+	def emailnotify(){
+        stage 'Email'
+        emailext ( 
+        subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", 
+        body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+	             <p>*********Released**********</p>
+				 <p>Published to play store</p>
+                 <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
+        to: "developers@plank.life"
+                  )
+    }
+	
 	
 	def updateJIRA(buildStatus) {
 

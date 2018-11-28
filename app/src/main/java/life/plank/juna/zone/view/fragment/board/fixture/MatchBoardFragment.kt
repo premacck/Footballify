@@ -6,11 +6,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
-import android.support.v7.widget.CardView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.mikephil.charting.charts.LineChart
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_match_board.*
@@ -19,6 +19,7 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
+import life.plank.juna.zone.notification.getIntentActionFromActivity
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.DataUtil.*
@@ -28,6 +29,7 @@ import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
 import life.plank.juna.zone.util.execute
 import life.plank.juna.zone.util.facilis.doAfterDelay
+import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.view.fragment.base.BaseMatchFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import java.lang.ref.WeakReference
@@ -102,6 +104,11 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
 
             setupViewPagerWithFragments()
             followBoard()
+
+            (item_scrubber as? LineChart)?.run {
+                ScrubberLoader.prepare(this, false)
+                this.onDebouncingClick { pushPopup(TimelinePopup.newInstance(currentMatchId, matchDetails)) }
+            }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
         }
@@ -114,7 +121,15 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
     private fun setupViewPagerWithFragments() {
         boardPagerAdapter = BoardPagerAdapter(childFragmentManager, this)
         board_view_pager.adapter = boardPagerAdapter
-        board_toolbar.setupWithViewPager(board_view_pager)
+        val defaultTabSelection = getIntentActionFromActivity()?.run {
+            //            TODO: refine the following hardcoded integer constants
+            when (this) {
+                getString(R.string.intent_post), getString(R.string.intent_react) -> 4
+                getString(R.string.intent_comment) -> 3
+                else -> 4
+            }
+        } ?: 4
+        board_toolbar.setupWithViewPager(board_view_pager, defaultTabSelection)
     }
 
     override fun onInAppNotificationReceived(feedEntry: FeedEntry) {
@@ -166,7 +181,7 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 
-    override fun getRootCard(): CardView? = root_card
+    override fun getRootCard(): ViewGroup? = root_card
 
     override fun getDragHandle(): View? = drag_area
 
@@ -200,13 +215,24 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
         override fun getItem(position: Int): Fragment? {
             return ref.get()?.run {
                 when (position) {
-                    0 -> MatchStatsFragment.newInstance(gson.toJson(matchDetails))
-                    1 -> LineupFragment.newInstance(gson.toJson(matchDetails))
-                    2 -> MatchMediaFragment.newInstance(gson.toJson(matchDetails))
+                    0 -> MatchStatsFragment.newInstance(matchDetails)
+                    1 -> LineupFragment.newInstance(matchDetails)
+                    2 -> MatchMediaFragment.newInstance(matchDetails)
                     3 -> ForumFragment.newInstance(board.id)
                     4 -> BoardTilesFragment.newInstance(board.id, board.isActive)
                     else -> null
                 }
+            }
+        }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return when (position) {
+                0 -> findString(R.string.stats)
+                1 -> findString(R.string.lineups)
+                2 -> findString(R.string.media)
+                3 -> findString(R.string.forum)
+                4 -> findString(R.string.tiles)
+                else -> null
             }
         }
 

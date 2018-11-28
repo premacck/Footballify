@@ -1,81 +1,67 @@
 package life.plank.juna.zone.view.activity.base
 
-import android.support.annotation.IdRes
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.util.Log
+import android.view.ViewGroup
 import life.plank.juna.zone.R
-import life.plank.juna.zone.util.facilis.*
-import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
-import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.notification.InAppNotification
+import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.notification.handleInAppNotification
+import life.plank.juna.zone.util.customview.InAppNotificationLayout
+import life.plank.juna.zone.util.facilis.BaseNavigationHelperActivity
+import life.plank.juna.zone.util.facilis.getIfPresent
+import life.plank.juna.zone.util.facilis.then
 
-abstract class BaseCardActivity : BaseActivity() {
+abstract class BaseCardActivity : BaseNavigationHelperActivity() {
 
-    var index: Int = 0
-
-    fun pushPopup(popupDialog: BaseDialogFragment) {
-        if (getFragmentContainer() == -1) throw IllegalStateException(getString(R.string.no_id_for_fragment_container))
-
-        if (index < 0) return
-
-        index++
-        supportFragmentManager.pushPopup(getFragmentContainer(), popupDialog, popupDialog.javaClass.simpleName + index)
-    }
-
-    fun pushFragment(fragment: BaseFragment, isAddToBackStack: Boolean = false) {
-        if (getFragmentContainer() == -1) throw IllegalStateException(getString(R.string.no_id_for_fragment_container))
-
-        if (index >= 0) {
-            supportFragmentManager.moveCurrentCardToBackground()
-        }
-
-        if (isAddToBackStack) index++
-        supportFragmentManager.pushFragment(getFragmentContainer(), fragment, fragment.javaClass.simpleName + index, index, isAddToBackStack)
-    }
-
-    fun popBackStack() {
-        if (index <= 0) return
-        index--
-        supportFragmentManager.popBackStackImmediate()
-        supportFragmentManager.movePreviousCardToForeground()
-    }
-
-    private fun startPoppingFragment() {
-        supportFragmentManager.findLastFragment()?.run {
-            if (this.onBackPressed()) {
-                if (index > 0) {
-                    popBackStack()
-                } else super.onBackPressed()
-            } // Do nothing here if the fragment's onBackPressed() returns false
-        } ?: super.onBackPressed()
-    }
-
-    @IdRes
-    abstract fun getFragmentContainer(): Int
-
-    private fun removeActivePopupsIfAny(): Boolean {
-        for (popup in supportFragmentManager.fragments.reversed()) {
-            if (popup is BaseDialogFragment && popup.isAdded) {
-                if (popup.onBackPressed()) {
-                    popup.smartDismiss {
-                        index--
-                        supportFragmentManager.popBackStackImmediate()
-                    }
-                }
-                return false
+    private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.hasExtra(getString(R.string.intent_zone_live_data))) {
+                handleInAppNotification(intent.getParcelableExtra<ZoneLiveData>(getString(R.string.intent_zone_live_data)))
+            } else if (intent.hasExtra(getString(R.string.intent_juna_notification))) {
+                handleInAppNotification(intent.getParcelableExtra<JunaNotification>(getString(R.string.intent_juna_notification)))
             }
         }
-        return true
     }
 
-    override fun onBackPressed() {
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(mMessageReceiver, IntentFilter(getString(R.string.intent_in_app_notification)))
+    }
+
+    override fun onPause() {
+        super.onPause()
         try {
-            if (removeActivePopupsIfAny()) {
-                if (index > 0) {
-                    startPoppingFragment()
-                } else super.onBackPressed()
-            }
+            unregisterReceiver(mMessageReceiver)
         } catch (e: Exception) {
-            Log.e("onBackPressed()", "ERROR : ", e)
-            startPoppingFragment()
+            Log.e("unregisterReceiver", e.message, e)
         }
     }
+
+    fun showInAppNotification(inAppNotification: InAppNotification) {
+        val container = findViewById<ViewGroup>(getFragmentContainer())
+        val notificationLayout = container.getIfPresent<InAppNotificationLayout>()
+
+        if (notificationLayout == null) {
+            addNotificationView(container, inAppNotification)
+            return
+        }
+        notificationLayout.dismiss()?.then {
+            container.removeView(notificationLayout)
+            addNotificationView(container, inAppNotification)
+        }
+    }
+
+    private fun addNotificationView(container: ViewGroup, inAppNotification: InAppNotification) {
+        val notificationLayout = InAppNotificationLayout(this)
+        container.addView(notificationLayout)
+        notificationLayout.load(inAppNotification, this)
+    }
+
+    abstract fun restApi(): RestApi?
 }

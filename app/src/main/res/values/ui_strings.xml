@@ -58,14 +58,14 @@
     <string name="loss">Loss</string>
     <string name="goal">Goal</string>
     <string name="pass">Pass</string>
-    <string name="shot">Shot</string>
+    <string name="shot">Shots</string>
     <string name="drama">Drama</string>
     <string name="tune">Tune</string>
     <string name="skill">Skill</string>
     <string name="board_name">Board Name</string>
     <string name="board_description">Board Description</string>
     <string name="personal_info">PERSONAL INFO</string>
-    <string name="edit_profile">EDIT PROFILE</string>
+    <string name="edit">EDIT</string>
     <string name="name">Name</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="location">Location</string>
@@ -173,7 +173,6 @@
         However, this Board is now expired.\nYou can now only view the events and feeds of this board.
     </string>
     <string name="okay">Okay</string>
-    <string name="invite_people_to">Invite people to</string>
     <string name="board">board</string>
     <string name="hi_user">Hi %1$s</string>
     <string name="notification">Notifications</string>
@@ -224,5 +223,15 @@
     <string name="dismiss">Dismiss</string>
     <string name="loading_polls">Loading Polls</string>
     <string name="proceed">Proceed</string>
+    <string name="now">Now</string>
+    <string name="search_for_users_or_handles">Search for users or handles</string>
+    <string name="invite_people_to_x_board">Invite people to %1$s</string>
+    <string name="no_users_found">No users found</string>
+    <string name="bench">Bench</string>
+    <string name="stay_tuned_for_the_lineups">Stay tuned for the lineups!\nThey\'ll be shown here when available</string>
+    <string name="reject">Reject</string>
+    <string name="accept">Accept</string>
+    <string name="you_have_been_invited_to_this_board">You\'ve been invited to this board</string>
+    <string name="rest_api_is_null">RestApi is null</string>
 
 </resources>

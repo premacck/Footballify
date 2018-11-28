@@ -18,12 +18,8 @@
 
     <ImageView
         android:id="@+id/drag_handle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        android:src="@drawable/drag_handle_dark" />
+        style="@style/DragHandleImageView"
+        android:contentDescription="@string/thumbnail" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/emoji_recycler_view"
@@ -31,23 +27,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/drag_handle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="13dp"
+        android:clipToPadding="false"
+        android:paddingBottom="110dp"
         app:layoutManager="android.support.v7.widget.GridLayoutManager"
         app:spanCount="5"
         tools:listitem="@layout/item_emoji" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/emoji_recycler_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/rajdhani_medium"
-        android:gravity="center_horizontal"
-        android:lineSpacingExtra="-1sp"
-        android:text="@string/swipe_up_for_more"
-        android:textColor="@color/grey"
-        android:textSize="16sp" />
 
 </RelativeLayout>

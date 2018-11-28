@@ -18,7 +18,6 @@ import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.common.launchWithBoard
 import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.errorToast
-import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
@@ -61,7 +60,9 @@ class BoardPreviewPopup : BaseBlurPopup() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.popup_board_preview, container, false)
 
     override fun doOnStart() {
-        root_card.floatUp()
+        preview_title.setText(R.string.preview_your_board)
+        create_board_button.visibility = View.VISIBLE
+        board_invite_action_button_layout.visibility = View.GONE
         preview_toolbar.setTitle(board.name)
         board_parent_layout.setCardBackgroundColor(Color.parseColor(board.color))
         description.text = board.description
@@ -71,8 +72,6 @@ class BoardPreviewPopup : BaseBlurPopup() {
 
         create_board_button.onDebouncingClick { createBoard() }
     }
-
-    override fun dismissAnimation(): Int = R.anim.sink_down
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
 
@@ -98,15 +97,14 @@ class BoardPreviewPopup : BaseBlurPopup() {
                     errorToast(R.string.could_not_create_board, it)
                 }, {
                     when (it.code()) {
-                        HttpURLConnection.HTTP_OK -> navigateToBoard(it.body())
+                        HttpURLConnection.HTTP_OK -> it.body()?.run { navigateToBoard(this) }
                         HttpURLConnection.HTTP_CONFLICT -> customToast(R.string.board_name_already_exists)
                         else -> errorToast(R.string.could_not_create_board, it)
                     }
                 })
     }
 
-    private fun navigateToBoard(boardId: String?) {
-        activity?.launchWithBoard<UserProfileActivity>(boardId!!)
-        activity?.finish()
+    private fun navigateToBoard(boardId: String) {
+        activity?.launchWithBoard<UserProfileActivity>(boardId)
     }
 }
