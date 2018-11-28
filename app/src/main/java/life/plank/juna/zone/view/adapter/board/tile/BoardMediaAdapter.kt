@@ -16,7 +16,6 @@ import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.UIDisplayUtil.getCommentColor
 import life.plank.juna.zone.util.UIDisplayUtil.getCommentText
-import java.util.*
 
 /**
  * Created by plank-prachi on 4/10/2018.
@@ -99,7 +98,7 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRe
         }
     }
 
-    fun getBoardFeed(): List<FeedEntry> = boardFeed
+    fun getBoardFeed(): MutableList<FeedEntry> = boardFeed
 
     override fun getItem(position: Int): AsymmetricItem = boardFeed[position]
 

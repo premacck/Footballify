@@ -8,6 +8,7 @@ import io.alterac.blurkit.BlurLayout
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
 import life.plank.juna.zone.R
+import life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard
 import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -52,6 +53,7 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
 
     @CallSuper
     override fun dismiss() {
+        hideSoftKeyboard(getRootView())
         getBlurLayout()?.fadeOut()
         getRootView()?.animation?.run {}
                 ?: getRootView()?.animate(dismissAnimation())?.then { super.dismiss() }

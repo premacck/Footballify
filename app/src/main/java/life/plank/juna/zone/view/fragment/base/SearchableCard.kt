@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.EditText
 import kotlinx.coroutines.experimental.Runnable
-import life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard
 import life.plank.juna.zone.util.facilis.BaseCard
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import rx.Subscription
@@ -54,7 +53,6 @@ abstract class SearchableCard : BaseCard() {
     override fun onDestroyView() {
         cancelIfSubscribed()
         handler.removeCallbacksAndMessages(null)
-        hideSoftKeyboard(searchView())
         super.onDestroyView()
     }
 
