@@ -99,19 +99,22 @@ public class UIDisplayUtil {
     public static ArrayList<Emoji> emoji = new ArrayList<>();
 
     static {
-        emoji.add(new Emoji(0x1F609, 324));
-        emoji.add(new Emoji(0x1F620, 765));
-        emoji.add(new Emoji(0x1F922, 987));
-        emoji.add(new Emoji(0x1F60D, 124));
-        emoji.add(new Emoji(0x1F92F, 878));
-        //TODO: uncomment after the emoji bottom sheet design is finalised
-//        emoji.add(new Emoji(0x1F604, 324)),
-//        emoji.add(new Emoji(0x1F610, 765)),
-//        emoji.add(new Emoji(0x1F910, 987)),
-//        emoji.add(new Emoji(0x1F917, 124)),
-//        emoji.add(new Emoji(0x1F92E, 878)),
-//        emoji.add(new Emoji(0x1F924, 765)),
-//        emoji.add(new Emoji(0x1F92B, 987)),
+        addDefaultEmojis(emoji);
+    }
+
+    public static void addDefaultEmojis(List<Emoji> emojiList) {
+        emojiList.add(new Emoji(0x1F609, 0));
+        emojiList.add(new Emoji(0x1F620, 0));
+        emojiList.add(new Emoji(0x1F922, 0));
+        emojiList.add(new Emoji(0x1F60D, 0));
+        emojiList.add(new Emoji(0x1F92F, 0));
+        emojiList.add(new Emoji(0x1F604, 0));
+        emojiList.add(new Emoji(0x1F610, 0));
+        emojiList.add(new Emoji(0x1F910, 0));
+        emojiList.add(new Emoji(0x1F917, 0));
+        emojiList.add(new Emoji(0x1F92E, 0));
+        emojiList.add(new Emoji(0x1F924, 0));
+        emojiList.add(new Emoji(0x1F92B, 0));
     }
 
     public static Drawable getCommentColor(String comment) {

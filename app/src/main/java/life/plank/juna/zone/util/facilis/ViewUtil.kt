@@ -251,8 +251,8 @@ fun BottomSheetBehavior<*>.show(peekHeight: Int = 850) {
     this.peekHeight = peekHeight
 }
 
-fun BottomSheetBehavior<*>.showFor(emojiAdapter: EmojiAdapter, feedItemId: String?, peekHeight: Int = 850) {
-    emojiAdapter.update(feedItemId)
+fun BottomSheetBehavior<*>.showFor(emojiAdapter: EmojiAdapter?, id: String?, peekHeight: Int = 850) {
+    emojiAdapter?.update(id!!)
     show(peekHeight)
 }
 
