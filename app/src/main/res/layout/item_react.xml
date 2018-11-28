@@ -4,6 +4,7 @@
     android:layout_width="120dp"
     android:layout_height="120dp"
     android:background="@color/black_50"
+    android:animateLayoutChanges="true"
     android:foreground="@drawable/ripple_dark_rect">
 
     <TextView
@@ -24,7 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textSize="80sp" />
+        android:textColor="@color/white"
+        android:textSize="60sp" />
 
     <FrameLayout
         android:id="@+id/initial_reaction_layout"
@@ -37,16 +39,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
-            android:textSize="60sp" />
+            android:layout_marginStart="15dp"
+            android:textColor="@color/white"
+            android:textSize="40sp" />
 
         <TextView
             android:id="@+id/initial_reaction_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="50dp"
-            android:textSize="60sp" />
+            android:layout_marginStart="45dp"
+            android:textColor="@color/white"
+            android:textSize="40sp" />
 
     </FrameLayout>
 

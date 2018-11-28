@@ -80,7 +80,7 @@ class EmojiAdapter(
         val topEmojiCall = if (isFeedItem) {
             restApi.getTopFeedItemEmoji(feedItemId, getToken())
         } else {
-            restApi.getTopBoardEmoji(feedItemId, getToken())
+            restApi.getTopBoardEmoji(boardId, getToken())
         }
         topEmojiCall.setObserverThreadsAndSmartSubscribe({
             Log.e("getTopFeedItemEmoji()", "ERROR: ", it)
@@ -114,17 +114,19 @@ class EmojiAdapter(
     }
 
     private fun postEmoji(emoji: Int) {
-        emojiContainer.onEmojiPosted(Emoji(emoji, 1))
         val postEmojiCall = if (isFeedItem) {
             restApi.postEmojiOnFeedItem(feedItemId, boardId, emoji, getRequestDateStringOfNow(), getToken())
         } else {
-            restApi.postEmojiOnBoard(feedItemId, emoji, getRequestDateStringOfNow(), getToken())
+            restApi.postEmojiOnBoard(boardId, emoji, getRequestDateStringOfNow(), getToken())
         }
         postEmojiCall.setObserverThreadsAndSmartSubscribe({
             Log.e("postEmoji()", "onError: ", it)
         }, {
             when (it.code()) {
-                HTTP_CREATED -> emojiBottomSheetBehavior?.hide()
+                HTTP_CREATED -> {
+                    emojiBottomSheetBehavior?.hide()
+                    emojiContainer.onEmojiPosted(Emoji(emoji, 1))
+                }
                 else -> errorToast(R.string.something_went_wrong, it)
             }
         })

@@ -140,7 +140,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
         emojiBottomSheetBehavior = BottomSheetBehavior.from(emoji_bottom_sheet)
         emojiBottomSheetBehavior?.peekHeight = 0
 
-        emojiAdapter = EmojiAdapter(restApi, boardId, emojiBottomSheetBehavior, null, true, this)
+        emojiAdapter = EmojiAdapter(restApi, boardId, emojiBottomSheetBehavior, null, false, this)
         emoji_recycler_view.adapter = emojiAdapter
     }
 
@@ -168,10 +168,11 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
             var emojiList = it.body()
             if (!isNullOrEmpty(emojiList)) {
                 val emoji = emojiList?.get(0)!!
+                onReactionUpdate(true)
                 reaction_text_view.setEmoji(emoji.emoji)
                 reaction_count.text = emoji.emojiCount.toString()
             } else {
-                reaction_text_view.visibility = View.GONE
+                onReactionUpdate(false)
                 emojiList = ArrayList()
                 addDefaultEmojis(emojiList)
                 val random = Random()
@@ -179,6 +180,12 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
                 initial_reaction_two.setEmoji(emojiList[random.nextInt(emojiList.size - 1)].emoji)
             }
         })
+    }
+
+    private fun onReactionUpdate(isAvailable: Boolean) {
+        react_message.visibility = if (isAvailable) View.GONE else View.VISIBLE
+        reaction_text_view.visibility = if (isAvailable) View.VISIBLE else View.GONE
+        initial_reaction_layout.visibility = if (isAvailable) View.GONE else View.VISIBLE
     }
 
     private fun getBoardFeed(isRefreshing: Boolean) {

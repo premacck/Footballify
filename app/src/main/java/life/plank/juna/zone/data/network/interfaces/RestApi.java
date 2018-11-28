@@ -170,7 +170,7 @@ public interface RestApi {
                                                          @Header("Authorization") String authHeader);
 
     //working
-    @GET(ZONE_BACKEND_SUFFIX + "boards/{boardId}/emojiCounts")
+    @GET(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/emojiCounts")
     Observable<Response<List<Emoji>>> getTopBoardEmoji(@Path("boardId") String boardId, @Header("Authorization") String authHeader);
 
     //working

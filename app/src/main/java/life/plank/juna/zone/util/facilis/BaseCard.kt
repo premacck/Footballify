@@ -17,7 +17,7 @@ abstract class BaseCard : BaseFragment() {
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         getRootCard()?.run {
-            setTopMargin(UIDisplayUtil.getDp(if (getParentActivity().index > 1) 20f else 0f).toInt())
+            setTopMargin(UIDisplayUtil.getDp(if (getParentActivity().index > 0) 20f else 0f).toInt())
             isClickable = true
         }
         activity?.let { setupSwipeDownGesture(it) }
