@@ -41,7 +41,7 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
         val array = context.obtainStyledAttributes(attrs, R.styleable.GenericToolbar)
         setBackgroundColor(array.getColor(R.styleable.GenericToolbar_backgroundColor, resources.getColor(R.color.transparent, null)))
         setTitle(array.getString(R.styleable.GenericToolbar_toolbarTitle))
-        setBoardTitle(array.getString(R.styleable.GenericToolbar_boardTypeTitle))
+        setBoardTitle(array.getString(R.styleable.GenericToolbar_boardTypeTitle)!!)
         setLeagueLogo(array.getResourceId(R.styleable.GenericToolbar_logo, R.drawable.ic_board_beer))
         share_btn?.visibility = if (array.getInt(R.styleable.GenericToolbar_shareButtonVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
         options_menu?.visibility = if (array.getInt(R.styleable.GenericToolbar_optionsMenuVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import io.alterac.blurkit.BlurLayout
 import life.plank.juna.zone.util.UIDisplayUtil
+import life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
@@ -56,6 +57,7 @@ abstract class BaseCard : BaseFragment() {
     }
 
     override fun onDestroyView() {
+        hideSoftKeyboard(getRootCard())
         (getBackgroundBlurLayout() as? BlurLayout)?.pauseBlur()
         dispose()
         super.onDestroyView()
