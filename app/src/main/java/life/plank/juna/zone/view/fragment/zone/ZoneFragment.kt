@@ -3,18 +3,21 @@ package life.plank.juna.zone.view.fragment.zone
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import com.bumptech.glide.Glide
+import com.facebook.FacebookSdk.getApplicationContext
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_zone.*
 import kotlinx.android.synthetic.main.search_people_bottom_sheet.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.OnItemClickListener
@@ -22,9 +25,9 @@ import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
 import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.LatestMatch.CarModel
+import life.plank.juna.zone.view.LatestMatch.MultiListAdapter
 import life.plank.juna.zone.view.adapter.common.SearchViewAdapter
-import life.plank.juna.zone.view.adapter.league.FootballLeagueAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import org.jetbrains.anko.support.v4.find
 import java.net.HttpURLConnection
@@ -40,7 +43,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
     lateinit var restApi: RestApi
 
     lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
-    lateinit var adapter: FootballLeagueAdapter
+
     lateinit var searchViewAdapter: SearchViewAdapter
     internal var userList = ArrayList<User>()
 
@@ -84,16 +87,39 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
 
     private fun setUpData() {
         if (NetworkStatus.isNetworkAvailable(parent_layout, context)) {
-            getFootballFeed()
+            //TODO: get upcoming match
         } else {
             customToast(R.string.no_internet_connection)
         }
     }
 
+
     private fun initRecyclerView() {
-        adapter = FootballLeagueAdapter(activity as BaseCardActivity?)
+
+        val adapter = MultiListAdapter(activity)
+        football_feed_recycler_view.layoutManager = LinearLayoutManager(getApplicationContext())
         football_feed_recycler_view.adapter = adapter
-        football_feed_recycler_view.setHasFixedSize(true)
+
+        progress_bar!!.visibility = View.GONE
+        val leagueList = getStaticLeagues()
+
+        val topThreeMatch = ArrayList<League>()
+        for (i in 0..2) {
+            topThreeMatch.add(leagueList[i])
+        }
+        adapter.addTopMatch(topThreeMatch)
+
+        val flowers = ArrayList<CarModel>()
+        for (i in 0..0) {
+            flowers.add(CarModel("Flower $i"))
+        }
+        adapter.addLeague(flowers)
+
+        val lowerMatch = ArrayList<League>()
+        for (i in 3 until leagueList.size) {
+            lowerMatch.add(leagueList[i])
+        }
+        adapter.addLowerMatch(lowerMatch)
     }
 
     private fun initBottomSheetRecyclerView() {
@@ -102,11 +128,6 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
         recycler_view.adapter = searchViewAdapter
         search_view.setOnQueryTextListener(this)
 
-    }
-
-    private fun getFootballFeed() {
-        progress_bar!!.visibility = View.GONE
-        adapter.leagueList = getStaticLeagues()
     }
 
     override fun onResume() {
