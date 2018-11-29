@@ -17,13 +17,12 @@ import kotlinx.android.synthetic.main.fragment_zone.*
 import kotlinx.android.synthetic.main.search_people_bottom_sheet.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.League
+import life.plank.juna.zone.data.model.NextMatch
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.OnItemClickListener
 import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
-import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.LatestMatch.CarModel
 import life.plank.juna.zone.view.LatestMatch.MultiListAdapter
@@ -144,22 +143,21 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
-                    it.body()
-                    val leagueList = getStaticLeagues()
+                    val matchList = it.body()
+                    if (matchList != null) {
+                        val topThreeMatch = ArrayList<NextMatch>()
+                        for (i in 0..2) {
+                            topThreeMatch.add(matchList[i])
+                        }
+                        adapter.addTopMatch(topThreeMatch)
 
-                    val topThreeMatch = ArrayList<League>()
-                    for (i in 0..2) {
-                        topThreeMatch.add(leagueList[i])
+                        val lowerMatch = ArrayList<NextMatch>()
+                        for (i in 3 until matchList.size) {
+                            lowerMatch.add(matchList[i])
+                        }
+                        adapter.addLowerMatch(lowerMatch)
+                        adapter.notifyDataSetChanged()
                     }
-                    adapter.addTopMatch(topThreeMatch)
-
-                    val lowerMatch = ArrayList<League>()
-                    for (i in 3 until leagueList.size) {
-                        lowerMatch.add(leagueList[i])
-                    }
-                    adapter.addLowerMatch(lowerMatch)
-                    adapter.notifyDataSetChanged()
-
                 }
                 HttpURLConnection.HTTP_NOT_FOUND -> {
                 }

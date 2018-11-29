@@ -6,36 +6,35 @@ import android.view.View
 import android.view.ViewGroup
 import com.ahamed.multiviewadapter.BaseViewHolder
 import com.ahamed.multiviewadapter.ItemBinder
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.football_feed_row.view.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.League
-import life.plank.juna.zone.util.GlobalVariable
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment
+import life.plank.juna.zone.data.model.NextMatch
+import life.plank.juna.zone.util.DateUtil
 
-class NextMatchBinder internal constructor(private val activity: Activity) : ItemBinder<League, NextMatchBinder.NextMatchViewHolder>() {
+class NextMatchBinder internal constructor(private val activity: Activity) :
+        ItemBinder<NextMatch, NextMatchBinder.NextMatchViewHolder>() {
 
     override fun create(inflater: LayoutInflater, parent: ViewGroup): NextMatchViewHolder {
 
         return NextMatchViewHolder(inflater.inflate(R.layout.football_feed_row, parent, false))
     }
 
-    override fun bind(holder: NextMatchViewHolder, item: League) {
-        //        TODO: Replace with original time to next match
-        holder.itemView.match_status.text = ZoneApplication.getContext().getString(R.string.match_status, "2hrs 13 mins")
-        holder.itemView.match_between.text = "Huddersfield vs Tottenham"
-        holder.itemView.league_logo.setImageResource(item.leagueLogo)
+    override fun bind(holder: NextMatchViewHolder, item: NextMatch) {
+        holder.itemView.match_status.text = DateUtil.getTimeToNextMatch(item.matchStartTime)
+        holder.itemView.match_between.text = item.displayName
+
+        Glide.with(activity).load(item.homeTeamLogo).into(holder.itemView.home_team_logo)
+        Glide.with(activity).load(item.awayTeamLogo).into(holder.itemView.visiting_team_logo)
 
         holder.itemView.setOnClickListener {
-            GlobalVariable.getInstance().tilePosition = holder.position
-            (activity as BaseCardActivity).pushFragment(LeagueInfoFragment.newInstance(item), true)
+          //TODO: Navigate to appropriate match board
         }
     }
 
     override fun canBindData(item: Any): Boolean {
-        return item is League
+        return item is NextMatch
     }
 
-    inner class NextMatchViewHolder(itemView: View) : BaseViewHolder<League>(itemView)
+    inner class NextMatchViewHolder(itemView: View) : BaseViewHolder<NextMatch>(itemView)
 }
