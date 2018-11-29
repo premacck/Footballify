@@ -1,10 +1,10 @@
 package life.plank.juna.zone.view.LatestMatch;
 
-public class CarModel {
+public class LeagueModel {
     String name;
     String description;
 
-    public CarModel(String s) {
+    public LeagueModel(String s) {
         name = s;
         description = s;
     }

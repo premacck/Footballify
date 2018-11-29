@@ -7,14 +7,13 @@ import com.ahamed.multiviewadapter.RecyclerAdapter;
 
 import java.util.List;
 
-import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.data.model.NextMatch;
 
 public class MultiListAdapter extends RecyclerAdapter {
 
     private DataListManager<NextMatch> topMatchDataManager;
     private DataListManager<NextMatch> lowerMatchDataManager;
-    private DataListManager<CarModel> leagueDataManager;
+    private DataListManager<LeagueModel> leagueDataManager;
 
     public MultiListAdapter(Activity activity) {
         topMatchDataManager = new DataListManager<>(this);
@@ -26,7 +25,7 @@ public class MultiListAdapter extends RecyclerAdapter {
         addDataManager(lowerMatchDataManager);
 
         registerBinder(new NextMatchBinder(activity));
-        registerBinder(new CarBinder());
+        registerBinder(new LeagueBinder());
     }
 
     public void addTopMatch(List<NextMatch> dataList) {
@@ -37,7 +36,7 @@ public class MultiListAdapter extends RecyclerAdapter {
         lowerMatchDataManager.set(dataList);
     }
 
-    public void addLeague(CarModel dataList) {
+    public void addLeague(LeagueModel dataList) {
         leagueDataManager.add(dataList);
     }
 }
