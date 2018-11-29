@@ -36,7 +36,7 @@ public class MultiListAdapter extends RecyclerAdapter {
         lowerMatchDataManager.set(dataList);
     }
 
-    public void addLeague(List<CarModel> dataList) {
-        leagueDataManager.addAll(dataList);
+    public void addLeague(CarModel dataList) {
+        leagueDataManager.add(dataList);
     }
 }

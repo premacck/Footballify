@@ -87,7 +87,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
 
     private fun setUpData() {
         if (NetworkStatus.isNetworkAvailable(parent_layout, context)) {
-            getUpcoming()
+            getUpcomingMatches()
         } else {
             customToast(R.string.no_internet_connection)
         }
@@ -100,25 +100,9 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
         football_feed_recycler_view.adapter = adapter
 
         progress_bar!!.visibility = View.GONE
-        val leagueList = getStaticLeagues()
 
-        val topThreeMatch = ArrayList<League>()
-        for (i in 0..2) {
-            topThreeMatch.add(leagueList[i])
-        }
-        adapter.addTopMatch(topThreeMatch)
+        adapter.addLeague(CarModel("Flower sdgvd gdfdhfc"))
 
-        val flowers = ArrayList<CarModel>()
-        for (i in 0..0) {
-            flowers.add(CarModel("Flower $i"))
-        }
-        adapter.addLeague(flowers)
-
-        val lowerMatch = ArrayList<League>()
-        for (i in 3 until leagueList.size) {
-            lowerMatch.add(leagueList[i])
-        }
-        adapter.addLowerMatch(lowerMatch)
     }
 
     private fun initBottomSheetRecyclerView() {
@@ -154,16 +138,30 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
         })
     }
 
-    private fun getUpcoming() {
+    private fun getUpcomingMatches() {
         restApi.getUpcomingMatches(getToken()).setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, "getSearchedUsers() : onError: ", it)
+            Log.e(TAG, "getUpcomingMatches() : onError: ", it)
         }, {
             when (it.code()) {
-                HttpURLConnection.HTTP_OK ->
+                HttpURLConnection.HTTP_OK -> {
                     it.body()
+                    val leagueList = getStaticLeagues()
+
+                    val topThreeMatch = ArrayList<League>()
+                    for (i in 0..2) {
+                        topThreeMatch.add(leagueList[i])
+                    }
+                    adapter.addTopMatch(topThreeMatch)
+
+                    val lowerMatch = ArrayList<League>()
+                    for (i in 3 until leagueList.size) {
+                        lowerMatch.add(leagueList[i])
+                    }
+                    adapter.addLowerMatch(lowerMatch)
+                    adapter.notifyDataSetChanged()
+
+                }
                 HttpURLConnection.HTTP_NOT_FOUND -> {
-                    userList.clear()
-                    searchViewAdapter.notifyDataSetChanged()
                 }
                 else -> Log.e(TAG, it.message())
             }
