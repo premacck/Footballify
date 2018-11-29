@@ -43,7 +43,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
     lateinit var restApi: RestApi
 
     lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
-
+    lateinit var adapter: MultiListAdapter
     lateinit var searchViewAdapter: SearchViewAdapter
     internal var userList = ArrayList<User>()
 
@@ -87,16 +87,15 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
 
     private fun setUpData() {
         if (NetworkStatus.isNetworkAvailable(parent_layout, context)) {
-            //TODO: get upcoming match
+            getUpcoming()
         } else {
             customToast(R.string.no_internet_connection)
         }
     }
 
-
     private fun initRecyclerView() {
 
-        val adapter = MultiListAdapter(activity)
+        adapter = MultiListAdapter(activity)
         football_feed_recycler_view.layoutManager = LinearLayoutManager(getApplicationContext())
         football_feed_recycler_view.adapter = adapter
 
@@ -146,6 +145,22 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> searchViewAdapter.update(it.body() as ArrayList)
+                HttpURLConnection.HTTP_NOT_FOUND -> {
+                    userList.clear()
+                    searchViewAdapter.notifyDataSetChanged()
+                }
+                else -> Log.e(TAG, it.message())
+            }
+        })
+    }
+
+    private fun getUpcoming() {
+        restApi.getUpcomingMatches(getToken()).setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, "getSearchedUsers() : onError: ", it)
+        }, {
+            when (it.code()) {
+                HttpURLConnection.HTTP_OK ->
+                    it.body()
                 HttpURLConnection.HTTP_NOT_FOUND -> {
                     userList.clear()
                     searchViewAdapter.notifyDataSetChanged()

@@ -297,4 +297,7 @@ public interface RestApi {
 
     @GET(ZONE_BACKEND_SUFFIX + "/feedEntries/{id}")
     Observable<Response<FeedEntry>> getFeedEntry(@Path("id") String feedItemId, @Header("Authorization") String authHeader);
+
+    @GET(ZONE_BACKEND_SUFFIX + "/upcomingMatches")
+    Observable<Response<List<NextMatch>>> getUpcomingMatches(@Header("Authorization") String authHeader);
 }
