@@ -22,11 +22,10 @@ class NextMatchBinder internal constructor(private val activity: Activity) : Ite
     }
 
     override fun bind(holder: NextMatchViewHolder, item: League) {
-        holder.itemView.feed_title_text_view.text = item.name
         //        TODO: Replace with original time to next match
-        holder.itemView.kickoff_time.text = ZoneApplication.getContext().getString(R.string.match_status, "2hrs 13 mins")
-
-        holder.itemView.feed_image_view.setImageResource(item.leagueLogo)
+        holder.itemView.match_status.text = ZoneApplication.getContext().getString(R.string.match_status, "2hrs 13 mins")
+        holder.itemView.match_between.text = "Huddersfield vs Tottenham"
+        holder.itemView.league_logo.setImageResource(item.leagueLogo)
 
         holder.itemView.setOnClickListener {
             GlobalVariable.getInstance().tilePosition = holder.position
