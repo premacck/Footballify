@@ -25,7 +25,7 @@ import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
 import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.view.LatestMatch.CarModel
+import life.plank.juna.zone.view.LatestMatch.LeagueModel
 import life.plank.juna.zone.view.LatestMatch.MultiListAdapter
 import life.plank.juna.zone.view.adapter.common.SearchViewAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
@@ -101,7 +101,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
 
         progress_bar!!.visibility = View.GONE
 
-        adapter.addLeague(CarModel("Flower sdgvd gdfdhfc"))
+        adapter.addLeague(LeagueModel("Flower sdgvd gdfdhfc"))
 
     }
 

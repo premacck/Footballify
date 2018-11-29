@@ -13,7 +13,7 @@ public class MultiListAdapter extends RecyclerAdapter {
 
     private DataListManager<League> topMatchDataManager;
     private DataListManager<League> lowerMatchDataManager;
-    private DataListManager<CarModel> leagueDataManager;
+    private DataListManager<LeagueModel> leagueDataManager;
 
     public MultiListAdapter(Activity activity) {
         topMatchDataManager = new DataListManager<>(this);
@@ -25,7 +25,7 @@ public class MultiListAdapter extends RecyclerAdapter {
         addDataManager(lowerMatchDataManager);
 
         registerBinder(new NextMatchBinder(activity));
-        registerBinder(new CarBinder());
+        registerBinder(new LeagueBinder());
     }
 
     public void addTopMatch(List<League> dataList) {
@@ -36,7 +36,7 @@ public class MultiListAdapter extends RecyclerAdapter {
         lowerMatchDataManager.set(dataList);
     }
 
-    public void addLeague(CarModel dataList) {
+    public void addLeague(LeagueModel dataList) {
         leagueDataManager.add(dataList);
     }
 }
