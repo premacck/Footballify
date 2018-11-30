@@ -25,6 +25,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
 import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL
+import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_WITHOUT_SETTINGS
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.common.launch
@@ -93,7 +94,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         if (PreferenceManager.CurrentUser.getProfilePicUrl() != null) {
             feed_header.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
         }
-
     }
 
     override fun onResume() {
@@ -110,7 +110,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         } else {
             //TODO: show notification badge only if there are new notifications
             feed_header.showNotificationBadge(true)
-            setupBoomMenu(BOOM_MENU_FULL, activity!!, null, arc_menu, null)
+            setupBoomMenu(BOOM_MENU_WITHOUT_SETTINGS, activity!!, null, arc_menu, null)
         }
     }
 

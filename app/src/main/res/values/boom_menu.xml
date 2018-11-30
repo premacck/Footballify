@@ -10,6 +10,15 @@
         <item>Audio</item>
         <item>Attachment</item>
     </array>
+    <array name="boom_menu_without_settings">
+        <item>Home</item>
+        <item>Gallery</item>
+        <item>Camera</item>
+        <item>Video</item>
+        <item>Text</item>
+        <item>Audio</item>
+        <item>Attachment</item>
+    </array>
     <array name="boom_menu_titles_home_settings">
         <item>Settings</item>
         <item>Home</item>
