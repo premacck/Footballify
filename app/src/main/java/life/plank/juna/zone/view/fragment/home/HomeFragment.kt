@@ -90,7 +90,9 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         arc_menu.setupWith(nestedScrollView)
 
         feed_header.initListeners(this)
-        feed_header.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
+        if (PreferenceManager.CurrentUser.getProfilePicUrl() != null) {
+            feed_header.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
+        }
 
     }
 
