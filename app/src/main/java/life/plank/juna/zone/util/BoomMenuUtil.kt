@@ -88,6 +88,9 @@ fun getBoomMenuTitles(@BoomMenuPage page: Int): Array<String>? {
         BOOM_MENU_FULL -> {
             resources.getStringArray(R.array.boom_menu_titles_full)
         }
+        BOOM_MENU_WITHOUT_SETTINGS -> {
+            resources.getStringArray(R.array.boom_menu_without_settings)
+        }
         BOOM_MENU_SETTINGS_AND_HOME -> {
             resources.getStringArray(R.array.boom_menu_titles_home_settings)
         }
@@ -105,6 +108,17 @@ fun getBoomMenuFabImages(@BoomMenuPage page: Int): IntArray? {
         BOOM_MENU_FULL -> {
             intArrayOf(
                     R.drawable.ic_settings_white,
+                    R.drawable.ic_home_purple,
+                    R.drawable.ic_gallery_white,
+                    R.drawable.ic_emoji_white,
+                    R.drawable.ic_camera_white,
+                    R.drawable.ic_text_white,
+                    R.drawable.ic_mic_white,
+                    R.drawable.ic_link_white
+            )
+        }
+        BOOM_MENU_WITHOUT_SETTINGS -> {
+            intArrayOf(
                     R.drawable.ic_home_purple,
                     R.drawable.ic_gallery_white,
                     R.drawable.ic_emoji_white,
@@ -134,6 +148,17 @@ fun getBoomMenuBackgroundColors(@BoomMenuPage page: Int): IntArray? {
         BOOM_MENU_FULL -> {
             intArrayOf(
                     R.drawable.fab_circle_background_grey,
+                    R.drawable.fab_circle_background_white,
+                    R.drawable.fab_circle_background_pink,
+                    R.drawable.fab_circle_background_pink,
+                    R.drawable.fab_circle_background_pink,
+                    R.drawable.fab_circle_background_pink,
+                    R.drawable.fab_circle_background_pink,
+                    R.drawable.fab_circle_background_pink
+            )
+        }
+        BOOM_MENU_WITHOUT_SETTINGS -> {
+            intArrayOf(
                     R.drawable.fab_circle_background_white,
                     R.drawable.fab_circle_background_pink,
                     R.drawable.fab_circle_background_pink,
@@ -196,6 +221,45 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
                         }
                     }
                     6 -> {
+                        if (boardId != null) {
+                            UploadActivity.launch(activity, AUDIO, boardId)
+                        }
+                    }
+                }
+            }
+        }
+        BOOM_MENU_WITHOUT_SETTINGS -> {
+            View.OnClickListener {
+                when (position) {
+                    0 -> {
+                        if (activity is HomeActivity) return@OnClickListener
+                        HomeActivity.launch(activity)
+                        activity.finish()
+                    }
+                    1 -> {
+                        if (boardId != null) {
+                            UploadActivity.launch(activity, GALLERY, boardId)
+                        }
+                    }
+                    2 -> {
+                        if (boardId != null) {
+                            if (bottomSheetBehaviour != null) {
+                                bottomSheetBehaviour.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+                                bottomSheetBehaviour.peekHeight = 350
+                            }
+                        }
+                    }
+                    3 -> {
+                        if (boardId != null) {
+                            CustomCameraActivity.launch(activity, false, boardId)
+                        }
+                    }
+                    4 -> {
+                        if (boardId != null) {
+                            PostCommentActivity.launch(activity, boardId)
+                        }
+                    }
+                    5 -> {
                         if (boardId != null) {
                             UploadActivity.launch(activity, AUDIO, boardId)
                         }
