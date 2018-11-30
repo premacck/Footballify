@@ -50,6 +50,7 @@ import static life.plank.juna.zone.util.AppConstants.IMAGE;
 import static life.plank.juna.zone.util.AppConstants.NEWS;
 import static life.plank.juna.zone.util.AppConstants.ROOT_COMMENT;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.pinFeedEntry;
 import static life.plank.juna.zone.util.DataUtil.unpinFeedEntry;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
@@ -126,6 +127,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         }
         holder.feedTitleTextView.setText(feedItem.getTitle());
 
+        if (!isNullOrEmpty(feedItem.getInteractions())) {
+            holder.reactionCount.setText(feedItem.getInteractions().getEmojiReacts().toString());
+        }
+
         holder.pinImageView.setImageResource(
                 feedEntry.getFeedInteractions().getHasPinned() ?
                         R.drawable.ic_pin_active :
@@ -194,6 +199,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
                     holder.feedTextView.setBackground(getCommentColor(comment));
                     holder.feedTextView.setText(getCommentText(comment));
+                    holder.feedTitleTextView.setText(getCommentText(comment));
 
                 }
             }
@@ -338,6 +344,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         ScrollView scrollView;
         @BindView(R.id.reaction_view)
         ImageView reactionView;
+        @BindView(R.id.reaction_count)
+        TextView reactionCount;
 
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
