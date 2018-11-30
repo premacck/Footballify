@@ -251,6 +251,11 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
 //                (parentFragment as? FeedEntryContainer)?.openFeedEntry(this, boardId!!, index, BOARD)
 //            }
 //        }
+
+        if (parentFragment is FeedEntryContainer) {
+            vibrate(20)
+            (parentFragment as FeedEntryContainer).showFeedItemPeekPopup(index)
+        }
     }
 
     override fun fireOnItemLongClick(index: Int, v: View): Boolean {
