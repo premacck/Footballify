@@ -50,10 +50,10 @@ class SelectZoneAdapter(
             if (isActionDone) {
                 if (selectedZones.contains(selectedZone)) {
                     selectedZones.remove(selectedZone)
-                    selectedZoneNames.remove(selectedZone.name)
+                    selectedZoneNames.remove(selectedZone.id)
                 } else {
                     selectedZones.add(selectedZone)
-                    selectedZoneNames.add(selectedZone.name)
+                    selectedZoneNames.add(selectedZone.id)
                 }
             }
             val isItemSelected = selectedZones.contains(selectedZone)
