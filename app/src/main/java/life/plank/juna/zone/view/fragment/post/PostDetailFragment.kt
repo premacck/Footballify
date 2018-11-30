@@ -64,7 +64,6 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
 
     lateinit var feedEntry: FeedEntry
     lateinit var boardId: String
-    private var adapter: PostCommentAdapter? = null
     private var emojiBottomSheetBehavior: BottomSheetBehavior<*>? = null
     private var emojiAdapter: EmojiAdapter? = null
 
