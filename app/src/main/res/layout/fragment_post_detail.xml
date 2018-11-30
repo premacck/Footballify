@@ -119,25 +119,13 @@
                             android:layout_height="24dp"
                             android:layout_alignTop="@+id/profile_pic"
                             android:layout_alignBottom="@+id/profile_pic"
-                            android:layout_toStartOf="@id/options_image_view"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="5dp"
                             android:background="@color/transparent"
                             android:contentDescription="@string/pin_post"
                             android:gravity="center_vertical"
                             android:scaleType="center"
                             android:src="@drawable/ic_pin_inactive" />
-
-                        <ImageButton
-                            android:id="@+id/options_image_view"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignTop="@+id/profile_pic"
-                            android:layout_alignBottom="@+id/profile_pic"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="5dp"
-                            android:background="@color/transparent"
-                            android:gravity="center_vertical"
-                            android:scaleType="center"
-                            android:src="@drawable/ic_options_grey" />
 
                     </RelativeLayout>
 
