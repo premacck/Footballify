@@ -152,6 +152,7 @@ class PostDetailFragment : BaseCommentContainerFragment(), EmojiContainer {
                     .into(profile_pic)
         }
 
+        reaction_count.text = feedEntry.feedItem.interactions!!.emojiReacts.toString()
         feed_title_text_view.text = if (feedEntry.feedItem.contentType != ROOT_COMMENT) feedEntry.feedItem.title else null
         if (feedEntry.feedItem.contentType == NEWS) {
             user_name_text_view.setText(R.string.juna_user_topic)

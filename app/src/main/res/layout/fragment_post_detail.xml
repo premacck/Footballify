@@ -119,25 +119,13 @@
                             android:layout_height="24dp"
                             android:layout_alignTop="@+id/profile_pic"
                             android:layout_alignBottom="@+id/profile_pic"
-                            android:layout_toStartOf="@id/options_image_view"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="5dp"
                             android:background="@color/transparent"
                             android:contentDescription="@string/pin_post"
                             android:gravity="center_vertical"
                             android:scaleType="center"
                             android:src="@drawable/ic_pin_inactive" />
-
-                        <ImageButton
-                            android:id="@+id/options_image_view"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignTop="@+id/profile_pic"
-                            android:layout_alignBottom="@+id/profile_pic"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="5dp"
-                            android:background="@color/transparent"
-                            android:gravity="center_vertical"
-                            android:scaleType="center"
-                            android:src="@drawable/ic_options_grey" />
 
                     </RelativeLayout>
 
@@ -172,34 +160,6 @@
                             android:text="1 hr ago"
                             android:textColor="@color/black_50"
                             android:textSize="12sp" />
-
-                        <ImageButton
-                            android:id="@+id/share_image_view"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_centerVertical="true"
-                            android:layout_toStartOf="@+id/share_count"
-                            android:background="@color/transparent"
-                            android:contentDescription="@string/options_menu"
-                            android:gravity="center_vertical"
-                            android:scaleType="center"
-                            android:src="@drawable/ic_share_holo" />
-
-                        <TextView
-                            android:id="@+id/share_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="5dp"
-                            android:layout_toStartOf="@+id/reaction_view"
-                            android:fontFamily="@font/rajdhani_semibold"
-                            android:gravity="center_vertical"
-                            android:lineSpacingExtra="5sp"
-                            android:padding="5dp"
-                            android:text="632"
-                            android:textColor="@color/grey"
-                            android:textSize="14sp"
-                            tools:ignore="RelativeOverlap" />
 
                         <ImageButton
                             android:id="@+id/reaction_view"
