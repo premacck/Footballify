@@ -45,7 +45,6 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
         setLeagueLogo(array.getResourceId(R.styleable.GenericToolbar_logo, R.drawable.ic_board_beer))
         share_btn?.visibility = if (array.getInt(R.styleable.GenericToolbar_shareButtonVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
         options_menu?.visibility = if (array.getInt(R.styleable.GenericToolbar_optionsMenuVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
-        following_button?.visibility = if (array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
         info_tiles_tab_layout?.visibility = if (array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
         drag_handle?.visibility = if (array.getInt(R.styleable.GenericToolbar_dragHandleVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
         showLock(array.getBoolean(R.styleable.GenericToolbar_isLockVisible, false))
@@ -83,7 +82,6 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
 
     override fun dispose() {
         listener = null
-        following_button?.setOnClickListener(null)
         options_menu?.setOnClickListener(null)
     }
 
@@ -136,7 +134,6 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
     fun setupForPreview() {
         share_btn?.visibility = View.INVISIBLE
         options_menu?.visibility = View.INVISIBLE
-        following_button?.visibility = View.INVISIBLE
         info_tiles_tab_layout?.visibility = View.INVISIBLE
     }
 }

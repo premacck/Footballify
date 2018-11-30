@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_HOME;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME;
-import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_WITHOUT_SETTINGS;
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_BASIC_INTERACTION;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
@@ -166,11 +166,11 @@ public class AppConstants {
     }
 
     @Retention(RetentionPolicy.RUNTIME)
-    @IntDef({BOOM_MENU_FULL, BOOM_MENU_SETTINGS_AND_HOME, BOOM_MENU_HOME, BOOM_MENU_WITHOUT_SETTINGS})
+    @IntDef({BOOM_MENU_FULL, BOOM_MENU_SETTINGS_AND_HOME, BOOM_MENU_HOME, BOOM_MENU_BASIC_INTERACTION})
     public @interface BoomMenuPage {
         int BOOM_MENU_FULL = 0;
         int BOOM_MENU_SETTINGS_AND_HOME = 1;
         int BOOM_MENU_HOME = 2;
-        int BOOM_MENU_WITHOUT_SETTINGS = 3;
+        int BOOM_MENU_BASIC_INTERACTION = 3;
     }
 }
