@@ -75,6 +75,7 @@
                             android:layout_marginStart="6dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
+                            android:src="@drawable/ic_football"
                             android:background="@drawable/circle_background_grey"
                             app:civ_border_color="@color/grey_10"
                             app:civ_border_width="1dp" />
