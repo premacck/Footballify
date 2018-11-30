@@ -49,7 +49,7 @@ class ForumFragment : BaseCommentContainerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (boardId == null) return
-        
+
         adapter = PostCommentAdapter(Glide.with(this), this, getString(R.string.forum))
         post_comments_list.adapter = adapter
 
