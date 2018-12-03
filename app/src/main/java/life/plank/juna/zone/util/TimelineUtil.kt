@@ -17,11 +17,11 @@ fun getAllTimelineEvents(commentaries: @RawValue List<Commentary>, matchEventLis
         matchEventList.add(MatchEvent(LiveTimeStatus(LIVE, 0, 0)))
     }
     if (!matchEventList.any { it.liveTimeStatus?.timeStatus == HT } && !matchEventList.any { it.liveTimeStatus?.timeStatus == FT }) {
-        for ((_, _, _, _, minute, extraMinute, comment) in commentaries) {
-            if (comment.startsWith(FIRST_HALF_ENDED_)) {
-                matchEventList.add(MatchEvent(LiveTimeStatus(HT, minute.toInt(), extraMinute.toInt())))
-            } else if (comment.startsWith(SECOND_HALF_ENDED_)) {
-                matchEventList.add(MatchEvent(LiveTimeStatus(FT, minute.toInt(), extraMinute.toInt())))
+        for (commentary in commentaries) {
+            if (commentary.comment.startsWith(FIRST_HALF_ENDED_)) {
+                matchEventList.add(MatchEvent(LiveTimeStatus(HT, commentary.minute.toInt(), commentary.extraMinute.toInt())))
+            } else if (commentary.comment.startsWith(SECOND_HALF_ENDED_)) {
+                matchEventList.add(MatchEvent(LiveTimeStatus(FT, commentary.minute.toInt(), commentary.extraMinute.toInt())))
             }
         }
     }
