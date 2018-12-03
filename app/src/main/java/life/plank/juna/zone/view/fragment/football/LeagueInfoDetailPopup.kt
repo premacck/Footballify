@@ -5,7 +5,6 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import io.alterac.blurkit.BlurLayout
@@ -51,31 +50,25 @@ class LeagueInfoDetailPopup : BaseBlurPopup() {
     override fun doOnStart() {
         header.text = viewToLoad
         when (viewToLoad) {
-            AppConstants.STANDINGS -> {
-                standingTableAdapter = StandingTableAdapter(Glide.with(this), false)
-                standing_recycler_view.adapter = standingTableAdapter!!
-                standingTableAdapter?.update(arguments?.getParcelableArrayList(getString(R.string.intent_list)))
-                toggleStatsHeaderVisibility(LinearLayout.VISIBLE, LinearLayout.GONE, LinearLayout.GONE)
-            }
             AppConstants.TEAM_STATS -> {
                 teamStatsAdapter = TeamStatsAdapter(Glide.with(this))
                 standing_recycler_view.adapter = teamStatsAdapter!!
                 teamStatsAdapter?.update(arguments?.getParcelableArrayList(getString(R.string.intent_list)))
-                toggleStatsHeaderVisibility(LinearLayout.GONE, LinearLayout.VISIBLE, LinearLayout.GONE)
             }
             AppConstants.PLAYER_STATS -> {
                 playerStatsAdapter = PlayerStatsAdapter()
                 standing_recycler_view.adapter = playerStatsAdapter!!
                 playerStatsAdapter?.update(arguments?.getParcelableArrayList(getString(R.string.intent_list)))
-                toggleStatsHeaderVisibility(LinearLayout.GONE, LinearLayout.GONE, LinearLayout.VISIBLE)
             }
         }
+        addHeader(viewToLoad)
     }
 
-    private fun toggleStatsHeaderVisibility(standingsHeaderVisibility: Int, teamStatsHeaderVisibility: Int, playerStatsHeaderVisibility: Int) {
-        standing_header_layout.visibility = standingsHeaderVisibility
-        team_stats_header_layout.visibility = teamStatsHeaderVisibility
-        player_stats_header.visibility = playerStatsHeaderVisibility
+    private fun addHeader(viewToLoad: String) {
+        when (viewToLoad) {
+            AppConstants.TEAM_STATS -> headers_container.addView(View.inflate(context, R.layout.team_stats_header, null))
+            AppConstants.PLAYER_STATS -> headers_container.addView(View.inflate(context, R.layout.player_stats_header, null))
+        }
     }
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
