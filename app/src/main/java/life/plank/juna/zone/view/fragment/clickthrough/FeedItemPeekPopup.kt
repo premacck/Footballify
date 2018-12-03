@@ -16,7 +16,7 @@ import life.plank.juna.zone.data.model.Emoji
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.EmojiContainer
-import life.plank.juna.zone.util.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.facilis.hideIfShown
 import life.plank.juna.zone.view.adapter.common.BoardFeedDetailAdapter
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter

@@ -20,16 +20,16 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.interfaces.LeagueContainer;
-import life.plank.juna.zone.util.BaseRecyclerView;
-import life.plank.juna.zone.util.DataUtil;
+import life.plank.juna.zone.util.common.DataUtil;
+import life.plank.juna.zone.util.view.BaseRecyclerView;
 
-import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_LIVE;
-import static life.plank.juna.zone.util.DataUtil.getSeparator;
-import static life.plank.juna.zone.util.DateUtil.getMatchTimeValue;
-import static life.plank.juna.zone.util.UIDisplayUtil.alternateBackgroundColor;
-import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
-import static life.plank.juna.zone.util.UIDisplayUtil.getEndDrawableTarget;
-import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTarget;
+import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_LIVE;
+import static life.plank.juna.zone.util.common.DataUtil.getSeparator;
+import static life.plank.juna.zone.util.time.DateUtil.getMatchTimeValue;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.alternateBackgroundColor;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.getDp;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.getEndDrawableTarget;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.getStartDrawableTarget;
 
 public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.ViewHolder> {
 

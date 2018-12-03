@@ -13,10 +13,10 @@ import life.plank.juna.zone.data.model.FixtureByMatchDay
 import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.LeagueContainer
-import life.plank.juna.zone.util.AppConstants.PAST_MATCHES
-import life.plank.juna.zone.util.AppConstants.TODAY_MATCHES
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.AppConstants.PAST_MATCHES
+import life.plank.juna.zone.util.common.AppConstants.TODAY_MATCHES
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.view.adapter.fixture.FixtureMatchdayAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.Companion.fixtureByMatchDayList

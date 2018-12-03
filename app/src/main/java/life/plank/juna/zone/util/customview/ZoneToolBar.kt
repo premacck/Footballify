@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.zone_tool_bar.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.interfaces.CustomViewListener
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 
 class ZoneToolBar @JvmOverloads constructor(context: Context,

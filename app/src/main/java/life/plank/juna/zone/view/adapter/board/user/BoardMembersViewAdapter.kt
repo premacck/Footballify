@@ -9,9 +9,9 @@ import kotlinx.android.synthetic.main.item_user.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.User
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager
+import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.customview.CustomPopup
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment

@@ -2,7 +2,7 @@ package life.plank.juna.zone.data.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import life.plank.juna.zone.util.AppConstants.WHISTLE_EVENT
+import life.plank.juna.zone.util.common.AppConstants.WHISTLE_EVENT
 
 @Parcelize
 data class MatchEvent(

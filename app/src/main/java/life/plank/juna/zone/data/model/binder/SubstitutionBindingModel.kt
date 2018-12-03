@@ -9,8 +9,8 @@ import life.plank.juna.zone.data.model.FootballTeam
 import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.model.MatchEvent
 
-import life.plank.juna.zone.util.DataUtil.extractSubstitutionEvents
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.DataUtil.extractSubstitutionEvents
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 
 @Parcelize
 data class SubstitutionBindingModel(

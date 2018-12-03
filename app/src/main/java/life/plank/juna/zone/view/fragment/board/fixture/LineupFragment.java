@@ -35,10 +35,10 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.AppConstants.LINEUPS_DATA;
-import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
-import static life.plank.juna.zone.util.DataUtil.findString;
-import static life.plank.juna.zone.util.RestUtilKt.errorToast;
+import static life.plank.juna.zone.util.common.AppConstants.LINEUPS_DATA;
+import static life.plank.juna.zone.util.common.AppConstants.MATCH_EVENTS;
+import static life.plank.juna.zone.util.common.DataUtil.findString;
+import static life.plank.juna.zone.util.common.RestUtilKt.errorToast;
 
 public class LineupFragment extends BaseFragment {
 

@@ -19,17 +19,17 @@ import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.poll.Poll;
 import life.plank.juna.zone.data.model.poll.PollAnswerResponse;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.common.AppConstants;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static java.net.HttpURLConnection.HTTP_OK;
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
-import static life.plank.juna.zone.util.RestUtilKt.errorLog;
-import static life.plank.juna.zone.util.RestUtilKt.errorToast;
+import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.common.RestUtilKt.errorLog;
+import static life.plank.juna.zone.util.common.RestUtilKt.errorToast;
+import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken;
 
 /**
  * Class for Aggregating multiple API calls.

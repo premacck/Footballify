@@ -19,10 +19,10 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Formation
 import life.plank.juna.zone.data.model.FormationList
 import life.plank.juna.zone.data.model.binder.LineupsBindingModel
-import life.plank.juna.zone.util.DataUtil.getIntegratedLineups
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.UIDisplayUtil.*
+import life.plank.juna.zone.util.common.DataUtil.getIntegratedLineups
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.customview.LineupPlayer
+import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 

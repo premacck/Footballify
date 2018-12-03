@@ -16,12 +16,12 @@ import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.PlayerStats
 import life.plank.juna.zone.data.model.TeamStats
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.AppConstants.PLAYER_STATS
-import life.plank.juna.zone.util.AppConstants.TEAM_STATS
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.AppConstants.PLAYER_STATS
+import life.plank.juna.zone.util.common.AppConstants.TEAM_STATS
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.league.PlayerStatsAdapter
 import life.plank.juna.zone.view.adapter.league.TeamStatsAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment

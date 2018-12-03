@@ -10,10 +10,14 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_base_comment.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedItemComment
-import life.plank.juna.zone.util.*
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.common.AppConstants
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.color
+import life.plank.juna.zone.util.common.formatMentions
+import life.plank.juna.zone.util.common.semiBold
 import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.time.DateUtil
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
