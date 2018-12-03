@@ -55,6 +55,10 @@ fun <T> Observable<T>.smartSubscribe(onError: (e: Throwable) -> Unit, onNext: (t
     })
 }
 
+fun <T> Observable<T>.onSubscribe(onSubscribe: () -> Unit): Observable<T> = doOnSubscribe { ZoneApplication.getContext().runOnUiThread { onSubscribe() } }
+
+fun <T> Observable<T>.onTerminate(onSubscribe: () -> Unit): Observable<T> = doOnTerminate { ZoneApplication.getContext().runOnUiThread { onSubscribe() } }
+
 fun customToast(@StringRes message: Int) = getCustomToast(findString(message), Toast.LENGTH_SHORT)?.show()
 
 fun errorToast(@StringRes prependMessage: Int, response: Response<*>) = getCustomToast("${findString(prependMessage)}\n\nCode: ${response.code()}\nMessage: ${response.body()}")?.show()

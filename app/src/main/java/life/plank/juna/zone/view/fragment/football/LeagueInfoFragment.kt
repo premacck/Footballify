@@ -28,7 +28,7 @@ class LeagueInfoFragment : BaseCard() {
     private var leagueInfoPagerAdapter: LeagueInfoFragment.LeagueInfoPagerAdapter? = null
 
     companion object {
-        var fixtureByMatchDayList: MutableList<FixtureByMatchDay>? = null
+        var fixtureByMatchDayList: MutableList<FixtureByMatchDay> = ArrayList()
         fun newInstance(league: League) = LeagueInfoFragment().apply { arguments = Bundle().apply { putParcelable(DataUtil.findString(R.string.intent_league), league) } }
     }
 
@@ -85,7 +85,7 @@ class LeagueInfoFragment : BaseCard() {
 
     override fun onDestroy() {
         leagueInfoPagerAdapter = null
-        fixtureByMatchDayList?.clear()
+        fixtureByMatchDayList.clear()
         super.onDestroy()
     }
 

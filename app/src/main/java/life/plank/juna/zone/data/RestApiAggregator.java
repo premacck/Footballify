@@ -12,6 +12,7 @@ import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.data.model.MatchStats;
 import life.plank.juna.zone.data.model.PlayerStats;
 import life.plank.juna.zone.data.model.Standings;
@@ -20,6 +21,7 @@ import life.plank.juna.zone.data.model.poll.Poll;
 import life.plank.juna.zone.data.model.poll.PollAnswerResponse;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.common.AppConstants;
+import life.plank.juna.zone.util.football.FixtureUtilKt;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -61,23 +63,22 @@ public class RestApiAggregator {
      * @return {@link MatchDetails} containing {@link MatchStats} and {@link Lineups}
      */
     public static Observable<MatchDetails> getPostMatchBoardData(MatchDetails matchDetails, RestApi restApi) {
-        return afterSubscribingAndObservingOn(
-                Observable.zip(
-                        restApi.getMatchStatsForMatch(matchDetails.getMatchId()),
-                        restApi.getLineUpsData(matchDetails.getMatchId()),
-                        ((matchStatsResponse, lineupsResponse) -> {
-                            if (matchStatsResponse.code() == HTTP_OK) {
-                                matchDetails.setMatchStats(matchStatsResponse.body());
-                            } else {
-                                Log.e("getPostMatchBoardData", "matchStatsResponse : " + matchStatsResponse.code() + " : " + matchStatsResponse.message());
-                            }
-                            if (lineupsResponse.code() == HTTP_OK) {
-                                matchDetails.setLineups(lineupsResponse.body());
-                            } else {
-                                Log.e("getPostMatchBoardData", "lineupsResponse : " + lineupsResponse.code() + " : " + lineupsResponse.message());
-                            }
-                            return matchDetails;
-                        })));
+        return Observable.zip(
+                restApi.getMatchStatsForMatch(matchDetails.getMatchId()),
+                restApi.getLineUpsData(matchDetails.getMatchId()),
+                ((matchStatsResponse, lineupsResponse) -> {
+                    if (matchStatsResponse.code() == HTTP_OK) {
+                        matchDetails.setMatchStats(matchStatsResponse.body());
+                    } else {
+                        Log.e("getPostMatchBoardData", "matchStatsResponse : " + matchStatsResponse.code() + " : " + matchStatsResponse.message());
+                    }
+                    if (lineupsResponse.code() == HTTP_OK) {
+                        matchDetails.setLineups(lineupsResponse.body());
+                    } else {
+                        Log.e("getPostMatchBoardData", "lineupsResponse : " + lineupsResponse.code() + " : " + lineupsResponse.message());
+                    }
+                    return matchDetails;
+                }));
     }
 
     /**
@@ -123,9 +124,12 @@ public class RestApiAggregator {
                             leagueInfo.setId(league.getId());
                             leagueInfo.setLeague(league);
                             if (fixtureResponse.code() == HTTP_OK) {
-                                List<FixtureByMatchDay> fixtureByMatchDayList = fixtureResponse.body();
-                                if (!isNullOrEmpty(fixtureByMatchDayList)) {
-                                    leagueInfo.setFixtureByMatchDayList(fixtureByMatchDayList);
+                                List<MatchFixture> matchFixtureList = fixtureResponse.body();
+                                if (matchFixtureList != null) {
+                                    List<FixtureByMatchDay> fixtureByMatchDayList = FixtureUtilKt.convertToFixtureByMatchDayList(matchFixtureList);
+                                    if (!isNullOrEmpty(fixtureByMatchDayList)) {
+                                        leagueInfo.setFixtureByMatchDayList(fixtureByMatchDayList);
+                                    }
                                 }
                             } else {
                                 Log.e("getLeagueInfo", "fixtureResponse : " + fixtureResponse.code() + " : " + fixtureResponse.message());

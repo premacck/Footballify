@@ -10,6 +10,7 @@ import life.plank.juna.zone.data.local.repository.LeagueRepository
 import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.football.convertToFixtureByMatchDayList
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -32,7 +33,7 @@ class LeagueViewModel : ViewModel() {
      */
     fun getFixturesFromRestApi(league: League, restApi: RestApi) {
         restApi.getFixtures(league.seasonName, league.name, league.countryName).setObserverThreadsAndSmartSubscribe({ Log.e(TAG, it.message, it) }, {
-            it.body()?.run { fixtureLiveData.value = this }
+            it.body()?.run { fixtureLiveData.value = convertToFixtureByMatchDayList() }
         })
     }
 
