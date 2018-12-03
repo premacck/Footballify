@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_league_info_detail.*
 import life.plank.juna.zone.R
@@ -14,18 +13,12 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.AppConstants
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.view.adapter.league.PlayerStatsAdapter
-import life.plank.juna.zone.view.adapter.league.StandingTableAdapter
 import life.plank.juna.zone.view.adapter.league.TeamStatsAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
-import javax.inject.Inject
 
 class LeagueInfoDetailPopup : BaseBlurPopup() {
 
-    @Inject
-    lateinit var picasso: Picasso
-
     private lateinit var viewToLoad: String
-    private var standingTableAdapter: StandingTableAdapter? = null
     private var teamStatsAdapter: TeamStatsAdapter? = null
     private var playerStatsAdapter: PlayerStatsAdapter? = null
 
@@ -80,7 +73,6 @@ class LeagueInfoDetailPopup : BaseBlurPopup() {
     override fun getBackgroundLayout(): ViewGroup? = root_blur_layout
 
     override fun onDestroy() {
-        standingTableAdapter = null
         teamStatsAdapter = null
         playerStatsAdapter = null
         super.onDestroy()
