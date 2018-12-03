@@ -9,13 +9,6 @@ private const val TAG = "JunaFirebaseMsgService"
 
 class JunaNotificationService : FirebaseMessagingService() {
 
-//    TODO: This Gson instance will also take care of the Date format. un-comment if required
-    /*private val gson = GsonBuilder()
-            .registerTypeAdapter(Date::class.java, ISO8601DateSerializer())
-            .setDateFormat(DateFormat.FULL, DateFormat.FULL)
-            .setLenient()
-            .create()*/
-
     override fun onNewToken(token: String) {
         sendRegistrationToServer(token)
     }
