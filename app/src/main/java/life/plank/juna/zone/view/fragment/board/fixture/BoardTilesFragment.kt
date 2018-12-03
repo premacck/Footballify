@@ -29,6 +29,8 @@ import life.plank.juna.zone.interfaces.PollContainer
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_FULL
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.onSubscribe
+import life.plank.juna.zone.util.common.onTerminate
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.setEmoji
@@ -46,7 +48,6 @@ import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.board.fixture.extra.DartBoardPopup
 import life.plank.juna.zone.view.fragment.board.fixture.extra.KeyBoardPopup
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
-import org.jetbrains.anko.support.v4.runOnUiThread
 import org.jetbrains.anko.support.v4.toast
 import java.net.HttpURLConnection
 import java.util.*
@@ -191,37 +192,34 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
     }
 
     private fun getBoardFeed(isRefreshing: Boolean) {
-        restApi.getBoardFeedItems(boardId, getToken()).doOnSubscribe {
-            runOnUiThread {
-                progress_bar.visibility = View.VISIBLE
-                no_data.visibility = View.GONE
-                if (isRefreshing) swipe_refresh_layout.isRefreshing = true
-            }
-        }.doOnTerminate {
-            runOnUiThread {
-                progress_bar.visibility = View.GONE
-                if (isRefreshing) swipe_refresh_layout.isRefreshing = false
-            }
-        }.setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, "On Error() : getBoardFeed()", it)
-            updateUi(false, R.string.something_went_wrong)
-        }, {
-            when (it.code()) {
-                HttpURLConnection.HTTP_OK -> {
-                    val feedItemList = it.body()
-                    if (!isNullOrEmpty(feedItemList)) {
-                        updateUi(true, 0)
-                        setupFeedEntryByMasonryLayout(feedItemList!!)
-                        adapter!!.update(feedItemList)
-                        if (parentFragment is FeedEntryContainer) {
-                            (parentFragment as FeedEntryContainer).updateFullScreenAdapter(feedItemList)
+        restApi.getBoardFeedItems(boardId, getToken())
+                .onSubscribe {
+                    progress_bar.visibility = View.VISIBLE
+                    no_data.visibility = View.GONE
+                    if (isRefreshing) swipe_refresh_layout.isRefreshing = true
+                }.onTerminate {
+                    progress_bar.visibility = View.GONE
+                    if (isRefreshing) swipe_refresh_layout.isRefreshing = false
+                }.setObserverThreadsAndSmartSubscribe({
+                    Log.e(TAG, "On Error() : getBoardFeed()", it)
+                    updateUi(false, R.string.something_went_wrong)
+                }, {
+                    when (it.code()) {
+                        HttpURLConnection.HTTP_OK -> {
+                            val feedItemList = it.body()
+                            if (!isNullOrEmpty(feedItemList)) {
+                                updateUi(true, 0)
+                                setupFeedEntryByMasonryLayout(feedItemList!!)
+                                adapter!!.update(feedItemList)
+                                if (parentFragment is FeedEntryContainer) {
+                                    (parentFragment as FeedEntryContainer).updateFullScreenAdapter(feedItemList)
+                                }
+                            } else updateUi(false, R.string.board_yet_to_be_populated)
                         }
-                    } else updateUi(false, R.string.board_yet_to_be_populated)
-                }
-                HttpURLConnection.HTTP_NOT_FOUND -> updateUi(false, R.string.board_yet_to_be_populated)
-                else -> updateUi(false, R.string.failed_to_retrieve_board)
-            }
-        })
+                        HttpURLConnection.HTTP_NOT_FOUND -> updateUi(false, R.string.board_yet_to_be_populated)
+                        else -> updateUi(false, R.string.failed_to_retrieve_board)
+                    }
+                })
     }
 
     private fun getBoardPolls() {
