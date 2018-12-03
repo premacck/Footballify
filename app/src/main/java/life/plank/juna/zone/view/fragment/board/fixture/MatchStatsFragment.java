@@ -37,11 +37,11 @@ import life.plank.juna.zone.view.adapter.board.match.MatchStatsAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseBoardFragment;
 import rx.Subscriber;
 
-import static life.plank.juna.zone.util.AppConstants.COMMENTARY_DATA;
-import static life.plank.juna.zone.util.AppConstants.MATCH_STATS_DATA;
-import static life.plank.juna.zone.util.DataUtil.findString;
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
+import static life.plank.juna.zone.util.common.AppConstants.COMMENTARY_DATA;
+import static life.plank.juna.zone.util.common.AppConstants.MATCH_STATS_DATA;
+import static life.plank.juna.zone.util.common.DataUtil.findString;
+import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.time.DateUtil.getTimeDiffFromNow;
 
 public class MatchStatsFragment extends BaseBoardFragment implements MatchStatsListener {
 

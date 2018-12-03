@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_live_commentary_small.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.binder.CommentaryBindingModel
 import life.plank.juna.zone.interfaces.MatchStatsListener
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.view.adapter.board.match.CommentaryAdapter
 

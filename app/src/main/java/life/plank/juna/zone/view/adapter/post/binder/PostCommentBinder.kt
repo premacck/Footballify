@@ -13,15 +13,15 @@ import kotlinx.android.synthetic.main.item_post_comment.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedItemComment
-import life.plank.juna.zone.util.AppConstants
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.DateUtil.getCommentDateAndTimeFormat
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
-import life.plank.juna.zone.util.color
+import life.plank.juna.zone.util.common.AppConstants
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.color
+import life.plank.juna.zone.util.common.formatMentions
+import life.plank.juna.zone.util.common.semiBold
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.formatMentions
-import life.plank.juna.zone.util.semiBold
+import life.plank.juna.zone.util.time.DateUtil.getCommentDateAndTimeFormat
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.adapter.post.CommentReplyAdapter
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
 

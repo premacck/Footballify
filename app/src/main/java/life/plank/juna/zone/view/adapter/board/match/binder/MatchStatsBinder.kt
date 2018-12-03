@@ -11,7 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_match_stats.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.binder.MatchStatsBindingModel
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 
 class MatchStatsBinder(private val glide: RequestManager) : ItemBinder<MatchStatsBindingModel, MatchStatsBinder.MatchStatsViewHolder>() {
 

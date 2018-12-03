@@ -7,8 +7,8 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.JunaNotification
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import org.json.JSONObject

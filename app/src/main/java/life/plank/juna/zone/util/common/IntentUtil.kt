@@ -7,10 +7,9 @@ import life.plank.juna.zone.data.RestApiAggregator
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.*
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.facilis.removeFragmentIfExists
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment

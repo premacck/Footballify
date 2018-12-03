@@ -16,12 +16,12 @@ import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.PlayerStats
 import life.plank.juna.zone.data.model.TeamStats
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.AppConstants.PLAYER_STATS
-import life.plank.juna.zone.util.AppConstants.TEAM_STATS
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.AppConstants.PLAYER_STATS
+import life.plank.juna.zone.util.common.AppConstants.TEAM_STATS
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.league.PlayerStatsAdapter
 import life.plank.juna.zone.view.adapter.league.TeamStatsAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
@@ -81,11 +81,11 @@ class LeagueStatsFragment : BaseLeagueFragment() {
             updateUI(false, team_stats_recycler_view, see_more_team_stats, no_team_stats)
         } else {
             updateUI(true, team_stats_recycler_view, see_more_team_stats, no_team_stats)
-            teamStatsAdapter!!.update(teamStatsList)
-            see_more_team_stats.onDebouncingClick { pushPopup(LeagueInfoDetailPopup.newInstance(TEAM_STATS, teamStatsList as ArrayList<out Parcelable>)) }
-        }
-        if (!isNullOrEmpty(teamStatsList)) {
-            teamStatsAdapter?.update(teamStatsList)
+            teamStatsList?.run {
+                teamStatsAdapter?.update(this)
+                leagueViewModel.updateTeamStats(league.id, this)
+                see_more_team_stats.onDebouncingClick { pushPopup(LeagueInfoDetailPopup.newInstance(TEAM_STATS, this as ArrayList<out Parcelable>)) }
+            }
         }
     }
 
@@ -94,11 +94,11 @@ class LeagueStatsFragment : BaseLeagueFragment() {
             updateUI(false, player_stats_recycler_view, see_more_player_stats, no_player_stats)
         } else {
             updateUI(true, player_stats_recycler_view, see_more_player_stats, no_player_stats)
-            playerStatsAdapter!!.update(playerStatsList)
-            see_more_player_stats.onDebouncingClick { pushPopup(LeagueInfoDetailPopup.newInstance(PLAYER_STATS, playerStatsList as ArrayList<out Parcelable>)) }
-        }
-        if (!isNullOrEmpty(playerStatsList)) {
-            playerStatsAdapter?.update(playerStatsList)
+            playerStatsList?.run {
+                playerStatsAdapter?.update(this)
+                leagueViewModel.updatePlayerStats(league.id, this)
+                see_more_player_stats.onDebouncingClick { pushPopup(LeagueInfoDetailPopup.newInstance(PLAYER_STATS, this as ArrayList<out Parcelable>)) }
+            }
         }
     }
 

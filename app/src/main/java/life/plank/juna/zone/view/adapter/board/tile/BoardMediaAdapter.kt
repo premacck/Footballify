@@ -13,9 +13,9 @@ import com.prembros.asymmetricrecyclerview.widget.WrappedAsymmetricRecyclerAdapt
 import kotlinx.android.synthetic.main.item_board_tile.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.util.AppConstants.*
-import life.plank.juna.zone.util.UIDisplayUtil.getCommentColor
-import life.plank.juna.zone.util.UIDisplayUtil.getCommentText
+import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.view.UIDisplayUtil.getCommentColor
+import life.plank.juna.zone.util.view.UIDisplayUtil.getCommentText
 
 /**
  * Created by plank-prachi on 4/10/2018.

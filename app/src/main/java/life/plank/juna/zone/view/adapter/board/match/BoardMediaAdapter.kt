@@ -5,11 +5,11 @@ import com.ahamed.multiviewadapter.RecyclerAdapter
 import life.plank.juna.zone.data.model.Highlights
 import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.model.binder.HighlightsBindingModel
-import life.plank.juna.zone.util.AppConstants.MatchTimeVal
-import life.plank.juna.zone.util.AppConstants.MatchTimeVal.*
-import life.plank.juna.zone.util.DataUtil.validateAndUpdateList
-import life.plank.juna.zone.util.DateUtil.getMatchTimeValue
+import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal
+import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.*
+import life.plank.juna.zone.util.common.DataUtil.validateAndUpdateList
 import life.plank.juna.zone.util.facilis.addDataManagerAndRegisterBinder
+import life.plank.juna.zone.util.time.DateUtil.getMatchTimeValue
 import life.plank.juna.zone.view.adapter.board.match.binder.MatchHighlightsBinder
 
 class BoardMediaAdapter(private val matchDetails: MatchDetails, private val screenWidth: Int) : RecyclerAdapter() {
@@ -31,7 +31,7 @@ class BoardMediaAdapter(private val matchDetails: MatchDetails, private val scre
     }
 
     fun updateHighlights(highlightsList: List<Highlights>, isError: Boolean) {
-        validateAndUpdateList(this.matchDetails.highlights as MutableList<Highlights>?, highlightsList, isError)
+        validateAndUpdateList(this.matchDetails.highlights, highlightsList, isError)
         if (highlightsDataManager != null) {
             highlightsDataManager!!.setItem(HighlightsBindingModel.from(matchDetails))
         }

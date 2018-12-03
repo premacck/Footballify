@@ -28,7 +28,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.RestUtilKt.errorToast;
+import static life.plank.juna.zone.util.common.RestUtilKt.errorToast;
 
 public class SignUpActivity extends AppCompatActivity {
     String TAG = SignUpActivity.class.getCanonicalName();

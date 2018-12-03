@@ -52,7 +52,7 @@
             android:padding="2dp"
             android:gravity="center">
 
-            <life.plank.juna.zone.util.ObliqueStrikeTextView
+            <life.plank.juna.zone.util.customview.ObliqueStrikeTextView
                 android:id="@+id/earlier_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

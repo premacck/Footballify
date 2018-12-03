@@ -14,11 +14,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.League;
-import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.activity.base.BaseCardActivity;
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment;
+
+import static life.plank.juna.zone.util.common.DataUtil.findString;
 
 public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAdapter.FootballFeedViewHolder> {
 
@@ -42,14 +42,11 @@ public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAd
         League league = leagueList.get(position);
         holder.feedTitleTextView.setText(league.getName());
 //        TODO: Replace with original time to next match
-        holder.kickoffTime.setText(ZoneApplication.getContext().getString(R.string.match_status, "2hrs 13 mins"));
+        holder.kickoffTime.setText(findString(R.string.match_status, "2hrs 13 mins"));
 
         holder.feedImageView.setImageResource(league.getLeagueLogo());
 
-        holder.itemView.setOnClickListener(view -> {
-            GlobalVariable.getInstance().setTilePosition(position);
-            activity.pushFragment(LeagueInfoFragment.Companion.newInstance(league), true);
-        });
+        holder.itemView.setOnClickListener(view -> activity.pushFragment(LeagueInfoFragment.Companion.newInstance(league), true));
     }
 
     @Override

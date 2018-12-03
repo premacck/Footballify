@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.MatchEvent;
-import life.plank.juna.zone.util.BaseRecyclerView;
+import life.plank.juna.zone.util.view.BaseRecyclerView;
 
 public class BenchDataAdapter extends BaseRecyclerView.Adapter<BenchDataAdapter.SubstitutionViewHolder> {
 

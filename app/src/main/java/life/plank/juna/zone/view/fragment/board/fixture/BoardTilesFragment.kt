@@ -26,19 +26,19 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.EmojiContainer
 import life.plank.juna.zone.interfaces.FeedEntryContainer
 import life.plank.juna.zone.interfaces.PollContainer
-import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.UIDisplayUtil.addDefaultEmojis
-import life.plank.juna.zone.util.UIDisplayUtil.setupFeedEntryByMasonryLayout
+import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_FULL
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.setEmoji
 import life.plank.juna.zone.util.facilis.showFor
 import life.plank.juna.zone.util.facilis.vibrate
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.setupBoomMenu
-import life.plank.juna.zone.util.setupWith
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.view.UIDisplayUtil.addDefaultEmojis
+import life.plank.juna.zone.util.view.UIDisplayUtil.setupFeedEntryByMasonryLayout
+import life.plank.juna.zone.util.view.setupBoomMenu
+import life.plank.juna.zone.util.view.setupWith
 import life.plank.juna.zone.view.adapter.board.tile.BoardMediaAdapter
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
@@ -133,7 +133,9 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
             return
         }
         getBoardFeed(false)
-        getTopEmoji()
+        if (parentFragment is MatchBoardFragment) {
+            getTopEmoji()
+        }
     }
 
     private fun setupEmojiBottomSheet() {
