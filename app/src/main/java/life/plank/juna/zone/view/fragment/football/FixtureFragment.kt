@@ -111,7 +111,7 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
         doAsync {
             var recyclerViewScrollIndex = 0
             if (!isFixtureListReady) {
-                fixtureByMatchDayList.run {
+                fixtureByMatchDayList?.run {
                     if (!isNullOrEmpty(this)) {
                         for (matchDay in this) {
                             if (matchDay.daySection == PAST_MATCHES) {
@@ -132,7 +132,7 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
                 progress_bar.visibility = View.GONE
                 fixtureMatchdayAdapter?.updateFixtures()
                 if (!isFixtureListReady) {
-                    fixtureByMatchDayList.run {
+                    fixtureByMatchDayList?.run {
                         (parentFragment as? LeagueInfoFragment)?.setMatchday(this[recyclerViewScrollIndex].matchDay)
                     }
                     fixtures_section_list.scrollToPosition(recyclerViewScrollIndex)
