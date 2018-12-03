@@ -8,7 +8,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.model.Standings
 
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 
 @Parcelize
 data class StandingsBindingModel(var standingsList: List<Standings>? = null, @field:StringRes var errorMessage: Int? = null) : Parcelable {

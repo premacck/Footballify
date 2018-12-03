@@ -12,7 +12,7 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import java.util.*
 
 abstract class SwipeDownToDismissListener constructor(

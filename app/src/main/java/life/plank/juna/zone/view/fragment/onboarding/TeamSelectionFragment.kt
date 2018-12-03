@@ -15,12 +15,12 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FootballTeam
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil
-import life.plank.juna.zone.util.PreferenceManager
+import life.plank.juna.zone.util.common.DataUtil
+import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.common.launch
-import life.plank.juna.zone.util.errorToast
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.view.activity.zone.ZoneActivity
 import life.plank.juna.zone.view.adapter.onboarding.TeamSelectionAdapter
 import life.plank.juna.zone.view.fragment.base.SearchableCard

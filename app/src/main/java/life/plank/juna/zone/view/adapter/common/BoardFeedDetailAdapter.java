@@ -31,9 +31,8 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.util.ColorHashMap;
-import life.plank.juna.zone.util.EmojiHashMap;
-import life.plank.juna.zone.util.PreferenceManager;
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager;
+import life.plank.juna.zone.util.view.EmojiHashMap;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -44,24 +43,24 @@ import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
-import static life.plank.juna.zone.util.AppConstants.AUDIO;
-import static life.plank.juna.zone.util.AppConstants.BOARD;
-import static life.plank.juna.zone.util.AppConstants.IMAGE;
-import static life.plank.juna.zone.util.AppConstants.NEWS;
-import static life.plank.juna.zone.util.AppConstants.ROOT_COMMENT;
-import static life.plank.juna.zone.util.AppConstants.VIDEO;
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.DataUtil.pinFeedEntry;
-import static life.plank.juna.zone.util.DataUtil.unpinFeedEntry;
-import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
-import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
-import static life.plank.juna.zone.util.PreferenceManager.PinManager.isFeedItemPinned;
-import static life.plank.juna.zone.util.PreferenceManager.PinManager.toggleFeedItemPin;
-import static life.plank.juna.zone.util.RestUtilKt.errorToast;
-import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
-import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
-import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
+import static life.plank.juna.zone.util.common.AppConstants.AUDIO;
+import static life.plank.juna.zone.util.common.AppConstants.BOARD;
+import static life.plank.juna.zone.util.common.AppConstants.IMAGE;
+import static life.plank.juna.zone.util.common.AppConstants.NEWS;
+import static life.plank.juna.zone.util.common.AppConstants.ROOT_COMMENT;
+import static life.plank.juna.zone.util.common.AppConstants.VIDEO;
+import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.common.DataUtil.pinFeedEntry;
+import static life.plank.juna.zone.util.common.DataUtil.unpinFeedEntry;
+import static life.plank.juna.zone.util.common.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.facilis.ViewUtilKt.showFor;
+import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken;
+import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.PinManager.isFeedItemPinned;
+import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.PinManager.toggleFeedItemPin;
+import static life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.getCommentColor;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.getCommentText;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.getDp;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -84,8 +83,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         this.boardId = boardId;
         this.isBoardActive = isBoardActive;
         this.emojiAdapter = emojiAdapter;
-        ColorHashMap.HashMaps(ZoneApplication.getContext());
-        EmojiHashMap.HashMaps();
         this.feedsListItem = new ArrayList<>();
         this.emojiBottomSheetBehavior = emojiBottomSheetBehavior;
         this.target = target;
@@ -107,7 +104,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         feedEntry.getFeedInteractions().setHasPinned(isFeedItemPinned(feedItem));
 
         if (feedsListItem.get(position).getFeedInteractions().getMyReaction() != 0) {
-            EmojiHashMap.HashMaps();
             holder.reactionView.setImageResource(EmojiHashMap.getEmojiHashMap().get(feedsListItem.get(position).getFeedInteractions().getMyReaction()));
         }
 

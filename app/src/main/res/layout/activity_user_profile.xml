@@ -247,7 +247,7 @@
                         android:clipToPadding="false"
                         android:paddingStart="9dp"
                         android:paddingEnd="9dp"
-                        app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                        app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
                         tools:listitem="@layout/item_image_and_title" />
 
                 </RelativeLayout>
@@ -357,7 +357,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:layout_below="@+id/get_coins_header"
-                        app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                        app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
                         tools:listitem="@layout/item_get_coins" />
 
                 </RelativeLayout>

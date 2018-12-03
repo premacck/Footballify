@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 
-import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.setupSwipeGesture;
 
 public class WebCardActivity extends AppCompatActivity {
 

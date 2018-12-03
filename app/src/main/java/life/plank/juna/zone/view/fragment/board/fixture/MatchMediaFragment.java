@@ -27,9 +27,9 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.view.adapter.board.match.BoardMediaAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseFragment;
 
-import static life.plank.juna.zone.util.AppConstants.HIGHLIGHTS_DATA;
-import static life.plank.juna.zone.util.DataUtil.findString;
-import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
+import static life.plank.juna.zone.util.common.AppConstants.HIGHLIGHTS_DATA;
+import static life.plank.juna.zone.util.common.DataUtil.findString;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.getScreenSize;
 
 public class MatchMediaFragment extends BaseFragment {
 

@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_zone_user_feed.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil
+import life.plank.juna.zone.util.common.DataUtil
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.view.activity.base.BaseCardActivity

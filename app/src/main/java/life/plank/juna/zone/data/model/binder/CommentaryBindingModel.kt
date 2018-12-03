@@ -8,7 +8,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Commentary
 import life.plank.juna.zone.data.model.MatchDetails
 
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import java.util.*
 
 @Parcelize

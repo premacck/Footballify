@@ -13,13 +13,13 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.customToast
+import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.common.launchWithBoard
-import life.plank.juna.zone.util.customToast
-import life.plank.juna.zone.util.errorToast
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import okhttp3.MediaType
@@ -94,7 +94,7 @@ class BoardPreviewPopup : BaseBlurPopup() {
         val token = getToken()
         restApi.createPrivateBoard(board.boardType, name, zone, description, color, image, token).setObserverThreadsAndSmartSubscribe({
                     Log.e(TAG, it.message)
-                    errorToast(R.string.could_not_create_board, it)
+            errorToast(R.string.could_not_create_board, it)
                 }, {
                     when (it.code()) {
                         HttpURLConnection.HTTP_OK -> it.body()?.run { navigateToBoard(this) }

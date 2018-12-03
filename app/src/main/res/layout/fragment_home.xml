@@ -33,7 +33,7 @@
                 android:paddingStart="9dp"
                 android:paddingEnd="9dp"
                 android:visibility="visible"
-                app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
                 tools:listitem="@layout/item_image_and_title" />
 
             <include
@@ -55,7 +55,7 @@
                 android:paddingStart="3dp"
                 android:paddingEnd="3dp"
                 android:visibility="invisible"
-                app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
                 tools:listitem="@layout/item_zone_user_feed" />
 
             <include

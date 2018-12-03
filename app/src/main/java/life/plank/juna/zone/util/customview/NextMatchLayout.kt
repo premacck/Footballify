@@ -9,12 +9,12 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_time_to_next_match.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.DataUtil.getSpecifiedLeague
-import life.plank.juna.zone.util.DateUtil.getTimeToNextMatch
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.errorToast
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.getSpecifiedLeague
+import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.time.DateUtil.getTimeToNextMatch
 import org.jetbrains.anko.runOnUiThread
 import java.net.HttpURLConnection.HTTP_OK
 

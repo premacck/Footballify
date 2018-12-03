@@ -21,8 +21,8 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.activity.camera.CustomCameraActivity;
 import life.plank.juna.zone.view.activity.camera.UploadActivity;
 
-import static life.plank.juna.zone.util.AppConstants.IMAGE;
-import static life.plank.juna.zone.util.AppConstants.VIDEO;
+import static life.plank.juna.zone.util.common.AppConstants.IMAGE;
+import static life.plank.juna.zone.util.common.AppConstants.VIDEO;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder> {
 
