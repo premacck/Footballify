@@ -112,12 +112,14 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     .centerInside()
                     .resize((int) getDp(20), (int) getDp(20))
                     .into(holder.profilePic);
+        } else {
+            holder.profilePic.setImageResource(R.drawable.ic_football);
         }
 
         if (feedItem.getUser() != null) {
             holder.userNameTextView.setText(feedItem.getUser().getDisplayName());
         } else {
-            holder.userNameTextView.setText(R.string.juna_user_topic);
+            holder.userNameTextView.setText(R.string.juna_user);
         }
 
         holder.feedTitleTextView.setText(feedItem.getTitle());
