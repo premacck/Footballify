@@ -56,6 +56,7 @@ import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
 import static life.plank.juna.zone.util.PreferenceManager.PinManager.isFeedItemPinned;
 import static life.plank.juna.zone.util.PreferenceManager.PinManager.toggleFeedItemPin;
+import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
