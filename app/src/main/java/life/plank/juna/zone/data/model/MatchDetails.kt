@@ -36,15 +36,15 @@ data class MatchDetails(
         var matchStartTime: @RawValue Date,
         @Embedded(prefix = "league_") var league: League?,
         @Embedded(prefix = "stadium_") var venue: Stadium?,
-        var highlights: @RawValue List<Highlights>?,
-        var matchEvents: @RawValue List<MatchEvent>?,
-        var commentary: @RawValue List<Commentary>?,
+        var highlights: @RawValue MutableList<Highlights>?,
+        var matchEvents: @RawValue MutableList<MatchEvent>?,
+        var commentary: @RawValue MutableList<Commentary>?,
         @SerializedName("commentaries") @Expose var isCommentaryAvailable: Boolean?,
         @Embedded(prefix = "matchStats_") var matchStats: MatchStats?,
         @Embedded(prefix = "lineups_") var lineups: @RawValue Lineups?,
-        var standingsList: @RawValue List<Standings>?,
-        var teamStatsList: @RawValue List<TeamStats>?,
-        var scrubberDataList: @RawValue List<ScrubberData>?
+        var standingsList: @RawValue MutableList<Standings>?,
+        var teamStatsList: @RawValue MutableList<TeamStats>?,
+        var scrubberDataList: @RawValue MutableList<ScrubberData>?
 ) : Parcelable {
     @Ignore
     constructor(

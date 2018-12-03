@@ -14,6 +14,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.interfaces.CustomViewListener
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.facilis.onDebouncingClick
 
 class ZoneToolBar @JvmOverloads constructor(context: Context,
                                             attrs: AttributeSet? = null,
@@ -45,7 +46,7 @@ class ZoneToolBar @JvmOverloads constructor(context: Context,
         val array = context.obtainStyledAttributes(attrs, R.styleable.ZoneToolBar)
         notification_badge?.visibility = if (array.getInt(R.styleable.ZoneToolBar_notificationBadgeVisibility, 1) == 1) View.INVISIBLE else View.VISIBLE
         try {
-            title = array!!.getString(R.styleable.ZoneToolBar_title)
+            title = array?.getString(R.styleable.ZoneToolBar_title)
             setProfilePic(array.getResourceId(R.styleable.ZoneToolBar_profilePic, R.drawable.ic_default_profile))
         } catch (e: Exception) {
             Log.e("ZoneToolBar", e.message)
@@ -58,8 +59,8 @@ class ZoneToolBar @JvmOverloads constructor(context: Context,
         notification_badge?.visibility = if (showNotificationBadge) View.VISIBLE else View.GONE
     }
 
-    fun isNotificationViewVisible(visibility: Int?) {
-        toolbar_notification.visibility = visibility!!
+    fun isNotificationViewVisible(visibility: Int) {
+        toolbar_notification.visibility = visibility
     }
 
     fun setProfilePic(url: String) {
@@ -93,8 +94,8 @@ class ZoneToolBar @JvmOverloads constructor(context: Context,
     }
 
     private fun addToolbarListener() {
-        toolbar_profile_pic.setOnClickListener { view -> listener!!.profilePictureClicked(toolbar_profile_pic) }
-        toolbar_notification.setOnClickListener { view -> listener!!.notificationIconClicked(toolbar_notification) }
+        toolbar_profile_pic.onDebouncingClick { listener?.profilePictureClicked(toolbar_profile_pic) }
+        toolbar_notification.onDebouncingClick { listener?.notificationIconClicked(toolbar_notification) }
     }
 
     override fun dispose() {

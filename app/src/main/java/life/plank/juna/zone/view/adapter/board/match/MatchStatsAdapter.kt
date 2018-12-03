@@ -92,8 +92,8 @@ class MatchStatsAdapter(private val matchDetails: MatchDetails, private val glid
     }
 
     fun setPreMatchData(standingsList: List<Standings>, teamStatsList: List<TeamStats>) {
-        matchDetails.standingsList = standingsList
-        matchDetails.teamStatsList = teamStatsList
+        matchDetails.standingsList = standingsList as MutableList<Standings>
+        matchDetails.teamStatsList = teamStatsList as MutableList<TeamStats>
         standingsDataManager.setItem(StandingsBindingModel.from(matchDetails))
         teamStatsDataManager.setItem(TeamStatsBindingModel.from(matchDetails))
     }
