@@ -69,7 +69,7 @@ fun BaseCardActivity.launchPrivateOrMatchBoard(restApi: RestApi, board: Board) {
             board.boardEvent?.apply {
                 restApi.getMatchDetails(foreignId).setObserverThreadsAndSmartSubscribe({}, {
                     it.body()?.run { launchMatchBoard(board, this) }
-                            ?: toast(R.string.match_details_not_found)
+                            ?: customToast(R.string.match_details_not_found)
                 })
             }
         }
