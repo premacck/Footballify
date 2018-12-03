@@ -9,7 +9,7 @@ import life.plank.juna.zone.data.local.model.LeagueInfo
 import life.plank.juna.zone.data.local.repository.LeagueRepository
 import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -42,7 +42,7 @@ class LeagueViewModel : ViewModel() {
      */
     fun getFixtureListFromDb(leagueId: Long) {
         doAsync {
-            val localFixtureList = leagueRepository.getLeagueInfo(leagueId).fixtureByMatchDayList
+            val localFixtureList = leagueRepository.getLeagueInfo(leagueId)?.fixtureByMatchDayList
             uiThread {
                 fixtureLiveData.value = localFixtureList
             }

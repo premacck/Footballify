@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import java.io.IOException;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.common.AppConstants;
 
 public class AudioRecorderActivity extends AppCompatActivity {
 

@@ -5,12 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import butterknife.ButterKnife
 import kotlinx.android.synthetic.main.user_notification.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.view.adapter.common.NotificationAdapter
 import java.util.*
 

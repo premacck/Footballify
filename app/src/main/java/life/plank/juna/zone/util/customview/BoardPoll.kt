@@ -15,12 +15,12 @@ import life.plank.juna.zone.data.model.binder.PollBindingModel
 import life.plank.juna.zone.data.model.poll.Poll
 import life.plank.juna.zone.data.model.poll.PollAnswerRequest
 import life.plank.juna.zone.interfaces.PollContainer
-import life.plank.juna.zone.util.AppConstants.*
-import life.plank.juna.zone.util.AppConstants.PollValue.*
-import life.plank.juna.zone.util.DateUtil
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
-import life.plank.juna.zone.util.UIDisplayUtil.getDrawableTopTarget
+import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.common.AppConstants.PollValue.*
 import life.plank.juna.zone.util.facilis.toggleInteraction
+import life.plank.juna.zone.util.time.DateUtil
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDrawableTopTarget
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 

@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.fragment.board.user
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -17,22 +16,19 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.data.model.FeedItem
-import life.plank.juna.zone.data.model.Thumbnail
-import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.notification.getIntentActionFromActivity
-import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_OWNER_POPUP
-import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_USER_POPUP
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.customToast
-import life.plank.juna.zone.util.errorToast
+import life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_OWNER_POPUP
+import life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_USER_POPUP
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.customToast
+import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.util.facilis.floatUp
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment

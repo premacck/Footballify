@@ -13,10 +13,10 @@ import life.plank.juna.zone.data.model.FixtureByMatchDay
 import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.LeagueContainer
-import life.plank.juna.zone.util.AppConstants.PAST_MATCHES
-import life.plank.juna.zone.util.AppConstants.TODAY_MATCHES
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.AppConstants.PAST_MATCHES
+import life.plank.juna.zone.util.common.AppConstants.TODAY_MATCHES
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.view.adapter.fixture.FixtureMatchdayAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.Companion.fixtureByMatchDayList
@@ -64,7 +64,7 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
 
     private fun getLeagueInfoFromRoomDb() {
         isDataLocal = true
-        leagueViewModel.fixtureLiveData.observe(this, Observer { handleLeagueInfoData(it as MutableList<FixtureByMatchDay>) })
+        leagueViewModel.fixtureLiveData.observe(this, Observer { handleLeagueInfoData(it as MutableList<FixtureByMatchDay>?) })
         leagueViewModel.getFixtureListFromDb(league.id)
     }
 
@@ -75,15 +75,14 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
         }
     }
 
-    private fun handleLeagueInfoData(fixtureList: MutableList<FixtureByMatchDay>) {
+    private fun handleLeagueInfoData(fixtureList: MutableList<FixtureByMatchDay>?) {
         if (!isNullOrEmpty(fixtureList)) {
 //            Update new data in DB
             if (!isDataLocal) {
-                leagueViewModel.leagueRepository.insertLeagueInfo(LeagueInfo(league, fixtureList))
+                leagueViewModel.leagueRepository.insertLeagueInfo(LeagueInfo(league, fixtureList!!))
             }
-            fixtureByMatchDayList = fixtureList
+            fixtureByMatchDayList = fixtureList!!
             updateFixtures()
-            fixtureByMatchDayList
 
             getLeagueInfoFromRestApi()
         } else {

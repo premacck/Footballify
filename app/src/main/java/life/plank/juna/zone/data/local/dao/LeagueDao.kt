@@ -14,7 +14,7 @@ interface LeagueDao {
     fun insertLeagueInfo(leagueInfo: LeagueInfo)
 
     @Query("SELECT * FROM LeagueInfo WHERE league_id LIKE :leagueId LIMIT 1")
-    fun getLeague(leagueId: Long): LeagueInfo
+    fun getLeague(leagueId: Long): LeagueInfo?
 
     @Query("UPDATE LeagueInfo SET fixtureByMatchDayList = :fixtureByMatchDayList where league_id = :leagueId")
     fun updateFixtures(fixtureByMatchDayList: List<FixtureByMatchDay>, leagueId: Long)

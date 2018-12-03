@@ -15,13 +15,13 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.interfaces.LeagueContainer;
-import life.plank.juna.zone.util.BaseRecyclerView;
+import life.plank.juna.zone.util.view.BaseRecyclerView;
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment;
 
-import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
-import static life.plank.juna.zone.util.DataUtil.findString;
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.UIDisplayUtil.findColor;
+import static life.plank.juna.zone.util.common.AppConstants.TODAY_MATCHES;
+import static life.plank.juna.zone.util.common.DataUtil.findString;
+import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.findColor;
 
 /**
  * Created by plank-prachi on 4/10/2018.

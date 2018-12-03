@@ -21,7 +21,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.util.Image;
+import life.plank.juna.zone.util.view.Image;
 
 import static android.view.LayoutInflater.from;
 

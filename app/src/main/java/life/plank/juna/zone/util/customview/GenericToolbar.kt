@@ -21,8 +21,8 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.interfaces.CustomViewListener
 import life.plank.juna.zone.interfaces.EngagementInfoTilesToolbar
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 
 class GenericToolbar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), CustomViewListener, EngagementInfoTilesToolbar {
 

@@ -10,8 +10,8 @@ import kotlinx.android.synthetic.main.item_standings.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.binder.StandingsBindingModel
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.adapter.league.StandingTableAdapter
 
 class StandingsBinder : ItemBinder<StandingsBindingModel, StandingsBinder.StandingsViewHolder>() {

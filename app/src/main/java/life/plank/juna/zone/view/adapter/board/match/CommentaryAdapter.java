@@ -14,19 +14,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.Commentary;
-import life.plank.juna.zone.util.BaseRecyclerView;
+import life.plank.juna.zone.util.view.BaseRecyclerView;
 
-import static life.plank.juna.zone.util.AppConstants.CORNER_;
-import static life.plank.juna.zone.util.AppConstants.FIRST_HALF_ENDED_;
-import static life.plank.juna.zone.util.AppConstants.FREE_KICK_;
-import static life.plank.juna.zone.util.AppConstants.GOAL_;
-import static life.plank.juna.zone.util.AppConstants.OFFSIDE_;
-import static life.plank.juna.zone.util.AppConstants.RED_CARD_;
-import static life.plank.juna.zone.util.AppConstants.SECOND_HALF_ENDED_;
-import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION_;
-import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD_;
-import static life.plank.juna.zone.util.UIDisplayUtil.alternateBackgroundColor;
-import static life.plank.juna.zone.util.UIDisplayUtil.getDesignedString;
+import static life.plank.juna.zone.util.common.AppConstants.CORNER_;
+import static life.plank.juna.zone.util.common.AppConstants.FIRST_HALF_ENDED_;
+import static life.plank.juna.zone.util.common.AppConstants.FREE_KICK_;
+import static life.plank.juna.zone.util.common.AppConstants.GOAL_;
+import static life.plank.juna.zone.util.common.AppConstants.OFFSIDE_;
+import static life.plank.juna.zone.util.common.AppConstants.RED_CARD_;
+import static life.plank.juna.zone.util.common.AppConstants.SECOND_HALF_ENDED_;
+import static life.plank.juna.zone.util.common.AppConstants.SUBSTITUTION_;
+import static life.plank.juna.zone.util.common.AppConstants.YELLOW_CARD_;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.alternateBackgroundColor;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.getDesignedString;
 
 public class CommentaryAdapter extends BaseRecyclerView.Adapter<CommentaryAdapter.CommentsViewHolder> {
 

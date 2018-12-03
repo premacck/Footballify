@@ -8,8 +8,8 @@ import com.bumptech.glide.RequestManager
 import kotlinx.android.synthetic.main.item_zone_grid.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Zones
-import life.plank.juna.zone.util.DataUtil.findInt
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.common.DataUtil.findInt
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import java.util.*
 
 /**

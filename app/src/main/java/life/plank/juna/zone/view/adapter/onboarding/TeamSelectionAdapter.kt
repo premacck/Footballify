@@ -9,9 +9,9 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_onboarding.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FootballTeam
-import life.plank.juna.zone.util.DataUtil.findInt
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.common.DataUtil.findInt
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 
 class TeamSelectionAdapter(
         private val glide: RequestManager,
