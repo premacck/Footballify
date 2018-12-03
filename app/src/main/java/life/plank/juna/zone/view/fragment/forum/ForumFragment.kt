@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.fragment.forum
 
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -60,17 +59,20 @@ class ForumFragment : BaseCommentContainerFragment() {
                 .into(commenter_image)
 
         post_comment.onDebouncingClick {
-            if (!comment_edit_text.text.toString().isEmpty() && !isNullOrEmpty(boardId)) {
+            if (!comment_edit_text.text.toString().trim().isEmpty() && !isNullOrEmpty(boardId)
+                    && !comment_edit_text.text.toString().matches("@[a-zA-Z0-9]+\\s*".toRegex())) {
                 post_comment.clearFocus()
                 postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForBoardComment(boardId!!))
             }
+
         }
         forum_swipe_refresh_layout.setOnRefreshListener { getComments(true) }
 
         comment_edit_text.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_SEND -> {
-                    if (!comment_edit_text.text.toString().isEmpty() && !isNullOrEmpty(boardId)) {
+                    if (!comment_edit_text.text.toString().trim().isEmpty() && !isNullOrEmpty(boardId)
+                            && !comment_edit_text.text.toString().matches("@[a-zA-Z0-9]+\\s*".toRegex())) {
                         post_comment.clearFocus()
                         postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForBoardComment(boardId!!))
                     }
