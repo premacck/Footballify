@@ -89,8 +89,6 @@ public class UploadActivity extends AppCompatActivity {
     ImageView profilePicture;
     @BindView(R.id.title_text)
     TextInputEditText titleEditText;
-    @BindView(R.id.description_edit_text)
-    TextInputEditText descriptionEditText;
     @BindView(R.id.captured_video_view)
     VideoView capturedVideoView;
     @BindView(R.id.play_btn)
@@ -283,10 +281,8 @@ public class UploadActivity extends AppCompatActivity {
         requestBody = RequestBody.create(MediaType.parse(mediaType), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("", file.getName(), requestBody);
 
-        String description = descriptionEditText.getText() != null ? descriptionEditText.getText().toString().trim() : "";
-
         restApi.postMediaContentToServer(body, boardId, contentType, userId,
-                dateCreated, AppConstants.BOARD, description, titleEditText.getText().toString(), getToken())
+                dateCreated, AppConstants.BOARD, titleEditText.getText().toString(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {

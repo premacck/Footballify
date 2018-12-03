@@ -108,7 +108,6 @@ public interface RestApi {
                                                               @Query("userId") String userId,
                                                               @Query("dateCreated") String dateCreated,
                                                               @Query("feedType") String feedType,
-                                                              @Query("description") String description,
                                                               @Query("title") String title,
                                                               @Header("Authorization") String authHeader);
 
