@@ -62,7 +62,7 @@ class LeagueViewModel : ViewModel() {
         }
     }
 
-    fun updateFixtures(fixtureList: List<FixtureByMatchDay>, leagueId: Long) = leagueRepository.updateFixtures(fixtureList, leagueId)
+    fun updateFixtures(leagueId: Long, fixtureList: List<FixtureByMatchDay>) = leagueRepository.updateFixtures(fixtureList, leagueId)
 
     fun updateStandings(leagueId: Long, standingsList: List<Standings>) = leagueRepository.updateStandings(standingsList, leagueId)
 
