@@ -4,6 +4,7 @@ import android.text.SpannableStringBuilder
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.data.network.dagger.module.NetworkModule.GSON
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
@@ -56,25 +57,43 @@ private fun SpannableStringBuilder.appendBoard(name: String?): SpannableStringBu
 fun ZoneLiveData.buildNotificationMessage(): SpannableStringBuilder {
     val spannableStringBuilder = SpannableStringBuilder()
     when (liveDataType) {
-        MATCH_EVENTS -> {/*TODO: show goal, penalty, cards, substitution*/
+        MATCH_EVENTS -> {
+            /*TODO: show goal, penalty, cards*/
+            val matchEventList = getMatchEventList(GSON)
+            matchEventList?.run {
+                if (!isNullOrEmpty(this)) {
+                    for (matchEvent in this) {
+                        when (matchEvent.eventType) {
+                            GOAL -> {/*<homeTeam> vs <awayTeam>\n'GOAL_' by <playerName>, assist by <relatedPlayerName>\n<result>*/
+                            }
+                            YELLOW_CARD -> {/*<homeTeam> vs <awayTeam>\n<playerName> gets yellow card*/
+                            }
+                            RED_CARD, YELLOW_RED -> {/*<homeTeam> vs <awayTeam>\n<playerName> gets red card*/
+                            }
+                            PENALTY -> {/*<homeTeam> vs <awayTeam>\nPenalty to <teamName>*/
+                            }
+                        }
+                    }
+                }
+            }
         }
-        TIME_STATUS_DATA -> {/*TODO: show match started, half time, full time*/
+        TIME_STATUS_DATA -> {
+            /*TODO: show match started, half time, full time*/
+            val liveTimeStatus = getLiveTimeStatus(GSON)
+            when (liveTimeStatus.timeStatus) {
+                LIVE -> {/*<homeTeam> vs <awayTeam>\nMatch is now Live!*/
+                }
+                else -> {/*<homeTeam> vs <awayTeam>\ngetDisplayTimeStatus(liveTimeStatus.timeStatus)*/
+                }
+            }
         }
-        LINEUPS_DATA -> {/*TODO: show "lineups are available"*/
+        LINEUPS_DATA -> {
+            /*TODO: show "lineups are available"*/
+            /*<homeTeam> vs <awayTeam>\nLineups are now available!*/
         }
-        BOARD_ACTIVATED -> {/*TODO: show "board is now active"*/
-        }
-        SCORE_DATA -> {/*Not implemented*/
-        }
-        COMMENTARY_DATA -> {/*Not implemented*/
-        }
-        SCRUBBER_DATA -> {/*Not implemented*/
-        }
-        HIGHLIGHTS_DATA -> {/*Not implemented*/
-        }
-        MATCH_STATS_DATA -> {/*Not implemented*/
-        }
-        BOARD_DEACTIVATED -> {/*Not implemented*/
+        BOARD_ACTIVATED -> {
+            /*TODO: show "board is now active"*/
+            /*<homeTeam> vs <awayTeam>\nBoard is now active!*/
         }
     }
     return spannableStringBuilder

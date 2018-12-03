@@ -6,10 +6,10 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_BASIC_INTERACTION;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_HOME;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME;
-import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_BASIC_INTERACTION;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
@@ -63,6 +63,7 @@ public class AppConstants {
     public static final String RED_CARD = "redcard";
     public static final String YELLOW_RED = "yellowred";
     public static final String SUBSTITUTION = "substitution";
+    public static final String PENALTY = "penalty";
     public static final String KICK_OFF = "KICK-OFF";
     public static final String HALF_TIME = "HALF-TIME";
     public static final String FULL_TIME = "FULL-TIME";
@@ -116,6 +117,7 @@ public class AppConstants {
     public static final String SPACE = "   ";
     public static final String SINGLE_SPACE = " ";
     public static final String UNDERSCORE = "_";
+    public static final String NEW_LINE = "\n";
 
     public static final String NEWS = "News";
     public static final String VIDEO = "Video";
