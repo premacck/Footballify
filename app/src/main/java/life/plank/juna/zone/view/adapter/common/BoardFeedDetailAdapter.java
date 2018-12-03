@@ -31,7 +31,6 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.util.sharedpreference.PreferenceManager;
 import life.plank.juna.zone.util.view.EmojiHashMap;
 import retrofit2.Response;
 import rx.Subscriber;
@@ -113,14 +112,16 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     .centerInside()
                     .resize((int) getDp(20), (int) getDp(20))
                     .into(holder.profilePic);
+        } else {
+            holder.profilePic.setImageResource(R.drawable.ic_football);
         }
 
         if (feedItem.getUser() != null) {
             holder.userNameTextView.setText(feedItem.getUser().getDisplayName());
         } else {
-            String userEmailId = PreferenceManager.CurrentUser.getUserEmail();
-            holder.userNameTextView.setText(userEmailId);
+            holder.userNameTextView.setText(R.string.juna_user);
         }
+
         holder.feedTitleTextView.setText(feedItem.getTitle());
 
         if (!isNullOrEmpty(feedItem.getInteractions())) {
