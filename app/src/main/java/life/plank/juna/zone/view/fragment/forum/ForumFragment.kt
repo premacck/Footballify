@@ -1,10 +1,12 @@
 package life.plank.juna.zone.view.fragment.forum
 
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_forum.*
@@ -64,6 +66,19 @@ class ForumFragment : BaseCommentContainerFragment() {
             }
         }
         forum_swipe_refresh_layout.setOnRefreshListener { getComments(true) }
+
+        comment_edit_text.setOnEditorActionListener { _, actionId, _ ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_SEND -> {
+                    if (!comment_edit_text.text.toString().isEmpty() && !isNullOrEmpty(boardId)) {
+                        post_comment.clearFocus()
+                        postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForBoardComment(boardId!!))
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onResume() {
