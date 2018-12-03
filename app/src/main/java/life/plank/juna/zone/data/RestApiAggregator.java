@@ -61,23 +61,22 @@ public class RestApiAggregator {
      * @return {@link MatchDetails} containing {@link MatchStats} and {@link Lineups}
      */
     public static Observable<MatchDetails> getPostMatchBoardData(MatchDetails matchDetails, RestApi restApi) {
-        return afterSubscribingAndObservingOn(
-                Observable.zip(
-                        restApi.getMatchStatsForMatch(matchDetails.getMatchId()),
-                        restApi.getLineUpsData(matchDetails.getMatchId()),
-                        ((matchStatsResponse, lineupsResponse) -> {
-                            if (matchStatsResponse.code() == HTTP_OK) {
-                                matchDetails.setMatchStats(matchStatsResponse.body());
-                            } else {
-                                Log.e("getPostMatchBoardData", "matchStatsResponse : " + matchStatsResponse.code() + " : " + matchStatsResponse.message());
-                            }
-                            if (lineupsResponse.code() == HTTP_OK) {
-                                matchDetails.setLineups(lineupsResponse.body());
-                            } else {
-                                Log.e("getPostMatchBoardData", "lineupsResponse : " + lineupsResponse.code() + " : " + lineupsResponse.message());
-                            }
-                            return matchDetails;
-                        })));
+        return Observable.zip(
+                restApi.getMatchStatsForMatch(matchDetails.getMatchId()),
+                restApi.getLineUpsData(matchDetails.getMatchId()),
+                ((matchStatsResponse, lineupsResponse) -> {
+                    if (matchStatsResponse.code() == HTTP_OK) {
+                        matchDetails.setMatchStats(matchStatsResponse.body());
+                    } else {
+                        Log.e("getPostMatchBoardData", "matchStatsResponse : " + matchStatsResponse.code() + " : " + matchStatsResponse.message());
+                    }
+                    if (lineupsResponse.code() == HTTP_OK) {
+                        matchDetails.setLineups(lineupsResponse.body());
+                    } else {
+                        Log.e("getPostMatchBoardData", "lineupsResponse : " + lineupsResponse.code() + " : " + lineupsResponse.message());
+                    }
+                    return matchDetails;
+                }));
     }
 
     /**

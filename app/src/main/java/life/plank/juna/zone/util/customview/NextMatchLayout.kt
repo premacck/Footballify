@@ -12,10 +12,10 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.getSpecifiedLeague
 import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.common.onTerminate
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.time.DateUtil.getTimeToNextMatch
-import org.jetbrains.anko.runOnUiThread
 import java.net.HttpURLConnection.HTTP_OK
 
 class NextMatchLayout @JvmOverloads constructor(
@@ -32,12 +32,10 @@ class NextMatchLayout @JvmOverloads constructor(
     fun showNextMatchOnly(restApi: RestApi) {
         time_to_next_match_shimmer.startShimmerAnimation()
         restApi.getNextEvent(findString(R.string.football), getToken())
-                .doOnTerminate {
-                    context?.runOnUiThread {
-                        time_to_next_match_shimmer.stopShimmerAnimation()
-                        match_status.background = null
-                        match_between.background = null
-                    }
+                .onTerminate {
+                    time_to_next_match_shimmer.stopShimmerAnimation()
+                    match_status.background = null
+                    match_between.background = null
                 }
                 .setObserverThreadsAndSmartSubscribe({
                     Log.e("getNextEvent()", "ERROR: ", it)
