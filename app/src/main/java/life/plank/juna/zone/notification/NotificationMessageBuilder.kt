@@ -64,13 +64,17 @@ fun ZoneLiveData.buildNotificationMessage(): SpannableStringBuilder {
                 if (!isNullOrEmpty(this)) {
                     for (matchEvent in this) {
                         when (matchEvent.eventType) {
-                            GOAL -> {/*<homeTeam> vs <awayTeam>\n'GOAL_' by <playerName>, assist by <relatedPlayerName>\n<result>*/
+                            GOAL -> {
+                                /*<homeTeam> vs <awayTeam>\n'GOAL_' by <playerName>, assist by <relatedPlayerName>\n<result>*/
                             }
-                            YELLOW_CARD -> {/*<homeTeam> vs <awayTeam>\n<playerName> gets yellow card*/
+                            YELLOW_CARD -> {
+                                /*<homeTeam> vs <awayTeam>\n<playerName> gets yellow card*/
                             }
-                            RED_CARD, YELLOW_RED -> {/*<homeTeam> vs <awayTeam>\n<playerName> gets red card*/
+                            RED_CARD, YELLOW_RED -> {
+                                /*<homeTeam> vs <awayTeam>\n<playerName> gets red card*/
                             }
-                            PENALTY -> {/*<homeTeam> vs <awayTeam>\nPenalty to <teamName>*/
+                            PENALTY -> {
+                                /*<homeTeam> vs <awayTeam>\nPenalty to <teamName>*/
                             }
                         }
                     }
@@ -81,9 +85,11 @@ fun ZoneLiveData.buildNotificationMessage(): SpannableStringBuilder {
             /*TODO: show match started, half time, full time*/
             val liveTimeStatus = getLiveTimeStatus(GSON)
             when (liveTimeStatus.timeStatus) {
-                LIVE -> {/*<homeTeam> vs <awayTeam>\nMatch is now Live!*/
+                LIVE -> {
+                    /*<homeTeam> vs <awayTeam>\nMatch is now Live!*/
                 }
-                else -> {/*<homeTeam> vs <awayTeam>\ngetDisplayTimeStatus(liveTimeStatus.timeStatus)*/
+                else -> {
+                    /*<homeTeam> vs <awayTeam>\ngetDisplayTimeStatus(liveTimeStatus.timeStatus)*/
                 }
             }
         }
