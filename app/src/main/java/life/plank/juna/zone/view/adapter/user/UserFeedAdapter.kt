@@ -34,11 +34,11 @@ class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, privat
 
         if (feedItem.user != null) {
             glide.load(feedItem.user!!.profilePictureUrl)
-                    .apply(RequestOptions.placeholderOf(R.drawable.ic_default_profile)
-                            .error(R.drawable.ic_default_profile))
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_football)
+                            .error(R.drawable.ic_football))
                     .into(holder.itemView.profile_pic)
         } else
-            holder.itemView.profile_pic.setImageResource(R.drawable.ic_default_profile)
+            holder.itemView.profile_pic.setImageResource(R.drawable.ic_football)
 
         holder.itemView.onDebouncingClick {
             feedEntryContainer.openFeedEntry(userFeed, "", position, "")
