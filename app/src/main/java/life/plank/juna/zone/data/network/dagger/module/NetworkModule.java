@@ -32,6 +32,12 @@ import okhttp3.logging.HttpLoggingInterceptor;
 @Module
 public class NetworkModule {
 
+    public static Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(Date.class, new ISO8601DateSerializer())
+            .setDateFormat(DateFormat.FULL, DateFormat.FULL)
+            .setLenient()
+            .create();
+
     /**
      * Provides 50MB cache
      */
@@ -64,12 +70,8 @@ public class NetworkModule {
 
     @NetworkScope
     @Provides
-    public Gson provideGson(ISO8601DateSerializer iso8601DateSerializer) {
-        return new GsonBuilder()
-                .registerTypeAdapter(Date.class, iso8601DateSerializer)
-                .setDateFormat(DateFormat.FULL, DateFormat.FULL)
-                .setLenient()
-                .create();
+    public Gson provideGson() {
+        return GSON;
     }
 
     @NetworkScope
