@@ -16,7 +16,7 @@ data class MatchFixture(
         @SerializedName("foreignId") @Expose var matchId: Long,
         @Embedded(prefix = "homeTeam_") var homeTeam: @RawValue FootballTeam,
         @Embedded(prefix = "awayTeam_") var awayTeam: @RawValue FootballTeam,
-        var matchDay: Int?,
+        var matchDay: Int = 0,
         var homeGoals: Int,
         var awayGoals: Int,
         var hometeamFormation: String?,

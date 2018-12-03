@@ -107,6 +107,10 @@ public class DateUtil {
         return getDateFromObject(date) - getDateFromObject(new Date());
     }
 
+    public static int getDateDiff(Date date1, Date date2) {
+        return getDateFromObject(date1) - getDateFromObject(date2);
+    }
+
     public static long getTimeDiffFromNow(Date date) {
         return getTimeFromObject(date) - getTimeFromObject(new Date());
     }
