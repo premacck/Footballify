@@ -3,6 +3,7 @@ package life.plank.juna.zone.util
 import android.app.Activity
 import android.support.annotation.ColorRes
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.text.TextPaint
@@ -67,4 +68,9 @@ fun String.formatMentions(): SpannableString {
         }
     }
     return formattedReply
+}
+
+fun SpannableStringBuilder.maybeAppend(charSequence: CharSequence, condition: Boolean): SpannableStringBuilder {
+    if (condition) append(charSequence)
+    return this
 }

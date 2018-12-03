@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.alterac.blurkit.BlurLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root_blur_layout"
-    style="@style/BlurLayoutFullScreen">
+    style="@style/MatchParentSize">
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/root_blur_layout"
+        style="@style/BlurLayoutFullScreen" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/root_card"
@@ -307,4 +310,4 @@
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
-</io.alterac.blurkit.BlurLayout>
+</FrameLayout>

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.alterac.blurkit.BlurLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root_blur_layout"
-    style="@style/BlurLayoutFullScreen">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MatchParentSize">
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/root_blur_layout"
+        style="@style/BlurLayoutFullScreen" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/root_card"
@@ -60,7 +63,8 @@
                     android:id="@+id/username_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/grey"
+                    android:backgroundTint="@color/transparent"
+                    android:enabled="false"
                     android:fontFamily="@font/rajdhani_medium"
                     android:hint="@string/username"
                     android:lineSpacingExtra="16sp"
@@ -79,7 +83,8 @@
                     android:id="@+id/email_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/grey"
+                    android:backgroundTint="@color/transparent"
+                    android:enabled="false"
                     android:fontFamily="@font/rajdhani_medium"
                     android:hint="@string/email"
                     android:lineSpacingExtra="16sp"
@@ -151,4 +156,4 @@
 
     </android.support.v7.widget.CardView>
 
-</io.alterac.blurkit.BlurLayout>
+</FrameLayout>
