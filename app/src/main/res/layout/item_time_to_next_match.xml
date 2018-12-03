@@ -11,65 +11,69 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/match_bg"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignBottom="@+id/match_between"
-            android:layout_marginBottom="-6dp"
-            android:layout_toStartOf="@+id/center_separator"
-            android:contentDescription="@string/match_between"
-            android:scaleType="center"
-            android:src="@drawable/ic_match_bg"
-            android:tint="@color/transparent_black_80" />
-
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="27dp"
-            android:background="@drawable/white_transparent_30_background">
+            android:layout_toStartOf="@+id/center_separator">
 
             <ImageView
-                android:layout_height="wrap_content"
+                android:id="@+id/match_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/match_between"
+                android:scaleType="center"
+                android:src="@drawable/ic_match_bg"
+                android:tint="@color/transparent_black_80" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/white_transparent_background" />
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
 
-            <ImageView
-                android:id="@+id/home_team_logo"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:contentDescription="@string/pref_home_team_logo"
-                android:src="@drawable/shimmer_circle" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/white_transparent_30_background">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/white_transparent_background" />
+
+                    <ImageView
+                        android:id="@+id/home_team_logo"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerInParent="true"
+                        android:contentDescription="@string/pref_home_team_logo"
+                        android:src="@drawable/shimmer_circle" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/white_transparent_30_background">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/white_transparent_background" />
+
+                    <ImageView
+                        android:id="@+id/visiting_team_logo"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerInParent="true"
+                        android:contentDescription="@string/pref_visiting_team_logo"
+                        android:src="@drawable/shimmer_circle" />
+                </RelativeLayout>
+            </LinearLayout>
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/match_bg"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="27dp"
-            android:background="@drawable/white_transparent_30_background">
-
-            <ImageView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/white_transparent_background" />
-
-            <ImageView
-                android:id="@+id/visiting_team_logo"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:contentDescription="@string/pref_visiting_team_logo"
-                android:src="@drawable/shimmer_circle" />
-        </RelativeLayout>
 
         <View
             android:id="@+id/center_separator"
