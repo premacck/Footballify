@@ -81,11 +81,11 @@ class LeagueStatsFragment : BaseLeagueFragment() {
             updateUI(false, team_stats_recycler_view, see_more_team_stats, no_team_stats)
         } else {
             updateUI(true, team_stats_recycler_view, see_more_team_stats, no_team_stats)
-            teamStatsAdapter!!.update(teamStatsList)
-            see_more_team_stats.onDebouncingClick { pushPopup(LeagueInfoDetailPopup.newInstance(TEAM_STATS, teamStatsList as ArrayList<out Parcelable>)) }
-        }
-        if (!isNullOrEmpty(teamStatsList)) {
-            teamStatsAdapter?.update(teamStatsList)
+            teamStatsList?.run {
+                teamStatsAdapter?.update(this)
+                leagueViewModel.updateTeamStats(league.id, this)
+                see_more_team_stats.onDebouncingClick { pushPopup(LeagueInfoDetailPopup.newInstance(TEAM_STATS, this as ArrayList<out Parcelable>)) }
+            }
         }
     }
 
@@ -94,11 +94,11 @@ class LeagueStatsFragment : BaseLeagueFragment() {
             updateUI(false, player_stats_recycler_view, see_more_player_stats, no_player_stats)
         } else {
             updateUI(true, player_stats_recycler_view, see_more_player_stats, no_player_stats)
-            playerStatsAdapter!!.update(playerStatsList)
-            see_more_player_stats.onDebouncingClick { pushPopup(LeagueInfoDetailPopup.newInstance(PLAYER_STATS, playerStatsList as ArrayList<out Parcelable>)) }
-        }
-        if (!isNullOrEmpty(playerStatsList)) {
-            playerStatsAdapter?.update(playerStatsList)
+            playerStatsList?.run {
+                playerStatsAdapter?.update(this)
+                leagueViewModel.updatePlayerStats(league.id, this)
+                see_more_player_stats.onDebouncingClick { pushPopup(LeagueInfoDetailPopup.newInstance(PLAYER_STATS, this as ArrayList<out Parcelable>)) }
+            }
         }
     }
 

@@ -21,4 +21,6 @@ data class LeagueInfo @Ignore constructor(
         var playerStatsList: @RawValue List<PlayerStats> = emptyList()
 ) : Parcelable {
     constructor() : this(0, League(), emptyList(), emptyList(), emptyList(), emptyList())
+
+    constructor(league: League, fixtureList: MutableList<FixtureByMatchDay>) : this(0, league, fixtureList)
 }
