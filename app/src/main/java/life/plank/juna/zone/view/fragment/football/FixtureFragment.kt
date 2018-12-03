@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.fragment.football
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +9,9 @@ import kotlinx.android.synthetic.main.fragment_fixture.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.local.model.LeagueInfo
+import life.plank.juna.zone.data.model.FixtureByMatchDay
 import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.data.viewmodel.LeagueViewModel
 import life.plank.juna.zone.interfaces.LeagueContainer
 import life.plank.juna.zone.util.AppConstants.PAST_MATCHES
 import life.plank.juna.zone.util.AppConstants.TODAY_MATCHES
@@ -32,7 +31,6 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
 
     private var isDataLocal: Boolean = false
     private var isFixtureListReady: Boolean = false
-    private var leagueInfo: LeagueInfo = LeagueInfo()
     private lateinit var league: League
     private var fixtureMatchdayAdapter: FixtureMatchdayAdapter? = null
 
@@ -49,8 +47,6 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
             return
         }
         league = arguments?.getParcelable(getString(R.string.intent_league))!!
-        leagueInfo.league = league
-        leagueViewModel = ViewModelProviders.of(this).get(LeagueViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -68,27 +64,26 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
 
     private fun getLeagueInfoFromRoomDb() {
         isDataLocal = true
-        leagueViewModel.leagueInfoLiveData.observe(this, Observer<LeagueInfo> { handleLeagueInfoData(it) })
-        leagueViewModel.getLeagueInfoFromDb(league.id)
+        leagueViewModel.fixtureLiveData.observe(this, Observer { handleLeagueInfoData(it as MutableList<FixtureByMatchDay>) })
+        leagueViewModel.getFixtureListFromDb(league.id)
     }
 
     private fun getLeagueInfoFromRestApi() {
         if (isDataLocal) {
             isDataLocal = false
-            leagueViewModel.getLeagueInfoFromRestApi(league, restApi)
+            leagueViewModel.getFixturesFromRestApi(league, restApi)
         }
     }
 
-    private fun handleLeagueInfoData(leagueInfo: LeagueInfo?) {
-        if (leagueInfo != null) {
-            this.leagueInfo = leagueInfo
+    private fun handleLeagueInfoData(fixtureList: MutableList<FixtureByMatchDay>) {
+        if (!isNullOrEmpty(fixtureList)) {
 //            Update new data in DB
             if (!isDataLocal) {
-                leagueViewModel.leagueRepository.insertLeagueInfo(leagueInfo)
+                leagueViewModel.leagueRepository.insertLeagueInfo(LeagueInfo(league, fixtureList))
             }
-
-            fixtureByMatchDayList = leagueInfo.fixtureByMatchDayList.toMutableList()
+            fixtureByMatchDayList = fixtureList
             updateFixtures()
+            fixtureByMatchDayList
 
             getLeagueInfoFromRestApi()
         } else {

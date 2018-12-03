@@ -5,17 +5,13 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.persistence.room.RoomDatabase
 import android.util.Log
-import android.widget.Toast
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.RestApiAggregator
 import life.plank.juna.zone.data.local.model.LeagueInfo
 import life.plank.juna.zone.data.local.repository.LeagueRepository
-import life.plank.juna.zone.data.model.League
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import rx.Subscriber
 
 /**
  * [ViewModel] class for getting data from the [RoomDatabase] and API calls, and updating the [LiveData] that the UI will be observing.
@@ -28,27 +24,29 @@ class LeagueViewModel : ViewModel() {
 
     val leagueRepository: LeagueRepository = LeagueRepository()
     val leagueInfoLiveData: MutableLiveData<LeagueInfo> = MutableLiveData()
+    val fixtureLiveData: MutableLiveData<List<FixtureByMatchDay>> = MutableLiveData()
 
     /**
-     * Function to update leagueInfoLiveData after getting the response from the API
-     * The calling view should start observing leagueInfoLiveData before calling this method
+     * Function to update fixtureLiveData after getting the response from the API
+     * The calling view should start observing fixtureLiveData before calling this method
      */
-    fun getLeagueInfoFromRestApi(league: League, restApi: RestApi) {
-        RestApiAggregator.getLeagueInfo(league, restApi)
-                .subscribe(object : Subscriber<LeagueInfo>() {
-                    override fun onCompleted() {
-                        Log.i(Companion.TAG, "onCompleted")
-                    }
+    fun getFixturesFromRestApi(league: League, restApi: RestApi) {
+        restApi.getFixtures(league.seasonName, league.name, league.countryName).setObserverThreadsAndSmartSubscribe({ Log.e(TAG, it.message, it) }, {
+            it.body()?.run { fixtureLiveData.value = this }
+        })
+    }
 
-                    override fun onError(e: Throwable) {
-                        Log.e(Companion.TAG, e.message)
-                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
-                    }
-
-                    override fun onNext(leagueInfo: LeagueInfo) {
-                        leagueInfoLiveData.value = leagueInfo
-                    }
-                })
+    /**
+     * Function to update fixtureLiveData after getting the data from [RoomDatabase]
+     * The calling view should start observing fixtureLiveData before calling this method
+     */
+    fun getFixtureListFromDb(leagueId: Long) {
+        doAsync {
+            val localFixtureList = leagueRepository.getLeagueInfo(leagueId).fixtureByMatchDayList
+            uiThread {
+                fixtureLiveData.value = localFixtureList
+            }
+        }
     }
 
     /**
@@ -63,4 +61,12 @@ class LeagueViewModel : ViewModel() {
             }
         }
     }
+
+    fun updateFixtures(leagueId: Long, fixtureList: List<FixtureByMatchDay>) = leagueRepository.updateFixtures(fixtureList, leagueId)
+
+    fun updateStandings(leagueId: Long, standingsList: List<Standings>) = leagueRepository.updateStandings(standingsList, leagueId)
+
+    fun updateTeamStats(leagueId: Long, teamStatsList: List<TeamStats>) = leagueRepository.updateTeamStats(teamStatsList, leagueId)
+
+    fun updatePlayerStats(leagueId: Long, playerStatsList: List<PlayerStats>) = leagueRepository.updatePlayerStats(playerStatsList, leagueId)
 }

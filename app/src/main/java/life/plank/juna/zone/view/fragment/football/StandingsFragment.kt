@@ -74,6 +74,7 @@ class StandingsFragment : BaseLeagueFragment() {
         } else {
             updateUI(true, standing_recycler_view, no_standings)
             standingTableAdapter!!.update(standingsList)
+            leagueViewModel.updateStandings(league.id, standingsList!!)
         }
     }
 
