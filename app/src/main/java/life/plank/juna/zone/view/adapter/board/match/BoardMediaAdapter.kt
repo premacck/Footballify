@@ -31,7 +31,7 @@ class BoardMediaAdapter(private val matchDetails: MatchDetails, private val scre
     }
 
     fun updateHighlights(highlightsList: List<Highlights>, isError: Boolean) {
-        validateAndUpdateList(this.matchDetails.highlights as MutableList<Highlights>?, highlightsList, isError)
+        validateAndUpdateList(this.matchDetails.highlights, highlightsList, isError)
         if (highlightsDataManager != null) {
             highlightsDataManager!!.setItem(HighlightsBindingModel.from(matchDetails))
         }
