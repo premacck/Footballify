@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_board_info.*
@@ -50,26 +49,18 @@ class MatchStatsFragment : BaseBoardFragment(), MatchStatsListener {
         arguments?.run { matchDetails = getParcelable(getString(R.string.match_id_string))!! }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_board_info, container, false)
-        ButterKnife.bind(this, rootView)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_board_info, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareRecyclerView()
-        return rootView
+        getBoardInfoData(false)
+        swipe_refresh_layout.setOnRefreshListener { getBoardInfoData(true) }
     }
 
     private fun prepareRecyclerView() {
-        if (adapter != null && list_board_info.adapter != null) {
-            adapter = null
-            list_board_info.adapter = null
-        }
         adapter = MatchStatsAdapter(matchDetails, Glide.with(this), this)
-        list_board_info.adapter = adapter
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        getBoardInfoData(false)
-        swipe_refresh_layout.setOnRefreshListener { getBoardInfoData(true) }
+        list_board_info?.adapter = adapter
     }
 
     private fun getBoardInfoData(isRefreshing: Boolean) {

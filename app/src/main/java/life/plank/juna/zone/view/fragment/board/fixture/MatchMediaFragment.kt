@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.ButterKnife
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_board_info.*
 import life.plank.juna.zone.R
@@ -39,11 +38,11 @@ class MatchMediaFragment : BaseFragment() {
         arguments?.run { matchDetails = getParcelable(getString(R.string.match_id_string))!! }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_board_info, container, false)
-        ButterKnife.bind(this, rootView)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_board_info, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareRecyclerView()
-        return rootView
     }
 
     private fun prepareRecyclerView() {

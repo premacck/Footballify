@@ -1,11 +1,11 @@
 package life.plank.juna.zone.view.fragment.board.fixture
 
 import android.os.Bundle
+import android.support.annotation.StringRes
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_board_info.*
@@ -18,7 +18,6 @@ import life.plank.juna.zone.util.common.AppConstants.LINEUPS_DATA
 import life.plank.juna.zone.util.common.AppConstants.MATCH_EVENTS
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.onSubscribe
 import life.plank.juna.zone.util.common.onTerminate
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.board.match.LineupsAdapter
@@ -47,11 +46,13 @@ class LineupFragment : BaseFragment() {
         arguments?.run { matchDetails = getParcelable(getString(R.string.match_id_string))!! }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_board_info, container, false)
-        ButterKnife.bind(this, rootView)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_board_info, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareRecyclerView()
-        return rootView
+        getLineupFormation(false)
+        swipe_refresh_layout.setOnRefreshListener { getLineupFormation(true) }
     }
 
     private fun prepareRecyclerView() {
@@ -61,18 +62,12 @@ class LineupFragment : BaseFragment() {
         list_board_info.adapter = adapter
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        getLineupFormation(false)
-        swipe_refresh_layout.setOnRefreshListener { getLineupFormation(true) }
-    }
-
     fun updateZoneLiveData(zoneLiveData: ZoneLiveData) {
         when (zoneLiveData.liveDataType) {
             MATCH_EVENTS -> {
                 val matchEventList = zoneLiveData.getMatchEventList(gson)
                 if (matchEventList != null) {
-                    adapter!!.updateMatchEventsAndSubstitutions(matchEventList, false)
+                    adapter?.updateMatchEventsAndSubstitutions(matchEventList, false)
                 }
             }
             LINEUPS_DATA -> getLineupFormation(false)
@@ -85,50 +80,45 @@ class LineupFragment : BaseFragment() {
     private fun getLineupFormation(isRefreshing: Boolean) {
         if (!isAdded) return
 
+        updateUi(false, R.string.loading_lineups)
         restApi.getLineUpsData(matchDetails.matchId)
-                .onSubscribe { startLoading() }
                 .onTerminate { if (isRefreshing) swipe_refresh_layout.isRefreshing = false }
                 .setObserverThreadsAndSmartSubscribe({
                     if (!isAdded) return@setObserverThreadsAndSmartSubscribe
 
                     Log.e(TAG, "getLineupFormation(): ", it)
                     errorToast(R.string.line_ups_not_available, it)
-                    updateUi(false)
+                    updateUi(false, R.string.stay_tuned_for_the_lineups)
                 }, {
                     if (!isAdded) return@setObserverThreadsAndSmartSubscribe
 
                     when (it.code()) {
                         HttpURLConnection.HTTP_OK -> {
                             val lineups = it.body()
-                            //                                Updating the adapter only if live lineups fetch is successful
+//                                Updating the adapter only if live lineups fetch is successful
                             if (lineups != null) {
                                 if (adapter != null) {
-                                    adapter!!.setLineups(lineups)
+                                    adapter?.setLineups(lineups)
                                 } else {
                                     matchDetails.lineups = lineups
                                     prepareRecyclerView()
                                 }
                                 updateUi(true)
                             } else
-                                updateUi(false)
+                                updateUi(false, R.string.stay_tuned_for_the_lineups)
                         }
                         else -> {
                             errorToast(R.string.line_ups_not_available, it)
-                            updateUi(false)
+                            updateUi(false, R.string.stay_tuned_for_the_lineups)
                         }
                     }
                 })
     }
 
-    private fun updateUi(isDataAvailable: Boolean) {
-        list_board_info.visibility = if (isDataAvailable) View.VISIBLE else View.INVISIBLE
-        no_data.visibility = if (isDataAvailable) View.INVISIBLE else View.VISIBLE
-        no_data.setText(R.string.stay_tuned_for_the_lineups)
-    }
-
-    private fun startLoading() {
-        list_board_info.visibility = View.INVISIBLE
-        no_data.visibility = View.INVISIBLE
+    private fun updateUi(isDataAvailable: Boolean, @StringRes message: Int = 0) {
+        list_board_info.visibility = if (isDataAvailable) View.VISIBLE else View.GONE
+        no_data.visibility = if (isDataAvailable) View.GONE else View.VISIBLE
+        no_data.text = if (message == 0) null else getString(message)
     }
 
     override fun onDetach() {
