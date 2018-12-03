@@ -64,7 +64,7 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
 
     private fun getLeagueInfoFromRoomDb() {
         isDataLocal = true
-        leagueViewModel.fixtureLiveData.observe(this, Observer { handleLeagueInfoData(it as MutableList<FixtureByMatchDay>) })
+        leagueViewModel.fixtureLiveData.observe(this, Observer { handleLeagueInfoData(it as MutableList<FixtureByMatchDay>?) })
         leagueViewModel.getFixtureListFromDb(league.id)
     }
 
@@ -75,15 +75,14 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
         }
     }
 
-    private fun handleLeagueInfoData(fixtureList: MutableList<FixtureByMatchDay>) {
+    private fun handleLeagueInfoData(fixtureList: MutableList<FixtureByMatchDay>?) {
         if (!isNullOrEmpty(fixtureList)) {
 //            Update new data in DB
             if (!isDataLocal) {
-                leagueViewModel.leagueRepository.insertLeagueInfo(LeagueInfo(league, fixtureList))
+                leagueViewModel.leagueRepository.insertLeagueInfo(LeagueInfo(league, fixtureList!!))
             }
-            fixtureByMatchDayList = fixtureList
+            fixtureByMatchDayList = fixtureList!!
             updateFixtures()
-            fixtureByMatchDayList
 
             getLeagueInfoFromRestApi()
         } else {

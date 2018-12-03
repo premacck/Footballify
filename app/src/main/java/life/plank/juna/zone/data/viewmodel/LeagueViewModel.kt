@@ -42,7 +42,7 @@ class LeagueViewModel : ViewModel() {
      */
     fun getFixtureListFromDb(leagueId: Long) {
         doAsync {
-            val localFixtureList = leagueRepository.getLeagueInfo(leagueId).fixtureByMatchDayList
+            val localFixtureList = leagueRepository.getLeagueInfo(leagueId)?.fixtureByMatchDayList
             uiThread {
                 fixtureLiveData.value = localFixtureList
             }
