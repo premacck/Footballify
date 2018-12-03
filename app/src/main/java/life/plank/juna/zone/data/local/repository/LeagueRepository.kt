@@ -19,7 +19,7 @@ class LeagueRepository : BaseRepository() {
     var leagueDao: LeagueDao = roomDb.leagueDao()
 
     @WorkerThread
-    fun getLeagueInfo(leagueId: Long): LeagueInfo = leagueDao.getLeague(leagueId)
+    fun getLeagueInfo(leagueId: Long): LeagueInfo? = leagueDao.getLeague(leagueId)
 
     fun insertLeagueInfo(leagueInfo: LeagueInfo) {
         doAsync { leagueDao.insertLeagueInfo(leagueInfo) }
