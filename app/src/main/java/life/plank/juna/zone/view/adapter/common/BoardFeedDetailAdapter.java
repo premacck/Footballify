@@ -33,7 +33,6 @@ import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.ColorHashMap;
 import life.plank.juna.zone.util.EmojiHashMap;
-import life.plank.juna.zone.util.PreferenceManager;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -57,7 +56,6 @@ import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
 import static life.plank.juna.zone.util.PreferenceManager.PinManager.isFeedItemPinned;
 import static life.plank.juna.zone.util.PreferenceManager.PinManager.toggleFeedItemPin;
-import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
@@ -122,9 +120,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         if (feedItem.getUser() != null) {
             holder.userNameTextView.setText(feedItem.getUser().getDisplayName());
         } else {
-            String userEmailId = PreferenceManager.CurrentUser.getUserEmail();
-            holder.userNameTextView.setText(userEmailId);
+            holder.userNameTextView.setText(R.string.juna_user_topic);
         }
+
         holder.feedTitleTextView.setText(feedItem.getTitle());
 
         if (!isNullOrEmpty(feedItem.getInteractions())) {
