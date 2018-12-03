@@ -16,6 +16,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.common.onTerminate
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.clearOnClickListener
 import life.plank.juna.zone.util.facilis.onDebouncingClick
@@ -23,7 +24,6 @@ import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
-import org.jetbrains.anko.support.v4.runOnUiThread
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
 
@@ -91,7 +91,7 @@ class ForumFragment : BaseCommentContainerFragment() {
     private fun getComments(isRefreshing: Boolean) {
         no_comment_text_view.visibility = View.GONE
         restApi.getCommentsForBoard(boardId, getToken())
-                .doOnTerminate { runOnUiThread { if (isRefreshing) forum_swipe_refresh_layout.isRefreshing = false } }
+                .onTerminate { if (isRefreshing) forum_swipe_refresh_layout.isRefreshing = false }
                 .setObserverThreadsAndSmartSubscribe({
                     Log.e(TAG, "getComments()", it)
                     errorToast(R.string.failed_to_get_feed_comments, it)
