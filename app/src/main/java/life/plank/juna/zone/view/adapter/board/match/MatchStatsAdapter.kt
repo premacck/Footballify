@@ -9,11 +9,11 @@ import life.plank.juna.zone.data.model.binder.MatchStatsBindingModel
 import life.plank.juna.zone.data.model.binder.StandingsBindingModel
 import life.plank.juna.zone.data.model.binder.TeamStatsBindingModel
 import life.plank.juna.zone.interfaces.MatchStatsListener
-import life.plank.juna.zone.util.AppConstants.MatchTimeVal
-import life.plank.juna.zone.util.AppConstants.MatchTimeVal.*
-import life.plank.juna.zone.util.DataUtil.validateAndUpdateList
-import life.plank.juna.zone.util.DateUtil.getMatchTimeValue
+import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal
+import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.*
+import life.plank.juna.zone.util.common.DataUtil.validateAndUpdateList
 import life.plank.juna.zone.util.facilis.addDataManagerAndRegisterBinder
+import life.plank.juna.zone.util.time.DateUtil.getMatchTimeValue
 import life.plank.juna.zone.view.adapter.board.match.binder.*
 
 

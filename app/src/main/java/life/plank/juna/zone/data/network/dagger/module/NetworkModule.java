@@ -18,7 +18,7 @@ import dagger.Module;
 import dagger.Provides;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.dagger.scope.NetworkScope;
-import life.plank.juna.zone.util.helper.ISO8601DateSerializer;
+import life.plank.juna.zone.util.time.ISO8601DateSerializer;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;

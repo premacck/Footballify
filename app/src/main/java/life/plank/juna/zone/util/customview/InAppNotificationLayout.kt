@@ -14,12 +14,12 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.notification.InAppNotification
 import life.plank.juna.zone.notification.getSocialNotificationIntent
 import life.plank.juna.zone.notification.triggerNotificationIntent
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.onSwipeDown
 import life.plank.juna.zone.util.facilis.sinkDown
 import life.plank.juna.zone.util.facilis.then
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 
 class InAppNotificationLayout @JvmOverloads constructor(

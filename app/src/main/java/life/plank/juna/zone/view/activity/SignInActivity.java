@@ -15,11 +15,11 @@ import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.util.AuthUtil;
-import life.plank.juna.zone.util.PreferenceManager;
+import life.plank.juna.zone.util.common.AuthUtil;
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 
-import static life.plank.juna.zone.util.DataUtil.isValidEmail;
+import static life.plank.juna.zone.util.common.DataUtil.isValidEmail;
 
 public class SignInActivity extends AppCompatActivity {
 

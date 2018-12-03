@@ -10,8 +10,8 @@ import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_league_info_detail.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.util.AppConstants
-import life.plank.juna.zone.util.DataUtil.findString
+import life.plank.juna.zone.util.common.AppConstants
+import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.view.adapter.league.PlayerStatsAdapter
 import life.plank.juna.zone.view.adapter.league.TeamStatsAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup

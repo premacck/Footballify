@@ -9,15 +9,15 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.CommentEvent
 import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
-import life.plank.juna.zone.util.PreferenceManager
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard
-import life.plank.juna.zone.util.UIDisplayUtil.showSoftKeyboard
-import life.plank.juna.zone.util.errorToast
-import life.plank.juna.zone.util.semiBold
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.common.semiBold
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
+import life.plank.juna.zone.util.view.UIDisplayUtil.hideSoftKeyboard
+import life.plank.juna.zone.util.view.UIDisplayUtil.showSoftKeyboard
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import java.net.HttpURLConnection
 

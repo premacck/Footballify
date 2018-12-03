@@ -22,23 +22,23 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchEvent;
-import life.plank.juna.zone.util.BaseRecyclerView;
+import life.plank.juna.zone.util.view.BaseRecyclerView;
 
-import static life.plank.juna.zone.util.AppConstants.FULL_TIME;
-import static life.plank.juna.zone.util.AppConstants.GOAL;
-import static life.plank.juna.zone.util.AppConstants.HALF_TIME;
-import static life.plank.juna.zone.util.AppConstants.HT;
-import static life.plank.juna.zone.util.AppConstants.KICK_OFF;
-import static life.plank.juna.zone.util.AppConstants.LIVE;
-import static life.plank.juna.zone.util.AppConstants.LIVE_TIME;
-import static life.plank.juna.zone.util.AppConstants.PENALTY;
-import static life.plank.juna.zone.util.AppConstants.RED_CARD;
-import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
-import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD;
-import static life.plank.juna.zone.util.AppConstants.YELLOW_RED;
-import static life.plank.juna.zone.util.DataUtil.getFormattedExtraMinutes;
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
+import static life.plank.juna.zone.util.common.AppConstants.FULL_TIME;
+import static life.plank.juna.zone.util.common.AppConstants.GOAL;
+import static life.plank.juna.zone.util.common.AppConstants.HALF_TIME;
+import static life.plank.juna.zone.util.common.AppConstants.HT;
+import static life.plank.juna.zone.util.common.AppConstants.KICK_OFF;
+import static life.plank.juna.zone.util.common.AppConstants.LIVE;
+import static life.plank.juna.zone.util.common.AppConstants.LIVE_TIME;
+import static life.plank.juna.zone.util.common.AppConstants.PENALTY;
+import static life.plank.juna.zone.util.common.AppConstants.RED_CARD;
+import static life.plank.juna.zone.util.common.AppConstants.SUBSTITUTION;
+import static life.plank.juna.zone.util.common.AppConstants.YELLOW_CARD;
+import static life.plank.juna.zone.util.common.AppConstants.YELLOW_RED;
+import static life.plank.juna.zone.util.common.DataUtil.getFormattedExtraMinutes;
+import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.getDp;
 
 public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
 

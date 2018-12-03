@@ -197,7 +197,7 @@
                 android:layout_marginEnd="16dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
-                app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
                 tools:listitem="@layout/item_board_color_theme" />
 
             <TextView
@@ -229,7 +229,7 @@
                     android:layout_weight="1"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
-                    app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                    app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
                     tools:listitem="@layout/item_board_icon" />
 
                 <Button

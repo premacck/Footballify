@@ -5,11 +5,11 @@ import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.dagger.module.NetworkModule.GSON
-import life.plank.juna.zone.util.AppConstants.*
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.bold
-import life.plank.juna.zone.util.semiBold
+import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.bold
+import life.plank.juna.zone.util.common.semiBold
 
 /**
  * Method to get suitable text for the social interaction notification message

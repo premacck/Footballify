@@ -12,8 +12,8 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_image_and_title.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.User
-import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
 
 class SearchViewAdapter(private val userList: MutableList<User>, private val glide: RequestManager) : RecyclerView.Adapter<SearchViewAdapter.SearchViewHolder>() {
 

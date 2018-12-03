@@ -10,7 +10,7 @@ import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.model.TeamStats
 
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 
 @Parcelize
 data class TeamStatsBindingModel(

@@ -8,8 +8,8 @@ import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.model.MatchEvent
 import life.plank.juna.zone.data.model.binder.LineupsBindingModel
 import life.plank.juna.zone.data.model.binder.SubstitutionBindingModel
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.DataUtil.validateAndUpdateList
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.DataUtil.validateAndUpdateList
 import life.plank.juna.zone.util.facilis.addDataManagerAndRegisterBinder
 import life.plank.juna.zone.view.adapter.board.match.binder.BenchDataBinder
 import life.plank.juna.zone.view.adapter.board.match.binder.LineupsBinder

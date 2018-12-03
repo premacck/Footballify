@@ -15,12 +15,12 @@ import kotlinx.android.synthetic.main.league_toolbar.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FixtureByMatchDay
 import life.plank.juna.zone.data.model.League
-import life.plank.juna.zone.util.AppConstants.BoomMenuPage
-import life.plank.juna.zone.util.DataUtil
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.UIDisplayUtil.findColor
+import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage
+import life.plank.juna.zone.util.common.DataUtil
+import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.facilis.BaseCard
-import life.plank.juna.zone.util.setupBoomMenu
+import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
+import life.plank.juna.zone.util.view.setupBoomMenu
 
 class LeagueInfoFragment : BaseCard() {
 
