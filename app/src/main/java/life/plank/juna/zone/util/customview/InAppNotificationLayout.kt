@@ -80,7 +80,8 @@ class InAppNotificationLayout @JvmOverloads constructor(
         }
         if (isNullOrEmpty(imageUrl)) {
             zoneLiveData?.run {
-
+                //                TODO: display homeTeamLogo and awayTeam logo separately
+                imageUrl = homeTeamLogo
             }
         }
     }
