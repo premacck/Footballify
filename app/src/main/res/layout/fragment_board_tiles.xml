@@ -82,7 +82,7 @@
                     android:layout_below="@+id/extras_layout"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="100dp"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/no_data"
