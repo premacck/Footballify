@@ -57,12 +57,6 @@ fun BaseCardActivity.handleBoardIntentIfAny(restApi: RestApi) {
     }
 }
 
-fun BaseCardActivity.handleFootballLiveDataNotificationIntentIfAny() {
-    if (!intent.hasExtra(getString(R.string.match_id_string))) return
-
-    restApi()?.run { launchMatchBoard(this, intent.getLongExtra(getString(R.string.match_id_string), 0)) }
-}
-
 fun BaseCardActivity.findAndLaunchBoardById(restApi: RestApi) {
     restApi.getBoardById(intent.getStringExtra(getString(R.string.intent_board_id)), getToken())
             .setObserverThreadsAndSmartSubscribe({}, {

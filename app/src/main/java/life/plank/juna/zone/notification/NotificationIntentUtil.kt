@@ -10,6 +10,7 @@ import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.findAndLaunchBoardById
+import life.plank.juna.zone.util.common.launchMatchBoard
 import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
@@ -50,14 +51,21 @@ fun JunaNotification.getSocialNotificationIntent(): Intent {
 fun ZoneLiveData.getLiveFootballNotificationIntent(): Intent {
     return ZoneApplication.getContext().run {
         intentFor<HomeActivity>(
-                findString(match_id_string) to matchId
+                findString(match_id_string) to matchId,
+                findString(intent_live_event_type) to liveEventType
         ).clearTop()
     }
 }
 
 fun BaseCardActivity.triggerNotificationIntent(intent: Intent) {
     this.intent = intent
-    restApi()?.run { findAndLaunchBoardById(this) } ?: toast(R.string.rest_api_is_null)
+    restApi()?.run {
+        if (intent.hasExtra(findString(intent_board_id))) {
+            findAndLaunchBoardById(this)
+        } else if (intent.hasExtra(findString(match_id_string))) {
+            launchMatchBoard(this, intent.getLongExtra(getString(R.string.match_id_string), 0))
+        }
+    } ?: toast(R.string.rest_api_is_null)
 }
 
 fun BaseCardActivity.handleSocialNotificationIntentIfAny(restApi: RestApi) {
@@ -81,6 +89,12 @@ fun BaseCardActivity.handleSocialNotificationIntentIfAny(restApi: RestApi) {
             findString(intent_comment) -> findAndLaunchBoardById(restApi)
         }
     }
+}
+
+fun BaseCardActivity.handleFootballLiveDataNotificationIntentIfAny() {
+    if (!intent.hasExtra(getString(match_id_string))) return
+
+    restApi()?.run { launchMatchBoard(this, intent.getLongExtra(getString(match_id_string), 0)) }
 }
 
 fun InAppNotification.triggerNotificationAction(baseCardActivity: BaseCardActivity?) {
