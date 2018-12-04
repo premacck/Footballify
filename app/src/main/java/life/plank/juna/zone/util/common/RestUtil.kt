@@ -45,10 +45,16 @@ fun <T> Observable<T>.smartSubscribe(fragmentToAttach: Any? = null, onError: (e:
 
         override fun onError(e: Throwable) {
             errorToast(R.string.something_went_wrong, e)
-            onError(e)
+            (fragmentToAttach as? BaseFragment)?.run {
+                if (isAdded) onError(e)
+            } ?: onError(e)
         }
 
-        override fun onNext(t: T) = onNext(t)
+        override fun onNext(t: T) {
+            (fragmentToAttach as? BaseFragment)?.run {
+                if (isAdded) onNext(t)
+            } ?: onNext(t)
+        }
     })
     (fragmentToAttach as? BaseFragment)?.run {
         if (!subscriptionList.contains(subscription)) {
