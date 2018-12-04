@@ -60,10 +60,9 @@ fun ZoneLiveData.getLiveFootballNotificationIntent(): Intent {
 fun BaseCardActivity.triggerNotificationIntent(intent: Intent) {
     this.intent = intent
     restApi()?.run {
-        if (intent.hasExtra(findString(intent_board_id))) {
-            findAndLaunchBoardById(this)
-        } else if (intent.hasExtra(findString(match_id_string))) {
-            launchMatchBoard(this, intent.getLongExtra(getString(R.string.match_id_string), 0))
+        when {
+            intent.hasExtra(findString(intent_board_id)) -> findAndLaunchBoardById(this)
+            intent.hasExtra(findString(match_id_string)) -> launchMatchBoard(this, intent.getLongExtra(getString(R.string.match_id_string), 0))
         }
     } ?: toast(R.string.rest_api_is_null)
 }
