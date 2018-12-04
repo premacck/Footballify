@@ -255,7 +255,7 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
                 HTTP_INTERNAL_ERROR -> errorToast(R.string.already_pinned_feed, it)
                 else -> errorToast(R.string.failed_to_pin_feed, it)
             }
-        })
+        }, this)
     }
 
     private fun unpinItem() {
@@ -278,7 +278,7 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
                 HTTP_INTERNAL_ERROR -> errorToast(R.string.already_removed_pin, it)
                 else -> errorToast(R.string.failed_to_unpin_feed, it)
             }
-        })
+        }, this)
     }
 
     private fun setVisibilities(imageViewVisibility: Int, videoViewVisibility: Int, textViewVisibility: Int) {

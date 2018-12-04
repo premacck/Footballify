@@ -68,7 +68,7 @@ class StandingsFragment : BaseLeagueFragment() {
                     Log.e("getStandings()", "ERROR: ", it)
                 }, {
                     setStandings(it.body())
-                })
+                }, this)
     }
 
     private fun setStandings(standingsList: List<Standings>?) {

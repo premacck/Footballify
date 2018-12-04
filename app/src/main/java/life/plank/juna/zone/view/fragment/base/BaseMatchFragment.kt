@@ -26,7 +26,7 @@ abstract class BaseMatchFragment : CardTileFragment() {
                 HTTP_OK -> it.body()?.run { onInAppNotificationReceived(this) }
                 else -> errorToast(R.string.failed_to_retrieve_feed, it)
             }
-        })
+        }, this)
     }
 
     fun handleZoneLiveData(intent: Intent) {

@@ -101,7 +101,7 @@ class BoardPreviewPopup : BaseBlurPopup() {
                         HttpURLConnection.HTTP_CONFLICT -> customToast(R.string.board_name_already_exists)
                         else -> errorToast(R.string.could_not_create_board, it)
                     }
-                })
+        }, this)
     }
 
     private fun navigateToBoard(boardId: String) {

@@ -66,7 +66,7 @@ class JoinBoardPopup : BaseBlurPopup() {
                 }
                 else -> errorToast(R.string.could_not_navigate_to_board, it)
             }
-        })
+        }, this)
     }
 
     private fun updateUi() {
@@ -101,7 +101,7 @@ class JoinBoardPopup : BaseBlurPopup() {
                 HttpURLConnection.HTTP_NOT_FOUND -> customToast(R.string.failed_to_follow_board)
                 else -> errorToast(R.string.something_went_wrong, it)
             }
-        })
+        }, this)
     }
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout

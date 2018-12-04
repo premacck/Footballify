@@ -182,7 +182,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
                 initial_reaction_one.setEmoji(emojiList[random.nextInt(emojiList.size - 1)].emoji)
                 initial_reaction_two.setEmoji(emojiList[random.nextInt(emojiList.size - 1)].emoji)
             }
-        })
+        }, this)
     }
 
     private fun onReactionUpdate(isAvailable: Boolean) {
@@ -219,7 +219,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
                         HttpURLConnection.HTTP_NOT_FOUND -> updateUi(false, R.string.board_yet_to_be_populated)
                         else -> updateUi(false, R.string.failed_to_retrieve_board)
                     }
-                })
+                }, this)
     }
 
     private fun getBoardPolls() {
@@ -232,7 +232,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
                     board_poll.prepare(Glide.with(activity!!), pollBindingModel!!, this)
                 }
             }
-        })
+        }, this)
     }
 
     private fun updateUi(isDataAvailable: Boolean, @StringRes message: Int) {
@@ -274,6 +274,6 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
                 pollBindingModel!!.poll.choices = pollAnswer.choices
                 board_poll.pollSelected(pollBindingModel!!.poll)
             }
-        })
+        }, this)
     }
 }
