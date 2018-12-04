@@ -92,7 +92,7 @@ class PrivateBoardInfoFragment : BaseFragment() {
                 }
                 else -> errorToast(R.string.failed_to_retrieve_members, it)
             }
-        })
+        }, this)
     }
 
     fun deletePrivateBoardMember(userId: String) {
@@ -107,7 +107,7 @@ class PrivateBoardInfoFragment : BaseFragment() {
                 }
                 else -> errorToast(R.string.something_went_wrong, it)
             }
-        })
+        }, this)
     }
 
     override fun onDestroy() {

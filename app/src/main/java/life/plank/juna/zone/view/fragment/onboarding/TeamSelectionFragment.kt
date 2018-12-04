@@ -88,7 +88,7 @@ class TeamSelectionFragment : SearchableCard() {
                 }
                 else -> errorToast(R.string.popular_team_not_found, it)
             }
-        })
+        }, this)
     }
 
     private fun postTeamPref(zone: String) {
@@ -102,7 +102,7 @@ class TeamSelectionFragment : SearchableCard() {
                     }
                     else -> errorToast(R.string.team_pref_not_found, it)
                 }
-            })
+            }, this)
         } else {
             Toast.makeText(context, getString(R.string.select_team), Toast.LENGTH_SHORT).show()
         }
@@ -122,6 +122,6 @@ class TeamSelectionFragment : SearchableCard() {
                 }
                 else -> errorToast(R.string.team_not_found, it)
             }
-        })
+        }, this)
     }
 }

@@ -165,7 +165,7 @@ class KeyBoardPopup : BaseBlurPopup(), View.OnLongClickListener, View.OnDragList
                 }, {
                     //TODO: Handle response
                     Log.d("postClap()", "Response: " + it.code())
-                })
+                }, this)
     }
 }
 

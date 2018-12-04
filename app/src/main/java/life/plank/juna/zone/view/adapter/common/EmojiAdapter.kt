@@ -98,7 +98,7 @@ class EmojiAdapter(
                     errorToast(R.string.failed_to_get_top_emoji, it)
                 }
             }
-        })
+        }, emojiContainer)
     }
 
     private fun appendDefaultEmoji() {
@@ -129,7 +129,7 @@ class EmojiAdapter(
                 }
                 else -> errorToast(R.string.something_went_wrong, it)
             }
-        })
+        }, emojiContainer)
     }
 
     override fun getItemCount(): Int = emojiList.size

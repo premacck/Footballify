@@ -24,7 +24,6 @@ import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil
 import life.plank.juna.zone.util.common.DataUtil.*
 import life.plank.juna.zone.util.common.execute
-import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.football.FixtureListUpdateTask
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
@@ -80,9 +79,7 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         board_toolbar.setUpPopUp(activity, currentMatchId)
-        context.doAfterDelay(300) {
-            updateUi()
-        }
+        updateUi()
     }
 
     override fun onResume() {

@@ -112,7 +112,7 @@ class MatchStatsFragment : BaseBoardFragment(), MatchStatsListener {
                     adapter?.setMatchStats()
                 }, {
                     adapter?.setMatchStats()
-                })
+                }, this)
     }
 
     override fun onDetach() {

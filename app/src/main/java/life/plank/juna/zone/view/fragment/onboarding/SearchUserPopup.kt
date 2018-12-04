@@ -91,7 +91,7 @@ class SearchUserPopup : SearchablePopup() {
                 }
                 else -> errorToast(R.string.search_for_users_or_handles, it)
             }
-        })
+        }, this)
     }
 
     private fun inviteUserToJoinBoard() {
@@ -104,7 +104,7 @@ class SearchUserPopup : SearchablePopup() {
                         }
                         else -> errorToast(R.string.invite_user_failed, it)
                     }
-                })
+                }, this)
             }
         }
     }
