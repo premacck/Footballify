@@ -168,7 +168,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
                             onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
                         }
                     }
-                })
+                }, this)
     }
 
     private fun getUserFeed() {
@@ -195,7 +195,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
                     onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
                 }
             }
-        })
+        }, this)
     }
 
     private fun getUserBoards() {
@@ -224,7 +224,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
                     onRecyclerViewContentsFailedToLoad(user_boards_recycler_view, shimmer_user_boards)
                 }
             }
-        })
+        }, this)
     }
 
     override fun profilePictureClicked(profilePicture: ImageView) {

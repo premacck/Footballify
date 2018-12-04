@@ -44,17 +44,16 @@ public class RestApiAggregator {
      * @return {@link Pair} containing {@link Board} and {@link MatchDetails}
      */
     public static Observable<Pair<Board, MatchDetails>> getBoardAndMatchDetails(RestApi restApi, long matchId) {
-        return afterSubscribingAndObservingOn(
-                Observable.zip(
-                        restApi.getBoard(matchId, AppConstants.BOARD_TYPE, getToken()),
-                        restApi.getMatchDetails(matchId),
-                        ((boardResponse, matchDetailsResponse) -> {
-                            if (boardResponse.code() != HTTP_OK || matchDetailsResponse.code() != HTTP_OK) {
-                                Log.e("getBoardAndMatchDetails", "boardResponse : " + boardResponse.code() + " : " + boardResponse.message());
-                                Log.e("getBoardAndMatchDetails", "matchDetailsResponse : " + matchDetailsResponse.code() + " : " + matchDetailsResponse.message());
-                            }
-                            return new Pair<>(boardResponse.body(), matchDetailsResponse.body());
-                        })));
+        return Observable.zip(
+                restApi.getBoard(matchId, AppConstants.BOARD_TYPE, getToken()),
+                restApi.getMatchDetails(matchId),
+                ((boardResponse, matchDetailsResponse) -> {
+                    if (boardResponse.code() != HTTP_OK || matchDetailsResponse.code() != HTTP_OK) {
+                        Log.e("getBoardAndMatchDetails", "boardResponse : " + boardResponse.code() + " : " + boardResponse.message());
+                        Log.e("getBoardAndMatchDetails", "matchDetailsResponse : " + matchDetailsResponse.code() + " : " + matchDetailsResponse.message());
+                    }
+                    return new Pair<>(boardResponse.body(), matchDetailsResponse.body());
+                }));
     }
 
     /**
@@ -188,25 +187,23 @@ public class RestApiAggregator {
      * Method to get and Follow the Private board while opening the {@link PrivateBoardFragment}
      */
     public static Observable<Board> getPrivateBoardToOpen(String boardId, RestApi restApi) {
-        return afterSubscribingAndObservingOn(
-                Observable.zip(
-                        restApi.getBoardById(boardId, getToken()),
-                        restApi.followBoard(getToken(), boardId),
-                        ((boardResponse, jsonObjectResponse) -> {
-                            if (jsonObjectResponse.code() != HTTP_OK) {
-                                String error = "FollowBoard: " + jsonObjectResponse.code() + " : " + jsonObjectResponse.message();
-                                Log.e("getPrivateBoardToOpen", error);
-                            }
-                            switch (boardResponse.code()) {
-                                case HTTP_OK:
-                                    return boardResponse.body();
-                                default:
-                                    String error = "Error in boardResponse: " + boardResponse.code() + " : " + boardResponse.message();
-                                    Log.e("getPrivateBoardToOpen", error);
-                                    return boardResponse.body();
-                            }
-                        })
-                )
+        return Observable.zip(
+                restApi.getBoardById(boardId, getToken()),
+                restApi.followBoard(getToken(), boardId),
+                ((boardResponse, jsonObjectResponse) -> {
+                    if (jsonObjectResponse.code() != HTTP_OK) {
+                        String error = "FollowBoard: " + jsonObjectResponse.code() + " : " + jsonObjectResponse.message();
+                        Log.e("getPrivateBoardToOpen", error);
+                    }
+                    switch (boardResponse.code()) {
+                        case HTTP_OK:
+                            return boardResponse.body();
+                        default:
+                            String error = "Error in boardResponse: " + boardResponse.code() + " : " + boardResponse.message();
+                            Log.e("getPrivateBoardToOpen", error);
+                            return boardResponse.body();
+                    }
+                })
         );
     }
 

@@ -151,7 +151,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
                         HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED -> handleCommentResponse(it.body())
                         else -> errorToast(R.string.failed_to_post_comment, it)
                     }
-                })
+                }, this)
     }
 
     private fun postCommentOnFeedItem(comment: String, commentEvent: CommentEvent) {
@@ -165,7 +165,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
                         HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED -> handleCommentResponse(it.body())
                         else -> errorToast(R.string.failed_to_post_comment, it)
                     }
-                })
+                }, this)
     }
 
     protected fun postReplyOnBoardComment(reply: String, commentEvent: CommentEvent, parentComment: FeedItemComment?, position: Int) {
@@ -179,7 +179,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
                         HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED -> handleReplyResponse(it.body(), parentComment, position)
                         else -> errorToast(R.string.failed_to_post_reply, it)
                     }
-                })
+                }, this)
     }
 
     protected fun postReplyOnFeedItemComment(reply: String, commentEvent: CommentEvent, parentComment: FeedItemComment?, position: Int) {
@@ -193,7 +193,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
                         HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED -> handleReplyResponse(it.body(), parentComment, position)
                         else -> errorToast(R.string.failed_to_post_reply, it)
                     }
-                })
+                }, this)
     }
 
     private fun handleCommentResponse(feedItemComment: FeedItemComment?) {

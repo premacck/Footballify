@@ -136,8 +136,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
                 }
                 else -> Log.e(TAG, it.message())
             }
-        }
-        )
+        }, this)
     }
 
     override fun onQueryTextSubmit(s: String): Boolean {

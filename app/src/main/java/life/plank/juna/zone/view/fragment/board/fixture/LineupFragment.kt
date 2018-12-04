@@ -112,7 +112,7 @@ class LineupFragment : BaseFragment() {
                             updateUi(false, R.string.stay_tuned_for_the_lineups)
                         }
                     }
-                })
+                }, this)
     }
 
     private fun updateUi(isDataAvailable: Boolean, @StringRes message: Int = 0) {

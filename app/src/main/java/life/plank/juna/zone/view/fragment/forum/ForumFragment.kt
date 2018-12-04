@@ -110,7 +110,7 @@ class ForumFragment : BaseCommentContainerFragment() {
                             no_comment_text_view.onDebouncingClick { getComments(false) }
                         }
                     }
-                })
+                }, this)
     }
 
     override fun specifyCommentEvent() {

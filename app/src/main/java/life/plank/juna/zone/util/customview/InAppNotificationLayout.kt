@@ -12,8 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_in_app_notification.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.notification.InAppNotification
-import life.plank.juna.zone.notification.getSocialNotificationIntent
-import life.plank.juna.zone.notification.triggerNotificationIntent
+import life.plank.juna.zone.notification.triggerNotificationAction
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.onSwipeDown
@@ -45,26 +44,16 @@ class InAppNotificationLayout @JvmOverloads constructor(
         notification_sub_message.isSelected = true
         parentActivity = activity
 
-//        Check if notification image URL is null or empty, assign imageUrl, or feedItemThumbnailUrl, or boardIconUrl
-//        (whichever is not null gets assigned) in that precedence order
-        inAppNotification.validateImageUrl()
+        inAppNotification.updateImageViews()
 
-//        If notification image URL is still null or empty, hide image view and expand the width of the message layout
-        if (isNullOrEmpty(inAppNotification.imageUrl)) {
-            notification_image.visibility = View.GONE
-            (notification_message_layout.layoutParams as FrameLayout.LayoutParams).marginStart = 0
-        }
-
-        inAppNotification.imageUrl?.run {
-            Glide.with(context).load(this)
-                    .apply(RequestOptions.overrideOf(getDp(90f).toInt(), getDp(90f).toInt()))
-                    .into(notification_image)
-        }
         setListeners(inAppNotification)
         show(dismissDelay)
     }
 
+    //    TODO: Remove after JunaNotification model is changed
     private fun InAppNotification.validateImageUrl() {
+//        Check if notification image URL is null or empty, assign imageUrl, or feedItemThumbnailUrl, or boardIconUrl
+//        (whichever is not null gets assigned) in that precedence order
         if (!isNullOrEmpty(imageUrl)) {
             return
         }
@@ -81,12 +70,43 @@ class InAppNotificationLayout @JvmOverloads constructor(
         }
     }
 
+    private fun InAppNotification.updateImageViews() {
+        when {
+            junaNotification != null -> {
+                image_layout.visibility = View.INVISIBLE
+                validateImageUrl()
+
+                if (isNullOrEmpty(imageUrl)) {
+                    notification_image.visibility = View.GONE
+                    (notification_message_layout.layoutParams as FrameLayout.LayoutParams).marginStart = 0
+                }
+
+                imageUrl?.run {
+                    Glide.with(context).load(this)
+                            .apply(RequestOptions.overrideOf(getDp(85f).toInt(), getDp(85f).toInt()))
+                            .into(notification_image)
+                }
+            }
+            zoneLiveData != null -> {
+                notification_image.setImageDrawable(resources.getDrawable(R.drawable.ic_match_bg, null))
+                Glide.with(context).load(zoneLiveData?.homeTeamLogo)
+                        .apply(RequestOptions.overrideOf(getDp(30f).toInt(), getDp(30f).toInt())
+                                .placeholder(R.drawable.shimmer_circle))
+                        .into(home_team_logo)
+                Glide.with(context).load(zoneLiveData?.visitingTeamLogo)
+                        .apply(RequestOptions.overrideOf(getDp(30f).toInt(), getDp(30f).toInt())
+                                .placeholder(R.drawable.shimmer_circle))
+                        .into(visiting_team_logo)
+            }
+        }
+    }
+
     private fun setListeners(inAppNotification: InAppNotification) {
         parentActivity?.run {
             in_app_notification_card.onSwipeDown(this, null, null, { detach() }, {
                 dismiss()?.then {
-                    inAppNotification.junaNotification?.run {
-                        parentActivity?.triggerNotificationIntent(getSocialNotificationIntent())
+                    inAppNotification.run {
+                        triggerNotificationAction(parentActivity)
                         parentActivity = null
                     }
                     detachFormParent()

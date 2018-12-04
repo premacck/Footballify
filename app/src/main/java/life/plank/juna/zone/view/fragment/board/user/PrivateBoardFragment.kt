@@ -25,7 +25,6 @@ import life.plank.juna.zone.util.common.customToast
 import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.BaseCard
-import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
@@ -81,7 +80,8 @@ class PrivateBoardFragment : CardTileFragment() {
         private_board_toolbar.setBackgroundColor(color)
         root_card.setCardBackgroundColor(color)
 
-        context?.doAfterDelay(400) { setupViewPagerWithFragments() }
+        setupViewPagerWithFragments()
+
         val topic = getString(R.string.board_id_prefix) + board.id
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
     }
@@ -129,7 +129,7 @@ class PrivateBoardFragment : CardTileFragment() {
                 }
                 else -> errorToast(R.string.something_went_wrong, it)
             }
-        })
+        }, this)
     }
 
     internal class PrivateBoardPagerAdapter(fm: FragmentManager, private val board: Board) : FragmentPagerAdapter(fm) {

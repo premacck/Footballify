@@ -222,4 +222,12 @@
     <string name="rest_api_is_null">RestApi is null</string>
     <string name="get_tickets">GET TICKETS</string>
     <string name="juna_user">Juna User</string>
+    <string name="_by_">&#160;by&#160;</string>
+    <string name="assist_by_">&#160;assist by&#160;</string>
+    <string name="_receives_yellow_card">&#160;receives yellow card!</string>
+    <string name="_receives_red_card">&#160;receives red card!</string>
+    <string name="_conceded_penalty">&#160;conceded penalty</string>
+    <string name="match_is_now_live">Match is now live!</string>
+    <string name="lineups_are_now_available">Lineups are now available!</string>
+    <string name="match_board_is_now_active">Match board is now active!</string>
 </resources>
