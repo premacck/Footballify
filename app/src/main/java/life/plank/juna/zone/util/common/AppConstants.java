@@ -58,6 +58,7 @@ public class AppConstants {
     public static final String TEAM_STATS = "Team Stats";
     public static final String PLAYER_STATS = "Player Stats";
 
+    public static final String LIVE_FOOTBALL_MATCH = "livefootballmatch";
     public static final String GOAL = "goal";
     public static final String YELLOW_CARD = "yellowcard";
     public static final String RED_CARD = "redcard";

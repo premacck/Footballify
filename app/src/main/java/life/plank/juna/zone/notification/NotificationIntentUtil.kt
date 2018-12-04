@@ -5,6 +5,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.notification.InAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.DataUtil.findString
@@ -79,6 +80,13 @@ fun BaseCardActivity.handleSocialNotificationIntentIfAny(restApi: RestApi) {
 //            TODO: open board -> switch to tiles -> if(feedItemId != null) { open feedItem }
             findString(intent_comment) -> findAndLaunchBoardById(restApi)
         }
+    }
+}
+
+fun InAppNotification.triggerNotificationAction(baseCardActivity: BaseCardActivity?) {
+    when {
+        junaNotification != null -> baseCardActivity?.triggerNotificationIntent(junaNotification?.getSocialNotificationIntent()!!)
+        zoneLiveData != null -> baseCardActivity?.triggerNotificationIntent(zoneLiveData?.getLiveFootballNotificationIntent()!!)
     }
 }
 

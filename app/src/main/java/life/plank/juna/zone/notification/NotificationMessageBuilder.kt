@@ -65,8 +65,8 @@ private fun SpannableStringBuilder.appendBoard(name: String?): SpannableStringBu
  * Method to get suitable text for the social live football data message
  */
 fun ZoneLiveData.buildNotificationMessage(): SpannableStringBuilder {
-    val spannableStringBuilder = SpannableStringBuilder(homeTeamName.bold())
-            .append(SPACE, findString(vs).bold(), SPACE, visitingTeamName.bold(), NEW_LINE)
+    val header = "$homeTeamName ${findString(vs)} $visitingTeamName"
+    val spannableStringBuilder = SpannableStringBuilder(header.bold()).append(NEW_LINE)
     when (liveDataType) {
         MATCH_EVENTS -> {
             val matchEventList = getMatchEventList(GSON)
