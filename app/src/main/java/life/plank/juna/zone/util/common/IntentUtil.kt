@@ -49,9 +49,11 @@ inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(boardId: Stri
  */
 fun BaseCardActivity.handleBoardIntentIfAny(restApi: RestApi) {
     if (intent.hasExtra(getString(R.string.intent_action))) return
-    when {
-        intent.hasExtra(getString(R.string.intent_board)) -> launchPrivateOrMatchBoard(restApi, intent.getParcelableExtra(getString(R.string.intent_board)))
-        intent.hasExtra(getString(R.string.intent_board_id)) -> findAndLaunchBoardById(restApi)
+    restApi()?.run {
+        when {
+            intent.hasExtra(getString(R.string.intent_board)) -> launchPrivateOrMatchBoard(this, intent.getParcelableExtra(getString(R.string.intent_board)))
+            intent.hasExtra(getString(R.string.intent_board_id)) -> findAndLaunchBoardById(this)
+        }
     }
 }
 

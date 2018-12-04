@@ -93,6 +93,7 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
     }
 
     private fun updateUi() {
+        FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
         try {
             board_toolbar.prepare(matchDetails, league.leagueLogo)
 
@@ -194,9 +195,6 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
 
     override fun onDestroy() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
-        if (!isNullOrEmpty(board.id) && !board.isActive) {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.board_id_prefix) + board.id)
-        }
         boardPagerAdapter = null
         super.onDestroy()
     }

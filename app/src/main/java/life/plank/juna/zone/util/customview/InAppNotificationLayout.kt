@@ -12,8 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_in_app_notification.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.notification.InAppNotification
-import life.plank.juna.zone.notification.getSocialNotificationIntent
-import life.plank.juna.zone.notification.triggerNotificationIntent
+import life.plank.juna.zone.notification.triggerNotificationAction
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.onSwipeDown
@@ -79,14 +78,20 @@ class InAppNotificationLayout @JvmOverloads constructor(
                 this@validateImageUrl.imageUrl = boardIconUrl
             }
         }
+        if (isNullOrEmpty(imageUrl)) {
+            zoneLiveData?.run {
+                //                TODO: display homeTeamLogo and awayTeam logo separately
+                imageUrl = homeTeamLogo
+            }
+        }
     }
 
     private fun setListeners(inAppNotification: InAppNotification) {
         parentActivity?.run {
             in_app_notification_card.onSwipeDown(this, null, null, { detach() }, {
                 dismiss()?.then {
-                    inAppNotification.junaNotification?.run {
-                        parentActivity?.triggerNotificationIntent(getSocialNotificationIntent())
+                    inAppNotification.run {
+                        triggerNotificationAction(parentActivity)
                         parentActivity = null
                     }
                     detachFormParent()
