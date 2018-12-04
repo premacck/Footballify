@@ -4,6 +4,7 @@ import android.content.Intent
 import life.plank.juna.zone.R
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.DataUtil.findString
@@ -45,12 +46,20 @@ fun JunaNotification.getSocialNotificationIntent(): Intent {
     }
 }
 
+fun ZoneLiveData.getLiveFootballNotificationIntent(): Intent {
+    return ZoneApplication.getContext().run {
+        intentFor<HomeActivity>(
+                findString(match_id_string) to matchId
+        ).clearTop()
+    }
+}
+
 fun BaseCardActivity.triggerNotificationIntent(intent: Intent) {
     this.intent = intent
     restApi()?.run { findAndLaunchBoardById(this) } ?: toast(R.string.rest_api_is_null)
 }
 
-fun BaseCardActivity.handleNotificationIntentIfAny(restApi: RestApi) {
+fun BaseCardActivity.handleSocialNotificationIntentIfAny(restApi: RestApi) {
     intent?.run {
         if (!hasExtra(getString(intent_action)) || !hasExtra(getString(intent_board_id))) return
 

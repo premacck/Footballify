@@ -70,7 +70,12 @@ fun String.formatMentions(): SpannableString {
     return formattedReply
 }
 
-fun SpannableStringBuilder.maybeAppend(charSequence: CharSequence, condition: Boolean): SpannableStringBuilder {
+fun SpannableStringBuilder.maybeAppend(charSequence: CharSequence?, condition: Boolean): SpannableStringBuilder {
     if (condition) append(charSequence)
+    return this
+}
+
+fun SpannableStringBuilder.appendOneOrOther(condition: Boolean, conditionOneString: CharSequence?, conditionTwoString: CharSequence?): SpannableStringBuilder {
+    append(if (condition) conditionOneString else conditionTwoString)
     return this
 }

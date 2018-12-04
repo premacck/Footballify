@@ -79,6 +79,11 @@ class InAppNotificationLayout @JvmOverloads constructor(
                 this@validateImageUrl.imageUrl = boardIconUrl
             }
         }
+        if (isNullOrEmpty(imageUrl)) {
+            zoneLiveData?.run {
+
+            }
+        }
     }
 
     private fun setListeners(inAppNotification: InAppNotification) {

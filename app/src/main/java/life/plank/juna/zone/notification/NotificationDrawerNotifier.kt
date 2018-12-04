@@ -15,6 +15,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.notification.BaseInAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.util.common.DataUtil.findString
 import org.jetbrains.anko.doAsync
@@ -47,13 +48,17 @@ fun JunaNotification.prepareDrawerNotification() {
  * Method to send live football data notification in the notification drawer
  */
 fun ZoneLiveData.prepareDrawerNotification() {
+    sendTextNotification(PendingIntent.getActivity(ZoneApplication.getContext(), 0, getLiveFootballNotificationIntent(), FLAG_ONE_SHOT))
 }
 
-fun JunaNotification.sendTextNotification(pendingIntent: PendingIntent) {
+fun BaseInAppNotification.sendTextNotification(pendingIntent: PendingIntent) {
     ZoneApplication.getContext()
             .getNotificationManager()
             .setNotificationChannel()
-            .notify(0, getNotificationBuilder(buildNotificationMessage(), pendingIntent).build())
+            .notify(0, getNotificationBuilder(
+                    getNotificationMessage(),
+                    pendingIntent
+            ).build())
 }
 
 fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: Boolean) {
