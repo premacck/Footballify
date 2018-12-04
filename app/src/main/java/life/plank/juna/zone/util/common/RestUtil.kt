@@ -8,6 +8,7 @@ import android.widget.Toast
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.view.fragment.base.BaseFragment
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.runOnUiThread
 import retrofit2.Response
@@ -23,27 +24,23 @@ fun <T> Observable<T>.setObserverThreadsAndSubscribe(subscriber: Subscriber<in T
             .subscribe(subscriber)
 }
 
-fun <T> Observable<T>.setObserverThreadsAndSmartSubscribe(onError: (e: Throwable) -> Unit, onNext: (t: T) -> Unit): Subscription {
+fun <T> Observable<T>.setObserverThreadsAndSmartSubscribe(onError: (e: Throwable) -> Unit, onNext: (t: T) -> Unit, fragmentToAttach: Any? = null): Subscription {
     return this.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .smartSubscribe(onError, onNext)
+            .smartSubscribe(fragmentToAttach, onError, onNext)
 }
 
-fun <T> Observable<T>.execute(): Subscription {
+fun <T> Observable<T>.execute(fragmentToAttach: Any? = null): Subscription {
     return this.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Subscriber<T>() {
-                override fun onCompleted() {}
-                override fun onNext(t: T) {}
-                override fun onError(e: Throwable) {
-                    Log.e("execute(): ", this@execute.toString(), e)
-                    errorToast(R.string.something_went_wrong, e)
-                }
-            })
+            .smartSubscribe(fragmentToAttach, {
+                Log.e("execute(): ", this@execute.toString(), it)
+                errorToast(R.string.something_went_wrong, it)
+            }, {})
 }
 
-fun <T> Observable<T>.smartSubscribe(onError: (e: Throwable) -> Unit, onNext: (t: T) -> Unit): Subscription {
-    return subscribe(object : Subscriber<T>() {
+fun <T> Observable<T>.smartSubscribe(fragmentToAttach: Any? = null, onError: (e: Throwable) -> Unit, onNext: (t: T) -> Unit): Subscription {
+    val subscription = subscribe(object : Subscriber<T>() {
         override fun onCompleted() {}
 
         override fun onError(e: Throwable) {
@@ -53,6 +50,12 @@ fun <T> Observable<T>.smartSubscribe(onError: (e: Throwable) -> Unit, onNext: (t
 
         override fun onNext(t: T) = onNext(t)
     })
+    (fragmentToAttach as? BaseFragment)?.run {
+        if (!subscriptionList.contains(subscription)) {
+            subscriptionList.add(subscription)
+        }
+    }
+    return subscription
 }
 
 fun <T> Observable<T>.onSubscribe(onSubscribe: () -> Unit): Observable<T> = doOnSubscribe { ZoneApplication.getContext().runOnUiThread { onSubscribe() } }
