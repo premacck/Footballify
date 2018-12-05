@@ -20,7 +20,7 @@ data class ZoneLiveData(
         var data: String = ""
 ) : Parcelable, BaseInAppNotification() {
 
-    fun getScoreData(gson: Gson): LiveScoreData {
+    fun getScoreData(gson: Gson): LiveScoreData? {
         return gson.fromJson<LiveScoreData>(data, LiveScoreData::class.java)
     }
 
@@ -34,7 +34,7 @@ data class ZoneLiveData(
         }.type)
     }
 
-    fun getLiveTimeStatus(gson: Gson): LiveTimeStatus {
+    fun getLiveTimeStatus(gson: Gson): LiveTimeStatus? {
         return gson.fromJson<LiveTimeStatus>(data, LiveTimeStatus::class.java)
     }
 
@@ -48,7 +48,7 @@ data class ZoneLiveData(
         }.type)
     }
 
-    fun getMatchStats(gson: Gson): MatchStats {
+    fun getMatchStats(gson: Gson): MatchStats? {
         return gson.fromJson<MatchStats>(data, MatchStats::class.java)
     }
 }

@@ -12,10 +12,8 @@ import kotlinx.android.synthetic.main.fragment_board_info.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.MatchDetails
-import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.MatchEvent
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.AppConstants.LINEUPS_DATA
-import life.plank.juna.zone.util.common.AppConstants.MATCH_EVENTS
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.common.onTerminate
@@ -62,22 +60,14 @@ class LineupFragment : BaseFragment() {
         list_board_info.adapter = adapter
     }
 
-    fun updateZoneLiveData(zoneLiveData: ZoneLiveData) {
-        when (zoneLiveData.liveDataType) {
-            MATCH_EVENTS -> {
-                val matchEventList = zoneLiveData.getMatchEventList(gson)
-                if (matchEventList != null) {
-                    adapter?.updateMatchEventsAndSubstitutions(matchEventList, false)
-                }
-            }
-            LINEUPS_DATA -> getLineupFormation(false)
-        }
+    fun updateMatchEvents(matchEventList: List<MatchEvent>) {
+        adapter?.updateMatchEventsAndSubstitutions(matchEventList, false)
     }
 
     /**
      * Method for fetching lineups live. invoked by receiving the ZoneLiveData's lineup broadcast
      */
-    private fun getLineupFormation(isRefreshing: Boolean) {
+    fun getLineupFormation(isRefreshing: Boolean) {
         if (!isAdded) return
 
         updateUi(false, R.string.loading_lineups)

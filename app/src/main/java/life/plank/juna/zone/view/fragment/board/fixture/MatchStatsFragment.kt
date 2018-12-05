@@ -14,8 +14,6 @@ import life.plank.juna.zone.data.RestApiAggregator
 import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.MatchStatsListener
-import life.plank.juna.zone.util.common.AppConstants.COMMENTARY_DATA
-import life.plank.juna.zone.util.common.AppConstants.MATCH_STATS_DATA
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.onSubscribe
@@ -85,16 +83,12 @@ class MatchStatsFragment : BaseBoardFragment(), MatchStatsListener {
         }
     }
 
-    fun updateZoneLiveData(zoneLiveData: ZoneLiveData) {
-        when (zoneLiveData.liveDataType) {
-            COMMENTARY_DATA -> {
-                val commentaryList = zoneLiveData.getCommentaryList(gson)
-                if (commentaryList != null) {
-                    adapter?.updateCommentaries(commentaryList, false)
-                }
-            }
-            MATCH_STATS_DATA -> adapter?.updateMatchStats(zoneLiveData.getMatchStats(gson), 0)
-        }
+    fun updateCommentary(commentaryList: List<Commentary>) {
+        adapter?.updateCommentaries(commentaryList, false)
+    }
+
+    fun updateMatchStats(matchStats: MatchStats) {
+        adapter?.updateMatchStats(matchStats, 0)
     }
 
     override fun handlePreMatchData(pair: Pair<List<Standings>, List<TeamStats>>?) {

@@ -92,9 +92,9 @@ fun ZoneLiveData.buildNotificationMessage(): SpannableStringBuilder {
         }
         TIME_STATUS_DATA -> {
             val liveTimeStatus = getLiveTimeStatus(GSON)
-            when (liveTimeStatus.timeStatus) {
+            when (liveTimeStatus?.timeStatus) {
                 LIVE -> spannableStringBuilder.append(findString(match_is_now_live))
-                else -> spannableStringBuilder.append(getDisplayTimeStatus(liveTimeStatus.timeStatus))
+                else -> spannableStringBuilder.append(getDisplayTimeStatus(liveTimeStatus?.timeStatus))
             }
         }
         LINEUPS_DATA -> spannableStringBuilder.append(findString(lineups_are_now_available))
