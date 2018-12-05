@@ -52,7 +52,7 @@ fun ZoneLiveData.getLiveFootballNotificationIntent(): Intent {
     return ZoneApplication.getContext().run {
         intentFor<HomeActivity>(
                 findString(match_id_string) to matchId,
-                findString(intent_live_event_type) to liveEventType
+                findString(intent_live_data_type) to liveDataType
         ).clearTop()
     }
 }
@@ -103,5 +103,8 @@ fun InAppNotification.triggerNotificationAction(baseCardActivity: BaseCardActivi
     }
 }
 
-fun BaseCard.getIntentActionFromActivity(): String? =
+fun BaseCard.getSocialNotificationIntentActionFromActivity(): String? =
         (activity as? BaseCardActivity)?.intent?.getStringExtra(findString(intent_action))
+
+fun BaseCard.getLiveFootballNotificationIntentActionFromActivity(): String? =
+        (activity as? BaseCardActivity)?.intent?.getStringExtra(findString(intent_live_data_type))
