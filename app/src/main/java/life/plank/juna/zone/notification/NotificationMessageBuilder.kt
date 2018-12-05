@@ -16,7 +16,7 @@ import life.plank.juna.zone.util.common.semiBold
 fun BaseInAppNotification.getNotificationMessage(): SpannableStringBuilder {
     return when {
         this is JunaNotification -> buildNotificationMessage()
-        this is ZoneLiveData -> buildNotificationMessage(false)
+        this is ZoneLiveData -> buildNotificationMessage()
         else -> SpannableStringBuilder()
     }
 }
@@ -64,9 +64,9 @@ private fun SpannableStringBuilder.appendBoard(name: String?): SpannableStringBu
 /**
  * Method to get suitable text for the social live football data message
  */
-fun ZoneLiveData.buildNotificationMessage(isInAppNotification: Boolean = true): SpannableStringBuilder {
+fun ZoneLiveData.buildNotificationMessage(): SpannableStringBuilder {
     val header = "$homeTeamName ${findString(vs)} $visitingTeamName"
-    val spannableStringBuilder = if (isInAppNotification) SpannableStringBuilder(header.bold()).append(NEW_LINE) else SpannableStringBuilder()
+    val spannableStringBuilder = SpannableStringBuilder(header.bold()).append(NEW_LINE)
     when (liveDataType) {
         MATCH_EVENTS -> {
             val matchEventList = getMatchEventList(GSON)

@@ -20,7 +20,6 @@ import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.asciiToInt
-import life.plank.juna.zone.util.common.semiBold
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.CurrentUser.getUserId
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -96,13 +95,9 @@ fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: 
     }
 }
 
-fun BaseInAppNotification.getNotificationBuilder(notificationMessage: SpannableStringBuilder, pendingIntent: PendingIntent): NotificationCompat.Builder {
+fun getNotificationBuilder(notificationMessage: SpannableStringBuilder, pendingIntent: PendingIntent): NotificationCompat.Builder {
     return NotificationCompat.Builder(ZoneApplication.getContext(), CHANNEL_ID)
-            .setContentTitle(
-                    if (this is ZoneLiveData) {
-                        "$homeTeamName ${findString(vs)} $visitingTeamName".semiBold()
-                    } else findString(app_name)
-            )
+            .setContentTitle(findString(app_name))
             .setContentText(notificationMessage)
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
