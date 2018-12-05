@@ -135,9 +135,9 @@ class TimelinePopup : BaseBlurPopup() {
             }
             TIME_STATUS -> {
                 val timeStatus = zoneLiveData.getLiveTimeStatus(gson)
-                if (timeStatus.timeStatus == LIVE && timeStatus.minute == 0 ||
-                        timeStatus.timeStatus == HT ||
-                        timeStatus.timeStatus == FT) {
+                if (timeStatus?.timeStatus == LIVE && timeStatus.minute == 0 ||
+                        timeStatus?.timeStatus == HT ||
+                        timeStatus?.timeStatus == FT) {
                     if (adapter != null) {
                         adapter!!.updateWhistleEvent(timeStatus)
                     }

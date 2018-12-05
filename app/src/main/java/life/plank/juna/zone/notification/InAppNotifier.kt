@@ -7,7 +7,9 @@ import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.InAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.facilis.findFragment
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.fragment.base.BaseMatchFragment
 
 /**
  * Method to send in-app social interaction notification
@@ -33,6 +35,12 @@ fun BaseCardActivity.handleInAppNotification(junaNotification: JunaNotification)
 }
 
 fun BaseCardActivity.handleInAppNotification(zoneLiveData: ZoneLiveData) {
-//    TODO: defer to active fragments if they are in the foreground, else:
-    showInAppNotification(InAppNotification(zoneLiveData))
+    (supportFragmentManager.findFragment<BaseMatchFragment>() as? BaseMatchFragment)?.run {
+        if (isInForeGround) {
+            onZoneLiveDataReceived(zoneLiveData)
+        } else {
+            zoneLiveData.sendCustomizedNotification { showInAppNotification(InAppNotification(zoneLiveData)) }
+        }
+    }
+            ?: zoneLiveData.sendCustomizedNotification { showInAppNotification(InAppNotification(zoneLiveData)) }
 }

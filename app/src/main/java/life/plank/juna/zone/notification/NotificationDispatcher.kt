@@ -7,6 +7,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import org.jetbrains.anko.doAsync
@@ -61,4 +62,10 @@ private fun Context.isForeground(): Boolean {
         }
     }
     return false
+}
+
+fun ZoneLiveData.sendCustomizedNotification(action: () -> Unit) {
+    when (liveDataType) {
+        LIVE_FOOTBALL_MATCH, MATCH_EVENTS, TIME_STATUS_DATA, LINEUPS_DATA, BOARD_ACTIVATED -> action()
+    }
 }

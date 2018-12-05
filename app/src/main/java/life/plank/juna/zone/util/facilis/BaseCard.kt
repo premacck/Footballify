@@ -16,6 +16,8 @@ import life.plank.juna.zone.view.fragment.base.BaseFragment
 
 abstract class BaseCard : BaseFragment() {
 
+    var isInForeGround: Boolean = false
+
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         getRootView()?.run {
@@ -24,6 +26,7 @@ abstract class BaseCard : BaseFragment() {
         }
         activity?.let { setupSwipeDownGesture(it) }
         (getBackgroundBlurLayout() as? BlurLayout)?.beginBlur()
+        isInForeGround = true
     }
 
     private fun setupSwipeDownGesture(activity: Activity) = getDragView()?.setSwipeDownListener(activity, getRootView()!!, getBackgroundBlurLayout())
@@ -31,11 +34,13 @@ abstract class BaseCard : BaseFragment() {
     fun moveToBackGround() {
         getRootView()?.moveToBackGround(getParentActivity().index)
         dragHandle()?.fadeOut()
+        isInForeGround = false
     }
 
     fun moveToForeGround() {
         getRootView()?.moveToForeGround()
         dragHandle()?.fadeIn()
+        isInForeGround = true
     }
 
     fun dispose() {

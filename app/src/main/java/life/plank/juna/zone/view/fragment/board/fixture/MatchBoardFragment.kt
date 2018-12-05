@@ -22,6 +22,7 @@ import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil
 import life.plank.juna.zone.util.common.DataUtil.*
+import life.plank.juna.zone.util.common.customToast
 import life.plank.juna.zone.util.common.execute
 import life.plank.juna.zone.util.common.getPositionFromIntentIfAny
 import life.plank.juna.zone.util.facilis.onDebouncingClick
@@ -128,18 +129,24 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
 
     override fun onZoneLiveDataReceived(zoneLiveData: ZoneLiveData) {
         when (zoneLiveData.liveDataType) {
-            SCORE_DATA -> {
-                val scoreData = zoneLiveData.getScoreData(gson)
-                updateScoreLocally(matchDetails, scoreData)
-                board_toolbar.setScore("${scoreData.homeGoals} $DASH ${scoreData.awayGoals}")
-                FixtureListUpdateTask.update(matchDetails, scoreData, null, true)
+            SCORE_DATA -> zoneLiveData.getScoreData(gson)?.run {
+                updateScoreLocally(matchDetails, this)
+                board_toolbar.setScore("$homeGoals$DASH$awayGoals")
+                FixtureListUpdateTask.update(matchDetails, this, null, true)
             }
-            TIME_STATUS_DATA -> {
-                val timeStatus = zoneLiveData.getLiveTimeStatus(gson)
-                updateTimeStatusLocally(matchDetails, timeStatus)
-                FixtureListUpdateTask.update(matchDetails, null, timeStatus, false)
-                board_toolbar.setLiveTimeStatus(matchDetails.matchStartTime, timeStatus.timeStatus)
+            TIME_STATUS_DATA -> zoneLiveData.getLiveTimeStatus(gson)?.run {
+                updateTimeStatusLocally(matchDetails, this)
+                FixtureListUpdateTask.update(matchDetails, null, this, false)
+                board_toolbar.setLiveTimeStatus(matchDetails.matchStartTime, timeStatus)
             }
+            MATCH_EVENTS ->
+                zoneLiveData.getMatchEventList(gson)?.run { (boardPagerAdapter?.currentFragment as? LineupFragment)?.updateMatchEvents(this) }
+            COMMENTARY_DATA ->
+                zoneLiveData.getCommentaryList(gson)?.run { (boardPagerAdapter?.currentFragment as? MatchStatsFragment)?.updateCommentary(this) }
+            MATCH_STATS_DATA ->
+                zoneLiveData.getMatchStats(gson)?.run { (boardPagerAdapter?.currentFragment as? MatchStatsFragment)?.updateMatchStats(this) }
+            HIGHLIGHTS_DATA ->
+                zoneLiveData.getHighlightsList(gson)?.run { (boardPagerAdapter?.currentFragment as? MatchMediaFragment)?.updateHighlights(this) }
             BOARD_ACTIVATED -> {
                 board.isActive = true
                 clearColorFilter()
@@ -153,11 +160,8 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
                     dialog.cancel()
                 }
             }
-        }
-        try {
-            (boardPagerAdapter?.currentFragment as? MatchMediaFragment)?.updateZoneLiveData(zoneLiveData)
-        } catch (e: Exception) {
-            Log.e(TAG, e.message, e)
+            LINEUPS_DATA -> (boardPagerAdapter?.currentFragment as? LineupFragment)?.getLineupFormation(false)
+                    ?: customToast(R.string.lineups_now_available_for_this_match)
         }
     }
 

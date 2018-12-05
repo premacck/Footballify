@@ -17,7 +17,6 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.BaseInAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
-import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.asciiToInt
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.CurrentUser.getUserId
@@ -51,9 +50,8 @@ fun JunaNotification.prepareDrawerNotification() {
  * Method to send live football data notification in the notification drawer
  */
 fun ZoneLiveData.prepareDrawerNotification() {
-    when (liveDataType) {
-        LIVE_FOOTBALL_MATCH, MATCH_EVENTS, TIME_STATUS_DATA, LINEUPS_DATA, BOARD_ACTIVATED ->
-            sendTextNotification(PendingIntent.getActivity(ZoneApplication.getContext(), 0, getLiveFootballNotificationIntent(), FLAG_ONE_SHOT))
+    sendCustomizedNotification {
+        sendTextNotification(PendingIntent.getActivity(ZoneApplication.getContext(), 0, getLiveFootballNotificationIntent(), FLAG_ONE_SHOT))
     }
 }
 
