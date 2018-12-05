@@ -112,6 +112,8 @@ fun Animation.then(action: (animation: Animation) -> Unit): Animation {
     return this
 }
 
+fun View.fadeIn() = animate().alpha(1f).setDuration(280).start()
+
 fun View.fadeOut() = animate().alpha(0f).setDuration(280).start()
 
 fun View.floatDown(delayMillis: Long = 50) = animate(R.anim.float_down, delayMillis).then { visibility = View.VISIBLE }
@@ -290,3 +292,8 @@ fun <BM> RecyclerAdapter.addDataManagerAndRegisterBinder(dataManager: DataItemMa
     addDataManager(dataManager)
     registerBinder(binderToRegister)
 }
+
+
+fun View.dragHandle(): ImageView? = findViewById(R.id.drag_handle_image)
+
+fun BaseCard.dragHandle(): ImageView? = getRootView()?.dragHandle()
