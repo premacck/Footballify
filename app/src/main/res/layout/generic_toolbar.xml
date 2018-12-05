@@ -12,7 +12,6 @@
         android:paddingEnd="8dp">
 
         <ImageView
-            android:id="@+id/drag_handle"
             style="@style/DragHandleLightImageView"
             android:contentDescription="@string/thumbnail" />
 

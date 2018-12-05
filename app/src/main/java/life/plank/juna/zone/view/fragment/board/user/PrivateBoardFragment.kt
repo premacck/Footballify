@@ -94,9 +94,9 @@ class PrivateBoardFragment : CardTileFragment() {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = root_blur_layout
 
-    override fun getRootCard(): CardView? = root_card
+    override fun getRootView(): CardView? = root_card
 
-    override fun getDragHandle(): View? = drag_area
+    override fun getDragView(): View? = drag_area
 
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {
         feedEntries = feedEntryList

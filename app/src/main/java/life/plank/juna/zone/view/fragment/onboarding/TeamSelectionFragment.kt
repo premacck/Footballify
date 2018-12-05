@@ -55,9 +55,9 @@ class TeamSelectionFragment : SearchableCard() {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 
-    override fun getRootCard(): CardView? = root_card
+    override fun getRootView(): CardView? = root_card
 
-    override fun getDragHandle(): View? = drag_area
+    override fun getDragView(): View? = drag_area
 
     override fun searchView(): EditText = search_view
 

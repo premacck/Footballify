@@ -167,9 +167,9 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 
-    override fun getRootCard(): ViewGroup? = root_card
+    override fun getRootView(): ViewGroup? = root_card
 
-    override fun getDragHandle(): View? = drag_area
+    override fun getDragView(): View? = drag_area
 
     override fun onMatchTimeStateChange() = updateUi()
 
