@@ -17,7 +17,7 @@ fun dispatch(dataPayload: Map<String, String>) {
     if (dataPayload.containsKey(findString(R.string.intent_action))) {
 //        Data payload contains social interaction notification
         dispatchSocialNotification(dataPayload)
-    } else if (dataPayload.containsKey(findString(R.string.intent_live_event_type))) {
+    } else if (dataPayload.containsKey(findString(R.string.intent_live_data_type))) {
 //        Data payload contains football live data notification
         dispatchLiveFootballNotification(dataPayload)
     }

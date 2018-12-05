@@ -155,11 +155,9 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
             }
         }
         try {
-            if (boardPagerAdapter?.currentFragment is MatchMediaFragment) {
-                (boardPagerAdapter?.currentFragment as? MatchMediaFragment)?.updateZoneLiveData(zoneLiveData)
-            }
+            (boardPagerAdapter?.currentFragment as? MatchMediaFragment)?.updateZoneLiveData(zoneLiveData)
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e(TAG, e.message, e)
         }
     }
 
