@@ -74,7 +74,7 @@ class LeagueStatsFragment : BaseLeagueFragment() {
                 .setObserverThreadsAndSmartSubscribe({}, {
                     setTeamStats(it.first)
                     setPlayerStats(it.second)
-                })
+                }, this)
     }
 
     private fun setTeamStats(teamStatsList: List<TeamStats>?) {

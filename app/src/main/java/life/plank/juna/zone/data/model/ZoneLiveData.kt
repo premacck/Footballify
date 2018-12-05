@@ -2,16 +2,21 @@ package life.plank.juna.zone.data.model
 
 import android.os.Parcelable
 import com.google.gson.Gson
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.parcel.Parcelize
 import life.plank.juna.zone.data.model.notification.BaseInAppNotification
 
 @Parcelize
 data class ZoneLiveData(
-        var liveEventType: String?,
-        var foreignId: Long,
+        @SerializedName("foreignId") @Expose var matchId: Long,
         var boardTopic: String,
         var liveDataType: String,
+        var homeTeamName: String,
+        var homeTeamLogo: String,
+        @SerializedName("awayTeamName") @Expose var visitingTeamName: String,
+        @SerializedName("awayTeamLogo") @Expose var visitingTeamLogo: String,
         var data: String = ""
 ) : Parcelable, BaseInAppNotification() {
 

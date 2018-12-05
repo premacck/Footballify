@@ -49,9 +49,11 @@ inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(boardId: Stri
  */
 fun BaseCardActivity.handleBoardIntentIfAny(restApi: RestApi) {
     if (intent.hasExtra(getString(R.string.intent_action))) return
-    when {
-        intent.hasExtra(getString(R.string.intent_board)) -> launchPrivateOrMatchBoard(restApi, intent.getParcelableExtra(getString(R.string.intent_board)))
-        intent.hasExtra(getString(R.string.intent_board_id)) -> findAndLaunchBoardById(restApi)
+    restApi()?.run {
+        when {
+            intent.hasExtra(getString(R.string.intent_board)) -> launchPrivateOrMatchBoard(this, intent.getParcelableExtra(getString(R.string.intent_board)))
+            intent.hasExtra(getString(R.string.intent_board_id)) -> findAndLaunchBoardById(this)
+        }
     }
 }
 
@@ -66,9 +68,11 @@ fun BaseCardActivity.launchPrivateOrMatchBoard(restApi: RestApi, board: Board) {
     when (board.boardType) {
         findString(R.string.board_type_football_match) -> {
             board.boardEvent?.apply {
-                restApi.getMatchDetails(foreignId).setObserverThreadsAndSmartSubscribe({}, {
+                restApi.getMatchDetails(foreignId).setObserverThreadsAndSmartSubscribe({
+                    errorToast(R.string.match_details_not_found, it)
+                }, {
                     it.body()?.run { launchMatchBoard(board, this) }
-                            ?: customToast(R.string.match_details_not_found)
+                            ?: errorToast(R.string.match_details_not_found, it)
                 })
             }
         }
@@ -82,7 +86,7 @@ fun BaseCardActivity.launchPrivateBoard(board: Board) {
 }
 
 fun BaseCardActivity.launchPrivateBoard(restApi: RestApi, boardId: String) {
-    RestApiAggregator.getPrivateBoardToOpen(boardId, restApi).smartSubscribe({
+    RestApiAggregator.getPrivateBoardToOpen(boardId, restApi).setObserverThreadsAndSmartSubscribe({
         Log.e("launchPrivateBoard", "onError(): ", it)
         customToast(R.string.could_not_navigate_to_board)
     }, {
@@ -96,7 +100,7 @@ fun BaseCardActivity.launchMatchBoard(board: Board, matchDetails: MatchDetails) 
 }
 
 fun BaseCardActivity.launchMatchBoard(restApi: RestApi, boardId: String) {
-    restApi.getBoardById(boardId, getToken()).flatMap<Response<MatchDetails>, Void>({
+    restApi.getBoardById(boardId, getToken()).flatMap<Response<MatchDetails>, Unit>({
         when (it.code()) {
             HttpURLConnection.HTTP_OK -> it.body()?.boardEvent?.run { restApi.getMatchDetails(this.foreignId) }
             else -> {
@@ -120,10 +124,13 @@ fun BaseCardActivity.launchMatchBoard(restApi: RestApi, boardId: String) {
                 errorLog("RestApi.launchMatchBoard(): ", R.string.failed_to_get_match_details, matchDetailsResponse)
             }
         }
-        null
     })
 }
 
 fun BaseCardActivity.launchMatchBoard(restApi: RestApi, matchId: Long) {
-    RestApiAggregator.getBoardAndMatchDetails(restApi, matchId).smartSubscribe({}, { launchMatchBoard(it.first, it.second) })
+    RestApiAggregator.getBoardAndMatchDetails(restApi, matchId).setObserverThreadsAndSmartSubscribe({
+        errorToast(R.string.could_not_navigate_to_board, it)
+    }, {
+        launchMatchBoard(it.first, it.second)
+    })
 }

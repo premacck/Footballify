@@ -85,6 +85,6 @@ class DartBoardPopup : BaseBlurPopup() {
                 }, {
                     //TODO: Handle response
                     Log.d("postClap()", "Response: " + it.code())
-                })
+                }, this)
     }
 }

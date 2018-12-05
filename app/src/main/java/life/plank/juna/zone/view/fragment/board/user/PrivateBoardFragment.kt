@@ -17,15 +17,14 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.notification.getIntentActionFromActivity
 import life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_OWNER_POPUP
 import life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_USER_POPUP
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.customToast
 import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.common.getPositionFromIntentIfAny
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.BaseCard
-import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
@@ -81,7 +80,8 @@ class PrivateBoardFragment : CardTileFragment() {
         private_board_toolbar.setBackgroundColor(color)
         root_card.setCardBackgroundColor(color)
 
-        context?.doAfterDelay(400) { setupViewPagerWithFragments() }
+        setupViewPagerWithFragments()
+
         val topic = getString(R.string.board_id_prefix) + board.id
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
     }
@@ -89,15 +89,7 @@ class PrivateBoardFragment : CardTileFragment() {
     private fun setupViewPagerWithFragments() {
         pagerAdapter = PrivateBoardPagerAdapter(childFragmentManager, board)
         private_board_view_pager.adapter = pagerAdapter
-        val defaultTabSelection = getIntentActionFromActivity()?.run {
-            //            TODO: refine the following hardcoded integer constants
-            when (this) {
-                getString(R.string.intent_post), getString(R.string.intent_react) -> 2
-                getString(R.string.intent_comment) -> 1
-                else -> 2
-            }
-        } ?: 2
-        private_board_toolbar.setupWithViewPager(private_board_view_pager, defaultTabSelection)
+        private_board_toolbar.setupWithViewPager(private_board_view_pager, getPositionFromIntentIfAny(pagerAdapter))
     }
 
     override fun getBackgroundBlurLayout(): ViewGroup? = root_blur_layout
@@ -129,10 +121,10 @@ class PrivateBoardFragment : CardTileFragment() {
                 }
                 else -> errorToast(R.string.something_went_wrong, it)
             }
-        })
+        }, this)
     }
 
-    internal class PrivateBoardPagerAdapter(fm: FragmentManager, private val board: Board) : FragmentPagerAdapter(fm) {
+    class PrivateBoardPagerAdapter(fm: FragmentManager, private val board: Board) : FragmentPagerAdapter(fm) {
 
         var currentFragment: Fragment? = null
 
@@ -142,6 +134,15 @@ class PrivateBoardFragment : CardTileFragment() {
                 1 -> ForumFragment.newInstance(board.id)
                 2 -> BoardTilesFragment.newInstance(board.id, true)
                 else -> null
+            }
+        }
+
+        override fun getItemPosition(`object`: Any): Int {
+            return when (`object`) {
+                findString(R.string.info) -> 0
+                findString(R.string.forum) -> 1
+                findString(R.string.tiles) -> 2
+                else -> super.getItemPosition(`object`)
             }
         }
 

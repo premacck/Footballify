@@ -3,13 +3,23 @@ package life.plank.juna.zone.notification
 import android.text.SpannableStringBuilder
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.notification.BaseInAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.dagger.module.NetworkModule.GSON
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.DataUtil.*
+import life.plank.juna.zone.util.common.appendOneOrOther
 import life.plank.juna.zone.util.common.bold
+import life.plank.juna.zone.util.common.maybeAppend
 import life.plank.juna.zone.util.common.semiBold
+
+fun BaseInAppNotification.getNotificationMessage(): SpannableStringBuilder {
+    return when {
+        this is JunaNotification -> buildNotificationMessage()
+        this is ZoneLiveData -> buildNotificationMessage()
+        else -> SpannableStringBuilder()
+    }
+}
 
 /**
  * Method to get suitable text for the social interaction notification message
@@ -55,52 +65,40 @@ private fun SpannableStringBuilder.appendBoard(name: String?): SpannableStringBu
  * Method to get suitable text for the social live football data message
  */
 fun ZoneLiveData.buildNotificationMessage(): SpannableStringBuilder {
-    val spannableStringBuilder = SpannableStringBuilder()
+    val header = "$homeTeamName ${findString(vs)} $visitingTeamName"
+    val spannableStringBuilder = SpannableStringBuilder(header.bold()).append(NEW_LINE)
     when (liveDataType) {
         MATCH_EVENTS -> {
-            /*TODO: show goal, penalty, cards*/
             val matchEventList = getMatchEventList(GSON)
             matchEventList?.run {
                 if (!isNullOrEmpty(this)) {
                     for (matchEvent in this) {
                         when (matchEvent.eventType) {
-                            GOAL -> {
-                                /*<homeTeam> vs <awayTeam>\n'GOAL_' by <playerName>, assist by <relatedPlayerName>\n<result>*/
-                            }
-                            YELLOW_CARD -> {
-                                /*<homeTeam> vs <awayTeam>\n<playerName> gets yellow card*/
-                            }
-                            RED_CARD, YELLOW_RED -> {
-                                /*<homeTeam> vs <awayTeam>\n<playerName> gets red card*/
-                            }
-                            PENALTY -> {
-                                /*<homeTeam> vs <awayTeam>\nPenalty to <teamName>*/
-                            }
+                            GOAL ->
+                                spannableStringBuilder.append(GOAL.semiBold(), findString(_by_), matchEvent.playerName.semiBold(), ", ")
+                                        .maybeAppend(findString(assist_by_), !isNullOrEmpty(matchEvent.relatedPlayerName))
+                                        .maybeAppend(matchEvent.relatedPlayerName, !isNullOrEmpty(matchEvent.relatedPlayerName))
+                            YELLOW_CARD ->
+                                spannableStringBuilder.append(matchEvent.playerName, findString(_receives_yellow_card))
+                            RED_CARD, YELLOW_RED ->
+                                spannableStringBuilder.append(matchEvent.playerName, findString(_receives_red_card))
+                            PENALTY ->
+                                spannableStringBuilder.appendOneOrOther(matchEvent.isHomeTeam, homeTeamName, visitingTeamName)
+                                        .append(findString(_conceded_penalty))
                         }
                     }
                 }
             }
         }
         TIME_STATUS_DATA -> {
-            /*TODO: show match started, half time, full time*/
             val liveTimeStatus = getLiveTimeStatus(GSON)
             when (liveTimeStatus.timeStatus) {
-                LIVE -> {
-                    /*<homeTeam> vs <awayTeam>\nMatch is now Live!*/
-                }
-                else -> {
-                    /*<homeTeam> vs <awayTeam>\ngetDisplayTimeStatus(liveTimeStatus.timeStatus)*/
-                }
+                LIVE -> spannableStringBuilder.append(findString(match_is_now_live))
+                else -> spannableStringBuilder.append(getDisplayTimeStatus(liveTimeStatus.timeStatus))
             }
         }
-        LINEUPS_DATA -> {
-            /*TODO: show "lineups are available"*/
-            /*<homeTeam> vs <awayTeam>\nLineups are now available!*/
-        }
-        BOARD_ACTIVATED -> {
-            /*TODO: show "board is now active"*/
-            /*<homeTeam> vs <awayTeam>\nBoard is now active!*/
-        }
+        LINEUPS_DATA -> spannableStringBuilder.append(findString(lineups_are_now_available))
+        BOARD_ACTIVATED -> spannableStringBuilder.append(findString(match_board_is_now_active))
     }
     return spannableStringBuilder
 }

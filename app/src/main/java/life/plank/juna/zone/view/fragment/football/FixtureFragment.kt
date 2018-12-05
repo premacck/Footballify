@@ -17,6 +17,7 @@ import life.plank.juna.zone.util.common.AppConstants.PAST_MATCHES
 import life.plank.juna.zone.util.common.AppConstants.TODAY_MATCHES
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.view.adapter.fixture.FixtureMatchdayAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.Companion.fixtureByMatchDayList
@@ -54,12 +55,14 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fixtureMatchdayAdapter = FixtureMatchdayAdapter(this)
-        fixtures_section_list.adapter = fixtureMatchdayAdapter
-        if (!isNullOrEmpty(fixtureByMatchDayList)) {
-            updateFixtures()
-        } else getLeagueInfoFromRoomDb()
-        fixtures_section_list.setupWithParentFragmentBoomMenu()
+        context?.doAfterDelay(300) {
+            fixtureMatchdayAdapter = FixtureMatchdayAdapter(this)
+            fixtures_section_list.adapter = fixtureMatchdayAdapter
+            if (!isNullOrEmpty(fixtureByMatchDayList)) {
+                updateFixtures()
+            } else getLeagueInfoFromRoomDb()
+            fixtures_section_list.setupWithParentFragmentBoomMenu()
+        }
     }
 
     private fun getLeagueInfoFromRoomDb() {
