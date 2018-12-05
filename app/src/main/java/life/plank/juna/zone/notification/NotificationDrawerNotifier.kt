@@ -19,6 +19,8 @@ import life.plank.juna.zone.data.model.notification.BaseInAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.asciiToInt
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.CurrentUser.getUserId
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -56,13 +58,14 @@ fun ZoneLiveData.prepareDrawerNotification() {
 }
 
 fun BaseInAppNotification.sendTextNotification(pendingIntent: PendingIntent) {
+    val notificationMessage = getNotificationMessage()
     ZoneApplication.getContext()
             .getNotificationManager()
             .setNotificationChannel()
-            .notify(0, getNotificationBuilder(
-                    getNotificationMessage(),
-                    pendingIntent
-            ).build())
+            .notify(getUserId()?.asciiToInt()
+                    ?: 0, getNotificationBuilder(notificationMessage, pendingIntent)
+                    .setStyle(NotificationCompat.BigTextStyle().bigText(notificationMessage))
+                    .build())
 }
 
 fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: Boolean) {
@@ -82,12 +85,13 @@ fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: 
                 } else {
                     notificationBuilder.setLargeIcon(bitmap)
                 }
-                notificationManager.notify(1, notificationBuilder.build())
+                notificationManager.notify(getUserId()?.asciiToInt()
+                        ?: 0, notificationBuilder.build())
             }
         }
     } catch (e: Exception) {
         Log.e(TAG, "prepareDrawerNotification(): ", e)
-        notificationManager.notify(0, notificationBuilder.build())
+        notificationManager.notify(getUserId()?.asciiToInt() ?: 0, notificationBuilder.build())
     }
 }
 
@@ -96,6 +100,7 @@ fun getNotificationBuilder(messageBody: SpannableStringBuilder, pendingIntent: P
             .setContentTitle(findString(app_name))
             .setContentText(messageBody)
             .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingIntent)
