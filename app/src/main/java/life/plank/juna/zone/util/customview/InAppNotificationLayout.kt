@@ -104,7 +104,7 @@ class InAppNotificationLayout @JvmOverloads constructor(
     private fun setListeners(inAppNotification: InAppNotification) {
         parentActivity?.run {
             in_app_notification_card.onSwipeDown(this, null, null, { detach() }, {
-                dismiss()?.then {
+                dismiss().then {
                     inAppNotification.run {
                         triggerNotificationAction(parentActivity)
                         parentActivity = null
@@ -124,20 +124,22 @@ class InAppNotificationLayout @JvmOverloads constructor(
         }
     }
 
-    private fun detach() = dismiss()?.then {
+    private fun detach() = dismiss().then {
         detachFormParent()
         parentActivity = null
     }
 
     private fun detachFormParent() = (parent as? ViewGroup)?.removeView(this)
 
-    fun dismiss(): Animation? {
+    fun dismiss(): Animation {
 //        TODO: add notification read API call when it's ready
         if (isShowing) {
             isShowing = false
             animHandler.removeCallbacks(animRunnable)
-            return sinkDown()
+        } else {
+            detachFormParent()
+            parentActivity = null
         }
-        return null
+        return sinkDown()
     }
 }
