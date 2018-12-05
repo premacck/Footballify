@@ -230,4 +230,7 @@
     <string name="match_is_now_live">Match is now live!</string>
     <string name="lineups_are_now_available">Lineups are now available!</string>
     <string name="match_board_is_now_active">Match board is now active!</string>
+    <string name="profile_card">Profile Card</string>
+    <string name="collect_to_follow_this_person">Collect to follow this person</string>
+    <string name="collect">collect</string>
 </resources>

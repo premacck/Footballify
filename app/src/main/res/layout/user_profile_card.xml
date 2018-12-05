@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blur_layout"
+        style="@style/BlurLayoutFullScreen" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="55dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="8dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <RelativeLayout
+                    android:id="@+id/decor_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/juna_logo"
+                        android:layout_width="70dp"
+                        android:layout_height="31dp"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/img_juna_logo" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_toStartOf="@+id/profile_card_text"
+                        android:layout_toEndOf="@+id/juna_logo"
+                        android:background="@color/very_light_pink" />
+
+                    <TextView
+                        android:id="@+id/profile_card_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/rajdhani_semibold"
+                        android:gravity="end"
+                        android:letterSpacing="0.02"
+                        android:text="@string/profile_card"
+                        android:textColor="@color/twilight_blue"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/user_profile_image"
+                    android:layout_width="310dp"
+                    android:layout_height="310dp"
+                    android:layout_below="@+id/decor_layout"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="12dp"
+                    app:cardCornerRadius="8dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/zone_thumb_image" />
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_profile_image"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/raleway_semibold"
+                    android:gravity="center_horizontal"
+                    android:text="Juliane Suits"
+                    android:textColor="@color/grey"
+                    android:textSize="30sp" />
+
+                <RelativeLayout
+                    android:id="@+id/interaction_details_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_name"
+                    android:layout_centerHorizontal="true">
+
+                    <TextView
+                        android:id="@+id/followers_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_people"
+                        android:drawablePadding="8dp"
+                        android:drawableTint="@color/grey"
+                        android:fontFamily="@font/rajdhani_semibold"
+                        android:gravity="center_vertical"
+                        android:lineSpacingExtra="3sp"
+                        android:text="@string/_1_4m"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_toEndOf="@+id/followers_count"
+                        android:drawableStart="@drawable/ic_card"
+                        android:drawablePadding="8dp"
+                        android:drawableTint="@color/grey"
+                        android:fontFamily="@font/rajdhani_semibold"
+                        android:lineSpacingExtra="3sp"
+                        android:text="@string/_16_2m"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_below="@+id/user_name"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_info" />
+
+            </RelativeLayout>
+
+            <ImageView
+                style="@style/DragHandleImageView"
+                android:contentDescription="@string/thumbnail" />
+
+            <View
+                android:id="@+id/drag_area"
+                style="@style/DragArea"
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="60dp" />
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/collect_description_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/card_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="3sp"
+            android:text="@string/collect_to_follow_this_person"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/follow_button"
+            android:layout_width="230dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/collect_description_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/white_bg_button"
+            android:fontFamily="@font/raleway_bold"
+            android:text="@string/collect"
+            android:textColor="@color/velvet"
+            android:textSize="20sp" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
