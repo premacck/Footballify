@@ -18,8 +18,7 @@ fun CardTileFragment.getPositionFromIntentIfAny(pagerAdapter: PagerAdapter?): In
     } ?: if (this is PrivateBoardFragment) {
         pagerAdapter.positionOf(getString(R.string.tiles))
     } else {
-        val liveDataType = getLiveFootballNotificationIntentActionFromActivity()
-        when (liveDataType) {
+        when (getLiveFootballNotificationIntentActionFromActivity()) {
             MATCH_EVENTS, TIME_STATUS_DATA -> pagerAdapter.positionOf(getString(R.string.stats))
             LINEUPS_DATA -> pagerAdapter.positionOf(getString(R.string.lineups))
             else -> pagerAdapter.positionOf(getString(R.string.tiles))
