@@ -95,10 +95,10 @@ fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: 
     }
 }
 
-fun getNotificationBuilder(notificationMessage: SpannableStringBuilder, pendingIntent: PendingIntent): NotificationCompat.Builder {
+fun getNotificationBuilder(messageBody: SpannableStringBuilder, pendingIntent: PendingIntent): NotificationCompat.Builder {
     return NotificationCompat.Builder(ZoneApplication.getContext(), CHANNEL_ID)
             .setContentTitle(findString(app_name))
-            .setContentText(notificationMessage)
+            .setContentText(messageBody)
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
