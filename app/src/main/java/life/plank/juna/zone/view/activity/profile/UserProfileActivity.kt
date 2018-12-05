@@ -25,6 +25,7 @@ import life.plank.juna.zone.view.adapter.board.user.UserBoardsAdapter
 import life.plank.juna.zone.view.adapter.user.GetCoinsAdapter
 import life.plank.juna.zone.view.adapter.user.LastTransactionsAdapter
 import life.plank.juna.zone.view.fragment.profile.EditProfilePopup
+import life.plank.juna.zone.view.fragment.profile.ProfileCardFragment
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -80,6 +81,9 @@ class UserProfileActivity : BaseCardActivity() {
             } else {
                 customToast(R.string.add_permission)
             }
+        }
+        toolbar_profile_pic.onDebouncingClick {
+            pushFragment(ProfileCardFragment.newInstance(), true)
         }
     }
 
