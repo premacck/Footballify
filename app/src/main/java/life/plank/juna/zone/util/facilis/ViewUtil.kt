@@ -296,4 +296,4 @@ fun <BM> RecyclerAdapter.addDataManagerAndRegisterBinder(dataManager: DataItemMa
 
 fun View.dragHandle(): ImageView? = findViewById(R.id.drag_handle_image)
 
-fun BaseCard.dragHandle(): ImageView? = getRootView()?.findViewById(R.id.drag_handle_image)
+fun BaseCard.dragHandle(): ImageView? = getRootView()?.dragHandle()
