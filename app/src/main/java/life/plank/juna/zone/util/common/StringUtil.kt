@@ -79,3 +79,15 @@ fun SpannableStringBuilder.appendOneOrOther(condition: Boolean, conditionOneStri
     append(if (condition) conditionOneString else conditionTwoString)
     return this
 }
+
+fun String.asciiToInt(): Int {
+    var result = 0
+    forEach {
+        try {
+//            Standard hashCode formula
+            result = 31 * result + it.toByte().toInt()
+        } catch (ignored: Exception) {
+        }
+    }
+    return result
+}
