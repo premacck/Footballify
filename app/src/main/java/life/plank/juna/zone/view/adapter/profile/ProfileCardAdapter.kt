@@ -14,7 +14,7 @@ class ProfileCardAdapter : RecyclerView.Adapter<ProfileCardAdapter.ProfileCardVi
     override fun onBindViewHolder(holder: ProfileCardViewHolder, position: Int) {
     }
 
-    //TODO: Removed hardcoded data ,when backend returns data
+    //TODO: Remove hardcoded data ,when backend returns data
     override fun getItemCount(): Int = 15
 
 
