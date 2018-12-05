@@ -233,4 +233,5 @@
     <string name="juliane_suits">JULIANE SUITS</string>
     <string name="profile_card">Profile Card</string>
     <string name="collect">COLLECT</string>
+    <string name="collect_to_follow_this_person">Collect to follow this person</string>
 </resources>
