@@ -26,7 +26,7 @@ public class MultiListAdapter extends RecyclerAdapter {
         addDataManager(lowerMatchDataManager);
 
         registerBinder(new NextMatchBinder(activity));
-        registerBinder(new LeagueBinder(onItemClickListener));
+        registerBinder(new LeagueBinder(onItemClickListener, activity));
     }
 
     public void addTopMatch(List<NextMatch> dataList) {
