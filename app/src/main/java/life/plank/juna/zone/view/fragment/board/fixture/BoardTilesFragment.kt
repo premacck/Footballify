@@ -27,6 +27,7 @@ import life.plank.juna.zone.interfaces.EmojiContainer
 import life.plank.juna.zone.interfaces.FeedEntryContainer
 import life.plank.juna.zone.interfaces.PollContainer
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_FULL
+import life.plank.juna.zone.util.common.AppConstants.NEWS
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.onSubscribe
@@ -39,6 +40,7 @@ import life.plank.juna.zone.util.facilis.vibrate
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.view.UIDisplayUtil.addDefaultEmojis
 import life.plank.juna.zone.util.view.UIDisplayUtil.setupFeedEntryByMasonryLayout
+import life.plank.juna.zone.util.view.boomMenu
 import life.plank.juna.zone.util.view.setupBoomMenu
 import life.plank.juna.zone.util.view.setupWith
 import life.plank.juna.zone.view.adapter.board.tile.BoardMediaAdapter
@@ -92,17 +94,17 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (isNullOrEmpty(boardId)) {
             board_tiles_list.visibility = View.GONE
-            arc_menu.visibility = View.GONE
+            boomMenu().visibility = View.GONE
             return
         }
         initRecyclerViews()
         setupEmojiBottomSheet()
-        arc_menu.setupWith(nestedScrollView)
+        boomMenu().setupWith(nestedScrollView)
 
         if (isBoardActive) {
-            setupBoomMenu(BOOM_MENU_FULL, Objects.requireNonNull<FragmentActivity>(activity), boardId, arc_menu, emojiBottomSheetBehavior)
+            setupBoomMenu(BOOM_MENU_FULL, Objects.requireNonNull<FragmentActivity>(activity), boardId, emojiBottomSheetBehavior)
         } else {
-            arc_menu.onDebouncingClick { toast(R.string.board_not_active) }
+            boomMenu().onDebouncingClick { toast(R.string.board_not_active) }
         }
 
         if (parentFragment is PrivateBoardFragment) {
@@ -155,7 +157,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
 
     fun updateNewPost(feedItem: FeedEntry) {
         adapter?.run {
-            if (getBoardFeed().isEmpty()) {
+            if (boardFeed.isEmpty()) {
                 updateUi(true, 0)
             }
             updateNewPost(feedItem)
@@ -204,7 +206,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
                             if (!isNullOrEmpty(feedItemList)) {
                                 updateUi(true, 0)
                                 setupFeedEntryByMasonryLayout(feedItemList!!)
-                                adapter!!.update(feedItemList)
+                                adapter?.update(feedItemList)
                                 if (parentFragment is FeedEntryContainer) {
                                     (parentFragment as FeedEntryContainer).updateFullScreenAdapter(feedItemList)
                                 }
@@ -223,6 +225,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
             if (parentFragment is MatchBoardFragment) {
                 pollBindingModel = PollBindingModel.from(it, (parentFragment as MatchBoardFragment).matchDetails)
                 if (activity != null) {
+                    board_poll.visibility = View.VISIBLE
                     board_poll.prepare(Glide.with(activity!!), pollBindingModel!!, this)
                 }
             }
@@ -240,12 +243,12 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
     override fun onEmojiPosted(emoji: Emoji) = getTopEmoji()
 
     override fun fireOnItemClick(index: Int, v: View) {
-//        adapter?.getBoardFeed()?.run {
-//            if (!isNullOrEmpty(this)) {
-//                (parentFragment as? FeedEntryContainer)?.openFeedEntry(this, boardId!!, index, BOARD)
-//            }
-//        }
-        (parentFragment as? FeedEntryContainer)?.showFeedItemPeekPopup(index)
+        adapter?.boardFeed?.get(index)?.run {
+            when (feedItem.contentType) {
+                NEWS -> (parentFragment as? FeedEntryContainer)?.openFeedEntry(adapter?.boardFeed!!, boardId, index)
+                else -> (parentFragment as? FeedEntryContainer)?.showFeedItemPeekPopup(index)
+            }
+        }
     }
 
     override fun fireOnItemLongClick(index: Int, v: View): Boolean {

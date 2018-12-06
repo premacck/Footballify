@@ -26,7 +26,8 @@
                 <life.plank.juna.zone.util.customview.BoardPoll
                     android:id="@+id/board_poll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:id="@+id/extras_layout"
@@ -104,9 +105,7 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <com.bvapp.arcmenulibrary.ArcMenu
-        android:id="@+id/arc_menu"
-        style="@style/ArcMenuDefault" />
+    <life.plank.juna.zone.util.customview.BoomMenu style="@style/BoomMenuDefault" />
 
     <include layout="@layout/emoji_bottom_sheet" />
 

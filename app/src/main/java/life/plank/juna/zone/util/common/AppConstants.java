@@ -65,6 +65,7 @@ public class AppConstants {
     public static final String YELLOW_RED = "yellowred";
     public static final String SUBSTITUTION = "substitution";
     public static final String PENALTY = "penalty";
+    public static final String MISSED_PENALTY = "missed_penalty";
     public static final String KICK_OFF = "KICK-OFF";
     public static final String HALF_TIME = "HALF-TIME";
     public static final String FULL_TIME = "FULL-TIME";
@@ -76,7 +77,8 @@ public class AppConstants {
 
     public static final String YELLOW = "yellow";
     public static final String RED = "red";
-    public static final String NOT_STARTED = "NS";
+    public static final String NOT_STARTED = "Not started";
+    public static final String NS = "NS";
     public static final String WHISTLE_EVENT = "whistleEvent";
     public static final String LIVE = "LIVE";
     public static final String LIVE_TIME = "00.00";

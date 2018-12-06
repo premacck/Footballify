@@ -17,23 +17,25 @@ import kotlinx.android.synthetic.main.fragment_match_board.*
 import kotlinx.android.synthetic.main.layout_board_engagement.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.*
+import life.plank.juna.zone.data.model.Board
+import life.plank.juna.zone.data.model.FeedEntry
+import life.plank.juna.zone.data.model.League
+import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
-import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil
 import life.plank.juna.zone.util.common.DataUtil.*
-import life.plank.juna.zone.util.common.customToast
 import life.plank.juna.zone.util.common.execute
 import life.plank.juna.zone.util.common.getPositionFromIntentIfAny
+import life.plank.juna.zone.util.customview.PublicBoardToolbar
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.football.FixtureListUpdateTask
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.view.UIDisplayUtil.showBoardExpirationDialog
 import life.plank.juna.zone.view.fragment.base.BaseMatchFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import java.lang.ref.WeakReference
+import java.util.*
 import javax.inject.Inject
 
 class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
@@ -98,9 +100,13 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
         FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
         try {
             board_toolbar.prepare(matchDetails, league.leagueLogo)
-            people_count.text = board.interactions!!.followers.toString()
-            post_count.text = board.interactions!!.posts.toString()
-            interaction_count.text = (board.interactions!!.followers!! + board.interactions!!.posts!! + board.interactions!!.emojiReacts!!).toString()
+            if (!isNullOrEmpty(board.interactions)) {
+                board.interactions?.run {
+                    people_count.text = followers.toString()
+                    post_count.text = posts.toString()
+                    interaction_count.text = (followers!! + posts!! + emojiReacts!!).toString()
+                }
+            }
             if (!board.isActive) applyInactiveBoardColorFilter()
             else clearColorFilter()
 
@@ -108,8 +114,12 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
             followBoard()
 
             (item_scrubber as? LineChart)?.run {
-                ScrubberLoader.prepare(this, false)
-                this.onDebouncingClick { pushPopup(TimelinePopup.newInstance(currentMatchId, matchDetails)) }
+                if (matchDetails.matchStartTime.time <= Date().time) {
+                    ScrubberLoader.prepare(this, false)
+                    this.onDebouncingClick { pushPopup(TimelinePopup.newInstance(currentMatchId, matchDetails)) }
+                } else {
+                    item_scrubber.visibility = View.GONE
+                }
             }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
@@ -130,44 +140,6 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
         (boardPagerAdapter?.currentFragment as? BoardTilesFragment)?.updateNewPost(feedEntry)
     }
 
-    override fun onZoneLiveDataReceived(zoneLiveData: ZoneLiveData) {
-        when (zoneLiveData.liveDataType) {
-            SCORE_DATA -> zoneLiveData.getScoreData(gson)?.run {
-                updateScoreLocally(matchDetails, this)
-                board_toolbar.setScore("$homeGoals$DASH$awayGoals")
-                FixtureListUpdateTask.update(matchDetails, this, null, true)
-            }
-            TIME_STATUS_DATA -> zoneLiveData.getLiveTimeStatus(gson)?.run {
-                updateTimeStatusLocally(matchDetails, this)
-                FixtureListUpdateTask.update(matchDetails, null, this, false)
-                board_toolbar.setLiveTimeStatus(matchDetails.matchStartTime, timeStatus)
-            }
-            MATCH_EVENTS ->
-                zoneLiveData.getMatchEventList(gson)?.run { (boardPagerAdapter?.currentFragment as? LineupFragment)?.updateMatchEvents(this) }
-            COMMENTARY_DATA ->
-                zoneLiveData.getCommentaryList(gson)?.run { (boardPagerAdapter?.currentFragment as? MatchStatsFragment)?.updateCommentary(this) }
-            MATCH_STATS_DATA ->
-                zoneLiveData.getMatchStats(gson)?.run { (boardPagerAdapter?.currentFragment as? MatchStatsFragment)?.updateMatchStats(this) }
-            HIGHLIGHTS_DATA ->
-                zoneLiveData.getHighlightsList(gson)?.run { (boardPagerAdapter?.currentFragment as? MatchMediaFragment)?.updateHighlights(this) }
-            BOARD_ACTIVATED -> {
-                board.isActive = true
-                clearColorFilter()
-                setupViewPagerWithFragments()
-            }
-            BOARD_DEACTIVATED -> {
-                board.isActive = false
-                applyInactiveBoardColorFilter()
-                showBoardExpirationDialog(activity) { dialog, _ ->
-                    setupViewPagerWithFragments()
-                    dialog.cancel()
-                }
-            }
-            LINEUPS_DATA -> (boardPagerAdapter?.currentFragment as? LineupFragment)?.getLineupFormation(false)
-                    ?: customToast(R.string.lineups_now_available_for_this_match)
-        }
-    }
-
     override fun gson(): Gson = gson
 
     override fun restApi(): RestApi = restApi
@@ -183,6 +155,28 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
     override fun getFeedEntries(): List<FeedEntry> = feedEntries
 
     override fun getTheBoardId(): String? = board.id
+
+    override fun currentChildFragment(): Fragment? = boardPagerAdapter?.currentFragment
+
+    override fun publicBoardToolbar(): PublicBoardToolbar = board_toolbar
+
+    override fun matchDetails(): MatchDetails = matchDetails
+
+    override fun onBoardStateChange(isActive: Boolean) {
+        if (isActive) {
+            item_scrubber.visibility = View.VISIBLE
+            board.isActive = true
+            clearColorFilter()
+            setupViewPagerWithFragments()
+        } else {
+            board.isActive = false
+            applyInactiveBoardColorFilter()
+            showBoardExpirationDialog(activity) { dialog, _ ->
+                setupViewPagerWithFragments()
+                dialog.cancel()
+            }
+        }
+    }
 
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {
         feedEntries = feedEntryList

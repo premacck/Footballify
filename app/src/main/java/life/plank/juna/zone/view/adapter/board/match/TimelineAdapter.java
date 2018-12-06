@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter.board.match;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -31,11 +30,13 @@ import static life.plank.juna.zone.util.common.AppConstants.HT;
 import static life.plank.juna.zone.util.common.AppConstants.KICK_OFF;
 import static life.plank.juna.zone.util.common.AppConstants.LIVE;
 import static life.plank.juna.zone.util.common.AppConstants.LIVE_TIME;
+import static life.plank.juna.zone.util.common.AppConstants.MISSED_PENALTY;
 import static life.plank.juna.zone.util.common.AppConstants.PENALTY;
 import static life.plank.juna.zone.util.common.AppConstants.RED_CARD;
 import static life.plank.juna.zone.util.common.AppConstants.SUBSTITUTION;
 import static life.plank.juna.zone.util.common.AppConstants.YELLOW_CARD;
 import static life.plank.juna.zone.util.common.AppConstants.YELLOW_RED;
+import static life.plank.juna.zone.util.common.DataUtil.findString;
 import static life.plank.juna.zone.util.common.DataUtil.getFormattedExtraMinutes;
 import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.view.UIDisplayUtil.getDp;
@@ -43,10 +44,8 @@ import static life.plank.juna.zone.util.view.UIDisplayUtil.getDp;
 public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
 
     private List<MatchEvent> matchEventList;
-    private Context context;
 
-    public TimelineAdapter(Context context) {
-        this.context = context;
+    public TimelineAdapter() {
         matchEventList = new ArrayList<>();
     }
 
@@ -156,7 +155,10 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
                         onSubstitutionEvent();
                         break;
                     case PENALTY:
-                        onPenaltyEvent();
+                        onPenaltyEvent(false);
+                        break;
+                    case MISSED_PENALTY:
+                        onPenaltyEvent(true);
                         break;
                     default:
                         break;
@@ -203,7 +205,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         private void onCardEvent() {
             setCenterLayout();
             timelineEventDown.setCompoundDrawablePadding((int) getDp(10));
-            int suitableCardDrawable = event.getEventType().contains(ref.get().context.getString(R.string.red)) ?
+            int suitableCardDrawable = event.getEventType().contains(findString(R.string.red)) ?
                     event.isHomeTeam() ?
                             R.drawable.red_left :
                             R.drawable.red_right :
@@ -265,15 +267,24 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             timelineEventDown.setText(timelineEventDownText);
         }
 
-        private void onPenaltyEvent() {
+        private void onPenaltyEvent(boolean isMissed) {
             setCenterLayout();
             timelineEventDown.setVisibility(View.VISIBLE);
             timelineEventUp.setVisibility(View.VISIBLE);
             timelineEventDown.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
-            timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(
+                    isMissed ? 0 : event.isHomeTeam() ? 0 : R.drawable.ic_goal_right,
+                    0,
+                    isMissed ? 0 : event.isHomeTeam() ? R.drawable.ic_goal_left : 0,
+                    0
+            );
             timelineEventDown.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             timelineEventUp.setText(event.getPlayerName());
-            timelineEventDown.setText(PENALTY);
+            String penaltyText = isMissed ? findString(R.string.missed_penalty) :
+                    event.isHomeTeam() ?
+                            findString(R.string.penalty) + ", " + event.getResult() :
+                            event.getResult() + ", " + findString(R.string.penalty);
+            timelineEventDown.setText(penaltyText);
         }
 
         private String getTimedEventString() {

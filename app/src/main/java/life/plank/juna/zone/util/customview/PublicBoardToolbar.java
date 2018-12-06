@@ -52,7 +52,7 @@ import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_L
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_PAST;
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_SCHEDULED_LATER;
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_SCHEDULED_TODAY;
-import static life.plank.juna.zone.util.common.AppConstants.NOT_STARTED;
+import static life.plank.juna.zone.util.common.AppConstants.NS;
 import static life.plank.juna.zone.util.common.AppConstants.ONE_HOUR_MILLIS;
 import static life.plank.juna.zone.util.common.DataUtil.getDisplayTimeStatus;
 import static life.plank.juna.zone.util.common.DataUtil.getSeparator;
@@ -272,7 +272,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
      */
     public void setLiveTimeStatus(Date matchStartTime, String timeStatus) {
         switch (timeStatus) {
-            case NOT_STARTED:
+            case NS:
             case LIVE:
                 resetCountDownTimer();
                 baseTime = SystemClock.elapsedRealtime() - (new Date().getTime() - matchStartTime.getTime());

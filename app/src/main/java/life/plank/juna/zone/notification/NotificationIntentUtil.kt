@@ -7,7 +7,6 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.InAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
-import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.findAndLaunchBoardById
 import life.plank.juna.zone.util.common.launchMatchBoard
@@ -61,13 +60,18 @@ fun BaseCardActivity.triggerNotificationIntent(intent: Intent) {
     this.intent = intent
     restApi()?.run {
         when {
-            intent.hasExtra(findString(intent_board_id)) -> findAndLaunchBoardById(this)
+            intent.hasExtra(findString(intent_action)) -> {
+                when (intent.getStringExtra(findString(intent_action))) {
+                    findString(intent_invite) -> pushPopup(JoinBoardPopup.newInstance(intent.getStringExtra(findString(intent_board_id))))
+                    else -> findAndLaunchBoardById(this)
+                }
+            }
             intent.hasExtra(findString(match_id_string)) -> launchMatchBoard(this, intent.getLongExtra(getString(R.string.match_id_string), 0))
         }
     } ?: toast(R.string.rest_api_is_null)
 }
 
-fun BaseCardActivity.handleSocialNotificationIntentIfAny(restApi: RestApi) {
+fun BaseCardActivity.handleSocialNotificationIntentIfAny() {
     intent?.run {
         if (!hasExtra(getString(intent_action)) || !hasExtra(getString(intent_board_id))) return
 
@@ -78,14 +82,16 @@ fun BaseCardActivity.handleSocialNotificationIntentIfAny(restApi: RestApi) {
 //        val feedItemId = getStringExtra(getString(intent_feed_item_id))
 //        val parentCommentId = getStringExtra(getString(intent_parent_comment_id))
 
-        when (action) {
-            findString(intent_invite) -> pushPopup(JoinBoardPopup.newInstance(boardId))
+        restApi()?.run {
+            when (action) {
+                findString(intent_invite) -> pushPopup(JoinBoardPopup.newInstance(boardId))
 //            TODO: open board -> switch to tiles -> open feedItem
-            findString(intent_post) -> findAndLaunchBoardById(restApi)
+                findString(intent_post) -> findAndLaunchBoardById(this)
 //            TODO: open board -> switch to forum -> if(parentCommentId == null) { scroll to commentId } else { scroll to a combination of commentId and parentCommentId }
-            findString(intent_react) -> findAndLaunchBoardById(restApi)
+                findString(intent_react) -> findAndLaunchBoardById(this)
 //            TODO: open board -> switch to tiles -> if(feedItemId != null) { open feedItem }
-            findString(intent_comment) -> findAndLaunchBoardById(restApi)
+                findString(intent_comment) -> findAndLaunchBoardById(this)
+            }
         }
     }
 }

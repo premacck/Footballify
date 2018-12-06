@@ -18,6 +18,7 @@ import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.BaseInAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.asciiToInt
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.CurrentUser.getUserId
 import org.jetbrains.anko.doAsync
@@ -74,7 +75,7 @@ fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: 
             val bitmap =
                     Glide.with(ZoneApplication.getContext())
                             .asBitmap()
-                            .load(imageUrl)
+                            .load(if (!isNullOrEmpty(imageUrl)) imageUrl else boardIconUrl)
                             .submit()
                             .get()
             uiThread {

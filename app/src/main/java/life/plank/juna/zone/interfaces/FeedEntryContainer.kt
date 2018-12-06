@@ -8,5 +8,5 @@ interface FeedEntryContainer {
 
     fun showFeedItemPeekPopup(position: Int)
 
-    fun openFeedEntry(feedEntryList: MutableList<FeedEntry>, boardId: String, position: Int, target: String)
+    fun openFeedEntry(feedEntryList: MutableList<FeedEntry>, boardId: String, position: Int)
 }

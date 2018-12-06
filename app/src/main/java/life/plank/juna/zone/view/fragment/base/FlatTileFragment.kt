@@ -9,6 +9,6 @@ import life.plank.juna.zone.view.fragment.post.PostDetailContainerFragment
  */
 abstract class FlatTileFragment : FlatFragment(), FeedEntryContainer {
 
-    override fun openFeedEntry(feedEntryList: MutableList<FeedEntry>, boardId: String, position: Int, target: String) =
+    override fun openFeedEntry(feedEntryList: MutableList<FeedEntry>, boardId: String, position: Int) =
             pushFragment(PostDetailContainerFragment.newInstance(feedEntryList, boardId, position))
 }

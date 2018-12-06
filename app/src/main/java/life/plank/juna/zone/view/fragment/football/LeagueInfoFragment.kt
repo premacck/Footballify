@@ -20,6 +20,7 @@ import life.plank.juna.zone.util.common.DataUtil
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
+import life.plank.juna.zone.util.view.boomMenu
 import life.plank.juna.zone.util.view.setupBoomMenu
 
 class LeagueInfoFragment : BaseCard() {
@@ -42,7 +43,7 @@ class LeagueInfoFragment : BaseCard() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBoomMenu(BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, arc_menu, null)
+        setupBoomMenu(BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, null)
 
         prepareViewPager()
         league_info_tab_layout.setupWithViewPager(league_info_view_pager)
@@ -69,17 +70,17 @@ class LeagueInfoFragment : BaseCard() {
 
     fun hideOrShowBoomMenu(scrollY: Int, oldScrollY: Int) {
         if (scrollY > oldScrollY) {
-            arc_menu.hide()
+            boomMenu().hide()
         } else {
-            arc_menu.show()
+            boomMenu().show()
         }
     }
 
     fun hideOrShowBoomMenu(dy: Int) {
         if (dy > 5) {
-            arc_menu.hide()
+            boomMenu().hide()
         } else if (dy < -5) {
-            arc_menu.show()
+            boomMenu().show()
         }
     }
 

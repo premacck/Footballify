@@ -22,7 +22,7 @@ import life.plank.juna.zone.util.view.UIDisplayUtil.getCommentText
  */
 class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRecyclerAdapter<BoardMediaAdapter.BoardMediaViewHolder>() {
 
-    private val boardFeed: MutableList<FeedEntry> = ArrayList()
+    val boardFeed: MutableList<FeedEntry> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardMediaViewHolder {
         return BoardMediaViewHolder(
@@ -50,10 +50,10 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRe
                 setVisibility(holder, GONE, VISIBLE, GONE)
                 view.tile_image_view.setImageResource(R.drawable.ic_mic_white)
             }
-            IMAGE -> {
+            NEWS, IMAGE -> {
                 setVisibility(holder, GONE, VISIBLE, GONE)
                 if (feedItem.thumbnail != null) {
-                    glide.load(feedItem.thumbnail!!.imageUrl)
+                    glide.load(feedItem.thumbnail?.imageUrl)
                             .apply(RequestOptions.centerCropTransform().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
                             .into(view.tile_image_view)
                 }
@@ -61,7 +61,7 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRe
             VIDEO -> {
                 setVisibility(holder, GONE, VISIBLE, VISIBLE)
                 if (feedItem.thumbnail != null) {
-                    glide.load(feedItem.thumbnail!!.imageUrl)
+                    glide.load(feedItem.thumbnail?.imageUrl)
                             .apply(RequestOptions.centerCropTransform().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
                             .into(view.tile_image_view)
                 }
@@ -69,7 +69,7 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRe
             else -> {
                 setVisibility(holder, VISIBLE, GONE, GONE)
                 if (feedItem.title != null) {
-                    val comment = feedItem.title!!.replace("^\"|\"$".toRegex(), "")
+                    val comment = feedItem.title?.replace("^\"|\"$".toRegex(), "")
                     view.comment_text_view.background = getCommentColor(comment)
                     view.comment_text_view.text = getCommentText(comment)
                 }
@@ -97,8 +97,6 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRe
             notifyItemInserted(0)
         }
     }
-
-    fun getBoardFeed(): MutableList<FeedEntry> = boardFeed
 
     override fun getItem(position: Int): AsymmetricItem = boardFeed[position]
 

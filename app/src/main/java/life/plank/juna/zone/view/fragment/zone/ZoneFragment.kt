@@ -26,6 +26,7 @@ import life.plank.juna.zone.util.common.customToast
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.network.NetworkStatus
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.view.boomMenu
 import life.plank.juna.zone.util.view.setupBoomMenu
 import life.plank.juna.zone.util.view.setupWith
 import life.plank.juna.zone.view.adapter.LeagueSelectionAdapter
@@ -64,7 +65,7 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRecyclerView()
         setUpData()
-        setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, arc_menu, null)
+        setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, null)
         initBottomSheetRecyclerView()
         leagueSelectionAdapter?.setLeagueList(DataUtil.getStaticLeagues())
         search_view.visibility = View.GONE
@@ -73,7 +74,8 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
         bottomSheetBehavior = BottomSheetBehavior.from<View>(bottom_sheet)
         bottomSheetBehavior.peekHeight = 0
 
-        arc_menu.setupWith(football_feed_recycler_view)
+        boomMenu().setupWith(football_feed_recycler_view)
+
     }
 
     private fun setUpData() {
@@ -104,12 +106,12 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        arc_menu.menuIn()
+        boomMenu().menuIn()
     }
 
     override fun onPause() {
         super.onPause()
-        arc_menu.menuOut()
+        boomMenu().menuOut()
     }
 
     private fun getUpcomingMatches() {

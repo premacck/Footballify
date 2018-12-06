@@ -61,9 +61,7 @@
             android:layout_centerInParent="true"
             android:visibility="gone" />
 
-        <com.bvapp.arcmenulibrary.ArcMenu
-            android:id="@+id/arc_menu"
-            style="@style/ArcMenuDefault" />
+        <life.plank.juna.zone.util.customview.BoomMenu style="@style/BoomMenuDefault" />
 
     </RelativeLayout>
 

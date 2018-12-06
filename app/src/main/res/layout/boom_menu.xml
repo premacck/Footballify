@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/boom_menu_container"
+    style="@style/MatchParentSize">
+
+    <com.bvapp.arcmenulibrary.ArcMenu
+        android:id="@+id/arc_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="34dp"
+        app:menuChildAnim="true"
+        app:menuClickAnim="true"
+        app:menuGravity="Bottom_Middle"
+        app:menuImage="@drawable/ic_un"
+        app:menuNormalColor="@color/fab_button_pink"
+        app:menuShadowElevation="true"
+        app:menuType="large" />
+
+</FrameLayout>
