@@ -14,7 +14,7 @@ interface EngagementInfoTilesToolbar {
 
     fun setPeopleCount(peopleCount: String)
 
-    fun setCommentCount(commentsCount: String)
+    fun setPostCount(postCount: String)
 
     fun setBoardTitle(boardTitle: String)
 
