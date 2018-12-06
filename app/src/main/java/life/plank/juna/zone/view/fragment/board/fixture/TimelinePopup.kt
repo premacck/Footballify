@@ -1,9 +1,6 @@
 package life.plank.juna.zone.view.fragment.board.fixture
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +24,7 @@ import life.plank.juna.zone.view.adapter.board.match.TimelineAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.util.*
 import javax.inject.Inject
 
 class TimelinePopup : BaseBlurPopup() {
@@ -37,14 +35,6 @@ class TimelinePopup : BaseBlurPopup() {
     private var currentMatchId: Long = 0
     private lateinit var matchDetails: MatchDetails
     private var adapter: TimelineAdapter? = null
-
-    private val mMessageReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            if (intent.hasExtra(getString(R.string.intent_zone_live_data))) {
-                setZoneLiveData(intent)
-            }
-        }
-    }
 
     companion object {
         val TAG: String = TimelinePopup::class.java.simpleName
@@ -67,17 +57,8 @@ class TimelinePopup : BaseBlurPopup() {
 
     override fun doOnStart() {
         initRecyclerView()
+        prepareViews()
         mergeCommentaryAndMatchEvents()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        context?.registerReceiver(mMessageReceiver, IntentFilter(getString(R.string.intent_board)))
-    }
-
-    override fun onPause() {
-        super.onPause()
-        context?.unregisterReceiver(mMessageReceiver)
     }
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
@@ -90,7 +71,7 @@ class TimelinePopup : BaseBlurPopup() {
 
     private fun prepareViews() {
         venue_name.text = if (matchDetails.venue != null) matchDetails.venue!!.name else null
-        time_status.text = getDisplayTimeStatus(matchDetails.timeStatus!!)
+        time_status.text = matchDetails.timeStatus?.run { getDisplayTimeStatus(this) } ?: NOT_STARTED
         date.text = getTimelineDateHeader(matchDetails.matchStartTime)
         score.text = getSeparator(matchDetails, win_pointer, false)
 
@@ -102,18 +83,15 @@ class TimelinePopup : BaseBlurPopup() {
                 .load(matchDetails.awayTeam.logoLink)
                 .apply(RequestOptions.overrideOf(getDp(24f).toInt(), getDp(24f).toInt()))
                 .into(getStartDrawableTarget(date))
-
-        ScrubberLoader.prepare(scrubber, false)
     }
 
     override fun onDestroy() {
         adapter = null
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
         super.onDestroy()
     }
 
     private fun initRecyclerView() {
-        adapter = TimelineAdapter(context)
+        adapter = TimelineAdapter()
         timeline_recycler_view.adapter = adapter
     }
 
@@ -149,17 +127,20 @@ class TimelinePopup : BaseBlurPopup() {
     }
 
     private fun mergeCommentaryAndMatchEvents() {
-        if (isNullOrEmpty(matchDetails.commentary) || isNullOrEmpty(matchDetails.matchEvents)) return
+        if (isNullOrEmpty(matchDetails.commentary) || isNullOrEmpty(matchDetails.matchEvents)) {
+            no_data.visibility = View.VISIBLE
+            timeline_recycler_view.visibility = View.GONE
+            no_data.setText(if (matchDetails.matchStartTime.time <= Date().time) R.string.more_events_will_be_displayed else R.string.match_yet_to_start)
+            return
+        }
 
         doAsync {
             val matchEvents = getAllTimelineEvents(matchDetails.commentary!!, matchDetails.matchEvents!!)
             uiThread {
                 matchEvents?.run {
                     adapter?.updateEvents(matchEvents)
-                    prepareViews()
                     FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
                 }
-                progress_bar.visibility = View.GONE
             }
         }
     }

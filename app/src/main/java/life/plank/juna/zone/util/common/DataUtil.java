@@ -55,6 +55,8 @@ import static life.plank.juna.zone.util.common.AppConstants.GOAL;
 import static life.plank.juna.zone.util.common.AppConstants.HALF_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.common.AppConstants.HT;
 import static life.plank.juna.zone.util.common.AppConstants.LIVE;
+import static life.plank.juna.zone.util.common.AppConstants.NOT_STARTED;
+import static life.plank.juna.zone.util.common.AppConstants.NS;
 import static life.plank.juna.zone.util.common.AppConstants.RED_CARD;
 import static life.plank.juna.zone.util.common.AppConstants.SUBSTITUTION;
 import static life.plank.juna.zone.util.common.AppConstants.WIDE_DASH;
@@ -496,6 +498,8 @@ public class DataUtil {
                 return HALF_TIME_LOWERCASE;
             case FT:
                 return FULL_TIME_LOWERCASE;
+            case NS:
+                return NOT_STARTED;
             default:
                 return apiTimeStatus;
         }
