@@ -107,8 +107,8 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
         people_count?.text = peopleCount
     }
 
-    override fun setCommentCount(commentsCount: String) {
-        comment_count?.text = commentsCount
+    override fun setPostCount(postCount: String) {
+        post_count?.text = postCount
     }
 
     override fun setBoardTitle(boardTitle: String) {

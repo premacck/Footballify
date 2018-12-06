@@ -14,6 +14,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_match_board.*
+import kotlinx.android.synthetic.main.layout_board_engagement.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
@@ -99,7 +100,9 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
         FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
         try {
             board_toolbar.prepare(matchDetails, league.leagueLogo)
-
+            people_count.text = board.interactions!!.followers.toString()
+            post_count.text = board.interactions!!.posts.toString()
+            interaction_count.text = (board.interactions!!.followers!! + board.interactions!!.posts!! + board.interactions!!.emojiReacts!!).toString()
             if (!board.isActive) applyInactiveBoardColorFilter()
             else clearColorFilter()
 

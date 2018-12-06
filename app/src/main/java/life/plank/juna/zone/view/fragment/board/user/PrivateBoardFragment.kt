@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.fragment_private_board.*
+import kotlinx.android.synthetic.main.layout_board_engagement.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
@@ -72,7 +73,9 @@ class PrivateBoardFragment : CardTileFragment() {
         } else {
             activity?.let { private_board_toolbar.setUpPrivateBoardPopUp(it, PRIVATE_BOARD_USER_POPUP, deleteBoardListener) }
         }
-
+        people_count.text = board.interactions!!.followers.toString()
+        post_count.text = board.interactions!!.posts.toString()
+        interaction_count.text = (board.interactions!!.followers!! + board.interactions!!.posts!! + board.interactions!!.emojiReacts!!).toString()
         private_board_toolbar.setTitle(board.name)
         private_board_toolbar.setBoardTitle(if (board.boardType == getString(R.string.public_lowercase)) R.string.public_board else R.string.private_board)
         private_board_toolbar.setLeagueLogo(board.boardIconUrl!!)

@@ -27,7 +27,7 @@
         <attr name="visitingTeamLogo" format="reference" />
         <attr name="score" format="string" />
         <attr name="peopleCount" format="string" />
-        <attr name="commentsCount" format="string" />
+        <attr name="postCount" format="string" />
         <attr name="likesCount" format="string" />
         <attr name="isFollowing" format="boolean" />
         <attr name="boardTitle" format="string" />
