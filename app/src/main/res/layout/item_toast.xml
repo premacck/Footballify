@@ -5,10 +5,11 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@drawable/bg_toast"
-    android:fontFamily="@font/rajdhani_medium"
+    android:fontFamily="@font/rajdhani_regular"
     android:gravity="center"
     android:paddingStart="15dp"
-    android:paddingTop="5dp"
+    android:paddingTop="8dp"
     android:paddingEnd="15dp"
-    android:paddingBottom="5dp"
-    android:textColor="@color/white" />
+    android:paddingBottom="8dp"
+    android:textColor="@color/white"
+    android:textSize="16sp" />

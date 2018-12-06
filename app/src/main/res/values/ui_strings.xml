@@ -235,4 +235,6 @@
     <string name="collect">COLLECT</string>
     <string name="collect_to_follow_this_person">Collect to follow this person</string>
     <string name="lineups_now_available_for_this_match">Lineups are now available for this match!</string>
+    <string name="penalty">Penalty</string>
+    <string name="missed_penalty">Missed penalty</string>
 </resources>
