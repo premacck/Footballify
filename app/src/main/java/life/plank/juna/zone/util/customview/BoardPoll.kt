@@ -17,6 +17,7 @@ import life.plank.juna.zone.data.model.poll.PollAnswerRequest
 import life.plank.juna.zone.interfaces.PollContainer
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.AppConstants.PollValue.*
+import life.plank.juna.zone.util.common.DataUtil
 import life.plank.juna.zone.util.facilis.toggleInteraction
 import life.plank.juna.zone.util.time.DateUtil
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
@@ -60,13 +61,9 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 .into(league_logo)
 
 //        Loading time to kick-off
-        val timeDiffFromNow = pollBindingModel.matchStartTime.time - Date().time
-
-        when {
-            //0 to 95 minutes
-            timeDiffFromNow in -5700001..0 -> time_to_kick_off.text = LIVE
-            timeDiffFromNow <= 0 -> time_to_kick_off.text = FULL_TIME
-            else -> object : CountDownTimer(timeDiffFromNow, 1000) {
+        if (pollBindingModel.timeStatus.equals(NS)) {
+            val timeDiffFromNow = pollBindingModel.matchStartTime.time - Date().time
+            object : CountDownTimer(timeDiffFromNow, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     val kickoffString = "${context.getString(R.string.kick_off_in_)}${DateUtil.getHourMinuteSecondFormatDate(Date(millisUntilFinished))}"
                     time_to_kick_off.text = kickoffString
@@ -76,7 +73,10 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                     time_to_kick_off.text = LIVE
                 }
             }.start()
+        } else {
+            time_to_kick_off.text = DataUtil.getDisplayTimeStatus(pollBindingModel.timeStatus)
         }
+
         setPollProgress()
 
         pollBindingModel.poll.run {
