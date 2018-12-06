@@ -25,6 +25,7 @@ import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.network.NetworkStatus
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.view.UIDisplayUtil
+import life.plank.juna.zone.util.view.boomMenu
 import life.plank.juna.zone.util.view.setupBoomMenu
 import life.plank.juna.zone.util.view.setupWith
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
@@ -65,7 +66,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRecyclerView()
         setUpData()
-        setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, arc_menu, null)
+        setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, null)
         initBottomSheetRecyclerView()
         search_view.queryHint = getString(R.string.search_query_hint)
 
@@ -83,7 +84,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
                 // React to dragging events
             }
         })
-        arc_menu.setupWith(football_feed_recycler_view)
+        boomMenu().setupWith(football_feed_recycler_view)
 
     }
 
@@ -116,12 +117,12 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
 
     override fun onResume() {
         super.onResume()
-        arc_menu.menuIn()
+        boomMenu().menuIn()
     }
 
     override fun onPause() {
         super.onPause()
-        arc_menu.menuOut()
+        boomMenu().menuOut()
     }
 
     private fun getSearchedUsers(displayName: String) {

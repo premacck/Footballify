@@ -104,9 +104,7 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <com.bvapp.arcmenulibrary.ArcMenu
-        android:id="@+id/arc_menu"
-        style="@style/ArcMenuDefault" />
+    <life.plank.juna.zone.util.customview.BoomMenu style="@style/BoomMenuDefault" />
 
     <include layout="@layout/emoji_bottom_sheet" />
 
