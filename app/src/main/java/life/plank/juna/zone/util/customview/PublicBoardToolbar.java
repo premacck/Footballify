@@ -85,8 +85,8 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     ImageButton shareBtn;
     @BindView(R.id.people_count)
     TextView peopleCountView;
-    @BindView(R.id.comment_count)
-    TextView commentCountView;
+    @BindView(R.id.post_count)
+    TextView postCountView;
     @BindView(R.id.likes_count)
     TextView likesCountView;
     @BindView(R.id.info_tiles_tab_layout)
@@ -133,7 +133,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         setHomeTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, 0));
         setVisitingTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, 0));
         setPeopleCount(array.getString(R.styleable.PublicBoardToolbar_peopleCount));
-        setCommentCount(array.getString(R.styleable.PublicBoardToolbar_commentsCount));
+        setPostCount(array.getString(R.styleable.PublicBoardToolbar_commentsCount));
         setBoardTitle(array.getString(R.styleable.PublicBoardToolbar_boardTitle));
         showLock(array.getBoolean(R.styleable.PublicBoardToolbar_showLock, false));
 
@@ -394,8 +394,8 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     }
 
     @Override
-    public void setCommentCount(@NonNull String commentsCount) {
-        commentCountView.setText(commentsCount);
+    public void setPostCount(@NonNull String postCount) {
+        postCountView.setText(postCount);
     }
 
     @Override
@@ -418,7 +418,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
 
     public void setBoardTemperature(BoardTemperature boardTemperature) {
         peopleCountView.setText(NumberFormatter.format(boardTemperature.getUserCount()));
-        commentCountView.setText(NumberFormatter.format(boardTemperature.getPostCount()));
+        postCountView.setText(NumberFormatter.format(boardTemperature.getPostCount()));
         likesCountView.setText(NumberFormatter.format(boardTemperature.getInteractionCount()));
     }
 }
