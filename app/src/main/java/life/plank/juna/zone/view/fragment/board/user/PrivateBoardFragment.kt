@@ -75,6 +75,7 @@ class PrivateBoardFragment : CardTileFragment() {
         }
         people_count.text = board.interactions!!.followers.toString()
         post_count.text = board.interactions!!.posts.toString()
+        interaction_count.text = (board.interactions!!.followers!! + board.interactions!!.posts!! + board.interactions!!.emojiReacts!!).toString()
         private_board_toolbar.setTitle(board.name)
         private_board_toolbar.setBoardTitle(if (board.boardType == getString(R.string.public_lowercase)) R.string.public_board else R.string.private_board)
         private_board_toolbar.setLeagueLogo(board.boardIconUrl!!)

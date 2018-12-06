@@ -87,8 +87,8 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     TextView peopleCountView;
     @BindView(R.id.post_count)
     TextView postCountView;
-    @BindView(R.id.likes_count)
-    TextView likesCountView;
+    @BindView(R.id.interaction_count)
+    TextView interactionCountView;
     @BindView(R.id.info_tiles_tab_layout)
     TabLayout infoTilesTabLayout;
 
@@ -419,6 +419,6 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     public void setBoardTemperature(BoardTemperature boardTemperature) {
         peopleCountView.setText(NumberFormatter.format(boardTemperature.getUserCount()));
         postCountView.setText(NumberFormatter.format(boardTemperature.getPostCount()));
-        likesCountView.setText(NumberFormatter.format(boardTemperature.getInteractionCount()));
+        interactionCountView.setText(NumberFormatter.format(boardTemperature.getInteractionCount()));
     }
 }
