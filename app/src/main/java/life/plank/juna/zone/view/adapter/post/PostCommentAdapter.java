@@ -10,6 +10,8 @@ import life.plank.juna.zone.data.model.FeedItemComment;
 import life.plank.juna.zone.view.adapter.post.binder.PostCommentBinder;
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment;
 
+import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+
 public class PostCommentAdapter extends RecyclerAdapter {
 
     private final DataListManager<FeedItemComment> commentDataManager;
@@ -22,6 +24,7 @@ public class PostCommentAdapter extends RecyclerAdapter {
     }
 
     public void setComments(List<FeedItemComment> feedItemComments) {
+        if (isNullOrEmpty(feedItemComments)) return;
         commentDataManager.set(feedItemComments);
     }
 

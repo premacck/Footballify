@@ -1,5 +1,6 @@
 package life.plank.juna.zone.notification
 
+import android.app.Activity
 import android.content.Intent
 import life.plank.juna.zone.R
 import life.plank.juna.zone.R.string.*
@@ -61,7 +62,7 @@ fun BaseCardActivity.triggerNotificationIntent(intent: Intent) {
     restApi()?.run {
         when {
             intent.hasExtra(findString(intent_action)) -> {
-                when (intent.getStringExtra(findString(intent_action))) {
+                when (getActionFromIntent()) {
                     findString(intent_invite) -> pushPopup(JoinBoardPopup.newInstance(intent.getStringExtra(findString(intent_board_id))))
                     else -> findAndLaunchBoardById(this)
                 }
@@ -83,7 +84,7 @@ fun BaseCardActivity.handleSocialNotificationIntentIfAny() {
 //        val parentCommentId = getStringExtra(getString(intent_parent_comment_id))
 
         restApi()?.run {
-            when (action) {
+            when (getActionFromIntent()) {
                 findString(intent_invite) -> pushPopup(JoinBoardPopup.newInstance(boardId))
 //            TODO: open board -> switch to tiles -> open feedItem
                 findString(intent_post) -> findAndLaunchBoardById(this)
@@ -95,6 +96,18 @@ fun BaseCardActivity.handleSocialNotificationIntentIfAny() {
         }
     }
 }
+
+fun Activity.getLiveDataTypeFromIntent(): String? = intent?.getStringExtra(getString(intent_live_data_type))
+
+fun Activity.getActionFromIntent(): String? = intent?.getStringExtra(getString(intent_action))
+
+fun Activity.getBoardIdFromIntent(): String? = intent?.getStringExtra(getString(intent_board_id))
+
+fun Activity.getFeedItemIdFromIntent(): String? = intent?.getStringExtra(getString(intent_feed_item_id))
+
+fun Activity.getCommentIdFromIntent(): String? = intent?.getStringExtra(getString(intent_comment_id))
+
+fun Activity.getParentCommentIdFromIntent(): String? = intent?.getStringExtra(getString(intent_parent_comment_id))
 
 fun BaseCardActivity.handleFootballLiveDataNotificationIntentIfAny() {
     if (!intent.hasExtra(getString(match_id_string))) return
@@ -109,8 +122,6 @@ fun InAppNotification.triggerNotificationAction(baseCardActivity: BaseCardActivi
     }
 }
 
-fun BaseCard.getSocialNotificationIntentActionFromActivity(): String? =
-        (activity as? BaseCardActivity)?.intent?.getStringExtra(findString(intent_action))
+fun BaseCard.getSocialNotificationIntentActionFromActivity(): String? = activity?.getActionFromIntent()
 
-fun BaseCard.getLiveFootballNotificationIntentActionFromActivity(): String? =
-        (activity as? BaseCardActivity)?.intent?.getStringExtra(findString(intent_live_data_type))
+fun BaseCard.getLiveFootballNotificationIntentActionFromActivity(): String? = activity?.getLiveDataTypeFromIntent()
