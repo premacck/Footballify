@@ -159,7 +159,7 @@
             android:layout_marginBottom="100dp"
             android:fontFamily="@font/rajdhani_medium"
             android:text="@string/more_events_will_be_displayed"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </android.support.v7.widget.CardView>
 
