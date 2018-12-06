@@ -5,6 +5,7 @@ package life.plank.juna.zone.util.view
 import android.app.Activity
 import android.content.res.Resources
 import android.support.design.widget.BottomSheetBehavior
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.RecyclerView
@@ -12,12 +13,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.Toast
-import com.bvapp.arcmenulibrary.ArcMenu
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.*
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.customview.BoomMenu
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.activity.PostCommentActivity
@@ -25,11 +26,21 @@ import life.plank.juna.zone.view.activity.camera.CustomCameraActivity
 import life.plank.juna.zone.view.activity.camera.UploadActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
+import org.jetbrains.anko.find
+import org.jetbrains.anko.support.v4.find
 
-fun setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?, arcMenu: ArcMenu, bottomSheetBehaviour: BottomSheetBehavior<*>?) {
+fun Activity.setupBoomMenu(@BoomMenuPage page: Int, boardId: String?, bottomSheetBehaviour: BottomSheetBehavior<*>? = null) {
+    boomMenu().setup(page, this, boardId, bottomSheetBehaviour)
+}
+
+fun Fragment.setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?, bottomSheetBehaviour: BottomSheetBehavior<*>? = null) {
+    boomMenu().setup(page, activity, boardId, bottomSheetBehaviour)
+}
+
+fun BoomMenu.setup(@BoomMenuPage page: Int, activity: Activity, boardId: String?, bottomSheetBehaviour: BottomSheetBehavior<*>?) {
     val baseElevation: Float = getDp(22f)
 
-    arcMenu.run {
+    get().run {
         setIcon(
                 R.drawable.ic_un,
                 R.drawable.ic_close_white
@@ -56,11 +67,11 @@ fun setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?,
         val childImageView: ImageView = arcMenuChild.findViewById(R.id.fab_image_view)
         fabRelativeLayout.background = ContextCompat.getDrawable(activity, backgroundColors[i])
         childImageView.setImageResource(fabImages[i])
-        arcMenu.addItem(arcMenuChild, titles[i], getBoomMenuListener(page, activity, boardId, i, bottomSheetBehaviour))
+        get().addItem(arcMenuChild, titles[i], getBoomMenuListener(page, activity, boardId, i, bottomSheetBehaviour))
     }
 }
 
-fun ArcMenu.setupWith(nestedScrollView: NestedScrollView) {
+fun BoomMenu.setupWith(nestedScrollView: NestedScrollView) {
     nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
         if (scrollY > oldScrollY) {
             hide()
@@ -70,7 +81,7 @@ fun ArcMenu.setupWith(nestedScrollView: NestedScrollView) {
     }
 }
 
-fun ArcMenu.setupWith(recyclerView: RecyclerView) {
+fun BoomMenu.setupWith(recyclerView: RecyclerView) {
     recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             if (dy > 5) {
@@ -270,6 +281,30 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
         }
         else -> null
     }
+}
 
+fun Activity.boomMenu(): BoomMenu = find(R.id.boom_menu)
 
+fun Fragment.boomMenu(): BoomMenu = find(R.id.boom_menu)
+
+fun Activity.dismissBoomMenuIfOpen(): Boolean {
+    findViewById<BoomMenu>(R.id.boom_menu)?.run {
+        if (isOpen()) {
+            toggleBoomMenu()
+            return false
+        }
+        return true
+    }
+    return true
+}
+
+fun Fragment.dismissBoomMenuIfOpen(): Boolean {
+    view?.findViewById<BoomMenu>(R.id.boom_menu)?.run {
+        if (isOpen()) {
+            toggleBoomMenu()
+            return false
+        }
+        return true
+    }
+    return true
 }

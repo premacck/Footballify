@@ -10,6 +10,7 @@ import io.alterac.blurkit.BlurLayout
 import life.plank.juna.zone.R
 import life.plank.juna.zone.util.view.UIDisplayUtil
 import life.plank.juna.zone.util.view.UIDisplayUtil.hideSoftKeyboard
+import life.plank.juna.zone.util.view.dismissBoomMenuIfOpen
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
@@ -74,4 +75,6 @@ abstract class BaseCard : BaseFragment() {
         dispose()
         super.onDestroyView()
     }
+
+    override fun onBackPressed(): Boolean = dismissBoomMenuIfOpen()
 }

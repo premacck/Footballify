@@ -77,9 +77,7 @@
 
     </LinearLayout>
 
-    <com.bvapp.arcmenulibrary.ArcMenu
-        android:id="@+id/arc_menu"
-        style="@style/ArcMenuDefault" />
+    <life.plank.juna.zone.util.customview.BoomMenu style="@style/BoomMenuDefault" />
 
     <ImageView
         style="@style/DragHandleLightImageView"

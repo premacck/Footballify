@@ -2,6 +2,7 @@ package life.plank.juna.zone.util.facilis
 
 import android.support.annotation.IdRes
 import android.util.Log
+import life.plank.juna.zone.util.view.dismissBoomMenuIfOpen
 import life.plank.juna.zone.view.activity.base.BaseActivity
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
@@ -62,9 +63,11 @@ abstract class BaseNavigationHelperActivity : BaseActivity() {
     override fun onBackPressed() {
         try {
             if (removeActivePopupsIfAny()) {
-                if (index > 0) {
-                    startPoppingFragment()
-                } else super.onBackPressed()
+                if (dismissBoomMenuIfOpen()) {
+                    if (index > 0) {
+                        startPoppingFragment()
+                    } else super.onBackPressed()
+                }
             }
         } catch (e: Exception) {
             Log.e("onBackPressed()", "ERROR : ", e)

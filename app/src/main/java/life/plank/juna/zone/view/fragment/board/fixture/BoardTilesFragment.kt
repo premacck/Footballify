@@ -40,6 +40,7 @@ import life.plank.juna.zone.util.facilis.vibrate
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.view.UIDisplayUtil.addDefaultEmojis
 import life.plank.juna.zone.util.view.UIDisplayUtil.setupFeedEntryByMasonryLayout
+import life.plank.juna.zone.util.view.boomMenu
 import life.plank.juna.zone.util.view.setupBoomMenu
 import life.plank.juna.zone.util.view.setupWith
 import life.plank.juna.zone.view.adapter.board.tile.BoardMediaAdapter
@@ -93,17 +94,17 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (isNullOrEmpty(boardId)) {
             board_tiles_list.visibility = View.GONE
-            arc_menu.visibility = View.GONE
+            boomMenu().visibility = View.GONE
             return
         }
         initRecyclerViews()
         setupEmojiBottomSheet()
-        arc_menu.setupWith(nestedScrollView)
+        boomMenu().setupWith(nestedScrollView)
 
         if (isBoardActive) {
-            setupBoomMenu(BOOM_MENU_FULL, Objects.requireNonNull<FragmentActivity>(activity), boardId, arc_menu, emojiBottomSheetBehavior)
+            setupBoomMenu(BOOM_MENU_FULL, Objects.requireNonNull<FragmentActivity>(activity), boardId, emojiBottomSheetBehavior)
         } else {
-            arc_menu.onDebouncingClick { toast(R.string.board_not_active) }
+            boomMenu().onDebouncingClick { toast(R.string.board_not_active) }
         }
 
         if (parentFragment is PrivateBoardFragment) {
