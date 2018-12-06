@@ -61,10 +61,12 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
 //        Loading time to kick-off
         val timeDiffFromNow = pollBindingModel.matchStartTime.time - Date().time
-        if (timeDiffFromNow <= 0) {
-            time_to_kick_off.text = LIVE
-        } else {
-            object : CountDownTimer(timeDiffFromNow, 1000) {
+
+        when {
+            //0 to 95 minutes
+            timeDiffFromNow in -5700001..0 -> time_to_kick_off.text = LIVE
+            timeDiffFromNow <= 0 -> time_to_kick_off.text = FULL_TIME
+            else -> object : CountDownTimer(timeDiffFromNow, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     val kickoffString = "${context.getString(R.string.kick_off_in_)}${DateUtil.getHourMinuteSecondFormatDate(Date(millisUntilFinished))}"
                     time_to_kick_off.text = kickoffString

@@ -24,8 +24,7 @@ import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
 import life.plank.juna.zone.util.common.DataUtil
-import life.plank.juna.zone.util.common.DataUtil.ScrubberLoader
-import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.*
 import life.plank.juna.zone.util.common.execute
 import life.plank.juna.zone.util.common.getPositionFromIntentIfAny
 import life.plank.juna.zone.util.customview.PublicBoardToolbar
@@ -101,9 +100,11 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
         FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
         try {
             board_toolbar.prepare(matchDetails, league.leagueLogo)
-            people_count.text = board.interactions!!.followers.toString()
-            post_count.text = board.interactions!!.posts.toString()
-            interaction_count.text = (board.interactions!!.followers!! + board.interactions!!.posts!! + board.interactions!!.emojiReacts!!).toString()
+            if (!isNullOrEmpty(board.interactions)) {
+                people_count.text = board.interactions!!.followers.toString()
+                post_count.text = board.interactions!!.posts.toString()
+                interaction_count.text = (board.interactions!!.followers!! + board.interactions!!.posts!! + board.interactions!!.emojiReacts!!).toString()
+            }
             if (!board.isActive) applyInactiveBoardColorFilter()
             else clearColorFilter()
 
