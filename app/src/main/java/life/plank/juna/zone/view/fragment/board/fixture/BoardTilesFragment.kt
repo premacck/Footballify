@@ -224,6 +224,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
             if (parentFragment is MatchBoardFragment) {
                 pollBindingModel = PollBindingModel.from(it, (parentFragment as MatchBoardFragment).matchDetails)
                 if (activity != null) {
+                    board_poll.visibility = View.VISIBLE
                     board_poll.prepare(Glide.with(activity!!), pollBindingModel!!, this)
                 }
             }
