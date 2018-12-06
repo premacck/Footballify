@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.LatestMatch;
+package life.plank.juna.zone.view.latestMatch;
 
 import android.app.Activity;
 

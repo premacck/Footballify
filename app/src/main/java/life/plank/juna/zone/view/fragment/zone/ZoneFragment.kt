@@ -29,10 +29,10 @@ import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToke
 import life.plank.juna.zone.util.view.UIDisplayUtil
 import life.plank.juna.zone.util.view.setupBoomMenu
 import life.plank.juna.zone.util.view.setupWith
-import life.plank.juna.zone.view.LatestMatch.LeagueModel
-import life.plank.juna.zone.view.LatestMatch.MultiListAdapter
 import life.plank.juna.zone.view.adapter.common.SearchViewAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.view.latestMatch.LeagueModel
+import life.plank.juna.zone.view.latestMatch.MultiListAdapter
 import org.jetbrains.anko.support.v4.find
 import java.net.HttpURLConnection
 import javax.inject.Inject
