@@ -41,7 +41,7 @@ class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, privat
             holder.itemView.profile_pic.setImageResource(R.drawable.ic_football)
 
         holder.itemView.onDebouncingClick {
-            feedEntryContainer.openFeedEntry(userFeed, "", position, "")
+            feedEntryContainer.openFeedEntry(userFeed, "", position)
         }
 
         holder.itemView.longClickWithVibrate { feedEntryContainer.showFeedItemPeekPopup(position) }
