@@ -133,7 +133,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         setHomeTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, 0));
         setVisitingTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, 0));
         setPeopleCount(array.getString(R.styleable.PublicBoardToolbar_peopleCount));
-        setPostCount(array.getString(R.styleable.PublicBoardToolbar_commentsCount));
+        setPostCount(array.getString(R.styleable.PublicBoardToolbar_postCount));
         setBoardTitle(array.getString(R.styleable.PublicBoardToolbar_boardTitle));
         showLock(array.getBoolean(R.styleable.PublicBoardToolbar_showLock, false));
 
