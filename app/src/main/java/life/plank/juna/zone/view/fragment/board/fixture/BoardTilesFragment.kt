@@ -91,11 +91,11 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (isNullOrEmpty(boardId)) {
-            no_data.setText(R.string.login_signup_to_view_feed)
-            no_data.visibility = View.VISIBLE
+//            no_data.setText(R.string.login_signup_to_view_feed)
+//            no_data.visibility = View.VISIBLE
             board_tiles_list.visibility = View.GONE
             arc_menu.visibility = View.GONE
-            progress_bar.visibility = View.GONE
+            // progress_bar.visibility = View.GONE
             return
         }
         initRecyclerViews()
@@ -194,11 +194,11 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
     private fun getBoardFeed(isRefreshing: Boolean) {
         restApi.getBoardFeedItems(boardId, getToken())
                 .onSubscribe {
-                    progress_bar.visibility = View.VISIBLE
-                    no_data.visibility = View.GONE
+                    //                    progress_bar.visibility = View.VISIBLE
+//                    no_data.visibility = View.GONE
                     if (isRefreshing) swipe_refresh_layout.isRefreshing = true
                 }.onTerminate {
-                    progress_bar.visibility = View.GONE
+                    // progress_bar.visibility = View.GONE
                     if (isRefreshing) swipe_refresh_layout.isRefreshing = false
                 }.setObserverThreadsAndSmartSubscribe({
                     Log.e(TAG, "On Error() : getBoardFeed()", it)
@@ -251,7 +251,6 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
 //                (parentFragment as? FeedEntryContainer)?.openFeedEntry(this, boardId!!, index, BOARD)
 //            }
 //        }
-
         (parentFragment as? FeedEntryContainer)?.showFeedItemPeekPopup(index)
     }
 
