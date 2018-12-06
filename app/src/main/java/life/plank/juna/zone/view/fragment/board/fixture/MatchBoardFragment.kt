@@ -100,7 +100,7 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
             board_toolbar.prepare(matchDetails, league.leagueLogo)
             people_count.text = board.interactions!!.followers.toString()
             post_count.text = board.interactions!!.posts.toString()
-
+            interaction_count.text = (board.interactions!!.followers!! + board.interactions!!.posts!! + board.interactions!!.emojiReacts!!).toString()
             if (!board.isActive) applyInactiveBoardColorFilter()
             else clearColorFilter()
 
