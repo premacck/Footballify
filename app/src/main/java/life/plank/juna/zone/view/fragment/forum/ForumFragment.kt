@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.fragment.forum
 
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -142,6 +143,8 @@ class ForumFragment : BaseCommentContainerFragment() {
             commentEvent = getCommentEventForBoardComment(this)
         }
     }
+
+    override fun commentsRecyclerView(): RecyclerView = post_comments_list
 
     override fun getTheRestApi(): RestApi = restApi
 
