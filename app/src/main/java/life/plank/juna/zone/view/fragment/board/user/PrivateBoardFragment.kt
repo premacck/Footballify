@@ -17,6 +17,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.model.FeedEntry
+import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_OWNER_POPUP
 import life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_USER_POPUP
@@ -110,6 +111,25 @@ class PrivateBoardFragment : CardTileFragment() {
     override fun getFeedEntries(): List<FeedEntry> = feedEntries
 
     override fun getTheBoardId(): String? = boardId
+
+    override fun onSocialNotificationReceive(junaNotification: JunaNotification) {
+        junaNotification.run {
+            when (action) {
+                findString(R.string.intent_post) -> getFeedEntryDetails(restApi, this)
+                findString(R.string.intent_comment) -> updateForumComments()
+                findString(R.string.intent_react) -> {
+                }
+            }
+        }
+    }
+
+    override fun onNewFeedEntry(feedEntry: FeedEntry) {
+        (pagerAdapter?.currentFragment as? BoardTilesFragment)?.updateNewPost(feedEntry)
+    }
+
+    override fun updateForumComments() {
+        (pagerAdapter?.currentFragment as? ForumFragment)?.getComments(false)
+    }
 
     private fun deletePrivateBoard() {
         restApi.deleteBoard(boardId, getToken()).setObserverThreadsAndSmartSubscribe({
