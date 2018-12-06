@@ -55,6 +55,8 @@ import static life.plank.juna.zone.util.common.AppConstants.GOAL;
 import static life.plank.juna.zone.util.common.AppConstants.HALF_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.common.AppConstants.HT;
 import static life.plank.juna.zone.util.common.AppConstants.LIVE;
+import static life.plank.juna.zone.util.common.AppConstants.NOT_STARTED;
+import static life.plank.juna.zone.util.common.AppConstants.NS;
 import static life.plank.juna.zone.util.common.AppConstants.RED_CARD;
 import static life.plank.juna.zone.util.common.AppConstants.SUBSTITUTION;
 import static life.plank.juna.zone.util.common.AppConstants.WIDE_DASH;
@@ -333,39 +335,39 @@ public class DataUtil {
     private static List<ScrubberData> getDefinedDummyScrubberData() {
         List<ScrubberData> scrubberDataList = new ArrayList<>();
         scrubberDataList.add(new ScrubberData(0, 18, LIVE, false));
-        scrubberDataList.add(new ScrubberData(2, 48, FOUL, true));
-        scrubberDataList.add(new ScrubberData(4, 21, GOAL, true));
-        scrubberDataList.add(new ScrubberData(6, 9, SUBSTITUTION, false));
-        scrubberDataList.add(new ScrubberData(8, 28, FOUL, true));
-        scrubberDataList.add(new ScrubberData(12, 4, YELLOW_CARD, false));
-        scrubberDataList.add(new ScrubberData(15, 17, SUBSTITUTION, true));
-        scrubberDataList.add(new ScrubberData(18, 13, FOUL, true));
-        scrubberDataList.add(new ScrubberData(20, 34, YELLOW_CARD, true));
-        scrubberDataList.add(new ScrubberData(21, 25, GOAL, false));
-        scrubberDataList.add(new ScrubberData(22, 15, FOUL, true));
-        scrubberDataList.add(new ScrubberData(24, 20, FOUL, true));
-        scrubberDataList.add(new ScrubberData(28, 18, SUBSTITUTION, false));
-        scrubberDataList.add(new ScrubberData(32, 8, FOUL, true));
+        scrubberDataList.add(new ScrubberData(2, 22, FOUL, true));
+        scrubberDataList.add(new ScrubberData(4, 26, GOAL, true));
+        scrubberDataList.add(new ScrubberData(6, 28, SUBSTITUTION, false));
+        scrubberDataList.add(new ScrubberData(8, 30, FOUL, true));
+        scrubberDataList.add(new ScrubberData(12, 32, YELLOW_CARD, false));
+        scrubberDataList.add(new ScrubberData(15, 34, SUBSTITUTION, true));
+        scrubberDataList.add(new ScrubberData(18, 38, FOUL, true));
+        scrubberDataList.add(new ScrubberData(20, 44, YELLOW_CARD, true));
+        scrubberDataList.add(new ScrubberData(21, 48, GOAL, false));
+        scrubberDataList.add(new ScrubberData(22, 46, FOUL, true));
+        scrubberDataList.add(new ScrubberData(24, 42, FOUL, true));
+        scrubberDataList.add(new ScrubberData(28, 36, SUBSTITUTION, false));
+        scrubberDataList.add(new ScrubberData(32, 32, FOUL, true));
         scrubberDataList.add(new ScrubberData(38, 34, RED_CARD, true));
-        scrubberDataList.add(new ScrubberData(42, 3, FOUL, true));
-        scrubberDataList.add(new ScrubberData(45, 21, HT, true));
-        scrubberDataList.add(new ScrubberData(46, 9, FOUL, true));
-        scrubberDataList.add(new ScrubberData(48, 40, GOAL, true));
+        scrubberDataList.add(new ScrubberData(42, 30, FOUL, true));
+        scrubberDataList.add(new ScrubberData(45, 34, HT, true));
+        scrubberDataList.add(new ScrubberData(46, 38, FOUL, true));
+        scrubberDataList.add(new ScrubberData(48, 44, GOAL, true));
         scrubberDataList.add(new ScrubberData(52, 42, FOUL, true));
-        scrubberDataList.add(new ScrubberData(53, 45, SUBSTITUTION, true));
-        scrubberDataList.add(new ScrubberData(54, 38, SUBSTITUTION, false));
-        scrubberDataList.add(new ScrubberData(58, 20, FOUL, true));
-        scrubberDataList.add(new ScrubberData(62, 47, GOAL, true));
-        scrubberDataList.add(new ScrubberData(64, 11, FOUL, true));
-        scrubberDataList.add(new ScrubberData(66, 31, RED_CARD, false));
-        scrubberDataList.add(new ScrubberData(71, 14, FOUL, true));
-        scrubberDataList.add(new ScrubberData(77, 42, SUBSTITUTION, true));
-        scrubberDataList.add(new ScrubberData(82, 21, FOUL, true));
-        scrubberDataList.add(new ScrubberData(85, 15, GOAL, true));
-        scrubberDataList.add(new ScrubberData(89, 30, FOUL, true));
-        scrubberDataList.add(new ScrubberData(90, 35, YELLOW_RED, true));
-        scrubberDataList.add(new ScrubberData(92, 32, FOUL, true));
-        scrubberDataList.add(new ScrubberData(94, 47, FT, true));
+        scrubberDataList.add(new ScrubberData(53, 36, SUBSTITUTION, true));
+        scrubberDataList.add(new ScrubberData(54, 34, SUBSTITUTION, false));
+        scrubberDataList.add(new ScrubberData(58, 38, FOUL, true));
+        scrubberDataList.add(new ScrubberData(62, 44, GOAL, true));
+        scrubberDataList.add(new ScrubberData(64, 40, FOUL, true));
+        scrubberDataList.add(new ScrubberData(66, 38, RED_CARD, false));
+        scrubberDataList.add(new ScrubberData(71, 36, FOUL, true));
+        scrubberDataList.add(new ScrubberData(77, 32, SUBSTITUTION, true));
+        scrubberDataList.add(new ScrubberData(82, 26, FOUL, true));
+        scrubberDataList.add(new ScrubberData(85, 34, GOAL, true));
+        scrubberDataList.add(new ScrubberData(89, 36, FOUL, true));
+        scrubberDataList.add(new ScrubberData(90, 40, YELLOW_RED, true));
+        scrubberDataList.add(new ScrubberData(92, 46, FOUL, true));
+        scrubberDataList.add(new ScrubberData(94, 48, FT, true));
         return scrubberDataList;
     }
 
@@ -496,6 +498,8 @@ public class DataUtil {
                 return HALF_TIME_LOWERCASE;
             case FT:
                 return FULL_TIME_LOWERCASE;
+            case NS:
+                return NOT_STARTED;
             default:
                 return apiTimeStatus;
         }
