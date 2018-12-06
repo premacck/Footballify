@@ -36,6 +36,7 @@ import life.plank.juna.zone.util.view.UIDisplayUtil.showBoardExpirationDialog
 import life.plank.juna.zone.view.fragment.base.BaseMatchFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import java.lang.ref.WeakReference
+import java.util.*
 import javax.inject.Inject
 
 class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
@@ -110,8 +111,12 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
             followBoard()
 
             (item_scrubber as? LineChart)?.run {
-                ScrubberLoader.prepare(this, false)
-                this.onDebouncingClick { pushPopup(TimelinePopup.newInstance(currentMatchId, matchDetails)) }
+                if (matchDetails.matchStartTime.time <= Date().time) {
+                    ScrubberLoader.prepare(this, false)
+                    this.onDebouncingClick { pushPopup(TimelinePopup.newInstance(currentMatchId, matchDetails)) }
+                } else {
+                    item_scrubber.visibility = View.GONE
+                }
             }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
@@ -156,6 +161,7 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
 
     override fun onBoardStateChange(isActive: Boolean) {
         if (isActive) {
+            item_scrubber.visibility = View.VISIBLE
             board.isActive = true
             clearColorFilter()
             setupViewPagerWithFragments()
