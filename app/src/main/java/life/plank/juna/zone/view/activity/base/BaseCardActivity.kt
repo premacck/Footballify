@@ -51,7 +51,7 @@ abstract class BaseCardActivity : BaseNavigationHelperActivity() {
             addNotificationView(container, inAppNotification)
             return
         }
-        notificationLayout.dismiss()?.then {
+        notificationLayout.dismiss().then {
             container.removeView(notificationLayout)
             addNotificationView(container, inAppNotification)
         }

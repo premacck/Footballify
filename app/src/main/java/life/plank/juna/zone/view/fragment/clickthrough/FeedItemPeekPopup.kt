@@ -7,6 +7,7 @@ import android.support.v7.widget.PagerSnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.popup_feed_item_peek.*
@@ -16,7 +17,7 @@ import life.plank.juna.zone.data.model.Emoji
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.EmojiContainer
-import life.plank.juna.zone.util.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.facilis.hideIfShown
 import life.plank.juna.zone.view.adapter.common.BoardFeedDetailAdapter
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
@@ -98,7 +99,8 @@ class FeedItemPeekPopup : BaseBlurPopup(), EmojiContainer {
     }
 
     private fun initRecyclerView() {
-        boardFeedDetailAdapter = BoardFeedDetailAdapter(restApi, boardId, isBoardActive, emojiBottomSheetBehavior, emojiAdapter, null)
+        boardFeedDetailAdapter = BoardFeedDetailAdapter(restApi, boardId, isBoardActive,
+                emojiBottomSheetBehavior, emojiAdapter, null, Glide.with(this))
         board_tiles_full_recycler_view.adapter = boardFeedDetailAdapter
         boardFeedDetailAdapter?.update(feedEntries)
         PagerSnapHelper().attachToRecyclerView(board_tiles_full_recycler_view)

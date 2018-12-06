@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_custom_camera.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture
+import life.plank.juna.zone.util.view.UIDisplayUtil.setupSwipeGesture
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.camera.CameraFragment
 import life.plank.juna.zone.view.fragment.camera.CustomGalleryFragment

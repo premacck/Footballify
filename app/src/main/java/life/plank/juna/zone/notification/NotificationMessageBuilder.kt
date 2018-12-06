@@ -3,12 +3,23 @@ package life.plank.juna.zone.notification
 import android.text.SpannableStringBuilder
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.notification.BaseInAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
-import life.plank.juna.zone.util.AppConstants.*
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.bold
-import life.plank.juna.zone.util.semiBold
+import life.plank.juna.zone.data.network.dagger.module.NetworkModule.GSON
+import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.common.DataUtil.*
+import life.plank.juna.zone.util.common.appendOneOrOther
+import life.plank.juna.zone.util.common.bold
+import life.plank.juna.zone.util.common.maybeAppend
+import life.plank.juna.zone.util.common.semiBold
+
+fun BaseInAppNotification.getNotificationMessage(): SpannableStringBuilder {
+    return when {
+        this is JunaNotification -> buildNotificationMessage()
+        this is ZoneLiveData -> buildNotificationMessage()
+        else -> SpannableStringBuilder()
+    }
+}
 
 /**
  * Method to get suitable text for the social interaction notification message
@@ -54,28 +65,40 @@ private fun SpannableStringBuilder.appendBoard(name: String?): SpannableStringBu
  * Method to get suitable text for the social live football data message
  */
 fun ZoneLiveData.buildNotificationMessage(): SpannableStringBuilder {
-    val spannableStringBuilder = SpannableStringBuilder()
+    val header = "$homeTeamName ${findString(vs)} $visitingTeamName"
+    val spannableStringBuilder = SpannableStringBuilder(header.bold()).append(NEW_LINE)
     when (liveDataType) {
-        MATCH_EVENTS -> {/*TODO: show goal, penalty, cards, substitution*/
+        MATCH_EVENTS -> {
+            val matchEventList = getMatchEventList(GSON)
+            matchEventList?.run {
+                if (!isNullOrEmpty(this)) {
+                    for (matchEvent in this) {
+                        when (matchEvent.eventType) {
+                            GOAL ->
+                                spannableStringBuilder.append(GOAL.semiBold(), findString(_by_), matchEvent.playerName.semiBold(), ", ")
+                                        .maybeAppend(findString(assist_by_), !isNullOrEmpty(matchEvent.relatedPlayerName))
+                                        .maybeAppend(matchEvent.relatedPlayerName, !isNullOrEmpty(matchEvent.relatedPlayerName))
+                            YELLOW_CARD ->
+                                spannableStringBuilder.append(matchEvent.playerName, findString(_receives_yellow_card))
+                            RED_CARD, YELLOW_RED ->
+                                spannableStringBuilder.append(matchEvent.playerName, findString(_receives_red_card))
+                            PENALTY ->
+                                spannableStringBuilder.appendOneOrOther(matchEvent.isHomeTeam, homeTeamName, visitingTeamName)
+                                        .append(findString(_conceded_penalty))
+                        }
+                    }
+                }
+            }
         }
-        TIME_STATUS_DATA -> {/*TODO: show match started, half time, full time*/
+        TIME_STATUS_DATA -> {
+            val liveTimeStatus = getLiveTimeStatus(GSON)
+            when (liveTimeStatus?.timeStatus) {
+                LIVE -> spannableStringBuilder.append(findString(match_is_now_live))
+                else -> spannableStringBuilder.append(getDisplayTimeStatus(liveTimeStatus?.timeStatus))
+            }
         }
-        LINEUPS_DATA -> {/*TODO: show "lineups are available"*/
-        }
-        BOARD_ACTIVATED -> {/*TODO: show "board is now active"*/
-        }
-        SCORE_DATA -> {/*Not implemented*/
-        }
-        COMMENTARY_DATA -> {/*Not implemented*/
-        }
-        SCRUBBER_DATA -> {/*Not implemented*/
-        }
-        HIGHLIGHTS_DATA -> {/*Not implemented*/
-        }
-        MATCH_STATS_DATA -> {/*Not implemented*/
-        }
-        BOARD_DEACTIVATED -> {/*Not implemented*/
-        }
+        LINEUPS_DATA -> spannableStringBuilder.append(findString(lineups_are_now_available))
+        BOARD_ACTIVATED -> spannableStringBuilder.append(findString(match_board_is_now_active))
     }
     return spannableStringBuilder
 }

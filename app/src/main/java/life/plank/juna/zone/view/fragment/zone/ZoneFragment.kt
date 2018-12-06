@@ -21,9 +21,14 @@ import life.plank.juna.zone.data.model.NextMatch
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.OnItemClickListener
-import life.plank.juna.zone.util.*
-import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
+import life.plank.juna.zone.util.common.customToast
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.network.NetworkStatus
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.view.UIDisplayUtil
+import life.plank.juna.zone.util.view.setupBoomMenu
+import life.plank.juna.zone.util.view.setupWith
 import life.plank.juna.zone.view.LatestMatch.LeagueModel
 import life.plank.juna.zone.view.LatestMatch.MultiListAdapter
 import life.plank.juna.zone.view.adapter.common.SearchViewAdapter
@@ -163,25 +168,24 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
                 }
                 else -> Log.e(TAG, it.message())
             }
-        }
-        )
+        })
     }
 
-    override fun onQueryTextSubmit(s: String): Boolean {
-        return true
-    }
+override fun onQueryTextSubmit(s: String): Boolean {
+    return true
+}
 
-    override fun onQueryTextChange(s: String): Boolean {
-        if (!s.isEmpty()) {
-            getSearchedUsers(s)
-        } else {
-            userList.clear()
-            searchViewAdapter.notifyDataSetChanged()
-        }
-        return true
+override fun onQueryTextChange(s: String): Boolean {
+    if (!s.isEmpty()) {
+        getSearchedUsers(s)
+    } else {
+        userList.clear()
+        searchViewAdapter.notifyDataSetChanged()
     }
+    return true
+}
 
-    override fun onItemClicked(objectId: String, isSelected: Boolean?) {
-        //TODO: handle on item click
-    }
+override fun onItemClicked(objectId: String, isSelected: Boolean?) {
+    //TODO: handle on item click
+}
 }

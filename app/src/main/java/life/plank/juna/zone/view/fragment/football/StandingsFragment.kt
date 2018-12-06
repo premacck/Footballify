@@ -14,9 +14,11 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.Standings
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.DataUtil
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.onTerminate
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.view.adapter.league.StandingTableAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import javax.inject.Inject
@@ -45,12 +47,14 @@ class StandingsFragment : BaseLeagueFragment() {
             inflater.inflate(R.layout.fragment_standings, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        standingTableAdapter = StandingTableAdapter(Glide.with(this), false)
-        standing_recycler_view.adapter = standingTableAdapter
+        context?.doAfterDelay(300) {
+            standingTableAdapter = StandingTableAdapter(Glide.with(this), false)
+            standing_recycler_view.adapter = standingTableAdapter
 
-        getStandings(false)
-        standings_swipe_refresh_layout.setOnRefreshListener { getStandings(true) }
-        standing_recycler_view.setupWithParentFragmentBoomMenu()
+            getStandings(false)
+            standings_swipe_refresh_layout.setOnRefreshListener { getStandings(true) }
+            standing_recycler_view.setupWithParentFragmentBoomMenu()
+        }
     }
 
     override fun restApi(): RestApi = restApi
@@ -59,12 +63,12 @@ class StandingsFragment : BaseLeagueFragment() {
 
     private fun getStandings(isRefreshing: Boolean) {
         restApi.getStandings(league.name, league.seasonName, league.countryName)
-                .doOnTerminate { if (isRefreshing) standings_swipe_refresh_layout.isRefreshing = false }
+                .onTerminate { if (isRefreshing) standings_swipe_refresh_layout.isRefreshing = false }
                 .setObserverThreadsAndSmartSubscribe({
                     Log.e("getStandings()", "ERROR: ", it)
                 }, {
                     setStandings(it.body())
-                })
+                }, this)
     }
 
     private fun setStandings(standingsList: List<Standings>?) {
@@ -74,6 +78,7 @@ class StandingsFragment : BaseLeagueFragment() {
         } else {
             updateUI(true, standing_recycler_view, no_standings)
             standingTableAdapter!!.update(standingsList)
+            leagueViewModel.updateStandings(league.id, standingsList!!)
         }
     }
 

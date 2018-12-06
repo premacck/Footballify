@@ -4,19 +4,20 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import kotlinx.android.synthetic.main.fragment_forum.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.CommentEvent
 import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
-import life.plank.juna.zone.util.PreferenceManager
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard
-import life.plank.juna.zone.util.UIDisplayUtil.showSoftKeyboard
-import life.plank.juna.zone.util.errorToast
-import life.plank.juna.zone.util.semiBold
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.common.semiBold
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
+import life.plank.juna.zone.util.view.UIDisplayUtil.hideSoftKeyboard
+import life.plank.juna.zone.util.view.UIDisplayUtil.showSoftKeyboard
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import java.net.HttpURLConnection
 
@@ -111,8 +112,14 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
         }
     }
 
+    private fun setTextViewState(clickableState: Boolean, alpha: Float) {
+        post_comment.isClickable = clickableState
+        post_comment.alpha = alpha
+    }
+
     protected fun postCommentOrReply(commentOrReply: String, commentEvent: CommentEvent, isCommentOrReplyOnBoard: Boolean = true, feedItemId: String? = null) {
         hideSoftKeyboard(activity?.window?.decorView)
+        setTextViewState(false, 0.5f)
         if (isReply) {
             commentEvent.isReply = true
             commentEvent.parentCommentId = parentComment?.id
@@ -137,48 +144,56 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
         getTheRestApi().postCommentOnBoard(comment, commentEvent.boardId, getRequestDateStringOfNow(), getToken())
                 .setObserverThreadsAndSmartSubscribe({
                     Log.e("commentOnBoard()", "ERROR: ", it)
+                    setTextViewState(true, 1f)
                 }, {
+                    setTextViewState(true, 1f)
                     when (it.code()) {
                         HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED -> handleCommentResponse(it.body())
                         else -> errorToast(R.string.failed_to_post_comment, it)
                     }
-                })
+                }, this)
     }
 
     private fun postCommentOnFeedItem(comment: String, commentEvent: CommentEvent) {
         getTheRestApi().postCommentOnFeedItem(comment, commentEvent.feedItemId, commentEvent.boardId, getRequestDateStringOfNow(), getToken())
                 .setObserverThreadsAndSmartSubscribe({
                     Log.e("commentOnFeedItem()", "ERROR: ", it)
+                    setTextViewState(true, 1f)
                 }, {
+                    setTextViewState(true, 1f)
                     when (it.code()) {
                         HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED -> handleCommentResponse(it.body())
                         else -> errorToast(R.string.failed_to_post_comment, it)
                     }
-                })
+                }, this)
     }
 
     protected fun postReplyOnBoardComment(reply: String, commentEvent: CommentEvent, parentComment: FeedItemComment?, position: Int) {
         getTheRestApi().postReplyOnBoardComment(reply, commentEvent.parentCommentId, commentEvent.boardId, getRequestDateStringOfNow(), getToken())
                 .setObserverThreadsAndSmartSubscribe({
                     Log.e("replyOnBoard()", "ERROR: ", it)
+                    setTextViewState(true, 1f)
                 }, {
+                    setTextViewState(true, 1f)
                     when (it.code()) {
                         HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED -> handleReplyResponse(it.body(), parentComment, position)
                         else -> errorToast(R.string.failed_to_post_reply, it)
                     }
-                })
+                }, this)
     }
 
     protected fun postReplyOnFeedItemComment(reply: String, commentEvent: CommentEvent, parentComment: FeedItemComment?, position: Int) {
         getTheRestApi().postReplyOnComment(reply, commentEvent.feedItemId, commentEvent.parentCommentId, commentEvent.boardId, getRequestDateStringOfNow(), getToken())
                 .setObserverThreadsAndSmartSubscribe({
                     Log.e("replyOnFeedItem()", "ERROR: ", it)
+                    setTextViewState(true, 1f)
                 }, {
+                    setTextViewState(true, 1f)
                     when (it.code()) {
                         HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED -> handleReplyResponse(it.body(), parentComment, position)
                         else -> errorToast(R.string.failed_to_post_reply, it)
                     }
-                })
+                }, this)
     }
 
     private fun handleCommentResponse(feedItemComment: FeedItemComment?) {

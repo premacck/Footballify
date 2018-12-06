@@ -4,10 +4,13 @@ import android.content.Intent
 import life.plank.juna.zone.R
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.notification.InAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.findAndLaunchBoardById
+import life.plank.juna.zone.util.common.launchMatchBoard
 import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
@@ -45,12 +48,26 @@ fun JunaNotification.getSocialNotificationIntent(): Intent {
     }
 }
 
-fun BaseCardActivity.triggerNotificationIntent(intent: Intent) {
-    this.intent = intent
-    restApi()?.run { findAndLaunchBoardById(this) } ?: toast(R.string.rest_api_is_null)
+fun ZoneLiveData.getLiveFootballNotificationIntent(): Intent {
+    return ZoneApplication.getContext().run {
+        intentFor<HomeActivity>(
+                findString(match_id_string) to matchId,
+                findString(intent_live_data_type) to liveDataType
+        ).clearTop()
+    }
 }
 
-fun BaseCardActivity.handleNotificationIntentIfAny(restApi: RestApi) {
+fun BaseCardActivity.triggerNotificationIntent(intent: Intent) {
+    this.intent = intent
+    restApi()?.run {
+        when {
+            intent.hasExtra(findString(intent_board_id)) -> findAndLaunchBoardById(this)
+            intent.hasExtra(findString(match_id_string)) -> launchMatchBoard(this, intent.getLongExtra(getString(R.string.match_id_string), 0))
+        }
+    } ?: toast(R.string.rest_api_is_null)
+}
+
+fun BaseCardActivity.handleSocialNotificationIntentIfAny(restApi: RestApi) {
     intent?.run {
         if (!hasExtra(getString(intent_action)) || !hasExtra(getString(intent_board_id))) return
 
@@ -73,5 +90,21 @@ fun BaseCardActivity.handleNotificationIntentIfAny(restApi: RestApi) {
     }
 }
 
-fun BaseCard.getIntentActionFromActivity(): String? =
+fun BaseCardActivity.handleFootballLiveDataNotificationIntentIfAny() {
+    if (!intent.hasExtra(getString(match_id_string))) return
+
+    restApi()?.run { launchMatchBoard(this, intent.getLongExtra(getString(match_id_string), 0)) }
+}
+
+fun InAppNotification.triggerNotificationAction(baseCardActivity: BaseCardActivity?) {
+    when {
+        junaNotification != null -> baseCardActivity?.triggerNotificationIntent(junaNotification?.getSocialNotificationIntent()!!)
+        zoneLiveData != null -> baseCardActivity?.triggerNotificationIntent(zoneLiveData?.getLiveFootballNotificationIntent()!!)
+    }
+}
+
+fun BaseCard.getSocialNotificationIntentActionFromActivity(): String? =
         (activity as? BaseCardActivity)?.intent?.getStringExtra(findString(intent_action))
+
+fun BaseCard.getLiveFootballNotificationIntentActionFromActivity(): String? =
+        (activity as? BaseCardActivity)?.intent?.getStringExtra(findString(intent_live_data_type))

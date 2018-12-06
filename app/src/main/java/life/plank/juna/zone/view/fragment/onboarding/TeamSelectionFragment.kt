@@ -15,12 +15,12 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FootballTeam
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil
-import life.plank.juna.zone.util.PreferenceManager
+import life.plank.juna.zone.util.common.DataUtil
+import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.common.launch
-import life.plank.juna.zone.util.errorToast
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.view.activity.zone.ZoneActivity
 import life.plank.juna.zone.view.adapter.onboarding.TeamSelectionAdapter
 import life.plank.juna.zone.view.fragment.base.SearchableCard
@@ -55,9 +55,9 @@ class TeamSelectionFragment : SearchableCard() {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 
-    override fun getRootCard(): CardView? = root_card
+    override fun getRootView(): CardView? = root_card
 
-    override fun getDragHandle(): View? = drag_area
+    override fun getDragView(): View? = drag_area
 
     override fun searchView(): EditText = search_view
 
@@ -88,7 +88,7 @@ class TeamSelectionFragment : SearchableCard() {
                 }
                 else -> errorToast(R.string.popular_team_not_found, it)
             }
-        })
+        }, this)
     }
 
     private fun postTeamPref(zone: String) {
@@ -102,7 +102,7 @@ class TeamSelectionFragment : SearchableCard() {
                     }
                     else -> errorToast(R.string.team_pref_not_found, it)
                 }
-            })
+            }, this)
         } else {
             Toast.makeText(context, getString(R.string.select_team), Toast.LENGTH_SHORT).show()
         }
@@ -122,6 +122,6 @@ class TeamSelectionFragment : SearchableCard() {
                 }
                 else -> errorToast(R.string.team_not_found, it)
             }
-        })
+        }, this)
     }
 }

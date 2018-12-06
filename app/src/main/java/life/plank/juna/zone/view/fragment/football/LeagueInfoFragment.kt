@@ -15,12 +15,12 @@ import kotlinx.android.synthetic.main.league_toolbar.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FixtureByMatchDay
 import life.plank.juna.zone.data.model.League
-import life.plank.juna.zone.util.AppConstants.BoomMenuPage
-import life.plank.juna.zone.util.DataUtil
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.UIDisplayUtil.findColor
+import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage
+import life.plank.juna.zone.util.common.DataUtil
+import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.facilis.BaseCard
-import life.plank.juna.zone.util.setupBoomMenu
+import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
+import life.plank.juna.zone.util.view.setupBoomMenu
 
 class LeagueInfoFragment : BaseCard() {
 
@@ -28,7 +28,7 @@ class LeagueInfoFragment : BaseCard() {
     private var leagueInfoPagerAdapter: LeagueInfoFragment.LeagueInfoPagerAdapter? = null
 
     companion object {
-        var fixtureByMatchDayList: MutableList<FixtureByMatchDay>? = null
+        var fixtureByMatchDayList: MutableList<FixtureByMatchDay> = ArrayList()
         fun newInstance(league: League) = LeagueInfoFragment().apply { arguments = Bundle().apply { putParcelable(DataUtil.findString(R.string.intent_league), league) } }
     }
 
@@ -54,9 +54,9 @@ class LeagueInfoFragment : BaseCard() {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = null
 
-    override fun getRootCard(): CardView? = root_card
+    override fun getRootView(): CardView? = root_card
 
-    override fun getDragHandle(): View? = drag_area
+    override fun getDragView(): View? = drag_area
 
     private fun prepareViewPager() {
         leagueInfoPagerAdapter = LeagueInfoPagerAdapter(childFragmentManager, league)
@@ -85,7 +85,7 @@ class LeagueInfoFragment : BaseCard() {
 
     override fun onDestroy() {
         leagueInfoPagerAdapter = null
-        fixtureByMatchDayList?.clear()
+        fixtureByMatchDayList.clear()
         super.onDestroy()
     }
 

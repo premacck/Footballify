@@ -19,17 +19,17 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
-import life.plank.juna.zone.notification.getIntentActionFromActivity
-import life.plank.juna.zone.util.AppConstants.*
-import life.plank.juna.zone.util.DataUtil
-import life.plank.juna.zone.util.DataUtil.*
-import life.plank.juna.zone.util.FixtureListUpdateTask
-import life.plank.juna.zone.util.PreferenceManager
-import life.plank.juna.zone.util.UIDisplayUtil.findColor
-import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
-import life.plank.juna.zone.util.execute
-import life.plank.juna.zone.util.facilis.doAfterDelay
+import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.common.DataUtil
+import life.plank.juna.zone.util.common.DataUtil.*
+import life.plank.juna.zone.util.common.customToast
+import life.plank.juna.zone.util.common.execute
+import life.plank.juna.zone.util.common.getPositionFromIntentIfAny
 import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.football.FixtureListUpdateTask
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
+import life.plank.juna.zone.util.view.UIDisplayUtil.showBoardExpirationDialog
 import life.plank.juna.zone.view.fragment.base.BaseMatchFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import java.lang.ref.WeakReference
@@ -80,9 +80,7 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         board_toolbar.setUpPopUp(activity, currentMatchId)
-        context.doAfterDelay(300) {
-            updateUi()
-        }
+        updateUi()
     }
 
     override fun onResume() {
@@ -96,6 +94,7 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
     }
 
     private fun updateUi() {
+        FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
         try {
             board_toolbar.prepare(matchDetails, league.leagueLogo)
 
@@ -121,37 +120,33 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
     private fun setupViewPagerWithFragments() {
         boardPagerAdapter = BoardPagerAdapter(childFragmentManager, this)
         board_view_pager.adapter = boardPagerAdapter
-        val defaultTabSelection = getIntentActionFromActivity()?.run {
-            //            TODO: refine the following hardcoded integer constants
-            when (this) {
-                getString(R.string.intent_post), getString(R.string.intent_react) -> 4
-                getString(R.string.intent_comment) -> 3
-                else -> 4
-            }
-        } ?: 4
-        board_toolbar.setupWithViewPager(board_view_pager, defaultTabSelection)
+        board_toolbar.setupWithViewPager(board_view_pager, getPositionFromIntentIfAny(boardPagerAdapter))
     }
 
     override fun onInAppNotificationReceived(feedEntry: FeedEntry) {
-        if (boardPagerAdapter!!.currentFragment is BoardTilesFragment) {
-            (boardPagerAdapter!!.currentFragment as BoardTilesFragment).updateNewPost(feedEntry)
-        }
+        (boardPagerAdapter?.currentFragment as? BoardTilesFragment)?.updateNewPost(feedEntry)
     }
 
     override fun onZoneLiveDataReceived(zoneLiveData: ZoneLiveData) {
         when (zoneLiveData.liveDataType) {
-            SCORE_DATA -> {
-                val scoreData = zoneLiveData.getScoreData(gson)
-                updateScoreLocally(matchDetails, scoreData)
-                board_toolbar.setScore("${scoreData.homeGoals} $DASH ${scoreData.awayGoals}")
-                FixtureListUpdateTask.update(matchDetails, scoreData, null, true)
+            SCORE_DATA -> zoneLiveData.getScoreData(gson)?.run {
+                updateScoreLocally(matchDetails, this)
+                board_toolbar.setScore("$homeGoals$DASH$awayGoals")
+                FixtureListUpdateTask.update(matchDetails, this, null, true)
             }
-            TIME_STATUS_DATA -> {
-                val timeStatus = zoneLiveData.getLiveTimeStatus(gson)
-                updateTimeStatusLocally(matchDetails, timeStatus)
-                FixtureListUpdateTask.update(matchDetails, null, timeStatus, false)
-                board_toolbar.setLiveTimeStatus(matchDetails.matchStartTime, timeStatus.timeStatus)
+            TIME_STATUS_DATA -> zoneLiveData.getLiveTimeStatus(gson)?.run {
+                updateTimeStatusLocally(matchDetails, this)
+                FixtureListUpdateTask.update(matchDetails, null, this, false)
+                board_toolbar.setLiveTimeStatus(matchDetails.matchStartTime, timeStatus)
             }
+            MATCH_EVENTS ->
+                zoneLiveData.getMatchEventList(gson)?.run { (boardPagerAdapter?.currentFragment as? LineupFragment)?.updateMatchEvents(this) }
+            COMMENTARY_DATA ->
+                zoneLiveData.getCommentaryList(gson)?.run { (boardPagerAdapter?.currentFragment as? MatchStatsFragment)?.updateCommentary(this) }
+            MATCH_STATS_DATA ->
+                zoneLiveData.getMatchStats(gson)?.run { (boardPagerAdapter?.currentFragment as? MatchStatsFragment)?.updateMatchStats(this) }
+            HIGHLIGHTS_DATA ->
+                zoneLiveData.getHighlightsList(gson)?.run { (boardPagerAdapter?.currentFragment as? MatchMediaFragment)?.updateHighlights(this) }
             BOARD_ACTIVATED -> {
                 board.isActive = true
                 clearColorFilter()
@@ -165,13 +160,8 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
                     dialog.cancel()
                 }
             }
-        }
-        try {
-            if (boardPagerAdapter?.currentFragment is MatchMediaFragment) {
-                (boardPagerAdapter?.currentFragment as? MatchMediaFragment)?.updateZoneLiveData(zoneLiveData)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+            LINEUPS_DATA -> (boardPagerAdapter?.currentFragment as? LineupFragment)?.getLineupFormation(false)
+                    ?: customToast(R.string.lineups_now_available_for_this_match)
         }
     }
 
@@ -181,9 +171,9 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 
-    override fun getRootCard(): ViewGroup? = root_card
+    override fun getRootView(): ViewGroup? = root_card
 
-    override fun getDragHandle(): View? = drag_area
+    override fun getDragView(): View? = drag_area
 
     override fun onMatchTimeStateChange() = updateUi()
 
@@ -197,9 +187,6 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
 
     override fun onDestroy() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
-        if (!isNullOrEmpty(board.id) && !board.isActive) {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.board_id_prefix) + board.id)
-        }
         boardPagerAdapter = null
         super.onDestroy()
     }
@@ -236,7 +223,16 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
             }
         }
 
-        override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE
+        override fun getItemPosition(`object`: Any): Int {
+            return when (`object`) {
+                findString(R.string.stats) -> 0
+                findString(R.string.lineups) -> 1
+                findString(R.string.media) -> 2
+                findString(R.string.forum) -> 3
+                findString(R.string.tiles) -> 4
+                else -> PagerAdapter.POSITION_NONE
+            }
+        }
 
         override fun getCount(): Int = 5
 

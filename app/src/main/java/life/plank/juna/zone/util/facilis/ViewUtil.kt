@@ -28,7 +28,7 @@ import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
@@ -111,6 +111,8 @@ fun Animation.then(action: (animation: Animation) -> Unit): Animation {
     })
     return this
 }
+
+fun View.fadeIn() = animate().alpha(1f).setDuration(280).start()
 
 fun View.fadeOut() = animate().alpha(0f).setDuration(280).start()
 
@@ -290,3 +292,8 @@ fun <BM> RecyclerAdapter.addDataManagerAndRegisterBinder(dataManager: DataItemMa
     addDataManager(dataManager)
     registerBinder(binderToRegister)
 }
+
+
+fun View.dragHandle(): ImageView? = findViewById(R.id.drag_handle_image)
+
+fun BaseCard.dragHandle(): ImageView? = getRootView()?.dragHandle()

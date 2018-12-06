@@ -12,15 +12,15 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Emoji
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.EmojiContainer
-import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.UIDisplayUtil.addDefaultEmojis
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
-import life.plank.juna.zone.util.errorToast
+import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.hide
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.setEmoji
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
+import life.plank.juna.zone.util.view.UIDisplayUtil.addDefaultEmojis
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import java.net.HttpURLConnection.*
 
 class EmojiAdapter(
@@ -98,7 +98,7 @@ class EmojiAdapter(
                     errorToast(R.string.failed_to_get_top_emoji, it)
                 }
             }
-        })
+        }, emojiContainer)
     }
 
     private fun appendDefaultEmoji() {
@@ -129,7 +129,7 @@ class EmojiAdapter(
                 }
                 else -> errorToast(R.string.something_went_wrong, it)
             }
-        })
+        }, emojiContainer)
     }
 
     override fun getItemCount(): Int = emojiList.size

@@ -7,8 +7,9 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.JunaNotification
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager
+import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import org.json.JSONObject
@@ -17,7 +18,7 @@ fun dispatch(dataPayload: Map<String, String>) {
     if (dataPayload.containsKey(findString(R.string.intent_action))) {
 //        Data payload contains social interaction notification
         dispatchSocialNotification(dataPayload)
-    } else if (dataPayload.containsKey(findString(R.string.intent_live_event_type))) {
+    } else if (dataPayload.containsKey(findString(R.string.intent_live_data_type))) {
 //        Data payload contains football live data notification
         dispatchLiveFootballNotification(dataPayload)
     }
@@ -61,4 +62,10 @@ private fun Context.isForeground(): Boolean {
         }
     }
     return false
+}
+
+fun ZoneLiveData.sendCustomizedNotification(action: () -> Unit) {
+    when (liveDataType) {
+        LIVE_FOOTBALL_MATCH, MATCH_EVENTS, TIME_STATUS_DATA, LINEUPS_DATA, BOARD_ACTIVATED -> action()
+    }
 }

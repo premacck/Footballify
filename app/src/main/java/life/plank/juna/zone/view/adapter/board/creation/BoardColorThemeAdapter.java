@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.util.BoardColorFactory;
+import life.plank.juna.zone.util.view.BoardColorFactory;
 
 public class BoardColorThemeAdapter extends RecyclerView.Adapter<BoardColorThemeAdapter.BoardColorThemeViewHolder> {
 

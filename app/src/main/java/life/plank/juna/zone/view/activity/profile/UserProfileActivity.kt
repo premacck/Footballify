@@ -14,16 +14,18 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.*
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.common.handleBoardIntentIfAny
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.view.UIDisplayUtil
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.adapter.board.user.UserBoardsAdapter
 import life.plank.juna.zone.view.adapter.user.GetCoinsAdapter
 import life.plank.juna.zone.view.adapter.user.LastTransactionsAdapter
 import life.plank.juna.zone.view.fragment.profile.EditProfilePopup
+import life.plank.juna.zone.view.fragment.profile.ProfileCardFragment
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -79,6 +81,9 @@ class UserProfileActivity : BaseCardActivity() {
             } else {
                 customToast(R.string.add_permission)
             }
+        }
+        toolbar_profile_pic.onDebouncingClick {
+            pushFragment(ProfileCardFragment.newInstance(), true)
         }
     }
 

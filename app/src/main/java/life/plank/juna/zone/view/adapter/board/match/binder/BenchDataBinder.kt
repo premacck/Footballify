@@ -11,8 +11,8 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_bench_data_layout.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.binder.SubstitutionBindingModel
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.adapter.board.match.BenchDataAdapter
 
 class BenchDataBinder(private val glide: RequestManager) : ItemBinder<SubstitutionBindingModel, BenchDataBinder.SubstitutionViewHolder>() {

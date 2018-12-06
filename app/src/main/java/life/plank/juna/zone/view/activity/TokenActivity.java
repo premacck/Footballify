@@ -31,7 +31,7 @@ import javax.inject.Inject;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.util.PreferenceManager;
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -39,12 +39,12 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
-import static life.plank.juna.zone.util.PreferenceManager.Auth.saveAuthState;
-import static life.plank.juna.zone.util.PreferenceManager.Auth.saveTokens;
-import static life.plank.juna.zone.util.PreferenceManager.Auth.saveTokensValidity;
-import static life.plank.juna.zone.util.RestUtilKt.errorToast;
+import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.common.RestUtilKt.errorToast;
+import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken;
+import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.saveAuthState;
+import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.saveTokens;
+import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.saveTokensValidity;
 
 /**
  * Client to the Native Oauth library.

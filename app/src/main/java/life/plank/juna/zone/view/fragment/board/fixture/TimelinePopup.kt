@@ -17,12 +17,12 @@ import kotlinx.android.synthetic.main.popup_timeline.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.MatchDetails
-import life.plank.juna.zone.data.model.MatchEvent
-import life.plank.juna.zone.util.AppConstants.*
-import life.plank.juna.zone.util.DataUtil.*
-import life.plank.juna.zone.util.DateUtil.getTimelineDateHeader
-import life.plank.juna.zone.util.FixtureListUpdateTask
-import life.plank.juna.zone.util.UIDisplayUtil.*
+import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.common.DataUtil.*
+import life.plank.juna.zone.util.football.FixtureListUpdateTask
+import life.plank.juna.zone.util.football.getAllTimelineEvents
+import life.plank.juna.zone.util.time.DateUtil.getTimelineDateHeader
+import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.adapter.board.match.TimelineAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import org.jetbrains.anko.doAsync
@@ -135,9 +135,9 @@ class TimelinePopup : BaseBlurPopup() {
             }
             TIME_STATUS -> {
                 val timeStatus = zoneLiveData.getLiveTimeStatus(gson)
-                if (timeStatus.timeStatus == LIVE && timeStatus.minute == 0 ||
-                        timeStatus.timeStatus == HT ||
-                        timeStatus.timeStatus == FT) {
+                if (timeStatus?.timeStatus == LIVE && timeStatus.minute == 0 ||
+                        timeStatus?.timeStatus == HT ||
+                        timeStatus?.timeStatus == FT) {
                     if (adapter != null) {
                         adapter!!.updateWhistleEvent(timeStatus)
                     }
@@ -149,12 +149,16 @@ class TimelinePopup : BaseBlurPopup() {
     }
 
     private fun mergeCommentaryAndMatchEvents() {
+        if (isNullOrEmpty(matchDetails.commentary) || isNullOrEmpty(matchDetails.matchEvents)) return
+
         doAsync {
-            val matchEvents: List<MatchEvent> = getAllTimelineEvents(matchDetails.commentary, matchDetails.matchEvents)
+            val matchEvents = getAllTimelineEvents(matchDetails.commentary!!, matchDetails.matchEvents!!)
             uiThread {
-                adapter!!.updateEvents(matchEvents)
-                prepareViews()
-                FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
+                matchEvents?.run {
+                    adapter?.updateEvents(matchEvents)
+                    prepareViews()
+                    FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
+                }
                 progress_bar.visibility = View.GONE
             }
         }

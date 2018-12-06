@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_post_detail_container.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.util.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.util.facilis.floatUp
 import java.lang.ref.WeakReference
@@ -43,7 +43,8 @@ class PostDetailContainerFragment : BaseCard() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_post_detail_container, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_post_detail_container, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,9 +54,9 @@ class PostDetailContainerFragment : BaseCard() {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 
-    override fun getRootCard(): CardView? = root_card
+    override fun getRootView(): CardView? = root_card
 
-    override fun getDragHandle(): View? = drag_area
+    override fun getDragView(): View? = drag_area
 
     private fun populateViewPager() {
         post_detail_view_pager.adapter = PostDetailPagerAdapter(childFragmentManager, this)

@@ -15,9 +15,10 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FixtureByDate;
 import life.plank.juna.zone.interfaces.LeagueContainer;
-import life.plank.juna.zone.util.BaseRecyclerView;
+import life.plank.juna.zone.util.view.BaseRecyclerView;
 
-import static life.plank.juna.zone.util.DateUtil.getDateHeader;
+import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.time.DateUtil.getDateHeader;
 
 public class FixtureDateAdapter extends BaseRecyclerView.Adapter<FixtureDateAdapter.FixtureDateViewHolder> {
 
@@ -58,7 +59,11 @@ public class FixtureDateAdapter extends BaseRecyclerView.Adapter<FixtureDateAdap
         @Override
         public void bind() {
             FixtureByDate fixtureByDate = ref.get().fixtureByDateList.get(getAdapterPosition());
-            dateTime.setText(getDateHeader(fixtureByDate.getDate()));
+            dateTime.setText(
+                    !isNullOrEmpty(fixtureByDate.getFixtures()) ?
+                            getDateHeader(fixtureByDate.getFixtures().get(0).getMatchStartTime()) :
+                            getDateHeader(fixtureByDate.getDate())
+            );
             recyclerView.setAdapter(new FixtureAdapter(fixtureByDate.getFixtures(), ref.get().leagueContainer));
         }
     }

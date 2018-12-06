@@ -15,8 +15,11 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.notification.BaseInAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
-import life.plank.juna.zone.util.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.asciiToInt
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.CurrentUser.getUserId
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -47,13 +50,20 @@ fun JunaNotification.prepareDrawerNotification() {
  * Method to send live football data notification in the notification drawer
  */
 fun ZoneLiveData.prepareDrawerNotification() {
+    sendCustomizedNotification {
+        sendTextNotification(PendingIntent.getActivity(ZoneApplication.getContext(), 0, getLiveFootballNotificationIntent(), FLAG_ONE_SHOT))
+    }
 }
 
-fun JunaNotification.sendTextNotification(pendingIntent: PendingIntent) {
+fun BaseInAppNotification.sendTextNotification(pendingIntent: PendingIntent) {
+    val notificationMessage = getNotificationMessage()
     ZoneApplication.getContext()
             .getNotificationManager()
             .setNotificationChannel()
-            .notify(0, getNotificationBuilder(buildNotificationMessage(), pendingIntent).build())
+            .notify(getUserId()?.asciiToInt()
+                    ?: 0, getNotificationBuilder(notificationMessage, pendingIntent)
+                    .setStyle(NotificationCompat.BigTextStyle().bigText(notificationMessage))
+                    .build())
 }
 
 fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: Boolean) {
@@ -73,12 +83,13 @@ fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: 
                 } else {
                     notificationBuilder.setLargeIcon(bitmap)
                 }
-                notificationManager.notify(1, notificationBuilder.build())
+                notificationManager.notify(getUserId()?.asciiToInt()
+                        ?: 0, notificationBuilder.build())
             }
         }
     } catch (e: Exception) {
         Log.e(TAG, "prepareDrawerNotification(): ", e)
-        notificationManager.notify(0, notificationBuilder.build())
+        notificationManager.notify(getUserId()?.asciiToInt() ?: 0, notificationBuilder.build())
     }
 }
 
@@ -87,6 +98,7 @@ fun getNotificationBuilder(messageBody: SpannableStringBuilder, pendingIntent: P
             .setContentTitle(findString(app_name))
             .setContentText(messageBody)
             .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingIntent)

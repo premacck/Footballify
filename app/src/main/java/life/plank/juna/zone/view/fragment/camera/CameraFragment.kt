@@ -16,10 +16,10 @@ import com.wonderkiln.camerakit.CameraKit.Constants.*
 import kotlinx.android.synthetic.main.fragment_camera.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.util.AppConstants.IMAGE
-import life.plank.juna.zone.util.AppConstants.VIDEO
-import life.plank.juna.zone.util.FileHandler
-import life.plank.juna.zone.util.UIDisplayUtil.*
+import life.plank.juna.zone.util.common.AppConstants.IMAGE
+import life.plank.juna.zone.util.common.AppConstants.VIDEO
+import life.plank.juna.zone.util.common.FileHandler
+import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.activity.camera.UploadActivity
 import org.jetbrains.anko.support.v4.runOnUiThread
 import java.io.File

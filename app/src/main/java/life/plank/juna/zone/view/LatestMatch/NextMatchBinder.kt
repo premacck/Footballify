@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.football_feed_row.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.NextMatch
-import life.plank.juna.zone.util.DateUtil
+import life.plank.juna.zone.util.time.DateUtil
 
 class NextMatchBinder internal constructor(private val activity: Activity) :
         ItemBinder<NextMatch, NextMatchBinder.NextMatchViewHolder>() {

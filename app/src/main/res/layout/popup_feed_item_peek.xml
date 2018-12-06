@@ -10,16 +10,24 @@
         android:id="@+id/blur_layout"
         style="@style/BlurLayoutFullScreen" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/board_tiles_full_recycler_view"
-        android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:clipToPadding="false"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
-        app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
-        tools:listitem="@layout/football_feed_detail_row" />
+        android:scrollbars="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/board_tiles_full_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:clipToPadding="false"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
+            tools:listitem="@layout/football_feed_detail_row" />
+
+    </ScrollView>
 
     <TextView
         android:id="@+id/recycler_view_drag_area"

@@ -19,18 +19,18 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.util.AuthUtil;
-import life.plank.juna.zone.util.PreferenceManager;
+import life.plank.juna.zone.util.common.AuthUtil;
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.PreferenceManager.Auth.checkTokenValidity;
-import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
-import static life.plank.juna.zone.util.RestUtilKt.errorToast;
+import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.common.RestUtilKt.errorToast;
+import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.checkTokenValidity;
+import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken;
 
 /**
  * Created by plank-dhamini on 18/7/2018.

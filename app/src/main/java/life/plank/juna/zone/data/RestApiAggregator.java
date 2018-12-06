@@ -12,6 +12,7 @@ import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.data.model.MatchStats;
 import life.plank.juna.zone.data.model.PlayerStats;
 import life.plank.juna.zone.data.model.Standings;
@@ -19,17 +20,18 @@ import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.poll.Poll;
 import life.plank.juna.zone.data.model.poll.PollAnswerResponse;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.common.AppConstants;
+import life.plank.juna.zone.util.football.FixtureUtilKt;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static java.net.HttpURLConnection.HTTP_OK;
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
-import static life.plank.juna.zone.util.RestUtilKt.errorLog;
-import static life.plank.juna.zone.util.RestUtilKt.errorToast;
+import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.common.RestUtilKt.errorLog;
+import static life.plank.juna.zone.util.common.RestUtilKt.errorToast;
+import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken;
 
 /**
  * Class for Aggregating multiple API calls.
@@ -42,17 +44,16 @@ public class RestApiAggregator {
      * @return {@link Pair} containing {@link Board} and {@link MatchDetails}
      */
     public static Observable<Pair<Board, MatchDetails>> getBoardAndMatchDetails(RestApi restApi, long matchId) {
-        return afterSubscribingAndObservingOn(
-                Observable.zip(
-                        restApi.getBoard(matchId, AppConstants.BOARD_TYPE, getToken()),
-                        restApi.getMatchDetails(matchId),
-                        ((boardResponse, matchDetailsResponse) -> {
-                            if (boardResponse.code() != HTTP_OK || matchDetailsResponse.code() != HTTP_OK) {
-                                Log.e("getBoardAndMatchDetails", "boardResponse : " + boardResponse.code() + " : " + boardResponse.message());
-                                Log.e("getBoardAndMatchDetails", "matchDetailsResponse : " + matchDetailsResponse.code() + " : " + matchDetailsResponse.message());
-                            }
-                            return new Pair<>(boardResponse.body(), matchDetailsResponse.body());
-                        })));
+        return Observable.zip(
+                restApi.getBoard(matchId, AppConstants.BOARD_TYPE, getToken()),
+                restApi.getMatchDetails(matchId),
+                ((boardResponse, matchDetailsResponse) -> {
+                    if (boardResponse.code() != HTTP_OK || matchDetailsResponse.code() != HTTP_OK) {
+                        Log.e("getBoardAndMatchDetails", "boardResponse : " + boardResponse.code() + " : " + boardResponse.message());
+                        Log.e("getBoardAndMatchDetails", "matchDetailsResponse : " + matchDetailsResponse.code() + " : " + matchDetailsResponse.message());
+                    }
+                    return new Pair<>(boardResponse.body(), matchDetailsResponse.body());
+                }));
     }
 
     /**
@@ -61,23 +62,22 @@ public class RestApiAggregator {
      * @return {@link MatchDetails} containing {@link MatchStats} and {@link Lineups}
      */
     public static Observable<MatchDetails> getPostMatchBoardData(MatchDetails matchDetails, RestApi restApi) {
-        return afterSubscribingAndObservingOn(
-                Observable.zip(
-                        restApi.getMatchStatsForMatch(matchDetails.getMatchId()),
-                        restApi.getLineUpsData(matchDetails.getMatchId()),
-                        ((matchStatsResponse, lineupsResponse) -> {
-                            if (matchStatsResponse.code() == HTTP_OK) {
-                                matchDetails.setMatchStats(matchStatsResponse.body());
-                            } else {
-                                Log.e("getPostMatchBoardData", "matchStatsResponse : " + matchStatsResponse.code() + " : " + matchStatsResponse.message());
-                            }
-                            if (lineupsResponse.code() == HTTP_OK) {
-                                matchDetails.setLineups(lineupsResponse.body());
-                            } else {
-                                Log.e("getPostMatchBoardData", "lineupsResponse : " + lineupsResponse.code() + " : " + lineupsResponse.message());
-                            }
-                            return matchDetails;
-                        })));
+        return Observable.zip(
+                restApi.getMatchStatsForMatch(matchDetails.getMatchId()),
+                restApi.getLineUpsData(matchDetails.getMatchId()),
+                ((matchStatsResponse, lineupsResponse) -> {
+                    if (matchStatsResponse.code() == HTTP_OK) {
+                        matchDetails.setMatchStats(matchStatsResponse.body());
+                    } else {
+                        Log.e("getPostMatchBoardData", "matchStatsResponse : " + matchStatsResponse.code() + " : " + matchStatsResponse.message());
+                    }
+                    if (lineupsResponse.code() == HTTP_OK) {
+                        matchDetails.setLineups(lineupsResponse.body());
+                    } else {
+                        Log.e("getPostMatchBoardData", "lineupsResponse : " + lineupsResponse.code() + " : " + lineupsResponse.message());
+                    }
+                    return matchDetails;
+                }));
     }
 
     /**
@@ -123,9 +123,12 @@ public class RestApiAggregator {
                             leagueInfo.setId(league.getId());
                             leagueInfo.setLeague(league);
                             if (fixtureResponse.code() == HTTP_OK) {
-                                List<FixtureByMatchDay> fixtureByMatchDayList = fixtureResponse.body();
-                                if (!isNullOrEmpty(fixtureByMatchDayList)) {
-                                    leagueInfo.setFixtureByMatchDayList(fixtureByMatchDayList);
+                                List<MatchFixture> matchFixtureList = fixtureResponse.body();
+                                if (matchFixtureList != null) {
+                                    List<FixtureByMatchDay> fixtureByMatchDayList = FixtureUtilKt.convertToFixtureByMatchDayList(matchFixtureList);
+                                    if (!isNullOrEmpty(fixtureByMatchDayList)) {
+                                        leagueInfo.setFixtureByMatchDayList(fixtureByMatchDayList);
+                                    }
                                 }
                             } else {
                                 Log.e("getLeagueInfo", "fixtureResponse : " + fixtureResponse.code() + " : " + fixtureResponse.message());
@@ -184,25 +187,23 @@ public class RestApiAggregator {
      * Method to get and Follow the Private board while opening the {@link PrivateBoardFragment}
      */
     public static Observable<Board> getPrivateBoardToOpen(String boardId, RestApi restApi) {
-        return afterSubscribingAndObservingOn(
-                Observable.zip(
-                        restApi.getBoardById(boardId, getToken()),
-                        restApi.followBoard(getToken(), boardId),
-                        ((boardResponse, jsonObjectResponse) -> {
-                            if (jsonObjectResponse.code() != HTTP_OK) {
-                                String error = "FollowBoard: " + jsonObjectResponse.code() + " : " + jsonObjectResponse.message();
-                                Log.e("getPrivateBoardToOpen", error);
-                            }
-                            switch (boardResponse.code()) {
-                                case HTTP_OK:
-                                    return boardResponse.body();
-                                default:
-                                    String error = "Error in boardResponse: " + boardResponse.code() + " : " + boardResponse.message();
-                                    Log.e("getPrivateBoardToOpen", error);
-                                    return boardResponse.body();
-                            }
-                        })
-                )
+        return Observable.zip(
+                restApi.getBoardById(boardId, getToken()),
+                restApi.followBoard(getToken(), boardId),
+                ((boardResponse, jsonObjectResponse) -> {
+                    if (jsonObjectResponse.code() != HTTP_OK) {
+                        String error = "FollowBoard: " + jsonObjectResponse.code() + " : " + jsonObjectResponse.message();
+                        Log.e("getPrivateBoardToOpen", error);
+                    }
+                    switch (boardResponse.code()) {
+                        case HTTP_OK:
+                            return boardResponse.body();
+                        default:
+                            String error = "Error in boardResponse: " + boardResponse.code() + " : " + boardResponse.message();
+                            Log.e("getPrivateBoardToOpen", error);
+                            return boardResponse.body();
+                    }
+                })
         );
     }
 

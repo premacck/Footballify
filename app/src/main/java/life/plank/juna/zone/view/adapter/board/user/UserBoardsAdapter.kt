@@ -13,12 +13,12 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.PreferenceManager
-import life.plank.juna.zone.util.UIDisplayUtil.findColor
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.launchPrivateOrMatchBoard
 import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.board.CreateBoardActivity
 import java.util.*

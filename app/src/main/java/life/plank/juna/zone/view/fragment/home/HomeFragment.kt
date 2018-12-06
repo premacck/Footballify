@@ -23,13 +23,18 @@ import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
-import life.plank.juna.zone.util.*
-import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_BASIC_INTERACTION
+import life.plank.juna.zone.util.common.AuthUtil
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.common.launch
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout
 import life.plank.juna.zone.util.facilis.doAfterDelay
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.view.setupBoomMenu
+import life.plank.juna.zone.util.view.setupWith
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
@@ -90,8 +95,9 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         arc_menu.setupWith(nestedScrollView)
 
         feed_header.initListeners(this)
-        feed_header.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
-
+        if (PreferenceManager.CurrentUser.getProfilePicUrl() != null) {
+            feed_header.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
+        }
     }
 
     override fun onResume() {
@@ -108,7 +114,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         } else {
             //TODO: show notification badge only if there are new notifications
             feed_header.showNotificationBadge(true)
-            setupBoomMenu(BOOM_MENU_FULL, activity!!, null, arc_menu, null)
+            setupBoomMenu(BOOM_MENU_BASIC_INTERACTION, activity!!, null, arc_menu, null)
         }
     }
 
@@ -162,7 +168,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
                             onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
                         }
                     }
-                })
+                }, this)
     }
 
     private fun getUserFeed() {
@@ -189,7 +195,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
                     onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
                 }
             }
-        })
+        }, this)
     }
 
     private fun getUserBoards() {
@@ -218,7 +224,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
                     onRecyclerViewContentsFailedToLoad(user_boards_recycler_view, shimmer_user_boards)
                 }
             }
-        })
+        }, this)
     }
 
     override fun profilePictureClicked(profilePicture: ImageView) {

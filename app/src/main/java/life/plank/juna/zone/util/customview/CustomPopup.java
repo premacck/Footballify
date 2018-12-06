@@ -16,10 +16,10 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 
-import static life.plank.juna.zone.util.AppConstants.BOARD_POPUP;
-import static life.plank.juna.zone.util.AppConstants.HOME_POPUP;
-import static life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_OWNER_POPUP;
-import static life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_USER_POPUP;
+import static life.plank.juna.zone.util.common.AppConstants.BOARD_POPUP;
+import static life.plank.juna.zone.util.common.AppConstants.HOME_POPUP;
+import static life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_OWNER_POPUP;
+import static life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_USER_POPUP;
 
 public class CustomPopup {
 

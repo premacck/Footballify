@@ -6,7 +6,6 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
-import android.support.annotation.StringRes
 import android.support.design.widget.BottomSheetBehavior
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
@@ -16,7 +15,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -25,45 +23,36 @@ import com.bumptech.glide.request.transition.Transition
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_post_detail.*
-import kotlinx.android.synthetic.main.shimmer_comments.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.ZoneApplication.getApplication
 import life.plank.juna.zone.data.model.Emoji
 import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.EmojiContainer
-import life.plank.juna.zone.util.AppConstants.*
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.UIDisplayUtil.*
-import life.plank.juna.zone.util.bold
-import life.plank.juna.zone.util.errorToast
+import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.common.bold
+import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.toClickableWebLink
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.showFor
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.toClickableWebLink
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
+import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
-import life.plank.juna.zone.view.adapter.post.PostCommentAdapter
-import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
-import retrofit2.Response
-import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import life.plank.juna.zone.view.fragment.base.BaseFragment
 import java.io.IOException
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
 
-class PostDetailFragment : BaseCommentContainerFragment(), EmojiContainer {
+class PostDetailFragment : BaseFragment(), EmojiContainer {
 
     @Inject
     lateinit var restApi: RestApi
 
     lateinit var feedEntry: FeedEntry
     lateinit var boardId: String
-    private var adapter: PostCommentAdapter? = null
     private var emojiBottomSheetBehavior: BottomSheetBehavior<*>? = null
     private var emojiAdapter: EmojiAdapter? = null
 
@@ -86,7 +75,8 @@ class PostDetailFragment : BaseCommentContainerFragment(), EmojiContainer {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_post_detail, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_post_detail, container, false)
 
     private fun initBottomSheetRecyclerView() {
         emojiAdapter = EmojiAdapter(restApi, boardId, emojiBottomSheetBehavior, feedEntry.feedItem.id, true, this)
@@ -100,8 +90,6 @@ class PostDetailFragment : BaseCommentContainerFragment(), EmojiContainer {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = PostCommentAdapter(Glide.with(this), this, "")
-        post_comments_list.adapter = adapter
 
         setupBottomSheet()
         initBottomSheetRecyclerView()
@@ -112,16 +100,6 @@ class PostDetailFragment : BaseCommentContainerFragment(), EmojiContainer {
     }
 
     private fun initListeners() {
-        swipe_refresh_layout.setOnRefreshListener { getCommentsOnFeed(true) }
-
-        post_comment.onDebouncingClick {
-            if (comment_edit_text.text.toString().isEmpty()) {
-                comment_edit_text.setError(getString(R.string.please_enter_comment), resources.getDrawable(R.drawable.ic_error, null))
-            } else {
-                comment_edit_text.clearFocus()
-                postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForFeedItemComment(boardId, feedEntry.feedItem.id!!), false, feedEntry.feedItem.id)
-            }
-        }
         pin_image_view.onDebouncingClick {
             if (feedEntry.feedInteractions.hasPinned) {
                 unpinItem()
@@ -131,9 +109,6 @@ class PostDetailFragment : BaseCommentContainerFragment(), EmojiContainer {
         }
         reaction_view.onDebouncingClick {
             emojiBottomSheetBehavior?.showFor(emojiAdapter!!, feedEntry.feedItem.id)
-        }
-        no_comment_text_view.onDebouncingClick {
-            if (no_comment_text_view.text.toString() == getString(R.string.failed_to_get_feed_comments)) getCommentsOnFeed(false)
         }
     }
 
@@ -152,6 +127,7 @@ class PostDetailFragment : BaseCommentContainerFragment(), EmojiContainer {
                     .into(profile_pic)
         }
 
+        reaction_count.text = feedEntry.feedItem.interactions!!.emojiReacts.toString()
         feed_title_text_view.text = if (feedEntry.feedItem.contentType != ROOT_COMMENT) feedEntry.feedItem.title else null
         if (feedEntry.feedItem.contentType == NEWS) {
             user_name_text_view.setText(R.string.juna_user_topic)
@@ -279,7 +255,7 @@ class PostDetailFragment : BaseCommentContainerFragment(), EmojiContainer {
                 HTTP_INTERNAL_ERROR -> errorToast(R.string.already_pinned_feed, it)
                 else -> errorToast(R.string.failed_to_pin_feed, it)
             }
-        })
+        }, this)
     }
 
     private fun unpinItem() {
@@ -302,7 +278,7 @@ class PostDetailFragment : BaseCommentContainerFragment(), EmojiContainer {
                 HTTP_INTERNAL_ERROR -> errorToast(R.string.already_removed_pin, it)
                 else -> errorToast(R.string.failed_to_unpin_feed, it)
             }
-        })
+        }, this)
     }
 
     private fun setVisibilities(imageViewVisibility: Int, videoViewVisibility: Int, textViewVisibility: Int) {
@@ -311,86 +287,6 @@ class PostDetailFragment : BaseCommentContainerFragment(), EmojiContainer {
         feed_text_view.visibility = textViewVisibility
     }
 
-    private fun getCommentsOnFeed(isRefreshing: Boolean) {
-        if (isNullOrEmpty(getToken())) {
-            updateCommentsUi(GONE, GONE, VISIBLE, R.string.login_signup_to_view_comments)
-            post_comment_layout.visibility = GONE
-        }
-
-        restApi.getCommentsForFeed(feedEntry.feedItem.id, getToken())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {
-                    if (isRefreshing) swipe_refresh_layout.isRefreshing = true
-                    updateCommentsUi(VISIBLE, GONE, GONE, 0)
-                }
-                .doOnTerminate { if (isRefreshing) swipe_refresh_layout.isRefreshing = false }
-                .subscribe(object : Subscriber<Response<List<FeedItemComment>>>() {
-                    override fun onCompleted() {
-                        Log.i(TAG, "onCompleted : getCommentsForFeed($feedEntry)")
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Log.e(TAG, e.message)
-                        updateCommentsUi(GONE, GONE, VISIBLE, R.string.failed_to_get_feed_comments)
-                    }
-
-                    override fun onNext(response: Response<List<FeedItemComment>>) {
-                        when (response.code()) {
-                            HTTP_OK -> {
-                                updateCommentsUi(GONE, VISIBLE, GONE, 0)
-                                val commentList = response.body()
-                                feedEntry.feedItem.comments = commentList
-                                adapter!!.setComments(commentList)
-                            }
-                            HTTP_NOT_FOUND -> updateCommentsUi(GONE, GONE, VISIBLE, R.string.be_the_first_to_comment_on_this_post)
-                            else -> updateCommentsUi(GONE, GONE, VISIBLE, R.string.failed_to_get_feed_comments)
-                        }
-                    }
-                })
-    }
-
-    private fun updateCommentsUi(shimmerVisibility: Int, recyclerViewVisibility: Int, errorMessageVisibility: Int, @StringRes message: Int) {
-        comments_shimmer.visibility = shimmerVisibility
-        post_comments_list.visibility = recyclerViewVisibility
-        no_comment_text_view.visibility = errorMessageVisibility
-        if (errorMessageVisibility == VISIBLE) {
-            no_comment_text_view.setText(message)
-        }
-        if (shimmerVisibility == VISIBLE) {
-            comments_shimmer.startShimmerAnimation()
-        } else {
-            comments_shimmer.stopShimmerAnimation()
-        }
-    }
-
-    override fun specifyCommentEvent() {
-        commentEvent = getCommentEventForBoardComment(boardId)
-    }
-
-    override fun getTheRestApi(): RestApi = restApi
-
-    override fun getCommentEditText(): EditText = comment_edit_text
-
     override fun onEmojiPosted(emoji: Emoji) {}
 
-    override fun onPostReplyOnComment(reply: String, position: Int, parentComment: FeedItemComment) =
-            postReplyOnFeedItemComment(reply, getCommentEventForReply(boardId, parentComment.id), parentComment, position)
-
-    override fun onCommentSuccessful(responseComment: FeedItemComment) {
-        comment_edit_text.text = SpannableStringBuilder("")
-        hideSoftKeyboard(comment_edit_text)
-        adapter?.addComment(responseComment)
-        post_comments_list.smoothScrollToPosition(0)
-    }
-
-    override fun onReplySuccessful(responseReply: FeedItemComment, parentComment: FeedItemComment?, parentCommentPosition: Int, replyPosition: Int) {
-        parentComment?.run {
-            if (isNullOrEmpty(replies)) {
-                replies = ArrayList()
-            }
-            (replies as ArrayList).add(replyPosition, responseReply)
-            adapter?.onReplyPostedOnComment(parentCommentPosition, this)
-        }
-    }
 }

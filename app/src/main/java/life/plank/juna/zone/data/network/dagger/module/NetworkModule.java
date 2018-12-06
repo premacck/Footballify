@@ -18,7 +18,7 @@ import dagger.Module;
 import dagger.Provides;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.dagger.scope.NetworkScope;
-import life.plank.juna.zone.util.helper.ISO8601DateSerializer;
+import life.plank.juna.zone.util.time.ISO8601DateSerializer;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -31,6 +31,12 @@ import okhttp3.logging.HttpLoggingInterceptor;
 @NetworkScope
 @Module
 public class NetworkModule {
+
+    public static Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(Date.class, new ISO8601DateSerializer())
+            .setDateFormat(DateFormat.FULL, DateFormat.FULL)
+            .setLenient()
+            .create();
 
     /**
      * Provides 50MB cache
@@ -64,12 +70,8 @@ public class NetworkModule {
 
     @NetworkScope
     @Provides
-    public Gson provideGson(ISO8601DateSerializer iso8601DateSerializer) {
-        return new GsonBuilder()
-                .registerTypeAdapter(Date.class, iso8601DateSerializer)
-                .setDateFormat(DateFormat.FULL, DateFormat.FULL)
-                .setLenient()
-                .create();
+    public Gson provideGson() {
+        return GSON;
     }
 
     @NetworkScope

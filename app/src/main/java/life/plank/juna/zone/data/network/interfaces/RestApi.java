@@ -10,10 +10,10 @@ import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.model.Emoji;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItemComment;
-import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.model.FootballTeam;
 import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.data.model.MatchStats;
 import life.plank.juna.zone.data.model.NextMatch;
 import life.plank.juna.zone.data.model.PlayerStats;
@@ -108,7 +108,6 @@ public interface RestApi {
                                                               @Query("userId") String userId,
                                                               @Query("dateCreated") String dateCreated,
                                                               @Query("feedType") String feedType,
-                                                              @Query("description") String description,
                                                               @Query("title") String title,
                                                               @Header("Authorization") String authHeader);
 
@@ -145,9 +144,9 @@ public interface RestApi {
 
     //working
     @GET(FOOTBALL_SUFFIX + "/seasons/matches")
-    Observable<Response<List<FixtureByMatchDay>>> getFixtures(@Query("seasonName") String seasonName,
-                                                              @Query("leagueName") String leagueName,
-                                                              @Query("countryName") String countryName);
+    Observable<Response<List<MatchFixture>>> getFixtures(@Query("seasonName") String seasonName,
+                                                         @Query("leagueName") String leagueName,
+                                                         @Query("countryName") String countryName);
 
     //working
     @GET(ZONE_BACKEND_SUFFIX + "/feedEntries")

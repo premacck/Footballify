@@ -8,11 +8,10 @@ import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.errorToast
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import java.net.HttpURLConnection.HTTP_OK
 
 abstract class BaseMatchFragment : CardTileFragment() {
@@ -26,11 +25,7 @@ abstract class BaseMatchFragment : CardTileFragment() {
                 HTTP_OK -> it.body()?.run { onInAppNotificationReceived(this) }
                 else -> errorToast(R.string.failed_to_retrieve_feed, it)
             }
-        })
-    }
-
-    fun handleZoneLiveData(intent: Intent) {
-        onZoneLiveDataReceived(DataUtil.getZoneLiveData(intent, getString(R.string.intent_zone_live_data), gson()))
+        }, this)
     }
 
     abstract fun gson(): Gson

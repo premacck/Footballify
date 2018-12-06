@@ -37,31 +37,31 @@ import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.EngagementInfoTilesToolbar;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
-import life.plank.juna.zone.util.DateUtil;
-import life.plank.juna.zone.util.NumberFormatter;
+import life.plank.juna.zone.util.common.NumberFormatter;
+import life.plank.juna.zone.util.time.DateUtil;
 
-import static life.plank.juna.zone.util.AppConstants.BOARD_POPUP;
-import static life.plank.juna.zone.util.AppConstants.FOUR_HOURS_MILLIS;
-import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
-import static life.plank.juna.zone.util.AppConstants.GMT;
-import static life.plank.juna.zone.util.AppConstants.LIVE;
-import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
-import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
-import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
-import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_LIVE;
-import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_PAST;
-import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_LATER;
-import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_TODAY;
-import static life.plank.juna.zone.util.AppConstants.NOT_STARTED;
-import static life.plank.juna.zone.util.AppConstants.ONE_HOUR_MILLIS;
-import static life.plank.juna.zone.util.DataUtil.getDisplayTimeStatus;
-import static life.plank.juna.zone.util.DataUtil.getSeparator;
-import static life.plank.juna.zone.util.DateUtil.getHourMinuteSecondFormatDate;
-import static life.plank.juna.zone.util.DateUtil.getMatchTimeValue;
-import static life.plank.juna.zone.util.DateUtil.getScheduledMatchDateString;
-import static life.plank.juna.zone.util.DateUtil.getTimeInFootballFormat;
-import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
+import static life.plank.juna.zone.util.common.AppConstants.BOARD_POPUP;
+import static life.plank.juna.zone.util.common.AppConstants.FOUR_HOURS_MILLIS;
+import static life.plank.juna.zone.util.common.AppConstants.FULL_TIME_LOWERCASE;
+import static life.plank.juna.zone.util.common.AppConstants.GMT;
+import static life.plank.juna.zone.util.common.AppConstants.LIVE;
+import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
+import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
+import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
+import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_LIVE;
+import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_PAST;
+import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_SCHEDULED_LATER;
+import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_SCHEDULED_TODAY;
+import static life.plank.juna.zone.util.common.AppConstants.NOT_STARTED;
+import static life.plank.juna.zone.util.common.AppConstants.ONE_HOUR_MILLIS;
+import static life.plank.juna.zone.util.common.DataUtil.getDisplayTimeStatus;
+import static life.plank.juna.zone.util.common.DataUtil.getSeparator;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
+import static life.plank.juna.zone.util.time.DateUtil.getHourMinuteSecondFormatDate;
+import static life.plank.juna.zone.util.time.DateUtil.getMatchTimeValue;
+import static life.plank.juna.zone.util.time.DateUtil.getScheduledMatchDateString;
+import static life.plank.juna.zone.util.time.DateUtil.getTimeInFootballFormat;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.getDp;
 
 public class PublicBoardToolbar extends Toolbar implements CustomViewListener, EngagementInfoTilesToolbar {
 
@@ -83,8 +83,6 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     ImageButton optionsMenu;
     @BindView(R.id.share_btn)
     ImageButton shareBtn;
-    @BindView(R.id.following_button)
-    ImageView followBtn;
     @BindView(R.id.people_count)
     TextView peopleCountView;
     @BindView(R.id.comment_count)
@@ -177,7 +175,6 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     @Override
     public void dispose() {
         listener = null;
-        followBtn.setOnClickListener(null);
         optionsMenu.setOnClickListener(null);
         switch (matchTimeValue) {
             case MATCH_LIVE:

@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter.board.match;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,28 +15,30 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchEvent;
-import life.plank.juna.zone.util.BaseRecyclerView;
+import life.plank.juna.zone.util.view.BaseRecyclerView;
 
-import static life.plank.juna.zone.util.AppConstants.FULL_TIME;
-import static life.plank.juna.zone.util.AppConstants.GOAL;
-import static life.plank.juna.zone.util.AppConstants.HALF_TIME;
-import static life.plank.juna.zone.util.AppConstants.HT;
-import static life.plank.juna.zone.util.AppConstants.KICK_OFF;
-import static life.plank.juna.zone.util.AppConstants.LIVE;
-import static life.plank.juna.zone.util.AppConstants.LIVE_TIME;
-import static life.plank.juna.zone.util.AppConstants.RED_CARD;
-import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
-import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD;
-import static life.plank.juna.zone.util.AppConstants.YELLOW_RED;
-import static life.plank.juna.zone.util.DataUtil.getFormattedExtraMinutes;
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
+import static life.plank.juna.zone.util.common.AppConstants.FULL_TIME;
+import static life.plank.juna.zone.util.common.AppConstants.GOAL;
+import static life.plank.juna.zone.util.common.AppConstants.HALF_TIME;
+import static life.plank.juna.zone.util.common.AppConstants.HT;
+import static life.plank.juna.zone.util.common.AppConstants.KICK_OFF;
+import static life.plank.juna.zone.util.common.AppConstants.LIVE;
+import static life.plank.juna.zone.util.common.AppConstants.LIVE_TIME;
+import static life.plank.juna.zone.util.common.AppConstants.PENALTY;
+import static life.plank.juna.zone.util.common.AppConstants.RED_CARD;
+import static life.plank.juna.zone.util.common.AppConstants.SUBSTITUTION;
+import static life.plank.juna.zone.util.common.AppConstants.YELLOW_CARD;
+import static life.plank.juna.zone.util.common.AppConstants.YELLOW_RED;
+import static life.plank.juna.zone.util.common.DataUtil.getFormattedExtraMinutes;
+import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.view.UIDisplayUtil.getDp;
 
 public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
 
@@ -47,6 +50,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         matchEventList = new ArrayList<>();
     }
 
+    @NonNull
     @Override
     public TimelineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new TimelineViewHolder(
@@ -150,6 +154,9 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
                         break;
                     case SUBSTITUTION:
                         onSubstitutionEvent();
+                        break;
+                    case PENALTY:
+                        onPenaltyEvent();
                         break;
                     default:
                         break;
@@ -258,8 +265,19 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             timelineEventDown.setText(timelineEventDownText);
         }
 
+        private void onPenaltyEvent() {
+            setCenterLayout();
+            timelineEventDown.setVisibility(View.VISIBLE);
+            timelineEventUp.setVisibility(View.VISIBLE);
+            timelineEventDown.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+            timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            timelineEventDown.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            timelineEventUp.setText(event.getPlayerName());
+            timelineEventDown.setText(PENALTY);
+        }
+
         private String getTimedEventString() {
-            switch (event.getLiveTimeStatus().getTimeStatus()) {
+            switch (Objects.requireNonNull(event.getLiveTimeStatus()).getTimeStatus()) {
                 case LIVE:
                     return KICK_OFF;
                 case HT:
@@ -270,7 +288,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         }
 
         private String getTimedEventExtraString() {
-            switch (event.getLiveTimeStatus().getTimeStatus()) {
+            switch (Objects.requireNonNull(event.getLiveTimeStatus()).getTimeStatus()) {
                 case LIVE:
                     return LIVE_TIME;
                 default:

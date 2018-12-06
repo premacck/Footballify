@@ -187,6 +187,7 @@
     </style>
 
     <style name="DragHandleImageView">
+        <item name="android:id">@id/drag_handle_image</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:src">@drawable/drag_handle_dark</item>
@@ -197,6 +198,7 @@
     </style>
 
     <style name="DragHandleLightImageView">
+        <item name="android:id">@id/drag_handle_image</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:src">@drawable/drag_handle_light</item>
@@ -274,4 +276,6 @@
         <item name="android:background">@drawable/shimmer_rectangle</item>
         <item name="android:layout_margin">12.5dp</item>
     </style>
+
+    <item name="drag_handle_image" type="id" />
 </resources>

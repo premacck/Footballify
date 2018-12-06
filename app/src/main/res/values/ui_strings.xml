@@ -208,6 +208,7 @@
     <string name="failed_to_get_top_emoji">Failed to get top emoji</string>
     <string name="next_match_data_not_available">Next match data not available</string>
     <string name="loading_polls">Loading Polls</string>
+    <string name="loading_lineups">Loading lineups</string>
     <string name="proceed">Proceed</string>
     <string name="now">Now</string>
     <string name="search_for_users_or_handles">Search for users or handles</string>
@@ -223,4 +224,18 @@
     <string name="premier_league">Premier League</string>
     <string name="champions_league">Champions League</string>
     <string name="see_all_leagues">See all Leagues</string>
+    <string name="juna_user">Juna User</string>
+    <string name="_by_">&#160;by&#160;</string>
+    <string name="assist_by_">&#160;assist by&#160;</string>
+    <string name="_receives_yellow_card">&#160;receives yellow card!</string>
+    <string name="_receives_red_card">&#160;receives red card!</string>
+    <string name="_conceded_penalty">&#160;conceded penalty</string>
+    <string name="match_is_now_live">Match is now live!</string>
+    <string name="lineups_are_now_available">Lineups are now available!</string>
+    <string name="match_board_is_now_active">Match board is now active!</string>
+    <string name="juliane_suits">JULIANE SUITS</string>
+    <string name="profile_card">Profile Card</string>
+    <string name="collect">COLLECT</string>
+    <string name="collect_to_follow_this_person">Collect to follow this person</string>
+    <string name="lineups_now_available_for_this_match">Lineups are now available for this match!</string>
 </resources>

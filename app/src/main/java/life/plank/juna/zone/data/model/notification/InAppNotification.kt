@@ -7,8 +7,8 @@ import kotlinx.android.parcel.RawValue
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.notification.buildNotificationMessage
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 
 @Parcelize
 data class InAppNotification(

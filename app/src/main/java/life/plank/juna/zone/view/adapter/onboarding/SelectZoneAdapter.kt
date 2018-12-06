@@ -8,8 +8,8 @@ import com.bumptech.glide.RequestManager
 import kotlinx.android.synthetic.main.item_zone_grid.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Zones
-import life.plank.juna.zone.util.DataUtil.findInt
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.common.DataUtil.findInt
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import java.util.*
 
 /**
@@ -50,10 +50,10 @@ class SelectZoneAdapter(
             if (isActionDone) {
                 if (selectedZones.contains(selectedZone)) {
                     selectedZones.remove(selectedZone)
-                    selectedZoneNames.remove(selectedZone.name)
+                    selectedZoneNames.remove(selectedZone.id)
                 } else {
                     selectedZones.add(selectedZone)
-                    selectedZoneNames.add(selectedZone.name)
+                    selectedZoneNames.add(selectedZone.id)
                 }
             }
             val isItemSelected = selectedZones.contains(selectedZone)

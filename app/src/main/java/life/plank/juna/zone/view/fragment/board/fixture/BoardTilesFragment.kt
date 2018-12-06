@@ -26,19 +26,21 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.EmojiContainer
 import life.plank.juna.zone.interfaces.FeedEntryContainer
 import life.plank.juna.zone.interfaces.PollContainer
-import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.UIDisplayUtil.addDefaultEmojis
-import life.plank.juna.zone.util.UIDisplayUtil.setupFeedEntryByMasonryLayout
+import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_FULL
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.onSubscribe
+import life.plank.juna.zone.util.common.onTerminate
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.setEmoji
 import life.plank.juna.zone.util.facilis.showFor
 import life.plank.juna.zone.util.facilis.vibrate
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.setupBoomMenu
-import life.plank.juna.zone.util.setupWith
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.view.UIDisplayUtil.addDefaultEmojis
+import life.plank.juna.zone.util.view.UIDisplayUtil.setupFeedEntryByMasonryLayout
+import life.plank.juna.zone.util.view.setupBoomMenu
+import life.plank.juna.zone.util.view.setupWith
 import life.plank.juna.zone.view.adapter.board.tile.BoardMediaAdapter
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
@@ -46,7 +48,6 @@ import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.board.fixture.extra.DartBoardPopup
 import life.plank.juna.zone.view.fragment.board.fixture.extra.KeyBoardPopup
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
-import org.jetbrains.anko.support.v4.runOnUiThread
 import org.jetbrains.anko.support.v4.toast
 import java.net.HttpURLConnection
 import java.util.*
@@ -133,7 +134,9 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
             return
         }
         getBoardFeed(false)
-        getTopEmoji()
+        if (parentFragment is MatchBoardFragment) {
+            getTopEmoji()
+        }
     }
 
     private fun setupEmojiBottomSheet() {
@@ -179,7 +182,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
                 initial_reaction_one.setEmoji(emojiList[random.nextInt(emojiList.size - 1)].emoji)
                 initial_reaction_two.setEmoji(emojiList[random.nextInt(emojiList.size - 1)].emoji)
             }
-        })
+        }, this)
     }
 
     private fun onReactionUpdate(isAvailable: Boolean) {
@@ -189,37 +192,34 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
     }
 
     private fun getBoardFeed(isRefreshing: Boolean) {
-        restApi.getBoardFeedItems(boardId, getToken()).doOnSubscribe {
-            runOnUiThread {
-                progress_bar.visibility = View.VISIBLE
-                no_data.visibility = View.GONE
-                if (isRefreshing) swipe_refresh_layout.isRefreshing = true
-            }
-        }.doOnTerminate {
-            runOnUiThread {
-                progress_bar.visibility = View.GONE
-                if (isRefreshing) swipe_refresh_layout.isRefreshing = false
-            }
-        }.setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, "On Error() : getBoardFeed()", it)
-            updateUi(false, R.string.something_went_wrong)
-        }, {
-            when (it.code()) {
-                HttpURLConnection.HTTP_OK -> {
-                    val feedItemList = it.body()
-                    if (!isNullOrEmpty(feedItemList)) {
-                        updateUi(true, 0)
-                        setupFeedEntryByMasonryLayout(feedItemList!!)
-                        adapter!!.update(feedItemList)
-                        if (parentFragment is FeedEntryContainer) {
-                            (parentFragment as FeedEntryContainer).updateFullScreenAdapter(feedItemList)
+        restApi.getBoardFeedItems(boardId, getToken())
+                .onSubscribe {
+                    progress_bar.visibility = View.VISIBLE
+                    no_data.visibility = View.GONE
+                    if (isRefreshing) swipe_refresh_layout.isRefreshing = true
+                }.onTerminate {
+                    progress_bar.visibility = View.GONE
+                    if (isRefreshing) swipe_refresh_layout.isRefreshing = false
+                }.setObserverThreadsAndSmartSubscribe({
+                    Log.e(TAG, "On Error() : getBoardFeed()", it)
+                    updateUi(false, R.string.something_went_wrong)
+                }, {
+                    when (it.code()) {
+                        HttpURLConnection.HTTP_OK -> {
+                            val feedItemList = it.body()
+                            if (!isNullOrEmpty(feedItemList)) {
+                                updateUi(true, 0)
+                                setupFeedEntryByMasonryLayout(feedItemList!!)
+                                adapter!!.update(feedItemList)
+                                if (parentFragment is FeedEntryContainer) {
+                                    (parentFragment as FeedEntryContainer).updateFullScreenAdapter(feedItemList)
+                                }
+                            } else updateUi(false, R.string.board_yet_to_be_populated)
                         }
-                    } else updateUi(false, R.string.board_yet_to_be_populated)
-                }
-                HttpURLConnection.HTTP_NOT_FOUND -> updateUi(false, R.string.board_yet_to_be_populated)
-                else -> updateUi(false, R.string.failed_to_retrieve_board)
-            }
-        })
+                        HttpURLConnection.HTTP_NOT_FOUND -> updateUi(false, R.string.board_yet_to_be_populated)
+                        else -> updateUi(false, R.string.failed_to_retrieve_board)
+                    }
+                }, this)
     }
 
     private fun getBoardPolls() {
@@ -232,7 +232,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
                     board_poll.prepare(Glide.with(activity!!), pollBindingModel!!, this)
                 }
             }
-        })
+        }, this)
     }
 
     private fun updateUi(isDataAvailable: Boolean, @StringRes message: Int) {
@@ -251,6 +251,8 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
 //                (parentFragment as? FeedEntryContainer)?.openFeedEntry(this, boardId!!, index, BOARD)
 //            }
 //        }
+
+        (parentFragment as? FeedEntryContainer)?.showFeedItemPeekPopup(index)
     }
 
     override fun fireOnItemLongClick(index: Int, v: View): Boolean {
@@ -272,6 +274,6 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
                 pollBindingModel!!.poll.choices = pollAnswer.choices
                 board_poll.pollSelected(pollBindingModel!!.poll)
             }
-        })
+        }, this)
     }
 }

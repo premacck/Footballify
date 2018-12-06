@@ -12,12 +12,12 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.customToast
+import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.common.launchWithBoard
-import life.plank.juna.zone.util.customToast
-import life.plank.juna.zone.util.errorToast
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -66,7 +66,7 @@ class JoinBoardPopup : BaseBlurPopup() {
                 }
                 else -> errorToast(R.string.could_not_navigate_to_board, it)
             }
-        })
+        }, this)
     }
 
     private fun updateUi() {
@@ -101,7 +101,7 @@ class JoinBoardPopup : BaseBlurPopup() {
                 HttpURLConnection.HTTP_NOT_FOUND -> customToast(R.string.failed_to_follow_board)
                 else -> errorToast(R.string.something_went_wrong, it)
             }
-        })
+        }, this)
     }
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout

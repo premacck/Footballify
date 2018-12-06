@@ -11,8 +11,8 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_team_stats.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.binder.TeamStatsBindingModel
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 
 class TeamStatsBinder(private val glide: RequestManager) : ItemBinder<TeamStatsBindingModel, TeamStatsBinder.TeamStatsViewHolder>() {
 

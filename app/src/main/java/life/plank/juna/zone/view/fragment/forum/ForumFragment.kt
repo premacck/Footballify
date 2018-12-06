@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_forum.*
@@ -12,17 +13,17 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication.getApplication
 import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.PreferenceManager
-import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.errorToast
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.common.onTerminate
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.clearOnClickListener
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
-import org.jetbrains.anko.support.v4.runOnUiThread
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
 
@@ -49,7 +50,7 @@ class ForumFragment : BaseCommentContainerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (boardId == null) return
-        
+
         adapter = PostCommentAdapter(Glide.with(this), this, getString(R.string.forum))
         post_comments_list.adapter = adapter
 
@@ -58,12 +59,28 @@ class ForumFragment : BaseCommentContainerFragment() {
                 .into(commenter_image)
 
         post_comment.onDebouncingClick {
-            if (!comment_edit_text.text.toString().isEmpty() && !isNullOrEmpty(boardId)) {
+            if (!comment_edit_text.text.toString().trim().isEmpty() && !isNullOrEmpty(boardId)
+                    && !comment_edit_text.text.toString().matches("@[a-zA-Z0-9]+\\s*".toRegex())) {
                 post_comment.clearFocus()
                 postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForBoardComment(boardId!!))
             }
+
         }
         forum_swipe_refresh_layout.setOnRefreshListener { getComments(true) }
+
+        comment_edit_text.setOnEditorActionListener { _, actionId, _ ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_SEND -> {
+                    if (!comment_edit_text.text.toString().trim().isEmpty() && !isNullOrEmpty(boardId)
+                            && !comment_edit_text.text.toString().matches("@[a-zA-Z0-9]+\\s*".toRegex())) {
+                        post_comment.clearFocus()
+                        postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForBoardComment(boardId!!))
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onResume() {
@@ -74,7 +91,7 @@ class ForumFragment : BaseCommentContainerFragment() {
     private fun getComments(isRefreshing: Boolean) {
         no_comment_text_view.visibility = View.GONE
         restApi.getCommentsForBoard(boardId, getToken())
-                .doOnTerminate { runOnUiThread { if (isRefreshing) forum_swipe_refresh_layout.isRefreshing = false } }
+                .onTerminate { if (isRefreshing) forum_swipe_refresh_layout.isRefreshing = false }
                 .setObserverThreadsAndSmartSubscribe({
                     Log.e(TAG, "getComments()", it)
                     errorToast(R.string.failed_to_get_feed_comments, it)
@@ -93,7 +110,7 @@ class ForumFragment : BaseCommentContainerFragment() {
                             no_comment_text_view.onDebouncingClick { getComments(false) }
                         }
                     }
-                })
+                }, this)
     }
 
     override fun specifyCommentEvent() {

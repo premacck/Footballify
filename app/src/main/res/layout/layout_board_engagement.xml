@@ -9,15 +9,6 @@
     android:paddingEnd="10dp"
     android:paddingBottom="6dp">
 
-    <ImageView
-        android:id="@+id/following_button"
-        android:layout_width="14dp"
-        android:layout_height="18dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="12dp"
-        android:src="@drawable/ic_following" />
-
     <TextView
         android:id="@+id/people_count"
         style="@style/EngagementLayout"

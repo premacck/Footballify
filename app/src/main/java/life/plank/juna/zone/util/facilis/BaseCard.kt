@@ -3,39 +3,48 @@ package life.plank.juna.zone.util.facilis
 import android.app.Activity
 import android.os.Bundle
 import android.support.annotation.CallSuper
+import android.support.annotation.IdRes
 import android.view.View
 import android.view.ViewGroup
 import io.alterac.blurkit.BlurLayout
-import life.plank.juna.zone.util.UIDisplayUtil
-import life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard
+import life.plank.juna.zone.R
+import life.plank.juna.zone.util.view.UIDisplayUtil
+import life.plank.juna.zone.util.view.UIDisplayUtil.hideSoftKeyboard
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 
 abstract class BaseCard : BaseFragment() {
 
+    var isInForeGround: Boolean = false
+
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        getRootCard()?.run {
+        getRootView()?.run {
             setTopMargin(UIDisplayUtil.getDp(if (getParentActivity().index > 0) 20f else 0f).toInt())
             isClickable = true
         }
         activity?.let { setupSwipeDownGesture(it) }
         (getBackgroundBlurLayout() as? BlurLayout)?.beginBlur()
+        isInForeGround = true
     }
 
-    private fun setupSwipeDownGesture(activity: Activity) = getDragHandle()?.setSwipeDownListener(activity, getRootCard()!!, getBackgroundBlurLayout())
+    private fun setupSwipeDownGesture(activity: Activity) = getDragView()?.setSwipeDownListener(activity, getRootView()!!, getBackgroundBlurLayout())
 
     fun moveToBackGround() {
-        getRootCard()?.moveToBackGround(getParentActivity().index)
+        getRootView()?.moveToBackGround(getParentActivity().index)
+        dragHandle()?.fadeOut()
+        isInForeGround = false
     }
 
     fun moveToForeGround() {
-        getRootCard()?.moveToForeGround()
+        getRootView()?.moveToForeGround()
+        dragHandle()?.fadeIn()
+        isInForeGround = true
     }
 
     fun dispose() {
-        getDragHandle()?.setOnTouchListener(null)
+        getDragView()?.setOnTouchListener(null)
     }
 
     fun pushFragment(baseFragment: BaseFragment, isAddToBackStack: Boolean = false) {
@@ -46,9 +55,12 @@ abstract class BaseCard : BaseFragment() {
 
     abstract fun getBackgroundBlurLayout(): ViewGroup?
 
-    abstract fun getRootCard(): ViewGroup?
+    abstract fun getRootView(): ViewGroup?
 
-    abstract fun getDragHandle(): View?
+    abstract fun getDragView(): View?
+
+    @IdRes
+    open fun dragHandleId(): Int = R.id.drag_handle_image
 
     fun getParentActivity(): BaseCardActivity {
         if (activity is BaseCardActivity)
@@ -57,7 +69,7 @@ abstract class BaseCard : BaseFragment() {
     }
 
     override fun onDestroyView() {
-        hideSoftKeyboard(getRootCard())
+        hideSoftKeyboard(getRootView())
         (getBackgroundBlurLayout() as? BlurLayout)?.pauseBlur()
         dispose()
         super.onDestroyView()

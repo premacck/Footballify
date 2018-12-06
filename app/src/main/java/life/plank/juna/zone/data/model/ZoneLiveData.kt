@@ -2,20 +2,25 @@ package life.plank.juna.zone.data.model
 
 import android.os.Parcelable
 import com.google.gson.Gson
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.parcel.Parcelize
 import life.plank.juna.zone.data.model.notification.BaseInAppNotification
 
 @Parcelize
 data class ZoneLiveData(
-        var liveEventType: String?,
-        var foreignId: Long,
+        @SerializedName("foreignId") @Expose var matchId: Long,
         var boardTopic: String,
         var liveDataType: String,
+        var homeTeamName: String,
+        var homeTeamLogo: String,
+        @SerializedName("awayTeamName") @Expose var visitingTeamName: String,
+        @SerializedName("awayTeamLogo") @Expose var visitingTeamLogo: String,
         var data: String = ""
 ) : Parcelable, BaseInAppNotification() {
 
-    fun getScoreData(gson: Gson): LiveScoreData {
+    fun getScoreData(gson: Gson): LiveScoreData? {
         return gson.fromJson<LiveScoreData>(data, LiveScoreData::class.java)
     }
 
@@ -29,7 +34,7 @@ data class ZoneLiveData(
         }.type)
     }
 
-    fun getLiveTimeStatus(gson: Gson): LiveTimeStatus {
+    fun getLiveTimeStatus(gson: Gson): LiveTimeStatus? {
         return gson.fromJson<LiveTimeStatus>(data, LiveTimeStatus::class.java)
     }
 
@@ -43,7 +48,7 @@ data class ZoneLiveData(
         }.type)
     }
 
-    fun getMatchStats(gson: Gson): MatchStats {
+    fun getMatchStats(gson: Gson): MatchStats? {
         return gson.fromJson<MatchStats>(data, MatchStats::class.java)
     }
 }

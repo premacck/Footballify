@@ -39,7 +39,7 @@ class ZoneContainerFragment : BaseCard() {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = null
 
-    override fun getRootCard(): CardView? = root_card
+    override fun getRootView(): CardView? = root_card
 
-    override fun getDragHandle(): View? = drag_area
+    override fun getDragView(): View? = drag_area
 }

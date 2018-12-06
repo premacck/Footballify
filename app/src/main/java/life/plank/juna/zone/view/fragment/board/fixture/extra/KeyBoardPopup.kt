@@ -15,7 +15,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import javax.inject.Inject
 
@@ -165,7 +165,7 @@ class KeyBoardPopup : BaseBlurPopup(), View.OnLongClickListener, View.OnDragList
                 }, {
                     //TODO: Handle response
                     Log.d("postClap()", "Response: " + it.code())
-                })
+                }, this)
     }
 }
 
