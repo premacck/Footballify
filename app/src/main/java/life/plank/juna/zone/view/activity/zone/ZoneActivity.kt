@@ -21,7 +21,7 @@ class ZoneActivity : BaseCardActivity() {
 
         pushFragment(ZoneContainerFragment.newInstance())
 
-        handleBoardIntentIfAny(restApi)
+        handleBoardIntentIfAny()
     }
 
     override fun getFragmentContainer(): Int = R.id.main_fragment_container

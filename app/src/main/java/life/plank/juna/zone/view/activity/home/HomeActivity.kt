@@ -37,9 +37,9 @@ class HomeActivity : BaseCardActivity() {
 
         pushFragment(HomeFragment.newInstance())
 
-        handleBoardIntentIfAny(restApi)
+        handleBoardIntentIfAny()
 
-        handleSocialNotificationIntentIfAny(restApi)
+        handleSocialNotificationIntentIfAny()
 
         handleFootballLiveDataNotificationIntentIfAny()
     }
