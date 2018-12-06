@@ -62,7 +62,7 @@ class UserProfileActivity : BaseCardActivity() {
         getUserBoards()
         setOnClickListeners()
 
-        handleBoardIntentIfAny(restApi)
+        handleBoardIntentIfAny()
     }
 
     override fun onResume() {
