@@ -26,7 +26,8 @@
                 <life.plank.juna.zone.util.customview.BoardPoll
                     android:id="@+id/board_poll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:id="@+id/extras_layout"
