@@ -67,6 +67,6 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/search_people_bottom_sheet" />
+    <include layout="@layout/follow_league_bottom_sheet" />
 
 </android.support.design.widget.CoordinatorLayout>

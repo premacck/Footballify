@@ -8,36 +8,34 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
-import com.bumptech.glide.Glide
 import com.facebook.FacebookSdk.getApplicationContext
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.follow_league_bottom_sheet.*
+import kotlinx.android.synthetic.main.fragment_team_selection.*
 import kotlinx.android.synthetic.main.fragment_zone.*
-import kotlinx.android.synthetic.main.search_people_bottom_sheet.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.NextMatch
-import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.OnItemClickListener
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
+import life.plank.juna.zone.util.common.DataUtil
 import life.plank.juna.zone.util.common.customToast
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.network.NetworkStatus
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.view.UIDisplayUtil
 import life.plank.juna.zone.util.view.setupBoomMenu
 import life.plank.juna.zone.util.view.setupWith
-import life.plank.juna.zone.view.adapter.common.SearchViewAdapter
+import life.plank.juna.zone.view.adapter.LeagueSelectionAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import life.plank.juna.zone.view.latestMatch.LeagueModel
 import life.plank.juna.zone.view.latestMatch.MultiListAdapter
-import org.jetbrains.anko.support.v4.find
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
-class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClickListener {
+class ZoneFragment : BaseFragment(), OnItemClickListener {
 
     @Inject
     lateinit var gson: Gson
@@ -45,11 +43,10 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
     lateinit var picasso: Picasso
     @Inject
     lateinit var restApi: RestApi
-
     lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
     lateinit var adapter: MultiListAdapter
-    lateinit var searchViewAdapter: SearchViewAdapter
-    internal var userList = ArrayList<User>()
+    private var leagueSelectionAdapter: LeagueSelectionAdapter? = null
+    private var leagueList = ArrayList<League>()
 
     companion object {
         private val TAG = ZoneFragment::class.java.simpleName
@@ -69,24 +66,14 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
         setUpData()
         setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, arc_menu, null)
         initBottomSheetRecyclerView()
-        search_view.queryHint = getString(R.string.search_query_hint)
+        leagueSelectionAdapter?.setLeagueList(DataUtil.getStaticLeagues())
+        search_view.visibility = View.GONE
+        title.text = "Follow your leagues"
 
         bottomSheetBehavior = BottomSheetBehavior.from<View>(bottom_sheet)
         bottomSheetBehavior.peekHeight = 0
 
-        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    UIDisplayUtil.hideSoftKeyboard(find(android.R.id.content))
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // React to dragging events
-            }
-        })
         arc_menu.setupWith(football_feed_recycler_view)
-
     }
 
     private fun setUpData() {
@@ -99,21 +86,19 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
 
     private fun initRecyclerView() {
 
-        adapter = MultiListAdapter(activity)
+        adapter = MultiListAdapter(activity, this)
         football_feed_recycler_view.layoutManager = LinearLayoutManager(getApplicationContext())
         football_feed_recycler_view.adapter = adapter
 
         progress_bar!!.visibility = View.GONE
 
         adapter.addLeague(LeagueModel("Flower sdgvd gdfdhfc"))
-
     }
 
     private fun initBottomSheetRecyclerView() {
-        recycler_view.layoutManager = GridLayoutManager(context, 5)
-        searchViewAdapter = SearchViewAdapter(userList, Glide.with(this))
-        recycler_view.adapter = searchViewAdapter
-        search_view.setOnQueryTextListener(this)
+        onboarding_recycler_view.layoutManager = GridLayoutManager(context, 3)
+        leagueSelectionAdapter = LeagueSelectionAdapter(leagueList)
+        onboarding_recycler_view.adapter = leagueSelectionAdapter
 
     }
 
@@ -125,21 +110,6 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
     override fun onPause() {
         super.onPause()
         arc_menu.menuOut()
-    }
-
-    private fun getSearchedUsers(displayName: String) {
-        restApi.getSearchedUsers(getToken(), displayName).setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, "getSearchedUsers() : onError: ", it)
-        }, {
-            when (it.code()) {
-                HttpURLConnection.HTTP_OK -> searchViewAdapter.update(it.body() as ArrayList)
-                HttpURLConnection.HTTP_NOT_FOUND -> {
-                    userList.clear()
-                    searchViewAdapter.notifyDataSetChanged()
-                }
-                else -> Log.e(TAG, it.message())
-            }
-        })
     }
 
     private fun getUpcomingMatches() {
@@ -171,21 +141,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
         })
     }
 
-override fun onQueryTextSubmit(s: String): Boolean {
-    return true
-}
-
-override fun onQueryTextChange(s: String): Boolean {
-    if (!s.isEmpty()) {
-        getSearchedUsers(s)
-    } else {
-        userList.clear()
-        searchViewAdapter.notifyDataSetChanged()
+    override fun onItemClicked() {
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
-    return true
-}
-
-override fun onItemClicked(objectId: String, isSelected: Boolean?) {
-    //TODO: handle on item click
-}
 }
