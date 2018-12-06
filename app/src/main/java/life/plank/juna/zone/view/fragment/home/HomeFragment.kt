@@ -33,6 +33,7 @@ import life.plank.juna.zone.util.customview.ShimmerRelativeLayout
 import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.view.boomMenu
 import life.plank.juna.zone.util.view.setupBoomMenu
 import life.plank.juna.zone.util.view.setupWith
 import life.plank.juna.zone.view.activity.UserNotificationActivity
@@ -92,7 +93,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         }
 
         setUpToolbarAndBoomMenu()
-        arc_menu.setupWith(nestedScrollView)
+        boomMenu().setupWith(nestedScrollView)
 
         feed_header.initListeners(this)
         if (PreferenceManager.CurrentUser.getProfilePicUrl() != null) {
@@ -108,13 +109,13 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     private fun setUpToolbarAndBoomMenu() {
         if (isNullOrEmpty(getToken())) {
             feed_header.setProfilePic(R.drawable.ic_default_profile)
-            arc_menu.visibility = View.GONE
+            boomMenu().visibility = View.GONE
             feed_header.isNotificationViewVisible(View.GONE)
             feed_header.userGreeting = getString(R.string.hello_stranger)
         } else {
             //TODO: show notification badge only if there are new notifications
             feed_header.showNotificationBadge(true)
-            setupBoomMenu(BOOM_MENU_BASIC_INTERACTION, activity!!, null, arc_menu, null)
+            setupBoomMenu(BOOM_MENU_BASIC_INTERACTION, activity!!, null, null)
         }
     }
 
