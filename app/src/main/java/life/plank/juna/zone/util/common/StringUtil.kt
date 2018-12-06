@@ -89,5 +89,5 @@ fun String.asciiToInt(): Int {
         } catch (ignored: Exception) {
         }
     }
-    return result
+    return Math.abs(result)
 }

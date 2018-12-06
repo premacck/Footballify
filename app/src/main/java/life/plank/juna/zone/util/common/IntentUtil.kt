@@ -47,7 +47,7 @@ inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(boardId: Stri
 /**
  * Function to handle the board/boardId intent (if any) passed to the [BaseCardActivity] and launch [PrivateBoardFragment] or [MatchBoardFragment]
  */
-fun BaseCardActivity.handleBoardIntentIfAny(restApi: RestApi) {
+fun BaseCardActivity.handleBoardIntentIfAny() {
     if (intent.hasExtra(getString(R.string.intent_action))) return
     restApi()?.run {
         when {
