@@ -237,4 +237,5 @@
     <string name="lineups_now_available_for_this_match">Lineups are now available for this match!</string>
     <string name="penalty">Penalty</string>
     <string name="missed_penalty">Missed penalty</string>
+    <string name="juna_app">Juna App</string>
 </resources>

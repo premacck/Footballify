@@ -38,6 +38,7 @@ import life.plank.juna.zone.util.common.toClickableWebLink
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.showFor
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.time.DateUtil.getCommentDateAndTimeFormat
 import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
@@ -85,8 +86,8 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
 
     private fun setupBottomSheet() {
         emojiBottomSheetBehavior = BottomSheetBehavior.from(emoji_bottom_sheet)
-        emojiBottomSheetBehavior!!.peekHeight = 0
-        emojiBottomSheetBehavior!!.isHideable = true
+        emojiBottomSheetBehavior?.peekHeight = 0
+        emojiBottomSheetBehavior?.isHideable = true
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -127,6 +128,7 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
                     .into(profile_pic)
         }
 
+        creation_date.text = getCommentDateAndTimeFormat(feedEntry.feedItem.dateCreated)
         reaction_count.text = feedEntry.feedItem.interactions!!.emojiReacts.toString()
         feed_title_text_view.text = if (feedEntry.feedItem.contentType != ROOT_COMMENT) feedEntry.feedItem.title else null
         if (feedEntry.feedItem.contentType == NEWS) {
@@ -238,6 +240,7 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
                 feed_text_view.text = getCommentText(comment)
             }
         }
+        feed_title_text_view.isSelected = true
     }
 
     private fun pinItem() {

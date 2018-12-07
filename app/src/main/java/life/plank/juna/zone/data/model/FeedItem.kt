@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
+import java.util.*
 
 @Parcelize
 data class FeedItem(
@@ -14,7 +15,7 @@ data class FeedItem(
         var source: String? = "",
         var summary: String? = "",
         var thumbnail: Thumbnail? = Thumbnail(),
-        var dateCreated: String? = "",
+        var dateCreated: Date = Date(),
         var contentType: String? = "",
         var description: String? = "",
         var interactions: Interaction? = Interaction(),
