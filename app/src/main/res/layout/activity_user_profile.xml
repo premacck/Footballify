@@ -82,6 +82,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
+                            android:contentDescription="@string/select_image_to_upload"
                             android:paddingBottom="5dp"
                             android:src="@drawable/ic_camera" />
 
@@ -335,7 +336,6 @@
                         android:drawablePadding="4dp"
                         android:paddingTop="2dp"
                         android:paddingBottom="2dp"
-                        android:text="32,420"
                         android:textColor="@color/grey"
                         android:textSize="20sp" />
 
