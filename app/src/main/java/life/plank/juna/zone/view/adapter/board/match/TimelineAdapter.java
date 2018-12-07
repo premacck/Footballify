@@ -23,6 +23,7 @@ import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.util.view.BaseRecyclerView;
 
+import static life.plank.juna.zone.util.common.AppConstants.COMMA;
 import static life.plank.juna.zone.util.common.AppConstants.FULL_TIME;
 import static life.plank.juna.zone.util.common.AppConstants.GOAL;
 import static life.plank.juna.zone.util.common.AppConstants.HALF_TIME;
@@ -31,9 +32,12 @@ import static life.plank.juna.zone.util.common.AppConstants.KICK_OFF;
 import static life.plank.juna.zone.util.common.AppConstants.LIVE;
 import static life.plank.juna.zone.util.common.AppConstants.LIVE_TIME;
 import static life.plank.juna.zone.util.common.AppConstants.MISSED_PENALTY;
+import static life.plank.juna.zone.util.common.AppConstants.OWN_GOAL;
+import static life.plank.juna.zone.util.common.AppConstants.OWN_GOAL_LOWERCASE;
 import static life.plank.juna.zone.util.common.AppConstants.PENALTY;
 import static life.plank.juna.zone.util.common.AppConstants.RED_CARD;
 import static life.plank.juna.zone.util.common.AppConstants.SUBSTITUTION;
+import static life.plank.juna.zone.util.common.AppConstants.WIDE_SPACE;
 import static life.plank.juna.zone.util.common.AppConstants.YELLOW_CARD;
 import static life.plank.juna.zone.util.common.AppConstants.YELLOW_RED;
 import static life.plank.juna.zone.util.common.DataUtil.findString;
@@ -144,7 +148,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
 
                 switch (event.getEventType()) {
                     case GOAL:
-                        onGoalEvent();
+                        onGoalEvent(false);
                         break;
                     case YELLOW_CARD:
                     case RED_CARD:
@@ -159,6 +163,9 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
                         break;
                     case MISSED_PENALTY:
                         onPenaltyEvent(true);
+                        break;
+                    case OWN_GOAL:
+                        onGoalEvent(true);
                         break;
                     default:
                         break;
@@ -237,7 +244,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             timelineEventDown.setText(event.getRelatedPlayerName());
         }
 
-        private void onGoalEvent() {
+        private void onGoalEvent(boolean isOwnGoal) {
             setCenterLayout();
             timelineEventDown.setCompoundDrawablePadding((int) getDp(4));
             timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(
@@ -249,7 +256,10 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             timelineEventUp.setText(event.getPlayerName());
             timelineEventDown.setVisibility(View.VISIBLE);
             timelineEventDown.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
-            String timelineEventDownText;
+            StringBuilder timelineEventDownText = new StringBuilder();
+            if (isOwnGoal && event.isHomeTeam()) {
+                timelineEventDownText.append(OWN_GOAL_LOWERCASE).append(COMMA);
+            }
             if (event.getRelatedPlayerName() != null) {
                 timelineEventDown.setCompoundDrawablesWithIntrinsicBounds(
                         event.isHomeTeam() ? R.drawable.ic_assist : 0,
@@ -257,12 +267,15 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
                         event.isHomeTeam() ? 0 : R.drawable.ic_assist,
                         0
                 );
-                timelineEventDownText = event.isHomeTeam() ?
-                        event.getRelatedPlayerName() + "    " + event.getResult() :
-                        event.getResult() + "    " + event.getRelatedPlayerName();
+                timelineEventDownText.append(event.isHomeTeam() ? event.getRelatedPlayerName() : event.getResult())
+                        .append(WIDE_SPACE)
+                        .append(event.isHomeTeam() ? event.getResult() : event.getRelatedPlayerName());
             } else {
                 timelineEventDown.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                timelineEventDownText = event.getResult();
+                timelineEventDownText.append(event.getResult());
+            }
+            if (isOwnGoal && !event.isHomeTeam()) {
+                timelineEventDownText.append(COMMA).append(OWN_GOAL_LOWERCASE);
             }
             timelineEventDown.setText(timelineEventDownText);
         }
@@ -280,10 +293,14 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             );
             timelineEventDown.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             timelineEventUp.setText(event.getPlayerName());
-            String penaltyText = isMissed ? findString(R.string.missed_penalty) :
-                    event.isHomeTeam() ?
-                            findString(R.string.penalty) + ", " + event.getResult() :
-                            event.getResult() + ", " + findString(R.string.penalty);
+            StringBuilder penaltyText = new StringBuilder();
+            if (isMissed) {
+                penaltyText.append(findString(R.string.missed_penalty));
+            } else {
+                penaltyText.append(event.isHomeTeam() ? findString(R.string.penalty) : event.getResult())
+                        .append(COMMA)
+                        .append(event.isHomeTeam() ? event.getResult() : findString(R.string.penalty));
+            }
             timelineEventDown.setText(penaltyText);
         }
 

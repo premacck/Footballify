@@ -66,11 +66,13 @@ public class AppConstants {
     public static final String SUBSTITUTION = "substitution";
     public static final String PENALTY = "penalty";
     public static final String MISSED_PENALTY = "missed_penalty";
+    public static final String OWN_GOAL = "own-goal";
     public static final String KICK_OFF = "KICK-OFF";
     public static final String HALF_TIME = "HALF-TIME";
     public static final String FULL_TIME = "FULL-TIME";
     public static final String HALF_TIME_LOWERCASE = "Half-time";
     public static final String FULL_TIME_LOWERCASE = "Full-time";
+    public static final String OWN_GOAL_LOWERCASE = "Own goal";
 
     //    TODO : this field is for demo purposes only. Remove this constant after getting real scrubber data from backend
     public static final String FOUL = "foul";
@@ -121,6 +123,7 @@ public class AppConstants {
     public static final String SINGLE_SPACE = " ";
     public static final String UNDERSCORE = "_";
     public static final String NEW_LINE = "\n";
+    public static final String COMMA = ", ";
 
     public static final String NEWS = "News";
     public static final String VIDEO = "Video";
