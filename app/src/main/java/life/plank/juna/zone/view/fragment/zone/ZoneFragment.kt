@@ -69,7 +69,8 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
         initBottomSheetRecyclerView()
         leagueSelectionAdapter?.setLeagueList(DataUtil.getStaticLeagues())
         search_view.visibility = View.GONE
-        title.text = "Follow your leagues"
+        title.visibility = View.GONE
+        next.visibility = View.GONE
 
         bottomSheetBehavior = BottomSheetBehavior.from<View>(bottom_sheet)
         bottomSheetBehavior.peekHeight = 0
