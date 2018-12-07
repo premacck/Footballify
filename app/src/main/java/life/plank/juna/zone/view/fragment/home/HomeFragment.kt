@@ -23,12 +23,9 @@ import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_BASIC_INTERACTION
-import life.plank.juna.zone.util.common.AuthUtil
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.launch
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout
 import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
@@ -89,11 +86,12 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
         context?.doAfterDelay(1000) {
             getUserZones()
-            getUserFeed()
+            getUserFeed(false)
+            swipe_refresh_layout?.setOnRefreshListener { getUserFeed(true) }
         }
 
         setUpToolbarAndBoomMenu()
-        boomMenu().setupWith(nestedScrollView)
+        boomMenu().setupWith(user_feed_recycler_view)
 
         feed_header.initListeners(this)
         if (PreferenceManager.CurrentUser.getProfilePicUrl() != null) {
@@ -172,31 +170,36 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
                 }, this)
     }
 
-    private fun getUserFeed() {
+    private fun getUserFeed(isRefreshing: Boolean) {
+        if (isRefreshing) {
+            onRecyclerViewContentsLoaded(user_feed_recycler_view, shimmer_user_feed, true)
+        }
         val userFeedApiCall = if (isNullOrEmpty(getToken())) restApi.getUserFeed() else restApi.getUserFeed(getToken())
-        userFeedApiCall.setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, "getUserFeed(): onError(): ", it)
-        }, {
-            when (it.code()) {
-                HttpURLConnection.HTTP_OK -> {
-                    feedEntries = it.body() as ArrayList<FeedEntry>
-                    if (!isNullOrEmpty(feedEntries)) {
-                        userFeedAdapter?.setUserFeed(feedEntries)
-                        onRecyclerViewContentsLoaded(user_feed_recycler_view, shimmer_user_feed)
-                    } else {
-                        errorToast(R.string.failed_to_retrieve_feed, it)
-                        onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
+        userFeedApiCall
+                .onTerminate { if (isRefreshing) swipe_refresh_layout.isRefreshing = false }
+                .setObserverThreadsAndSmartSubscribe({
+                    Log.e(TAG, "getUserFeed(): onError(): ", it)
+                }, {
+                    when (it.code()) {
+                        HttpURLConnection.HTTP_OK -> {
+                            feedEntries = it.body() as ArrayList<FeedEntry>
+                            if (!isNullOrEmpty(feedEntries)) {
+                                userFeedAdapter?.setUserFeed(feedEntries)
+                                onRecyclerViewContentsLoaded(user_feed_recycler_view, shimmer_user_feed)
+                            } else {
+                                errorToast(R.string.failed_to_retrieve_feed, it)
+                                onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
+                            }
+                        }
+                        HttpURLConnection.HTTP_NOT_FOUND -> {
+                            onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
+                        }
+                        else -> {
+                            errorToast(R.string.failed_to_retrieve_feed, it)
+                            onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
+                        }
                     }
-                }
-                HttpURLConnection.HTTP_NOT_FOUND -> {
-                    onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
-                }
-                else -> {
-                    errorToast(R.string.failed_to_retrieve_feed, it)
-                    onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
-                }
-            }
-        }, this)
+                }, this)
     }
 
     private fun getUserBoards() {
@@ -264,10 +267,10 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         shimmer_user_zones.startShimmerAnimation()
     }
 
-    private fun onRecyclerViewContentsLoaded(recyclerView: RecyclerView, shimmerRelativeLayout: ShimmerRelativeLayout) {
-        recyclerView.visibility = View.VISIBLE
-        shimmerRelativeLayout.stopShimmerAnimation()
-        shimmerRelativeLayout.visibility = View.INVISIBLE
+    private fun onRecyclerViewContentsLoaded(recyclerView: RecyclerView, shimmerRelativeLayout: ShimmerRelativeLayout, isLoading: Boolean = false) {
+        recyclerView.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
+        if (isLoading) shimmerRelativeLayout.startShimmerAnimation() else shimmerRelativeLayout.stopShimmerAnimation()
+        shimmerRelativeLayout.visibility = if (isLoading) View.VISIBLE else View.INVISIBLE
     }
 
     private fun onRecyclerViewContentsFailedToLoad(recyclerView: RecyclerView, shimmerRelativeLayout: ShimmerRelativeLayout) {
