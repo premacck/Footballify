@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.ahamed.multiviewadapter.BaseViewHolder
 import com.ahamed.multiviewadapter.ItemBinder
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.football_feed_row.view.*
+import kotlinx.android.synthetic.main.next_match_row.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.NextMatch
 import life.plank.juna.zone.data.network.interfaces.RestApi
@@ -20,10 +20,12 @@ class NextMatchBinder(private val activity: Activity, private val restApi: RestA
 
     override fun create(inflater: LayoutInflater, parent: ViewGroup): NextMatchViewHolder {
 
-        return NextMatchViewHolder(inflater.inflate(R.layout.football_feed_row, parent, false))
+        return NextMatchViewHolder(inflater.inflate(R.layout.next_match_row, parent, false))
     }
 
     override fun bind(holder: NextMatchViewHolder, item: NextMatch) {
+        holder.itemView.match_status.background = null
+        holder.itemView.match_between.background = null
         holder.itemView.match_status.text = DateUtil.getTimeToNextMatch(item.matchStartTime)
         holder.itemView.match_between.text = item.displayName
 
