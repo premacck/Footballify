@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/league_logo"
             android:layout_marginStart="9dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="6dp"
             android:layout_toEndOf="@+id/center_separator"
