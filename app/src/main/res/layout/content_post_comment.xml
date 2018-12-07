@@ -29,6 +29,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
+                    android:background="@color/transparent"
                     android:fontFamily="@font/raleway_bold"
                     android:imeOptions="actionDone"
                     android:inputType="text"
