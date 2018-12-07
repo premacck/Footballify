@@ -1,10 +1,7 @@
 package life.plank.juna.zone.view.fragment.post
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v7.widget.CardView
+import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +9,11 @@ import kotlinx.android.synthetic.main.fragment_post_detail_container.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.facilis.BaseCard
-import life.plank.juna.zone.util.facilis.floatUp
-import java.lang.ref.WeakReference
+import life.plank.juna.zone.util.facilis.BaseCardContainerFragment
+import life.plank.juna.zone.view.fragment.base.BaseFragment
 import java.util.*
 
-class PostDetailContainerFragment : BaseCard() {
+class PostDetailContainerFragment : BaseCardContainerFragment() {
 
     private lateinit var feedList: List<FeedEntry>
     private lateinit var boardId: String
@@ -46,35 +42,15 @@ class PostDetailContainerFragment : BaseCard() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_post_detail_container, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        populateViewPager()
-        root_card.floatUp()
-    }
-
     override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
-
-    override fun getRootView(): CardView? = root_card
 
     override fun getDragView(): View? = drag_area
 
-    private fun populateViewPager() {
-        post_detail_view_pager.adapter = PostDetailPagerAdapter(childFragmentManager, this)
-        post_detail_view_pager.currentItem = position
-    }
+    override fun initialPosition(): Int = position
 
-    class PostDetailPagerAdapter(fm: FragmentManager, postDetailContainerFragment: PostDetailContainerFragment) : FragmentStatePagerAdapter(fm) {
+    override fun baseCardCount(): Int = feedList.size
 
-        private val ref: WeakReference<PostDetailContainerFragment> = WeakReference(postDetailContainerFragment)
+    override fun viewPager(): ViewPager = post_detail_view_pager
 
-        override fun getItem(position: Int): Fragment? {
-            return try {
-                ref.get()?.run { PostDetailFragment.newInstance(feedList[position], boardId) }
-            } catch (e: Exception) {
-                null
-            }
-        }
-
-        override fun getCount(): Int = ref.get()?.feedList?.size!!
-    }
+    override fun baseCardToInflate(position: Int): BaseFragment = PostDetailFragment.newInstance(feedList[position], boardId)
 }

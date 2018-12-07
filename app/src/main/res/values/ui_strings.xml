@@ -240,4 +240,8 @@
     <string name="lineups_now_available_for_this_match">Lineups are now available for this match!</string>
     <string name="penalty">Penalty</string>
     <string name="missed_penalty">Missed penalty</string>
+    <string name="juna_app">Juna App</string>
+    <string name="enter_button_will_create_a_new_line">Enter button will create a new line</string>
+    <string name="enter_button_will_send_the_comment">Enter button will send the comment</string>
+    <string name="comments">Comments</string>
 </resources>

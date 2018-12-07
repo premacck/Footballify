@@ -20,7 +20,6 @@
             android:id="@+id/board_tiles_full_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:clipToPadding="false"
             android:paddingStart="14dp"
             android:paddingEnd="14dp"

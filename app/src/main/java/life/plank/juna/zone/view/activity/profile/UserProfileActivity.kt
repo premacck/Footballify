@@ -30,6 +30,7 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.sdk27.coroutines.onCheckedChange
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.io.File
 import java.net.HttpURLConnection
@@ -60,9 +61,18 @@ class UserProfileActivity : BaseCardActivity() {
         settings_toolbar.title = getString(R.string.settings)
         initRecyclerView()
         getUserBoards()
+
+        initViews()
         setOnClickListeners()
 
         handleBoardIntentIfAny()
+    }
+
+    private fun initViews() {
+        comment_enter_btn_switch.run {
+            isChecked = PreferenceManager.App.isEnterToSend()
+            text = if (isChecked) textOn else textOff
+        }
     }
 
     override fun onResume() {
@@ -84,6 +94,10 @@ class UserProfileActivity : BaseCardActivity() {
         }
         toolbar_profile_pic.onDebouncingClick {
             pushFragment(ProfileCardFragment.newInstance(), true)
+        }
+        comment_enter_btn_switch.onCheckedChange { _, isChecked ->
+            PreferenceManager.App.saveEnterToSend(isChecked)
+            comment_enter_btn_switch.text = if (isChecked) comment_enter_btn_switch.textOn else comment_enter_btn_switch.textOff
         }
     }
 
