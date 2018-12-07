@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_onboarding.view.*
 import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.util.common.DataUtil.getSpecifiedLeague
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
@@ -25,8 +26,8 @@ class LeagueSelectionAdapter(private val activity: Activity,
         val league = leagueList[position]
         holder.itemView.title.text = league.name
         holder.itemView.image.setImageResource(league.leagueLogo)
-//        TODO:Fix background color issue
-//        holder.itemView.card.setCardBackgroundColor(league.dominantColor!!)
+
+        holder.itemView.card.setCardBackgroundColor(ZoneApplication.getContext().resources.getColor(league.dominantColor!!))
         holder.itemView.card.onDebouncingClick {
             (activity as? BaseCardActivity)?.pushFragment(LeagueInfoFragment.newInstance(getSpecifiedLeague(league.name)), true)
         }

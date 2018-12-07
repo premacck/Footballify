@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.item_time_to_next_match.view.*
+import kotlinx.android.synthetic.main.next_match_row.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.DataUtil.findString
@@ -26,7 +26,7 @@ class NextMatchLayout @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     init {
-        View.inflate(context, R.layout.item_time_to_next_match, this)
+        View.inflate(context, R.layout.next_match_row, this)
     }
 
     fun showNextMatchOnly(restApi: RestApi) {

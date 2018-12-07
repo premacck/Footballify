@@ -33,7 +33,7 @@ public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAd
     @NonNull
     @Override
     public FootballFeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.football_feed_row, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.next_match_row, parent, false);
         return new FootballFeedViewHolder(view);
     }
 

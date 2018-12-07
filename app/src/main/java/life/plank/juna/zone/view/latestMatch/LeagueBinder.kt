@@ -9,6 +9,7 @@ import com.ahamed.multiviewadapter.ItemViewHolder
 import kotlinx.android.synthetic.main.item_league.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.interfaces.OnItemClickListener
+import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.getSpecifiedLeague
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
@@ -24,11 +25,13 @@ class LeagueBinder(private val onItemClickListener: OnItemClickListener, private
         }
 
         holder.itemView.epl_card.onDebouncingClick {
-            (activity as? BaseCardActivity)?.pushFragment(LeagueInfoFragment.newInstance(getSpecifiedLeague("Premier League")), true)
+            (activity as? BaseCardActivity)?.pushFragment(LeagueInfoFragment.newInstance(
+                    getSpecifiedLeague(findString(R.string.premier_league))), true)
         }
 
         holder.itemView.efl_card.onDebouncingClick {
-            (activity as? BaseCardActivity)?.pushFragment(LeagueInfoFragment.newInstance(getSpecifiedLeague("Champions League")), true)
+            (activity as? BaseCardActivity)?.pushFragment(LeagueInfoFragment.newInstance(
+                    getSpecifiedLeague(findString(R.string.champions_league))), true)
         }
     }
 
