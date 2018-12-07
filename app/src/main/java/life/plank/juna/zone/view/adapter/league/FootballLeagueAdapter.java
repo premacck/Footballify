@@ -33,7 +33,7 @@ public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAd
     @NonNull
     @Override
     public FootballFeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.football_feed_row, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.next_match_row, parent, false);
         return new FootballFeedViewHolder(view);
     }
 
@@ -42,7 +42,7 @@ public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAd
         League league = leagueList.get(position);
         holder.feedTitleTextView.setText(league.getName());
 //        TODO: Replace with original time to next match
-        holder.kickoffTime.setText(findString(R.string.match_status, "2hrs 13 mins"));
+        holder.matchStatus.setText(findString(R.string.match_status, "2hrs 13 mins"));
 
         holder.feedImageView.setImageResource(league.getLeagueLogo());
 
@@ -69,8 +69,8 @@ public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAd
     static class FootballFeedViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_title_text_view)
         TextView feedTitleTextView;
-        @BindView(R.id.kickoff_time)
-        TextView kickoffTime;
+        @BindView(R.id.match_status)
+        TextView matchStatus;
         @BindView(R.id.feed_image_view)
         ImageView feedImageView;
 

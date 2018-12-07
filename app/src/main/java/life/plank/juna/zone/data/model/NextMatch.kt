@@ -6,9 +6,10 @@ import java.util.*
 
 @Parcelize
 data class NextMatch(
-        var homeTeamLogo: String,
-        var awayTeamLogo: String,
-        var matchStartTime: Date,
-        var leagueName: String,
-        var displayName: String
+        var homeTeamLogo: String = "",
+        var awayTeamLogo: String = "",
+        var matchStartTime: Date = Date(),
+        var leagueName: String = "",
+        var displayName: String = "",
+        var matchId: Long = 0
 ) : Parcelable

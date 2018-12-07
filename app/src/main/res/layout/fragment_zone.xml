@@ -52,7 +52,7 @@
             android:paddingBottom="50dp"
             app:layoutManager="android.support.v7.widget.GridLayoutManager"
             app:spanCount="1"
-            tools:listitem="@layout/football_feed_row" />
+            tools:listitem="@layout/next_match_row" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -65,6 +65,6 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/search_people_bottom_sheet" />
+    <include layout="@layout/follow_league_bottom_sheet" />
 
 </android.support.design.widget.CoordinatorLayout>
