@@ -112,7 +112,7 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
                             adapter.addLowerMatch(subList(3, size))
                         }
                     }
-                    adapter.addLeague(LeagueModel("Flower sdgvd gdfdhfc"))
+//                    adapter.addLeague(LeagueModel("League"))
                     football_feed_recycler_view.scrollToPosition(0)
                 }
                 HttpURLConnection.HTTP_NOT_FOUND -> {
