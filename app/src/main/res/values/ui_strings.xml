@@ -244,4 +244,10 @@
     <string name="enter_button_will_create_a_new_line">Enter button will create a new line</string>
     <string name="enter_button_will_send_the_comment">Enter button will send the comment</string>
     <string name="comments">Comments</string>
+    <string name="share_link_title">Do you wanna share the link that you’ve copied?</string>
+    <string name="link">https://www.premierleague.com/news/675769</string>
+    <string name="link_title">Can Saints call on spirit of 1999?</string>
+    <string name="link_summary">A look at the teams fighting relegation as Mark Hughes and Saints look to repeat strong finish of 1998/99 to avoid drop.</string>
+    <string name="no">NO</string>
+    <string name="yes">YES</string>
 </resources>
