@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter
 
+import android.app.Activity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -7,10 +8,14 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_onboarding.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.League
+import life.plank.juna.zone.util.common.DataUtil.getSpecifiedLeague
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment
 
-class LeagueSelectionAdapter(
-        private val leagueList: MutableList<League>
+class LeagueSelectionAdapter(private val activity: Activity,
+                             private val leagueList: MutableList<League>
 ) : RecyclerView.Adapter<LeagueSelectionAdapter.LeagueViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeagueViewHolder =
@@ -22,6 +27,9 @@ class LeagueSelectionAdapter(
         holder.itemView.image.setImageResource(league.leagueLogo)
 //        TODO:Fix background color issue
 //        holder.itemView.card.setCardBackgroundColor(league.dominantColor!!)
+        holder.itemView.card.onDebouncingClick {
+            (activity as? BaseCardActivity)?.pushFragment(LeagueInfoFragment.newInstance(getSpecifiedLeague(league.name)), true)
+        }
     }
 
     override fun getItemCount(): Int = leagueList.size
