@@ -16,6 +16,8 @@ class BoomMenu @JvmOverloads constructor(
         defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
+    private val hideRunnable = Runnable { visibility = View.INVISIBLE }
+
     init {
         View.inflate(context, R.layout.boom_menu, this)
 
@@ -38,7 +40,14 @@ class BoomMenu @JvmOverloads constructor(
 
     fun menuOut() = arc_menu.menuOut()
 
-    fun show() = arc_menu.show()
+    fun show() {
+        arc_menu.show()
+        visibility = View.VISIBLE
+    }
 
-    fun hide() = arc_menu.hide()
+    fun hide() {
+        arc_menu.hide()
+        removeCallbacks(hideRunnable)
+        postDelayed(hideRunnable, 500)
+    }
 }
