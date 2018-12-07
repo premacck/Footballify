@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.fragment_zone.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.League
-import life.plank.juna.zone.data.model.NextMatch
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.OnItemClickListener
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
@@ -31,7 +30,6 @@ import life.plank.juna.zone.util.view.setupBoomMenu
 import life.plank.juna.zone.util.view.setupWith
 import life.plank.juna.zone.view.adapter.LeagueSelectionAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
-import life.plank.juna.zone.view.latestMatch.LeagueModel
 import life.plank.juna.zone.view.latestMatch.MultiListAdapter
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -44,7 +42,7 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
     lateinit var picasso: Picasso
     @Inject
     lateinit var restApi: RestApi
-    lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
     lateinit var adapter: MultiListAdapter
     private var leagueSelectionAdapter: LeagueSelectionAdapter? = null
     private var leagueList = ArrayList<League>()
@@ -88,31 +86,17 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
     }
 
     private fun initRecyclerView() {
-
-        adapter = MultiListAdapter(activity, restApi, this)
+        adapter = MultiListAdapter(activity!!, restApi, this)
         football_feed_recycler_view.layoutManager = LinearLayoutManager(getApplicationContext())
         football_feed_recycler_view.adapter = adapter
 
-        progress_bar!!.visibility = View.GONE
-
-        adapter.addLeague(LeagueModel("League"))
+        progress_bar?.visibility = View.GONE
     }
 
     private fun initBottomSheetRecyclerView() {
         onboarding_recycler_view.layoutManager = GridLayoutManager(context, 3)
         leagueSelectionAdapter = LeagueSelectionAdapter(activity!!, leagueList)
         onboarding_recycler_view.adapter = leagueSelectionAdapter
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        boomMenu().menuIn()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        boomMenu().menuOut()
     }
 
     private fun getUpcomingMatches() {
@@ -120,23 +104,7 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
             Log.e(TAG, "getUpcomingMatches() : onError: ", it)
         }, {
             when (it.code()) {
-                HttpURLConnection.HTTP_OK -> {
-                    val matchList = it.body()
-                    if (matchList != null) {
-                        val topThreeMatch = ArrayList<NextMatch>()
-                        for (i in 0..2) {
-                            topThreeMatch.add(matchList[i])
-                        }
-                        adapter.addTopMatch(topThreeMatch)
-
-                        val lowerMatch = ArrayList<NextMatch>()
-                        for (i in 3 until matchList.size) {
-                            lowerMatch.add(matchList[i])
-                        }
-                        adapter.addLowerMatch(lowerMatch)
-                        adapter.notifyDataSetChanged()
-                    }
-                }
+                HttpURLConnection.HTTP_OK -> it.body()?.run { adapter.setMatches(this) }
                 HttpURLConnection.HTTP_NOT_FOUND -> {
                 }
                 else -> Log.e(TAG, it.message())
