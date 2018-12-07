@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/search_view"
                 android:clipToPadding="false"
-                android:paddingTop="3dp"
+                android:paddingTop="13dp"
                 android:paddingBottom="16dp"
                 app:layoutManager="android.support.v7.widget.GridLayoutManager"
                 app:spanCount="3"

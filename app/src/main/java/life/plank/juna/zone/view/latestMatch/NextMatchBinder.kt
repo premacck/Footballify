@@ -4,21 +4,17 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ahamed.multiviewadapter.BaseViewHolder
 import com.ahamed.multiviewadapter.ItemBinder
+import com.ahamed.multiviewadapter.ItemViewHolder
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.football_feed_row.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.NextMatch
 import life.plank.juna.zone.util.time.DateUtil
 
-class NextMatchBinder internal constructor(private val activity: Activity) :
-        ItemBinder<NextMatch, NextMatchBinder.NextMatchViewHolder>() {
+class NextMatchBinder internal constructor(private val activity: Activity) : ItemBinder<NextMatch, NextMatchBinder.NextMatchViewHolder>() {
 
-    override fun create(inflater: LayoutInflater, parent: ViewGroup): NextMatchViewHolder {
-
-        return NextMatchViewHolder(inflater.inflate(R.layout.football_feed_row, parent, false))
-    }
+    override fun create(inflater: LayoutInflater, parent: ViewGroup): NextMatchViewHolder = NextMatchViewHolder(inflater.inflate(R.layout.football_feed_row, parent, false))
 
     override fun bind(holder: NextMatchViewHolder, item: NextMatch) {
         holder.itemView.match_status.text = DateUtil.getTimeToNextMatch(item.matchStartTime)
@@ -32,9 +28,7 @@ class NextMatchBinder internal constructor(private val activity: Activity) :
         }
     }
 
-    override fun canBindData(item: Any): Boolean {
-        return item is NextMatch
-    }
+    override fun canBindData(item: Any): Boolean = item is NextMatch
 
-    inner class NextMatchViewHolder(itemView: View) : BaseViewHolder<NextMatch>(itemView)
+    class NextMatchViewHolder(itemView: View) : ItemViewHolder<NextMatch>(itemView)
 }

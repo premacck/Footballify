@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.fragment_zone.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.League
-import life.plank.juna.zone.data.model.NextMatch
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.OnItemClickListener
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
@@ -88,21 +87,17 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
     }
 
     private fun initRecyclerView() {
-
         adapter = MultiListAdapter(activity, this)
         football_feed_recycler_view.layoutManager = LinearLayoutManager(getApplicationContext())
         football_feed_recycler_view.adapter = adapter
 
-        progress_bar!!.visibility = View.GONE
-
-        adapter.addLeague(LeagueModel("Flower sdgvd gdfdhfc"))
+        progress_bar?.visibility = View.GONE
     }
 
     private fun initBottomSheetRecyclerView() {
         onboarding_recycler_view.layoutManager = GridLayoutManager(context, 3)
         leagueSelectionAdapter = LeagueSelectionAdapter(activity!!, leagueList)
         onboarding_recycler_view.adapter = leagueSelectionAdapter
-
     }
 
     private fun getUpcomingMatches() {
@@ -111,21 +106,14 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
-                    val matchList = it.body()
-                    if (matchList != null) {
-                        val topThreeMatch = ArrayList<NextMatch>()
-                        for (i in 0..2) {
-                            topThreeMatch.add(matchList[i])
+                    it.body()?.run {
+                        adapter.addTopMatch(subList(0, if (size <= 3) size else 3))
+                        if (size > 3) {
+                            adapter.addLowerMatch(subList(3, size))
                         }
-                        adapter.addTopMatch(topThreeMatch)
-
-                        val lowerMatch = ArrayList<NextMatch>()
-                        for (i in 3 until matchList.size) {
-                            lowerMatch.add(matchList[i])
-                        }
-                        adapter.addLowerMatch(lowerMatch)
-                        adapter.notifyDataSetChanged()
                     }
+                    adapter.addLeague(LeagueModel("Flower sdgvd gdfdhfc"))
+                    football_feed_recycler_view.scrollToPosition(0)
                 }
                 HttpURLConnection.HTTP_NOT_FOUND -> {
                 }
