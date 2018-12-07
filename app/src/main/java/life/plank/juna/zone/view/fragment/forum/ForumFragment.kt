@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.fragment.forum
 
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
+import android.text.InputType.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.notification.getCommentIdFromIntent
 import life.plank.juna.zone.notification.getParentCommentIdFromIntent
+import life.plank.juna.zone.util.common.AppConstants.NEW_LINE
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.errorToast
@@ -29,6 +31,7 @@ import life.plank.juna.zone.view.adapter.post.PostCommentAdapter
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
+
 
 class ForumFragment : BaseCommentContainerFragment() {
 
@@ -61,10 +64,26 @@ class ForumFragment : BaseCommentContainerFragment() {
         adapter = PostCommentAdapter(Glide.with(this), this, getString(R.string.forum))
         post_comments_list.adapter = adapter
 
+        prepareViews()
+
+        setListeners()
+    }
+
+    private fun prepareViews() {
         Glide.with(this)
                 .load(PreferenceManager.CurrentUser.getProfilePicUrl())
                 .into(commenter_image)
 
+        if (PreferenceManager.App.isEnterToSend()) {
+            comment_edit_text.inputType = TYPE_CLASS_TEXT or TYPE_TEXT_FLAG_CAP_SENTENCES
+            comment_edit_text.imeOptions = EditorInfo.IME_ACTION_SEND
+        } else {
+            comment_edit_text.inputType = TYPE_CLASS_TEXT or TYPE_TEXT_FLAG_MULTI_LINE or TYPE_TEXT_FLAG_CAP_SENTENCES
+            comment_edit_text.imeOptions = EditorInfo.IME_ACTION_NONE
+        }
+    }
+
+    private fun setListeners() {
         post_comment.onDebouncingClick {
             if (!comment_edit_text.text.toString().trim().isEmpty() && !isNullOrEmpty(boardId)
                     && !comment_edit_text.text.toString().matches("@[a-zA-Z0-9]+\\s*".toRegex())) {
@@ -83,6 +102,10 @@ class ForumFragment : BaseCommentContainerFragment() {
                         post_comment.clearFocus()
                         postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForBoardComment(boardId!!))
                     }
+                    true
+                }
+                EditorInfo.IME_ACTION_NONE -> {
+                    comment_edit_text.append(NEW_LINE)
                     true
                 }
                 else -> false
