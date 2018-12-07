@@ -80,7 +80,8 @@ fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: 
                             .get()
             uiThread {
                 if (isBigImage) {
-                    notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigLargeIcon(bitmap))
+                    notificationBuilder.setLargeIcon(bitmap)
+                    notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null))
                 } else {
                     notificationBuilder.setLargeIcon(bitmap)
                 }
