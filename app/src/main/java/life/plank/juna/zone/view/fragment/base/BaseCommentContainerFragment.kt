@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.fragment.base
 
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -67,6 +68,8 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
         return commentEvent
     }
 
+    abstract fun commentsRecyclerView(): RecyclerView
+
     abstract fun specifyCommentEvent()
 
     abstract fun getTheRestApi(): RestApi
@@ -100,6 +103,8 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
             this.parentComment = parentComment
             this.parentCommentPosition = parentCommentPosition
             this.replyPosition = replyPosition + 1
+
+            commentsRecyclerView().postDelayed({ commentsRecyclerView().smoothScrollToPosition(parentCommentPosition) }, 500)
         } else {
             selectedReplyTextView = null
             itemView.background = null

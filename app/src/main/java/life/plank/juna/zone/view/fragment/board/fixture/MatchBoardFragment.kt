@@ -136,8 +136,12 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
         board_toolbar.setupWithViewPager(board_view_pager, getPositionFromIntentIfAny(boardPagerAdapter))
     }
 
-    override fun onInAppNotificationReceived(feedEntry: FeedEntry) {
+    override fun onNewFeedEntry(feedEntry: FeedEntry) {
         (boardPagerAdapter?.currentFragment as? BoardTilesFragment)?.updateNewPost(feedEntry)
+    }
+
+    override fun updateForumComments() {
+        (boardPagerAdapter?.currentFragment as? ForumFragment)?.getComments(false)
     }
 
     override fun gson(): Gson = gson

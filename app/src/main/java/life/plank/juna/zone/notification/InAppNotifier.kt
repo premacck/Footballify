@@ -10,6 +10,7 @@ import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.facilis.findFragment
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseMatchFragment
+import life.plank.juna.zone.view.fragment.base.CardTileFragment
 
 /**
  * Method to send in-app social interaction notification
@@ -30,8 +31,19 @@ fun ZoneLiveData.sendInAppNotification() {
 }
 
 fun BaseCardActivity.handleInAppNotification(junaNotification: JunaNotification) {
-//    TODO: defer to active fragments if they are in the foreground, else:
-    showInAppNotification(InAppNotification(junaNotification))
+    when (junaNotification.action) {
+        findString(intent_invite) -> showInAppNotification(InAppNotification(junaNotification))
+        else -> {
+            (supportFragmentManager.findFragment<CardTileFragment>() as? CardTileFragment)?.run {
+                if (isInForeGround) {
+                    onSocialNotificationReceive(junaNotification)
+                } else {
+                    showInAppNotification(InAppNotification(junaNotification))
+                }
+            } ?: showInAppNotification(InAppNotification(junaNotification))
+        }
+    }
+
 }
 
 fun BaseCardActivity.handleInAppNotification(zoneLiveData: ZoneLiveData) {
@@ -41,6 +53,7 @@ fun BaseCardActivity.handleInAppNotification(zoneLiveData: ZoneLiveData) {
         } else {
             zoneLiveData.sendCustomizedNotification { showInAppNotification(InAppNotification(zoneLiveData)) }
         }
+    } ?: zoneLiveData.sendCustomizedNotification {
+        showInAppNotification(InAppNotification(zoneLiveData))
     }
-            ?: zoneLiveData.sendCustomizedNotification { showInAppNotification(InAppNotification(zoneLiveData)) }
 }

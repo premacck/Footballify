@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.fragment.forum
 
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,8 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication.getApplication
 import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.notification.getCommentIdFromIntent
+import life.plank.juna.zone.notification.getParentCommentIdFromIntent
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.errorToast
@@ -34,6 +37,8 @@ class ForumFragment : BaseCommentContainerFragment() {
 
     private var boardId: String? = null
     private var adapter: PostCommentAdapter? = null
+    private var commentId: String? = null
+    private var parentCommentId: String? = null
 
     companion object {
         private val TAG = ForumFragment::class.java.simpleName
@@ -44,6 +49,8 @@ class ForumFragment : BaseCommentContainerFragment() {
         super.onCreate(savedInstanceState)
         getApplication().uiComponent.inject(this)
         arguments?.run { boardId = getString(getString(R.string.intent_board_id)) }
+        commentId = activity?.getCommentIdFromIntent()
+        parentCommentId = activity?.getParentCommentIdFromIntent()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_forum, container, false)
@@ -88,7 +95,7 @@ class ForumFragment : BaseCommentContainerFragment() {
         getComments(false)
     }
 
-    private fun getComments(isRefreshing: Boolean) {
+    fun getComments(isRefreshing: Boolean) {
         no_comment_text_view.visibility = View.GONE
         restApi.getCommentsForBoard(boardId, getToken())
                 .onTerminate { if (isRefreshing) forum_swipe_refresh_layout.isRefreshing = false }
@@ -97,7 +104,25 @@ class ForumFragment : BaseCommentContainerFragment() {
                     errorToast(R.string.failed_to_get_feed_comments, it)
                 }, {
                     when (it.code()) {
-                        HTTP_OK -> adapter?.setComments(it.body())
+                        HTTP_OK -> {
+                            val commentList = it.body()
+                            commentId?.run {
+                                if (isNullOrEmpty(parentCommentId)) {
+//                                    Scroll to comment
+                                    var positionToScroll = commentList?.indexOf(commentList.find { comment -> comment.id == commentId })
+                                            ?: 0
+                                    if (positionToScroll == -1) positionToScroll = 0
+                                    post_comments_list.scrollToPosition(positionToScroll)
+                                } else {
+//                                    Scroll to reply
+                                    var parentCommentIndex = commentList?.indexOf(commentList.find { comment -> comment.id == parentCommentId })
+                                            ?: 0
+                                    if (parentCommentIndex == -1) parentCommentIndex = 0
+                                    post_comments_list.scrollToPosition(parentCommentIndex)
+                                }
+                            }
+                            adapter?.setComments(commentList)
+                        }
                         HTTP_NOT_FOUND, HTTP_NO_CONTENT -> {
                             no_comment_text_view.setText(R.string.be_the_first_to_comment_on_this_forum)
                             no_comment_text_view.visibility = View.VISIBLE
@@ -118,6 +143,8 @@ class ForumFragment : BaseCommentContainerFragment() {
             commentEvent = getCommentEventForBoardComment(this)
         }
     }
+
+    override fun commentsRecyclerView(): RecyclerView = post_comments_list
 
     override fun getTheRestApi(): RestApi = restApi
 
