@@ -8,12 +8,13 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import java.lang.ref.WeakReference
 
 abstract class BaseCardContainerFragment : BaseCard() {
 
-    lateinit var pagerAdapter: BaseCardContainerPagerAdapter
+    private lateinit var pagerAdapter: BaseCardContainerPagerAdapter
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -21,7 +22,7 @@ abstract class BaseCardContainerFragment : BaseCard() {
         pagerAdapter = BaseCardContainerPagerAdapter(childFragmentManager, this)
         viewPager().adapter = pagerAdapter
         viewPager().currentItem = initialPosition()
-        viewPager().floatUp()
+        (activity as? BaseCardActivity)?.run { if (index > 0) viewPager().floatUp() }
     }
 
     open fun initialPosition(): Int = 0

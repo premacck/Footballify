@@ -44,7 +44,7 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
     lateinit var picasso: Picasso
     @Inject
     lateinit var restApi: RestApi
-    lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
     lateinit var adapter: MultiListAdapter
     private var leagueSelectionAdapter: LeagueSelectionAdapter? = null
     private var leagueList = ArrayList<League>()
@@ -103,16 +103,6 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
         leagueSelectionAdapter = LeagueSelectionAdapter(activity!!, leagueList)
         onboarding_recycler_view.adapter = leagueSelectionAdapter
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        boomMenu().menuIn()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        boomMenu().menuOut()
     }
 
     private fun getUpcomingMatches() {

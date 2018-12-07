@@ -1,18 +1,16 @@
 package life.plank.juna.zone.view.fragment.zone
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v7.widget.CardView
+import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_zone_container.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.util.facilis.BaseCard
+import life.plank.juna.zone.util.facilis.BaseCardContainerFragment
+import life.plank.juna.zone.view.fragment.base.BaseFragment
 
-class ZoneContainerFragment : BaseCard() {
+class ZoneContainerFragment : BaseCardContainerFragment() {
 
     companion object {
         fun newInstance() = ZoneContainerFragment()
@@ -21,25 +19,13 @@ class ZoneContainerFragment : BaseCard() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_zone_container, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        zone_view_pager.adapter = ZonePagerAdapter(childFragmentManager)
-    }
-
-    class ZonePagerAdapter(fm: FragmentManager, private val zoneCount: Int = 1) : FragmentStatePagerAdapter(fm) {
-
-        override fun getItem(index: Int): Fragment? {
-            return ZoneFragment.newInstance()
-        }
-
-        override fun getCount(): Int {
-            return zoneCount
-        }
-    }
-
     override fun getBackgroundBlurLayout(): ViewGroup? = null
 
-    override fun getRootView(): CardView? = root_card
-
     override fun getDragView(): View? = drag_area
+
+    override fun baseCardCount(): Int = 1
+
+    override fun viewPager(): ViewPager = zone_view_pager
+
+    override fun baseCardToInflate(position: Int): BaseFragment = ZoneFragment.newInstance()
 }
