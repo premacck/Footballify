@@ -10,9 +10,12 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.football_feed_row.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.NextMatch
+import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.common.launchMatchBoard
 import life.plank.juna.zone.util.time.DateUtil
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
 
-class NextMatchBinder internal constructor(private val activity: Activity) : ItemBinder<NextMatch, NextMatchBinder.NextMatchViewHolder>() {
+class NextMatchBinder(private val activity: Activity, private val restApi: RestApi) : ItemBinder<NextMatch, NextMatchBinder.NextMatchViewHolder>() {
 
     override fun create(inflater: LayoutInflater, parent: ViewGroup): NextMatchViewHolder = NextMatchViewHolder(inflater.inflate(R.layout.football_feed_row, parent, false))
 
@@ -24,7 +27,7 @@ class NextMatchBinder internal constructor(private val activity: Activity) : Ite
         Glide.with(activity).load(item.awayTeamLogo).into(holder.itemView.visiting_team_logo)
 
         holder.itemView.setOnClickListener {
-          //TODO: Navigate to appropriate match board
+            (activity as BaseCardActivity).launchMatchBoard(restApi, item.matchId)
         }
     }
 
