@@ -169,4 +169,19 @@ public class PreferenceManager {
             return getUserPrefs().getString(findString(R.string.pref_location), null);
         }
     }
+
+    public static class App {
+
+        static SharedPreferences getAppPrefs() {
+            return getSharedPrefs(findString(R.string.pref_app_preferences));
+        }
+
+        public static void saveEnterToSend(boolean isEnterToSend) {
+            getAppPrefs().edit().putBoolean(findString(R.string.pref_enter_to_send), isEnterToSend).apply();
+        }
+
+        public static boolean isEnterToSend() {
+            return getAppPrefs().getBoolean(findString(R.string.pref_enter_to_send), true);
+        }
+    }
 }
