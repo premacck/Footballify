@@ -17,6 +17,7 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.BaseInAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.asciiToInt
@@ -43,7 +44,10 @@ fun JunaNotification.prepareDrawerNotification() {
         findString(intent_invite) ->
             sendNotification(pendingIntent, false)
         findString(intent_post) ->
-            sendNotification(pendingIntent, true)
+            when (feedItemType) {
+                IMAGE, VIDEO -> sendNotification(pendingIntent, true)
+                AUDIO, ROOT_COMMENT -> sendNotification(pendingIntent, false)
+            }
     }
 }
 
