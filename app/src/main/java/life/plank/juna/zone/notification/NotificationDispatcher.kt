@@ -27,7 +27,7 @@ fun dispatch(dataPayload: Map<String, String>) {
 fun dispatchSocialNotification(dataPayload: Map<String, String>) {
     ZoneApplication.getContext().doAsync {
         val junaNotification = Gson().fromJson<JunaNotification>(JSONObject(dataPayload).toString(), JunaNotification::class.java)
-        if (junaNotification.userHandle != PreferenceManager.CurrentUser.getHandle()) {
+        if (!junaNotification.userHandles.contains(PreferenceManager.CurrentUser.getHandle())) {
             uiThread {
                 if (it.isForeground()) {
                     junaNotification.sendInAppNotification()

@@ -50,31 +50,10 @@ class InAppNotificationLayout @JvmOverloads constructor(
         show(dismissDelay)
     }
 
-    //    TODO: Remove after JunaNotification model is changed
-    private fun InAppNotification.validateImageUrl() {
-//        Check if notification image URL is null or empty, assign imageUrl, or feedItemThumbnailUrl, or boardIconUrl
-//        (whichever is not null gets assigned) in that precedence order
-        if (!isNullOrEmpty(imageUrl)) {
-            return
-        }
-        junaNotification?.run {
-            if (!isNullOrEmpty(imageUrl)) {
-                this@validateImageUrl.imageUrl = imageUrl
-            }
-            if (!isNullOrEmpty(feedItemThumbnailUrl)) {
-                this@validateImageUrl.imageUrl = feedItemThumbnailUrl
-            }
-            if (!isNullOrEmpty(boardIconUrl)) {
-                this@validateImageUrl.imageUrl = boardIconUrl
-            }
-        }
-    }
-
     private fun InAppNotification.updateImageViews() {
         when {
             junaNotification != null -> {
                 image_layout.visibility = View.INVISIBLE
-                validateImageUrl()
 
                 if (isNullOrEmpty(imageUrl)) {
                     notification_image.visibility = View.GONE

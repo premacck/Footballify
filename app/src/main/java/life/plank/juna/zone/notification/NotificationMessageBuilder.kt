@@ -25,7 +25,8 @@ fun BaseInAppNotification.getNotificationMessage(): SpannableStringBuilder {
  * Method to get suitable text for the social interaction notification message
  */
 fun JunaNotification.buildNotificationMessage(): SpannableStringBuilder {
-    val spannableStringBuilder = SpannableStringBuilder(userHandle.bold()).append(SINGLE_SPACE)
+    val leadingString = (if (!isNullOrEmpty(userHandles)) userHandles[0] else findString(someone)).bold()
+    val spannableStringBuilder = SpannableStringBuilder(leadingString).append(SINGLE_SPACE)
     when (action) {
         findString(intent_invite) ->
             spannableStringBuilder.append(findString(invited_you_to_board_x))
