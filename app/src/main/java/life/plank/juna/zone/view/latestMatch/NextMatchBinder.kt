@@ -27,7 +27,7 @@ class NextMatchBinder(private val activity: Activity, private val restApi: RestA
         Glide.with(activity).load(item.awayTeamLogo).into(holder.itemView.visiting_team_logo)
 
         holder.itemView.setOnClickListener {
-            (activity as BaseCardActivity).launchMatchBoard(restApi, item.matchId)
+            (activity as? BaseCardActivity)?.launchMatchBoard(restApi, item.matchId)
         }
     }
 

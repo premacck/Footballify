@@ -19,10 +19,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.*
-import com.ahamed.multiviewadapter.DataItemManager
-import com.ahamed.multiviewadapter.ItemBinder
-import com.ahamed.multiviewadapter.ItemViewHolder
-import com.ahamed.multiviewadapter.RecyclerAdapter
+import com.ahamed.multiviewadapter.*
 import io.alterac.blurkit.BlurLayout
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
@@ -293,6 +290,10 @@ fun <BM> RecyclerAdapter.addDataManagerAndRegisterBinder(dataManager: DataItemMa
     registerBinder(binderToRegister)
 }
 
+fun <BM> RecyclerAdapter.addDataManagerAndRegisterBinder(dataManager: DataListManager<BM>, binderToRegister: ItemBinder<BM, out ItemViewHolder<BM>>) {
+    addDataManager(dataManager)
+    registerBinder(binderToRegister)
+}
 
 fun View.dragHandle(): ImageView? = findViewById(R.id.drag_handle_image)
 

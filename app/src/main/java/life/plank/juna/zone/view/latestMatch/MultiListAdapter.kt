@@ -9,35 +9,30 @@ import com.ahamed.multiviewadapter.RecyclerAdapter
 import life.plank.juna.zone.data.model.NextMatch
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.OnItemClickListener
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.facilis.addDataManagerAndRegisterBinder
 
 class MultiListAdapter(activity: Activity, restApi: RestApi, onItemClickListener: OnItemClickListener) : RecyclerAdapter() {
 
-    private val topMatchDataManager: DataListManager<NextMatch>
-    private val lowerMatchDataManager: DataListManager<NextMatch>
-    private val leagueDataManager: DataItemManager<LeagueModel>
+    private val topMatchDataManager: DataListManager<NextMatch> = DataListManager(this)
+    private val lowerMatchDataManager: DataListManager<NextMatch> = DataListManager(this)
+    private val leagueDataManager: DataItemManager<LeagueModel> = DataItemManager(this)
 
     init {
-        topMatchDataManager = DataListManager(this)
-        lowerMatchDataManager = DataListManager(this)
-        leagueDataManager = DataItemManager(this)
-
-        addDataManager(topMatchDataManager)
-        addDataManager(leagueDataManager)
+        addDataManagerAndRegisterBinder(topMatchDataManager, NextMatchBinder(activity, restApi))
+        addDataManagerAndRegisterBinder(leagueDataManager, LeagueBinder(onItemClickListener, activity))
         addDataManager(lowerMatchDataManager)
-
-        registerBinder(NextMatchBinder(activity, restApi))
-        registerBinder(LeagueBinder(onItemClickListener, activity))
     }
 
-    fun addTopMatch(dataList: List<NextMatch>) {
-        topMatchDataManager.set(dataList)
-    }
-
-    fun addLowerMatch(dataList: List<NextMatch>) {
-        lowerMatchDataManager.set(dataList)
-    }
-
-    fun addLeague(leagueModel: LeagueModel) {
-        leagueDataManager.setItem(leagueModel)
+    fun setMatches(nextMatches: List<NextMatch>) {
+        if (!isNullOrEmpty(nextMatches)) {
+            nextMatches.run {
+                topMatchDataManager.set(subList(0, if (size <= 3) size else 3))
+                if (size > 3) {
+                    lowerMatchDataManager.set(subList(3, size))
+                }
+            }
+        }
+        leagueDataManager.setItem(LeagueModel())
     }
 }

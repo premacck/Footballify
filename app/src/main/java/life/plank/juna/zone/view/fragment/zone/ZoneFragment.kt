@@ -30,7 +30,6 @@ import life.plank.juna.zone.util.view.setupBoomMenu
 import life.plank.juna.zone.util.view.setupWith
 import life.plank.juna.zone.view.adapter.LeagueSelectionAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
-import life.plank.juna.zone.view.latestMatch.LeagueModel
 import life.plank.juna.zone.view.latestMatch.MultiListAdapter
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -87,7 +86,7 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
     }
 
     private fun initRecyclerView() {
-        adapter = MultiListAdapter(activity, restApi, this)
+        adapter = MultiListAdapter(activity!!, restApi, this)
         football_feed_recycler_view.layoutManager = LinearLayoutManager(getApplicationContext())
         football_feed_recycler_view.adapter = adapter
 
@@ -105,16 +104,7 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
             Log.e(TAG, "getUpcomingMatches() : onError: ", it)
         }, {
             when (it.code()) {
-                HttpURLConnection.HTTP_OK -> {
-                    it.body()?.run {
-                        adapter.addTopMatch(subList(0, if (size <= 3) size else 3))
-                        if (size > 3) {
-                            adapter.addLowerMatch(subList(3, size))
-                        }
-                    }
-//                    adapter.addLeague(LeagueModel("League"))
-                    football_feed_recycler_view.scrollToPosition(0)
-                }
+                HttpURLConnection.HTTP_OK -> it.body()?.run { adapter.setMatches(this) }
                 HttpURLConnection.HTTP_NOT_FOUND -> {
                 }
                 else -> Log.e(TAG, it.message())
