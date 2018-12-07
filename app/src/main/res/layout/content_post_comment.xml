@@ -16,7 +16,7 @@
         <android.support.v7.widget.CardView
             android:id="@+id/root_card"
             style="@style/CardView.Root"
-            android:layout_height="450dp">
+            android:layout_height="match_parent">
 
             <RelativeLayout
                 android:id="@+id/card_relative_layout"
@@ -32,7 +32,7 @@
                     android:background="@color/transparent"
                     android:fontFamily="@font/raleway_bold"
                     android:imeOptions="actionDone"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:maxLength="140"
                     android:padding="20dp"
                     android:selectAllOnFocus="true"

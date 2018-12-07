@@ -67,7 +67,7 @@
             android:paddingEnd="5dp"
             android:textColor="@color/grey"
             android:textSize="12sp"
-            tools:ignore="Autofill" />
+            tools:ignore="Autofill,TextFields" />
 
         <TextView
             android:id="@+id/post_comment"

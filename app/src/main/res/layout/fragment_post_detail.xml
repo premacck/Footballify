@@ -2,203 +2,195 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    style="@style/MatchParentSize">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <android.support.v7.widget.CardView
+        style="@style/CardView.Root"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent">
 
-            <android.support.v4.widget.NestedScrollView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
-                <RelativeLayout
+                <life.plank.juna.zone.util.customview.ShimmerRelativeLayout
+                    android:id="@+id/feed_content"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:transitionName="board_tile_transition">
 
-                    <life.plank.juna.zone.util.customview.ShimmerRelativeLayout
-                        android:id="@+id/feed_content"
+                    <ImageView
+                        android:id="@+id/feed_image_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:animateLayoutChanges="true"
-                        android:transitionName="board_tile_transition">
+                        android:layout_centerInParent="true"
+                        android:contentDescription="@string/thumbnail"
+                        android:minHeight="320dp"
+                        android:scaleType="centerCrop" />
 
-                        <ImageView
-                            android:id="@+id/feed_image_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:contentDescription="@string/thumbnail"
-                            android:minHeight="320dp"
-                            android:scaleType="centerCrop" />
-
-                        <VideoView
-                            android:id="@+id/captured_video_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/feed_text_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:fontFamily="@font/raleway_bold"
-                            android:gravity="center"
-                            android:minHeight="320dp"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"
-                            android:visibility="visible" />
-
-                    </life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/interaction_component"
+                    <VideoView
+                        android:id="@+id/captured_video_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/feed_content">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/profile_pic"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:src="@drawable/ic_football"
-                            android:background="@drawable/circle_background_grey"
-                            app:civ_border_color="@color/grey_10"
-                            app:civ_border_width="1dp" />
-
-                        <TextView
-                            android:id="@+id/user_name_text_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignTop="@+id/profile_pic"
-                            android:layout_alignBottom="@+id/profile_pic"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_toEndOf="@+id/profile_pic"
-                            android:ellipsize="end"
-                            android:fontFamily="@font/rajdhani_semibold"
-                            android:gravity="center_vertical"
-                            android:lineSpacingExtra="5sp"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:text="Juna App"
-                            android:textColor="@color/grey"
-                            android:textSize="13sp" />
-
-                        <TextView
-                            android:id="@+id/feed_title_text_view"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_toEndOf="@+id/user_name_text_view"
-                            android:ellipsize="end"
-                            android:fontFamily="@font/rajdhani_semibold"
-                            android:gravity="center_vertical"
-                            android:lineSpacingExtra="3sp"
-                            android:maxLines="1"
-                            android:paddingEnd="10dp"
-                            android:textColor="@color/grey"
-                            android:textSize="16sp" />
-
-                        <ImageButton
-                            android:id="@+id/pin_image_view"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignTop="@+id/profile_pic"
-                            android:layout_alignBottom="@+id/profile_pic"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="5dp"
-                            android:background="@color/transparent"
-                            android:contentDescription="@string/pin_post"
-                            android:gravity="center_vertical"
-                            android:scaleType="center"
-                            android:src="@drawable/ic_pin_inactive" />
-
-                    </RelativeLayout>
+                        android:visibility="gone" />
 
                     <TextView
-                        android:id="@+id/description_text_view"
+                        android:id="@+id/feed_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/interaction_component"
-                        android:fontFamily="@font/rajdhani_medium"
-                        android:padding="10dp"
-                        android:textColor="@color/grey"
-                        android:textSize="12sp" />
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/raleway_bold"
+                        android:gravity="center"
+                        android:minHeight="320dp"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:visibility="visible" />
 
-                    <RelativeLayout
-                        android:id="@+id/interaction_detail_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/description_text_view"
-                        android:layout_marginBottom="5dp">
+                </life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
 
-                        <TextView
-                            android:id="@+id/creation_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="10dp"
-                            android:ellipsize="end"
-                            android:fontFamily="@font/rajdhani_medium"
-                            android:gravity="center_vertical"
-                            android:lineSpacingExtra="5sp"
-                            android:maxLines="1"
-                            android:singleLine="true"
-                            android:text="1 hr ago"
-                            android:textColor="@color/black_50"
-                            android:textSize="12sp" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_pic"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@id/feed_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/circle_background_grey"
+                    android:src="@drawable/ic_football"
+                    app:civ_border_color="@color/grey_10"
+                    app:civ_border_width="1dp" />
 
-                        <ImageButton
-                            android:id="@+id/reaction_view"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_centerVertical="true"
-                            android:layout_toStartOf="@+id/reaction_count"
-                            android:background="@color/transparent"
-                            android:gravity="center_vertical"
-                            android:padding="5dp"
-                            android:scaleType="center"
-                            android:src="@drawable/ic_emoji_holo" />
+                <TextView
+                    android:id="@+id/user_name_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/feed_content"
+                    android:layout_alignTop="@+id/profile_pic"
+                    android:layout_alignBottom="@+id/profile_pic"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toEndOf="@+id/profile_pic"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/rajdhani_semibold"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="5sp"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@string/juna_app"
+                    android:textColor="@color/grey"
+                    android:textSize="13sp" />
 
-                        <TextView
-                            android:id="@+id/reaction_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="5dp"
-                            android:fontFamily="@font/rajdhani_semibold"
-                            android:gravity="center_vertical"
-                            android:lineSpacingExtra="5sp"
-                            android:padding="5dp"
-                            android:text="902"
-                            android:textColor="@color/grey"
-                            android:textSize="14sp"
-                            tools:ignore="RelativeOverlap" />
+                <TextView
+                    android:id="@+id/feed_title_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/feed_content"
+                    android:layout_alignTop="@+id/profile_pic"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/pin_image_view"
+                    android:layout_toEndOf="@+id/user_name_text_view"
+                    android:ellipsize="marquee"
+                    android:fontFamily="@font/rajdhani_semibold"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="3sp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="10dp"
+                    android:singleLine="true"
+                    android:text="@string/lorem_ipsum"
+                    android:textColor="@color/grey"
+                    android:textSize="16sp" />
 
-                    </RelativeLayout>
+                <ImageButton
+                    android:id="@+id/pin_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@id/feed_content"
+                    android:layout_alignTop="@+id/profile_pic"
+                    android:layout_alignBottom="@+id/profile_pic"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/transparent"
+                    android:contentDescription="@string/pin_post"
+                    android:gravity="center_vertical"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_pin_inactive" />
 
-                </RelativeLayout>
+                <TextView
+                    android:id="@+id/description_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/profile_pic"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:padding="10dp"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp" />
 
-            </android.support.v4.widget.NestedScrollView>
+                <TextView
+                    android:id="@+id/creation_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/description_text_view"
+                    android:layout_alignTop="@+id/reaction_view"
+                    android:layout_alignBottom="@+id/reaction_view"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="5sp"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/black_50"
+                    android:textSize="12sp" />
 
-        </android.support.v4.widget.SwipeRefreshLayout>
-    </LinearLayout>
+                <ImageButton
+                    android:id="@+id/reaction_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/description_text_view"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/reaction_count"
+                    android:background="@color/transparent"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_emoji_holo" />
+
+                <TextView
+                    android:id="@+id/reaction_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/description_text_view"
+                    android:layout_alignTop="@+id/reaction_view"
+                    android:layout_alignBottom="@+id/reaction_view"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="5dp"
+                    android:fontFamily="@font/rajdhani_semibold"
+                    android:gravity="center_vertical"
+                    android:lineSpacingExtra="5sp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:textColor="@color/grey"
+                    android:textSize="14sp"
+                    tools:ignore="RelativeOverlap" />
+
+            </RelativeLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <ImageView
+            style="@style/DragHandleLightImageView"
+            android:contentDescription="@string/thumbnail" />
+
+    </android.support.v7.widget.CardView>
 
     <include layout="@layout/emoji_bottom_sheet" />
 
