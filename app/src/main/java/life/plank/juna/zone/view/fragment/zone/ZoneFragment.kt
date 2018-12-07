@@ -89,7 +89,7 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
 
     private fun initRecyclerView() {
 
-        adapter = MultiListAdapter(activity, this)
+        adapter = MultiListAdapter(activity, restApi, this)
         football_feed_recycler_view.layoutManager = LinearLayoutManager(getApplicationContext())
         football_feed_recycler_view.adapter = adapter
 
