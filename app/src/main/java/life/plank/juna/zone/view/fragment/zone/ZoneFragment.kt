@@ -95,7 +95,7 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
 
         progress_bar!!.visibility = View.GONE
 
-        adapter.addLeague(LeagueModel("Flower sdgvd gdfdhfc"))
+        adapter.addLeague(LeagueModel("League"))
     }
 
     private fun initBottomSheetRecyclerView() {
