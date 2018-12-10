@@ -23,6 +23,7 @@ import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.model.Zones;
+import life.plank.juna.zone.data.model.notification.PseudoNotification;
 import life.plank.juna.zone.data.model.poll.Poll;
 import life.plank.juna.zone.data.model.poll.PollAnswerRequest;
 import life.plank.juna.zone.data.model.poll.PollAnswerResponse;
@@ -299,4 +300,13 @@ public interface RestApi {
 
     @GET(ZONE_BACKEND_SUFFIX + "/upcomingMatches")
     Observable<Response<List<NextMatch>>> getUpcomingMatches(@Header("Authorization") String authHeader);
+
+    @GET(ZONE_BACKEND_SUFFIX + "/notifications/unread")
+    Observable<Response<List<PseudoNotification>>> getNotifications(@Header("Authorization") String authHeader);
+
+    @POST(ZONE_BACKEND_SUFFIX + "/notifications/{id}/setIsRead")
+    Observable<Response<List<PseudoNotification>>> setNotificationAsRead(@Path("id") String notificationId, @Header("Authorization") String authHeader);
+
+    @POST(ZONE_BACKEND_SUFFIX + "/notifications/{id}/setIsReadAfter")
+    Observable<Response<List<PseudoNotification>>> setAllNotificationsAsRead(@Path("id") String firstNotificationId, @Header("Authorization") String authHeader);
 }

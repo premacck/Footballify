@@ -11,29 +11,30 @@
         android:id="@+id/profile_pic"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:contentDescription="@string/profile_pic"
         android:src="@drawable/ic_default_profile" />
 
     <TextView
-        android:id="@+id/notification"
+        android:id="@+id/notification_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
-        android:layout_toRightOf="@id/profile_pic"
-        android:fontFamily="@font/rajdhani_semibold"
+        android:layout_marginEnd="30dp"
+        android:layout_toEndOf="@id/profile_pic"
+        android:fontFamily="@font/rajdhani_medium"
         android:textColor="@color/grey"
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/notification_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@id/notification"
-        android:layout_below="@id/notification"
+        android:layout_below="@id/notification_message"
+        android:layout_alignStart="@id/notification_message"
         android:fontFamily="@font/rajdhani_regular"
         android:text="@string/notification_time"
         android:textColor="@color/grey"
-        android:textSize="10sp" />
+        android:textSize="@dimen/text_10sp" />
 
 </RelativeLayout>

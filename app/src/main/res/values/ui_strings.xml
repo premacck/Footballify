@@ -251,4 +251,6 @@
     <string name="no">NO</string>
     <string name="yes">YES</string>
     <string name="someone">Someone</string>
+    <string name="all_caught_up">All caught up!</string>
+    <string name="failed_to_get_notifications">Failed to get notifications</string>
 </resources>
