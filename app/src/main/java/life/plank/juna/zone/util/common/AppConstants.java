@@ -86,6 +86,7 @@ public class AppConstants {
     public static final String LIVE_TIME = "00.00";
     public static final String HT = "HT";
     public static final String FT = "FT";
+    public static final String SOON = "Soon";
 
     //region Live Match key Strings
     public static final String LIVE_EVENT_TYPE = "liveEventType";

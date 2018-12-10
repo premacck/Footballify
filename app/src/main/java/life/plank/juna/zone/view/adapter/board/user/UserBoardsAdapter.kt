@@ -15,6 +15,7 @@ import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.AppConstants.LIVE
 import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.*
+import life.plank.juna.zone.util.common.AppConstants.SOON
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.launchPrivateOrMatchBoard
@@ -41,13 +42,14 @@ class UserBoardsAdapter(
 
     override fun onBindViewHolder(holder: UserBoardsViewHolder, position: Int) {
         try {
+            holder.itemView.image.isBorderOverlay = true
             holder.itemView.title.visibility = if (isTitleShown) View.VISIBLE else View.GONE
             val board = boardList[position]
             if (board.name == findString(R.string.new_)) {
                 holder.itemView.title.text = board.name
                 holder.itemView.image.setImageDrawable(ZoneApplication.getContext().getDrawable(R.drawable.new_board_circle))
                 holder.itemView.image.borderColor = findColor(R.color.white)
-                holder.itemView.image.onDebouncingClick { navigateToBoard(board, board.name!!) }
+                holder.itemView.onDebouncingClick { navigateToBoard(board, board.name!!) }
             } else {
                 when (board.boardType) {
                     findString(R.string.board_type_football_match) -> {
@@ -55,18 +57,13 @@ class UserBoardsAdapter(
                         holder.itemView.visiting_team_logo.visibility = View.VISIBLE
                         holder.itemView.title.text = board.name
 
-                        glide.load(R.drawable.circle_background_white)
-                                .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
-                                .into(holder.itemView.image)
-                        holder.itemView.image.borderColor = findColor(R.color.grey_10)
+                        glide.load(R.drawable.circle_background_white).into(holder.itemView.image)
 
-                        glide.load(board.boardEvent!!.homeTeamLogo)
+                        glide.load(board.boardEvent?.homeTeamLogo)
                                 .into(holder.itemView.home_team_logo)
-                        glide.load(board.boardEvent!!.awayTeamLogo)
+                        glide.load(board.boardEvent?.awayTeamLogo)
                                 .into(holder.itemView.visiting_team_logo)
-                        board.id
-                        board.name
-                        holder.itemView.image.onDebouncingClick {
+                        holder.itemView.onDebouncingClick {
                             if (!isNullOrEmpty(board.boardEvent?.leagueName)) {
                                 navigateToBoard(board, board.boardType)
                             }
@@ -78,16 +75,21 @@ class UserBoardsAdapter(
                                     background = findDrawable(R.drawable.bg_board_badge_red)
                                     text = LIVE
                                 }
+                                holder.itemView.image.borderColor = findColor(R.color.badge_red)
                             }
                             MATCH_SCHEDULED_TODAY -> {
                                 holder.itemView.badge.run {
                                     visibility = View.VISIBLE
                                     background = findDrawable(R.drawable.bg_board_badge_blue)
-                                    text = findString(R.string.today)
+                                    text = SOON
                                 }
+                                holder.itemView.image.borderColor = findColor(R.color.twilight_blue)
                             }
                             MATCH_PAST, MATCH_COMPLETED_TODAY, MATCH_SCHEDULED_LATER,
-                            MATCH_ABOUT_TO_START_BOARD_ACTIVE, MATCH_ABOUT_TO_START -> holder.itemView.badge.visibility = View.GONE
+                            MATCH_ABOUT_TO_START_BOARD_ACTIVE, MATCH_ABOUT_TO_START -> {
+                                holder.itemView.badge.visibility = View.GONE
+                                holder.itemView.image.borderColor = findColor(R.color.black_76_opaque)
+                            }
                         }
                     }
                     findString(R.string.private_) -> {
@@ -97,9 +99,9 @@ class UserBoardsAdapter(
                         holder.itemView.title.text = board.name
                         glide.load(board.boardIconUrl)
                                 .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
-                                .into(holder.itemView.image!!)
+                                .into(holder.itemView.image)
                         holder.itemView.image.borderColor = Color.parseColor(board.color)
-                        holder.itemView.image.onDebouncingClick { navigateToBoard(board, board.name!!) }
+                        holder.itemView.onDebouncingClick { navigateToBoard(board, board.name!!) }
                     }
                 }
             }
