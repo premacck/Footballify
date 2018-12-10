@@ -21,6 +21,7 @@ import static life.plank.juna.zone.util.common.AppConstants.FIRST_HALF_ENDED_;
 import static life.plank.juna.zone.util.common.AppConstants.FREE_KICK_;
 import static life.plank.juna.zone.util.common.AppConstants.GOAL_;
 import static life.plank.juna.zone.util.common.AppConstants.OFFSIDE_;
+import static life.plank.juna.zone.util.common.AppConstants.OWN_GOAL_LOWERCASE;
 import static life.plank.juna.zone.util.common.AppConstants.RED_CARD_;
 import static life.plank.juna.zone.util.common.AppConstants.SECOND_HALF_ENDED_;
 import static life.plank.juna.zone.util.common.AppConstants.SUBSTITUTION_;
@@ -97,7 +98,7 @@ public class CommentaryAdapter extends BaseRecyclerView.Adapter<CommentaryAdapte
         }
 
         private SpannableStringBuilder getFormattedCommentary(String rawCommentaryText) {
-            if (rawCommentaryText.contains(GOAL_)) {
+            if (rawCommentaryText.contains(GOAL_) || rawCommentaryText.contains(OWN_GOAL_LOWERCASE)) {
                 return getDesignedString(GOAL_,
                         rawCommentaryText,
                         R.color.purple_timeline,

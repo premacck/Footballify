@@ -48,7 +48,7 @@ abstract class BaseCard : BaseFragment() {
         getDragView()?.setOnTouchListener(null)
     }
 
-    fun pushFragment(baseFragment: BaseFragment, isAddToBackStack: Boolean = false) {
+    fun pushFragment(baseFragment: BaseFragment, isAddToBackStack: Boolean = true) {
         getParentActivity().pushFragment(baseFragment, isAddToBackStack)
     }
 

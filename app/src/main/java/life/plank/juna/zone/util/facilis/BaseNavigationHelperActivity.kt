@@ -16,7 +16,7 @@ abstract class BaseNavigationHelperActivity : BaseActivity() {
         supportFragmentManager.pushPopup(getFragmentContainer(), popupDialog, popupDialog.javaClass.simpleName + index)
     }
 
-    fun pushFragment(fragment: BaseFragment, isAddToBackStack: Boolean = false) {
+    fun pushFragment(fragment: BaseFragment, isAddToBackStack: Boolean = true) {
         if (index >= 0) {
             supportFragmentManager.moveCurrentCardToBackground()
         }

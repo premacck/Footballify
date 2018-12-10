@@ -45,7 +45,7 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
 
     private fun setupSwipeDownToCloseGesture() = getDragHandle()?.setSwipeDownListener(activity!!, getRootView()!!, getBlurLayout())
 
-    fun pushFragment(baseFragment: BaseFragment, isAddToBackStack: Boolean = false) {
+    fun pushFragment(baseFragment: BaseFragment, isAddToBackStack: Boolean = true) {
         getParentActivity()?.pushFragment(baseFragment, isAddToBackStack)
     }
 

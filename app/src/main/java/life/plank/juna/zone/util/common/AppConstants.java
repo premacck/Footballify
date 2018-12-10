@@ -72,7 +72,7 @@ public class AppConstants {
     public static final String FULL_TIME = "FULL-TIME";
     public static final String HALF_TIME_LOWERCASE = "Half-time";
     public static final String FULL_TIME_LOWERCASE = "Full-time";
-    public static final String OWN_GOAL_LOWERCASE = "Own goal";
+    public static final String OWN_GOAL_LOWERCASE = "Own Goal";
 
     //    TODO : this field is for demo purposes only. Remove this constant after getting real scrubber data from backend
     public static final String FOUL = "foul";
