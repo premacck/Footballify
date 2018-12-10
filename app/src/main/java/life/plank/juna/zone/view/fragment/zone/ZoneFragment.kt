@@ -23,6 +23,7 @@ import life.plank.juna.zone.interfaces.OnItemClickListener
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
 import life.plank.juna.zone.util.common.DataUtil
 import life.plank.juna.zone.util.common.customToast
+import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.network.NetworkStatus
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
@@ -104,18 +105,18 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
     private fun getUserPref() {
         restApi.getUser(getToken()).setObserverThreadsAndSmartSubscribe({ Log.e(TAG, "getUserDetails(): ", it) }, {
             val user = it.body()
-
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> it.body()?.run {
                     if (user != null) {
                         var zonePrefLeagues = user?.userPreferences!![0].zonePreferences?.leagues
-                        val leagueString = TextUtils.join(", ", zonePrefLeagues)
+                        val leagueString = TextUtils.join(",", zonePrefLeagues)
                         PreferenceManager.CurrentUser.saveLeaguePreferences(leagueString)
                     }
                 }
                 HttpURLConnection.HTTP_NOT_FOUND -> {
+                    errorToast(R.string.user_pref_not_found, it)
                 }
-                else -> Log.e(TAG, it.message())
+                else -> errorToast(R.string.user_pref_not_found, it)
             }
         })
     }
@@ -128,8 +129,10 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> it.body()?.run { adapter.setMatches(this) }
                 HttpURLConnection.HTTP_NOT_FOUND -> {
+                    errorToast(R.string.user_pref_not_found, it)
                 }
-                else -> Log.e(TAG, it.message())
+                else -> errorToast(R.string.next_match_not_found, it)
+
             }
         })
     }
