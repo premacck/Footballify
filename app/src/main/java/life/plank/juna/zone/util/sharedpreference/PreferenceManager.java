@@ -168,6 +168,16 @@ public class PreferenceManager {
         public static String getLocation() {
             return getUserPrefs().getString(findString(R.string.pref_location), null);
         }
+
+
+        public static String getLeaguePreferences() {
+            return getUserPrefs().getString(findString(R.string.pref_league), null);
+        }
+
+        public static void saveLeaguePreferences(String leagues) {
+            getUserPrefs().edit().putString(findString(R.string.pref_league), leagues).apply();
+        }
+
     }
 
     public static class App {
