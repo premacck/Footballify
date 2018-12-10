@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.shimmer_user_boards.*
@@ -30,6 +29,8 @@ import life.plank.juna.zone.util.customview.ShimmerRelativeLayout
 import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.sharedpreference.isSubscribed
+import life.plank.juna.zone.util.sharedpreference.subscribeTo
 import life.plank.juna.zone.util.view.boomMenu
 import life.plank.juna.zone.util.view.setupBoomMenu
 import life.plank.juna.zone.util.view.setupWith
@@ -76,7 +77,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         PreferenceManager.CurrentUser.getUserId()?.run {
             val topic = getString(R.string.juna_user_topic) + this
-            FirebaseMessaging.getInstance().subscribeToTopic(topic)
+            if (!isSubscribed(topic)) subscribeTo(topic)
         }
 
         startShimmers()

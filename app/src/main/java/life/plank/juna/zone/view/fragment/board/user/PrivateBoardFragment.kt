@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.fragment_private_board.*
 import kotlinx.android.synthetic.main.layout_board_engagement.*
 import life.plank.juna.zone.R
@@ -87,9 +86,6 @@ class PrivateBoardFragment : CardTileFragment() {
         root_card.setCardBackgroundColor(color)
 
         setupViewPagerWithFragments()
-
-        val topic = getString(R.string.board_id_prefix) + board.id
-        FirebaseMessaging.getInstance().subscribeToTopic(topic)
     }
 
     private fun setupViewPagerWithFragments() {

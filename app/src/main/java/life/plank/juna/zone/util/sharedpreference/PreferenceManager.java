@@ -27,7 +27,7 @@ import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
 
 public class PreferenceManager {
 
-    private static SharedPreferences getSharedPrefs(String sharedPrefs) {
+    static SharedPreferences getSharedPrefs(String sharedPrefs) {
         return getContext().getSharedPreferences(sharedPrefs, Context.MODE_PRIVATE);
     }
 
