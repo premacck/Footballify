@@ -19,7 +19,7 @@ class ZoneActivity : BaseCardActivity() {
         setContentView(R.layout.activity_zone)
         ZoneApplication.getApplication().uiComponent.inject(this)
 
-        pushFragment(ZoneContainerFragment.newInstance())
+        pushFragment(ZoneContainerFragment.newInstance(), false)
 
         handleBoardIntentIfAny()
     }

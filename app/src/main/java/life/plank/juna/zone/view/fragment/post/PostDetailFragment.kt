@@ -140,7 +140,7 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
                     .append("\n\n")
                     .append(feedEntry.feedItem.summary)
                     .append("\n\n")
-                    .append(feedEntry.feedItem.url?.toClickableWebLink(activity!!))
+                    .append(feedEntry.feedItem.url?.toClickableWebLink(activity))
             description_text_view.text = stringBuilder
         } else {
             if (feedEntry.feedItem.user != null) {

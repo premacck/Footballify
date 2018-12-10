@@ -12,7 +12,8 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import life.plank.juna.zone.R
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import life.plank.juna.zone.view.activity.web.WebCardActivity
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.fragment.web.WebCard
 import java.util.regex.Pattern
 
 fun String.toSpannableString(): SpannableString = SpannableString(this)
@@ -38,11 +39,13 @@ fun SpannableString.color(@ColorRes colorRes: Int, start: Int = 0, end: Int = le
     return this
 }
 
-fun String.toClickableWebLink(activity: Activity): SpannableString {
+fun String.toClickableWebLink(activity: Activity?): SpannableString {
     val spannableString = SpannableString(this)
     spannableString.setSpan(object : ClickableSpan() {
 
-        override fun onClick(widget: View) = WebCardActivity.launch(activity, this@toClickableWebLink)
+        override fun onClick(widget: View) {
+            (activity as? BaseCardActivity)?.pushFragment(WebCard.newInstance(this@toClickableWebLink), true)
+        }
 
         override fun updateDrawState(ds: TextPaint) {
             super.updateDrawState(ds)
