@@ -93,6 +93,7 @@ class UserNotificationActivity : AppCompatActivity() {
         shimmer_notification.visibility = View.VISIBLE
         shimmer_notification.startShimmerAnimation()
         notification_recycler_view.visibility = View.INVISIBLE
+        no_notification.visibility = View.GONE
     }
 
     private fun onContentLoaded(isSuccessful: Boolean, @StringRes message: Int = R.string.all_caught_up, response: Response<*>? = null) {

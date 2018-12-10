@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchParentSize"
+    android:animateLayoutChanges="true"
     android:background="@color/white">
 
     <life.plank.juna.zone.util.customview.ZoneToolBar
@@ -30,7 +31,8 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/clear_text">
+        android:layout_below="@+id/clear_text"
+        android:animateLayoutChanges="true">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/notification_recycler_view"

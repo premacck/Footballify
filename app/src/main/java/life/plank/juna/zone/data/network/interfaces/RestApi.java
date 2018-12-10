@@ -301,7 +301,7 @@ public interface RestApi {
     @GET(ZONE_BACKEND_SUFFIX + "/upcomingMatches")
     Observable<Response<List<NextMatch>>> getUpcomingMatches(@Header("Authorization") String authHeader);
 
-    @GET(ZONE_BACKEND_SUFFIX + "/notifications")
+    @GET(ZONE_BACKEND_SUFFIX + "/notifications/unread")
     Observable<Response<List<PseudoNotification>>> getNotifications(@Header("Authorization") String authHeader);
 
     @POST(ZONE_BACKEND_SUFFIX + "/notifications/{id}/setIsRead")
