@@ -31,10 +31,12 @@ import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_L
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_PAST;
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_SCHEDULED_LATER;
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_SCHEDULED_TODAY;
+import static life.plank.juna.zone.util.common.AppConstants.NINETY_FIVE_MINUTES_MILLIS;
 import static life.plank.juna.zone.util.common.AppConstants.ONE_DAY_MILLIS;
 import static life.plank.juna.zone.util.common.AppConstants.ONE_HOUR_MILLIS;
 import static life.plank.juna.zone.util.common.AppConstants.TWO_HOURS_MILLIS;
 import static life.plank.juna.zone.util.common.DataUtil.formatInt;
+import static life.plank.juna.zone.util.time.TimeDiffKt.getTimeInHourMinuteFormat;
 
 @SuppressLint("ConstantLocale")
 public class DateUtil {
@@ -50,13 +52,11 @@ public class DateUtil {
     private static final String SCHEDULED_MATCH_DATE_STRING = "EEE dd/MM\nK.mm aaa";
     private static final String COMMENT_TIME_DATE_STRING = "dd MMM yyyy, hh:mma";
     public static final SimpleDateFormat COMMENT_TIME_DATE_FORMAT = new SimpleDateFormat(COMMENT_TIME_DATE_STRING, Locale.getDefault());
-    private static final String TIME_TO_NEXT_MATCH_STRING = "hh - mm .";
     private static final SimpleDateFormat HEADER_DATE_FORMAT = new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat TIMELINE_HEADER_DATE_FORMAT = new SimpleDateFormat(TIMELINE_HEADER_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat FUTURE_DATE_FORMAT = new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault());
     private static final SimpleDateFormat MINUTE_SECOND_TIME_FORMAT = new SimpleDateFormat(MINUTE_SECOND_TIME_STRING, Locale.getDefault());
     private static final SimpleDateFormat SCHEDULED_MATCH_DATE_FORMAT = new SimpleDateFormat(SCHEDULED_MATCH_DATE_STRING, Locale.getDefault());
-    private static final SimpleDateFormat TIME_TO_NEXT_MATCH_FORMAT = new SimpleDateFormat(TIME_TO_NEXT_MATCH_STRING, Locale.getDefault());
 
     public static String getCommentDateAndTimeFormat(Date date) {
         return COMMENT_TIME_DATE_FORMAT.format(date);
@@ -263,15 +263,11 @@ public class DateUtil {
     public static SpannableString getTimeToNextMatch(Date matchStartTime) {
         SpannableString timeToNextMatch;
         long timeDiffFromNow = getAbsoluteTimeDiffFromNow(matchStartTime);
-        if (timeDiffFromNow > 0) {
-            timeToNextMatch = new SpannableString(ZoneApplication.getContext().getString(
-                    R.string.match_status,
-                    TIME_TO_NEXT_MATCH_FORMAT.format(new Date())
-                            .replace("-", "hrs")
-                            .replace(".", "mins")));
-        } else {
-            timeToNextMatch = StringUtilKt.bold(LIVE, 0, LIVE.length());
-        }
+        timeToNextMatch = timeDiffFromNow > 0 ?
+                new SpannableString(ZoneApplication.getContext().getString(R.string.match_status, getTimeInHourMinuteFormat(timeDiffFromNow))) :
+                timeDiffFromNow > -NINETY_FIVE_MINUTES_MILLIS ?
+                        StringUtilKt.bold(LIVE, 0, LIVE.length()) :
+                        null;
         return timeToNextMatch;
     }
 }

@@ -4,7 +4,7 @@ import android.util.Log
 import life.plank.juna.zone.util.time.DateUtil.getCommentDateAndTimeFormat
 import java.util.*
 
-private const val SECOND_MILLIS = 1000
+private const val SECOND_MILLIS = 1000L
 private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
 private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
 private const val DAY_MILLIS = 24 * HOUR_MILLIS
@@ -43,4 +43,11 @@ fun getTimeAgo(date: Date): String {
         Log.e("getTimeAgo()", e.message, e)
         return getCommentDateAndTimeFormat(date)
     }
+}
+
+fun getTimeInHourMinuteFormat(timeStamp: Long): String {
+    val floatHourDiff = timeStamp.toFloat() / HOUR_MILLIS
+    val intHourDiff = floatHourDiff.toInt()
+    val minuteDiff = ((floatHourDiff - intHourDiff) * 60).toInt()
+    return "$intHourDiff hrs $minuteDiff mins"
 }

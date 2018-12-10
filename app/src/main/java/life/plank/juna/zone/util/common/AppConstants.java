@@ -146,6 +146,7 @@ public class AppConstants {
     public static final int FOUR_HOURS_MILLIS = 14400000;
     public static final int TWO_HOURS_MILLIS = 7200000;
     public static final int ONE_HOUR_MILLIS = 3600000;
+    public static final int NINETY_FIVE_MINUTES_MILLIS = 5700000;
 
     public static final String BOARD_POPUP = "BoardPopUp";
     public static final String HOME_POPUP = "HomePopUp";
