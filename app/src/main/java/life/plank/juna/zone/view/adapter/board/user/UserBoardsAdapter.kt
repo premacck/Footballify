@@ -87,7 +87,7 @@ class UserBoardsAdapter(
                             MATCH_PAST, MATCH_COMPLETED_TODAY, MATCH_SCHEDULED_LATER,
                             MATCH_ABOUT_TO_START_BOARD_ACTIVE, MATCH_ABOUT_TO_START -> {
                                 holder.itemView.badge.visibility = View.GONE
-                                holder.itemView.image.borderColor = findColor(R.color.grey)
+                                holder.itemView.image.borderColor = findColor(R.color.black_76_opaque)
                             }
                         }
                     }
