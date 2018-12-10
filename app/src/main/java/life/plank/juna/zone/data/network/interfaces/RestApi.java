@@ -308,6 +308,6 @@ public interface RestApi {
     Observable<Response<List<PseudoNotification>>> setAllNotificationsAsRead(@Path("id") String firstNotificationId, @Header("Authorization") String authHeader);
 
     @GET(FOOTBALL_SUFFIX + "/matches/nextMatches")
-    Observable<Response<List<NextMatch>>> getNextMatches(@Query("leagues") String leagues, @Header("Authorization") String authHeader);
+    Observable<Response<List<NextMatch>>> getNextMatches(@Query("leagues") List<String> userSelectedLeagues, @Header("Authorization") String authHeader);
 
 }
