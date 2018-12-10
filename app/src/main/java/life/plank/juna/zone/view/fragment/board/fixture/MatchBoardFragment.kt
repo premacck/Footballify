@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.github.mikephil.charting.charts.LineChart
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_match_board.*
 import kotlinx.android.synthetic.main.layout_board_engagement.*
@@ -30,6 +29,8 @@ import life.plank.juna.zone.util.common.getPositionFromIntentIfAny
 import life.plank.juna.zone.util.customview.PublicBoardToolbar
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.sharedpreference.isSubscribed
+import life.plank.juna.zone.util.sharedpreference.subscribeTo
 import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.view.UIDisplayUtil.showBoardExpirationDialog
 import life.plank.juna.zone.view.fragment.base.BaseMatchFragment
@@ -84,6 +85,8 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
         super.onViewCreated(view, savedInstanceState)
         board_toolbar.setUpPopUp(activity, currentMatchId)
         updateUi()
+        val topic = getString(R.string.pref_football_match_sub) + currentMatchId
+        if (!isSubscribed(topic)) subscribeTo(topic)
     }
 
     override fun onResume() {
@@ -97,14 +100,13 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
     }
 
     private fun updateUi() {
-        FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
         try {
             board_toolbar.prepare(matchDetails, league.leagueLogo)
             if (!isNullOrEmpty(board.interactions)) {
                 board.interactions?.run {
                     people_count.text = followers.toString()
                     post_count.text = posts.toString()
-                    interaction_count.text = (followers!! + posts!! + emojiReacts!!).toString()
+                    interaction_count.text = (followers + posts + emojiReacts).toString()
                 }
             }
             if (!board.isActive) applyInactiveBoardColorFilter()
@@ -187,7 +189,6 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
     }
 
     override fun onDestroy() {
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
         boardPagerAdapter = null
         super.onDestroy()
     }
