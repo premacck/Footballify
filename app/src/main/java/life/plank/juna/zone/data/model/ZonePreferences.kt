@@ -5,5 +5,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ZonePreferences(
-        var teams: List<String>? = null
+        var teams: List<String>? = null,
+        var leagues: List<String>? = null
 ) : Parcelable

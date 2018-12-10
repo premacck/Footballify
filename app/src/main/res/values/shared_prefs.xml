@@ -27,4 +27,6 @@
     <string name="pref_app_preferences">app_preferences</string>
     <string name="pref_enter_to_send">enter_to_send</string>
     <string name="pref_subscription">pref_subscription</string>
+    <string name="pref_league">league_pref</string>
+
 </resources>

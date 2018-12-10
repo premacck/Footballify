@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import life.plank.juna.zone.util.common.DataUtil
 import life.plank.juna.zone.util.common.customToast
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.network.NetworkStatus
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.view.boomMenu
 import life.plank.juna.zone.util.view.setupBoomMenu
@@ -62,6 +64,7 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRecyclerView()
+        getUserPref()
         setUpData()
         setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, null)
         initBottomSheetRecyclerView()
@@ -74,7 +77,6 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
         bottomSheetBehavior.peekHeight = 0
 
         boomMenu().setupWith(football_feed_recycler_view)
-
     }
 
     private fun setUpData() {
@@ -99,8 +101,28 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
         onboarding_recycler_view.adapter = leagueSelectionAdapter
     }
 
+    private fun getUserPref() {
+        restApi.getUser(getToken()).setObserverThreadsAndSmartSubscribe({ Log.e(TAG, "getUserDetails(): ", it) }, {
+            val user = it.body()
+
+            when (it.code()) {
+                HttpURLConnection.HTTP_OK -> it.body()?.run {
+                    if (user != null) {
+                        var zonePrefLeagues = user?.userPreferences!![0].zonePreferences?.leagues
+                        val leagueString = TextUtils.join(", ", zonePrefLeagues)
+                        PreferenceManager.CurrentUser.saveLeaguePreferences(leagueString)
+                    }
+                }
+                HttpURLConnection.HTTP_NOT_FOUND -> {
+                }
+                else -> Log.e(TAG, it.message())
+            }
+        })
+    }
+
     private fun getUpcomingMatches() {
-        restApi.getUpcomingMatches(getToken()).setObserverThreadsAndSmartSubscribe({
+        var leagues = PreferenceManager.CurrentUser.getLeaguePreferences()
+        restApi.getNextMatches(leagues, getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "getUpcomingMatches() : onError: ", it)
         }, {
             when (it.code()) {

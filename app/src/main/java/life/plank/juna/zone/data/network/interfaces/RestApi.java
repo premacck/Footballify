@@ -298,9 +298,6 @@ public interface RestApi {
     @GET(ZONE_BACKEND_SUFFIX + "/feedEntries/{id}")
     Observable<Response<FeedEntry>> getFeedEntry(@Path("id") String feedItemId, @Header("Authorization") String authHeader);
 
-    @GET(ZONE_BACKEND_SUFFIX + "/upcomingMatches")
-    Observable<Response<List<NextMatch>>> getUpcomingMatches(@Header("Authorization") String authHeader);
-
     @GET(ZONE_BACKEND_SUFFIX + "/notifications/unread")
     Observable<Response<List<PseudoNotification>>> getNotifications(@Header("Authorization") String authHeader);
 
@@ -309,4 +306,8 @@ public interface RestApi {
 
     @POST(ZONE_BACKEND_SUFFIX + "/notifications/{id}/setIsReadAfter")
     Observable<Response<List<PseudoNotification>>> setAllNotificationsAsRead(@Path("id") String firstNotificationId, @Header("Authorization") String authHeader);
+
+    @GET(FOOTBALL_SUFFIX + "/matches/nextMatches")
+    Observable<Response<List<NextMatch>>> getNextMatches(@Query("leagues") String leagues, @Header("Authorization") String authHeader);
+
 }
