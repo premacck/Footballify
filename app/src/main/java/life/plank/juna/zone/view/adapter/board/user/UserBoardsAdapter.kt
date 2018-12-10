@@ -15,6 +15,7 @@ import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.AppConstants.LIVE
 import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.*
+import life.plank.juna.zone.util.common.AppConstants.SOON
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.launchPrivateOrMatchBoard
@@ -80,7 +81,7 @@ class UserBoardsAdapter(
                                 holder.itemView.badge.run {
                                     visibility = View.VISIBLE
                                     background = findDrawable(R.drawable.bg_board_badge_blue)
-                                    text = findString(R.string.today)
+                                    text = SOON
                                 }
                                 holder.itemView.image.borderColor = findColor(R.color.twilight_blue)
                             }
