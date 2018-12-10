@@ -6,10 +6,6 @@ import java.util.*
 
 @Parcelize
 data class NextMatch(
-
-        var homeTeam: FootballTeam,
-        var awayTeam: FootballTeam,
-        var league: League,
         var homeTeamLogo: String = "",
         var awayTeamLogo: String = "",
         var matchStartTime: Date = Date(),

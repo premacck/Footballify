@@ -5,10 +5,13 @@ import android.content.SharedPreferences;
 import android.support.annotation.StringRes;
 import android.util.Log;
 
+import com.google.gson.reflect.TypeToken;
+
 import net.openid.appauth.AuthState;
 
 import org.json.JSONException;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -16,8 +19,10 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.data.model.User;
+import life.plank.juna.zone.data.model.UserPreference;
 
 import static life.plank.juna.zone.ZoneApplication.getContext;
+import static life.plank.juna.zone.data.network.dagger.module.NetworkModule.GSON;
 import static life.plank.juna.zone.util.common.DataUtil.findString;
 import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
 
@@ -125,6 +130,7 @@ public class PreferenceManager {
                     .putString(findString(R.string.pref_profile_pic_url), user.getProfilePictureUrl())
                     .putString(findString(R.string.pref_country), user.getCountry())
                     .putString(findString(R.string.pref_city), user.getCity())
+                    .putString(findString(R.string.pref_user_preferences), GSON.toJson(user.getUserPreferences()))
                     .apply();
         }
 
@@ -169,15 +175,13 @@ public class PreferenceManager {
             return getUserPrefs().getString(findString(R.string.pref_location), null);
         }
 
-
-        public static String getLeaguePreferences() {
-            return getUserPrefs().getString(findString(R.string.pref_league), null);
+        public static List<UserPreference> getUserPreferences() {
+            String userPrefString = getUserPrefs().getString(findString(R.string.pref_user_preferences), null);
+            if (!isNullOrEmpty(userPrefString)) {
+                return GSON.fromJson(userPrefString, new TypeToken<List<UserPreference>>() {}.getType());
+            }
+            return null;
         }
-
-        public static void saveLeaguePreferences(String leagues) {
-            getUserPrefs().edit().putString(findString(R.string.pref_league), leagues).apply();
-        }
-
     }
 
     public static class App {
