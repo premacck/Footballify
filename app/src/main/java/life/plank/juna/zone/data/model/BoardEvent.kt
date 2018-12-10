@@ -2,6 +2,7 @@ package life.plank.juna.zone.data.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 @Parcelize
 data class BoardEvent(
@@ -9,5 +10,6 @@ data class BoardEvent(
         var foreignId: Long,
         var homeTeamLogo: String? = null,
         var awayTeamLogo: String? = null,
-        var leagueName: String? = null
+        var leagueName: String? = null,
+        var matchStartTime: Date
 ) : Parcelable
