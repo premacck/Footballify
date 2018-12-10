@@ -35,7 +35,7 @@ class HomeActivity : BaseCardActivity() {
         setContentView(R.layout.activity_home)
         ZoneApplication.getApplication().uiComponent.inject(this)
 
-        pushFragment(HomeFragment.newInstance())
+        pushFragment(HomeFragment.newInstance(), false)
 
         handleBoardIntentIfAny()
 

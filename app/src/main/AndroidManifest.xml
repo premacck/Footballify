@@ -133,9 +133,6 @@
             android:value="${crashlyticsApiKey}" />
 
         <activity
-            android:name=".view.activity.web.WebCardActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.UserNotificationActivity"
             android:screenOrientation="portrait" />
         <activity
