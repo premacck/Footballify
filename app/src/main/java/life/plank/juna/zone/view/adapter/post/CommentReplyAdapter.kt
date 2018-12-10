@@ -59,6 +59,8 @@ class CommentReplyAdapter(
             reply_text_view.onDebouncingClick {
                 commentContainerFragment.replyAction(reply_text_view, holder.itemView, reply.commenterHandle, parentComment, parentCommentPosition, position)
             }
+
+            like_text_view.onDebouncingClick {}
         }
     }
 
