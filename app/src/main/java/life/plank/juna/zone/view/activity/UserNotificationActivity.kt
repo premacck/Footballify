@@ -3,53 +3,35 @@ package life.plank.juna.zone.view.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.StringRes
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
+import android.view.View
+import kotlinx.android.synthetic.main.shimmer_notification.*
 import kotlinx.android.synthetic.main.user_notification.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.execute
+import life.plank.juna.zone.util.common.onTerminate
+import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.adapter.common.NotificationAdapter
-import java.util.*
+import retrofit2.Response
+import java.net.HttpURLConnection.HTTP_NOT_FOUND
+import java.net.HttpURLConnection.HTTP_OK
+import javax.inject.Inject
 
 
 class UserNotificationActivity : AppCompatActivity() {
 
-    private lateinit var notificationAdapter: NotificationAdapter
-    private val notificationArray = ArrayList<String>()
+    @Inject
+    lateinit var restApi: RestApi
 
-    //TODO: Remove after integrating with the backend
-    private fun populateNotificationArray() {
-        notificationArray.add("PikaPerfect has accepted your invite.")
-        notificationArray.add("AnnaBeautiful and 36 others has replied to your comment.")
-        notificationArray.add("CoolRahlf and 5 others has liked your post.")
-        notificationArray.add("PrettyPopo has replied to your comment")
-        notificationArray.add("Xuan Xii  Cheng and 12 others has liked your comment.")
-    }
-
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.user_notification)
-        (applicationContext as ZoneApplication).uiComponent.inject(this)
-
-        toolbar!!.title = getString(R.string.notification)
-        toolbar!!.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
-        populateNotificationArray()
-        initRecyclerView()
-
-        clear_text.onDebouncingClick {
-            notificationAdapter.clear()
-            //TODO: Send request to backend to mark all notification items as read
-        }
-    }
-
-    private fun initRecyclerView() {
-        notificationAdapter = NotificationAdapter(notificationArray)
-        notification_recycler_view.layoutManager = LinearLayoutManager(this)
-        notification_recycler_view.adapter = notificationAdapter
-    }
+    private lateinit var adapter: NotificationAdapter
 
     companion object {
         private val TAG = UserNotificationActivity::class.java.simpleName
@@ -57,5 +39,73 @@ class UserNotificationActivity : AppCompatActivity() {
         fun launch(packageContext: Context) {
             packageContext.startActivity(Intent(packageContext, UserNotificationActivity::class.java))
         }
+    }
+
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.user_notification)
+        ZoneApplication.getApplication().uiComponent.inject(this)
+
+        toolbar.title = getString(R.string.notification)
+        toolbar.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
+
+        initRecyclerView()
+        getNotifications(false)
+
+        clear_text.onDebouncingClick { clearAllNotifications() }
+
+        swipe_refresh_layout.setOnRefreshListener { getNotifications(true) }
+    }
+
+    private fun initRecyclerView() {
+        adapter = NotificationAdapter(restApi)
+        notification_recycler_view.adapter = adapter
+    }
+
+    private fun getNotifications(isRefreshing: Boolean) {
+        onContentLoading()
+        restApi.getNotifications(getToken())
+                .onTerminate { if (isRefreshing) swipe_refresh_layout.isRefreshing = false }
+                .setObserverThreadsAndSmartSubscribe({
+                    Log.e(TAG, it.message, it)
+                    onContentLoaded(false, R.string.failed_to_get_notifications)
+                }, {
+                    when (it.code()) {
+                        HTTP_OK -> it.body()?.run {
+                            onContentLoaded(true)
+                            adapter.update(this)
+                        }
+                        HTTP_NOT_FOUND -> onContentLoaded(false)
+                        else -> onContentLoaded(false, R.string.failed_to_get_notifications, it)
+                    }
+                }, this)
+    }
+
+    private fun clearAllNotifications() {
+        if (!isNullOrEmpty(adapter.notificationList)) {
+            onContentLoaded(false)
+            restApi.setAllNotificationsAsRead(adapter.notificationList[0].notificationId, getToken()).execute(this)
+            adapter.clear()
+        }
+    }
+
+    private fun onContentLoading() {
+        shimmer_notification.visibility = View.VISIBLE
+        shimmer_notification.startShimmerAnimation()
+        notification_recycler_view.visibility = View.INVISIBLE
+    }
+
+    private fun onContentLoaded(isSuccessful: Boolean, @StringRes message: Int = R.string.all_caught_up, response: Response<*>? = null) {
+        shimmer_notification.visibility = View.GONE
+        shimmer_notification.stopShimmerAnimation()
+        notification_recycler_view.visibility = if (isSuccessful) View.VISIBLE else View.INVISIBLE
+        no_notification.visibility = if (isSuccessful) View.INVISIBLE else View.VISIBLE
+        val noNotificationMessage: String =
+                if (response != null) {
+                    "${getString(message)} : ${response.code()}"
+                } else {
+                    getString(message)
+                }
+        if (!isSuccessful) no_notification.text = noNotificationMessage
     }
 }

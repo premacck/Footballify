@@ -270,6 +270,13 @@
         <item name="android:layout_margin">12.5dp</item>
     </style>
 
+    <style name="NotificationShimmer">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/shimmer_rectangle</item>
+        <item name="android:layout_margin">6dp</item>
+    </style>
+
     <item name="boom_menu" type="id" />
     <item name="drag_handle_image" type="id" />
 </resources>
