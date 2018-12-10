@@ -21,7 +21,7 @@ data class InAppNotification(
     constructor(junaNotification: JunaNotification) : this(
             junaNotification.buildNotificationMessage(),
             if (!isNullOrEmpty(junaNotification.commentMessage)) junaNotification.commentMessage!! else findString(R.string.now),
-            junaNotification.imageUrl,
+            junaNotification.boardIconUrl,
             junaNotification
     )
 

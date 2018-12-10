@@ -19,7 +19,6 @@ import life.plank.juna.zone.data.model.notification.BaseInAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.asciiToInt
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.CurrentUser.getUserId
 import org.jetbrains.anko.doAsync
@@ -76,18 +75,14 @@ fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: 
     val notificationBuilder = getNotificationBuilder(buildNotificationMessage(), pendingIntent)
     try {
         ZoneApplication.getContext().doAsync {
-            val bitmap =
-                    Glide.with(ZoneApplication.getContext())
-                            .asBitmap()
-                            .load(if (!isNullOrEmpty(imageUrl)) imageUrl else boardIconUrl)
-                            .submit()
-                            .get()
+            val boardIconBitmap = Glide.with(ZoneApplication.getContext()).asBitmap().load(boardIconUrl).submit().get()
             uiThread {
                 if (isBigImage) {
-                    notificationBuilder.setLargeIcon(bitmap)
-                    notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null))
+                    notificationBuilder.setLargeIcon(boardIconBitmap)
+                    val feedItemThumbnail = Glide.with(ZoneApplication.getContext()).asBitmap().load(feedItemThumbnailUrl).submit().get()
+                    notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(feedItemThumbnail).bigLargeIcon(null))
                 } else {
-                    notificationBuilder.setLargeIcon(bitmap)
+                    notificationBuilder.setLargeIcon(boardIconBitmap)
                 }
                 notificationManager.notify(getUserId()?.asciiToInt()
                         ?: 0, notificationBuilder.build())
