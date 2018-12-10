@@ -565,6 +565,10 @@ public class UIDisplayUtil {
         return ZoneApplication.getContext().getColor(color);
     }
 
+    public static Drawable findDrawable(@DrawableRes int drawable) {
+        return ZoneApplication.getContext().getResources().getDrawable(drawable, null);
+    }
+
     public static int getMasonryLayoutCellSpan(int position) {
         return position % 18 == 0 || position % 18 == 10 ? 2 : 1;
     }
