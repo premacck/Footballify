@@ -11,8 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.google.firebase.messaging.FirebaseMessaging;
-
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 
@@ -20,6 +18,10 @@ import static life.plank.juna.zone.util.common.AppConstants.BOARD_POPUP;
 import static life.plank.juna.zone.util.common.AppConstants.HOME_POPUP;
 import static life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_OWNER_POPUP;
 import static life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_USER_POPUP;
+import static life.plank.juna.zone.util.common.DataUtil.findString;
+import static life.plank.juna.zone.util.sharedpreference.SubscriptionPreferenceKt.isSubscribed;
+import static life.plank.juna.zone.util.sharedpreference.SubscriptionPreferenceKt.subscribeTo;
+import static life.plank.juna.zone.util.sharedpreference.SubscriptionPreferenceKt.unsubscribeFrom;
 
 public class CustomPopup {
 
@@ -35,20 +37,26 @@ public class CustomPopup {
         popupItemOne.setOnClickListener(view -> optionPopUp.dismiss());
 
         TextView popUpItemTwo = layout.findViewById(R.id.popup_item_two);
-        popUpItemTwo.setText(R.string.show_notification);
-        popUpItemTwo.setOnClickListener(view -> optionPopUp.dismiss());
+        boolean isSubscribed = isSubscribed(findString(R.string.pref_football_match_sub) + currentMatchId);
+        popUpItemTwo.setCompoundDrawablesWithIntrinsicBounds(
+                isSubscribed ?
+                        R.drawable.ic_mute_bell_grey :
+                        R.drawable.ic_notification_bell,
+                0, 0, 0
+        );
+        popUpItemTwo.setText(isSubscribed ? R.string.mute_notification : R.string.show_notification);
+        popUpItemTwo.setOnClickListener(view -> {
+            if (isSubscribed) {
+                unsubscribeFrom(findString(R.string.pref_football_match_sub) + currentMatchId);
+            } else subscribeTo(findString(R.string.pref_football_match_sub) + currentMatchId);
+            optionPopUp.dismiss();
+        });
 
         TextView popupItemThree = layout.findViewById(R.id.popup_item_three);
         TextView popupItemFour = layout.findViewById(R.id.popup_item_four);
 
         switch (popUpType) {
             case BOARD_POPUP:
-                popupItemThree.setText(R.string.unfollow_board_popup);
-                popupItemThree.setOnClickListener(view -> {
-                    optionPopUp.dismiss();
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(context.getResources().getString(R.string.pref_football_match_sub) + currentMatchId);
-                });
-
                 popupItemThree.setVisibility(View.GONE);
                 popupItemFour.setVisibility(View.GONE);
                 break;

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_timeline.*
@@ -137,10 +136,7 @@ class TimelinePopup : BaseBlurPopup() {
         doAsync {
             val matchEvents = getAllTimelineEvents(matchDetails.commentary!!, matchDetails.matchEvents!!)
             uiThread {
-                matchEvents?.run {
-                    adapter?.updateEvents(matchEvents)
-                    FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
-                }
+                matchEvents?.run { adapter?.updateEvents(matchEvents) }
             }
         }
     }

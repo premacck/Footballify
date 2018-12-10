@@ -348,7 +348,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     }
 
     @Override
-    public void setLeagueLogo(String logoUrl) {
+    public void setLeagueLogo(@NonNull String logoUrl) {
         Glide.with(this).load(logoUrl)
                 .apply(RequestOptions.centerInsideTransform()
                         .override((int) getDp(30), (int) getDp(30))

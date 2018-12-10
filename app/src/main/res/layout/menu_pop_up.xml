@@ -4,13 +4,13 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp"
+    app:cardElevation="10dp">
 
     <LinearLayout
         android:id="@+id/popup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -21,7 +21,7 @@
             android:layout_weight="1.0"
             android:drawableStart="@drawable/ic_fav_grey"
             android:fontFamily="@font/rajdhani_medium"
-            android:lineSpacingExtra="3sp"
+            android:drawablePadding="8dp"
             android:padding="3dp"
             android:text="@string/mark_fav"
             android:textColor="@color/grey" />
@@ -33,7 +33,7 @@
             android:layout_weight="1.0"
             android:drawableStart="@drawable/ic_mute_bell_grey"
             android:fontFamily="@font/rajdhani_medium"
-            android:lineSpacingExtra="3sp"
+            android:drawablePadding="11dp"
             android:padding="3dp"
             android:text="@string/mute_notification"
             android:textColor="@color/grey" />
@@ -45,7 +45,7 @@
             android:layout_weight="1.0"
             android:drawableStart="@drawable/ic_unfollow"
             android:fontFamily="@font/rajdhani_medium"
-            android:lineSpacingExtra="3sp"
+            android:drawablePadding="11dp"
             android:padding="3dp"
             android:text="@string/unfollow_zone"
             android:textColor="@color/grey" />
@@ -57,7 +57,7 @@
             android:layout_weight="1.0"
             android:drawableStart="@drawable/ic_report"
             android:fontFamily="@font/rajdhani_medium"
-            android:lineSpacingExtra="3sp"
+            android:drawablePadding="11dp"
             android:padding="3dp"
             android:text="@string/report_zone"
             android:textColor="@color/grey" />
