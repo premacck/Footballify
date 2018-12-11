@@ -100,6 +100,10 @@ public interface RestApi {
     @GET(ZONE_BACKEND_SUFFIX + "/users")
     Observable<Response<User>> getUser(@Header("Authorization") String authHeader);
 
+    @POST(ZONE_BACKEND_SUFFIX + "/users/editUserDetails")
+    Observable<Response<JsonObject>> updateUserDetails(@Header("Authorization") String authHeader,
+                                                       @Body User user);
+
     //working
     @Multipart
     @POST(ZONE_BACKEND_SUFFIX + "/activities/upload")

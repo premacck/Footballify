@@ -16,5 +16,5 @@ data class User(
         var city: String? = "",
         var profilePictureUrl: String? = null,
         var id: String = "",
-        var dob: @RawValue Date? = Date()
+        var dateOfBirth: String = ""
 ) : Parcelable

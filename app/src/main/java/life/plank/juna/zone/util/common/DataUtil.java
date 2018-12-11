@@ -10,6 +10,7 @@ import android.support.annotation.IntegerRes;
 import android.support.annotation.StringRes;
 import android.support.v4.graphics.ColorUtils;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,9 +25,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.ref.WeakReference;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
@@ -69,7 +74,7 @@ import static life.plank.juna.zone.util.time.DateUtil.getTimeDiffFromNow;
 
 public class DataUtil {
 
-    private static final String[] dummyEvents = new String[] {
+    private static final String[] dummyEvents = new String[]{
             GOAL,
             SUBSTITUTION,
             YELLOW_CARD,
@@ -321,7 +326,7 @@ public class DataUtil {
     }
 
     public static GradientDrawable getLeagueBackground(@ColorRes int leagueColor) {
-        return new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] {
+        return new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{
                 ColorUtils.compositeColors(ZoneApplication.getContext().getColor(R.color.color_league_gradient), ZoneApplication.getContext().getColor(leagueColor)),
                 ZoneApplication.getContext().getColor(leagueColor)
         });
@@ -427,7 +432,7 @@ public class DataUtil {
         dataSet.setColor(ZoneApplication.getContext().getColor(R.color.mainGradientEnd));
         dataSet.setLineWidth(1f);
         dataSet.setDrawFilled(true);
-        dataSet.setFillDrawable(new GradientDrawable(TOP_BOTTOM, new int[] {
+        dataSet.setFillDrawable(new GradientDrawable(TOP_BOTTOM, new int[]{
                 ZoneApplication.getContext().getColor(R.color.mainGradientTranslucentStart),
                 ZoneApplication.getContext().getColor(R.color.mainGradientTranslucentEnd)
         }));
@@ -556,6 +561,17 @@ public class DataUtil {
             }
         }
         return lineups;
+    }
+
+    public static Date convertDate(String dob, String dateFormat) {
+        Date date = null;
+        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
+        try {
+            date = format.parse(dob);
+        } catch (ParseException e) {
+            Log.e("convertDate", e.getMessage());
+        }
+        return date;
     }
 
     private static void integrateLineupsWithMatchEvents(List<FormationList> allFormationList, MatchEvent matchEvent) {

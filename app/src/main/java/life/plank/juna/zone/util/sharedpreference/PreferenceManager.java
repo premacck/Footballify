@@ -131,6 +131,7 @@ public class PreferenceManager {
                     .putString(findString(R.string.pref_country), user.getCountry())
                     .putString(findString(R.string.pref_city), user.getCity())
                     .putString(findString(R.string.pref_user_preferences), GSON.toJson(user.getUserPreferences()))
+                    .putString(findString(R.string.pref_dob), user.getDateOfBirth())
                     .apply();
         }
 
@@ -175,13 +176,27 @@ public class PreferenceManager {
             return getUserPrefs().getString(findString(R.string.pref_location), null);
         }
 
+        public static String getCountry() {
+            return getUserPrefs().getString(findString(R.string.pref_country), null);
+        }
+
+        public static String getCity() {
+            return getUserPrefs().getString(findString(R.string.pref_city), null);
+        }
+
         public static List<UserPreference> getUserPreferences() {
             String userPrefString = getUserPrefs().getString(findString(R.string.pref_user_preferences), null);
             if (!isNullOrEmpty(userPrefString)) {
-                return GSON.fromJson(userPrefString, new TypeToken<List<UserPreference>>() {}.getType());
+                return GSON.fromJson(userPrefString, new TypeToken<List<UserPreference>>() {
+                }.getType());
             }
             return null;
         }
+
+        public static String getDob() {
+            return getUserPrefs().getString(findString(R.string.pref_dob), null);
+        }
+
     }
 
     public static class App {
