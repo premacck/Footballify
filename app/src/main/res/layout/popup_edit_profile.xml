@@ -126,6 +126,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/grey"
                     android:fontFamily="@font/rajdhani_medium"
+                    android:enabled="false"
                     android:hint="@string/location"
                     android:lineSpacingExtra="16sp"
                     android:textColor="@color/grey"

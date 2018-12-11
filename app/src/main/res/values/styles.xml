@@ -277,6 +277,12 @@
         <item name="android:layout_margin">6dp</item>
     </style>
 
+    <style name="DatePickerDialogTheme" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
     <item name="boom_menu" type="id" />
     <item name="drag_handle_image" type="id" />
 </resources>

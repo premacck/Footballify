@@ -15,9 +15,11 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.util.common.AppConstants.SINGLE_SPACE
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.time.DateUtil.getIsoFormattedDate
 import life.plank.juna.zone.util.view.UIDisplayUtil
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
@@ -34,6 +36,7 @@ import org.jetbrains.anko.sdk27.coroutines.onCheckedChange
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.io.File
 import java.net.HttpURLConnection
+import java.text.DateFormatSymbols
 import javax.inject.Inject
 
 class UserProfileActivity : BaseCardActivity() {
@@ -142,6 +145,10 @@ class UserProfileActivity : BaseCardActivity() {
                 name_text_view.text = displayName
                 email_text_view.text = emailAddress
                 username_text_view.text = handle
+
+                val date = getIsoFormattedDate(dateOfBirth)
+                val dob = date.date.toString() + SINGLE_SPACE + DateFormatSymbols().shortMonths[date.month] + ", " + (date.year + 1900)
+                dob_text_view.text = dob
                 if (profilePictureUrl != null) {
                     Glide.with(this@UserProfileActivity).load(profilePictureUrl).into(profile_picture_image_view)
                     settings_toolbar.setProfilePic(profilePictureUrl!!)

@@ -86,6 +86,10 @@ public class DataUtil {
         return Objects.equals(s, "null");
     }
 
+    public static boolean isValidEmail(CharSequence target) {
+        return (target != null && !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
+
     public static String getSeparator(MatchDetails matchDetails, ImageView winPointer, boolean isBoard) {
         winPointer.setVisibility(View.INVISIBLE);
         int dateDiff = getDateDiffFromToday(matchDetails.getMatchStartTime());
@@ -284,10 +288,6 @@ public class DataUtil {
             }
         }
         return null;
-    }
-
-    public static boolean isValidEmail(CharSequence target) {
-        return (target != null && !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
     public static String getDisplayTimeStatus(String apiTimeStatus) {

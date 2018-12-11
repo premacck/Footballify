@@ -70,4 +70,5 @@
     <string name="team_pref_not_found">Failed to fetch team preferences</string>
 
     <string name="private_">private</string>
+    <string name="dateformat_yyyy_mm_dd">yyyy-MM-dd</string>
 </resources>
