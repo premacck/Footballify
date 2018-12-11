@@ -1,34 +1,20 @@
 package life.plank.juna.zone.util.common;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.os.AsyncTask;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.IntegerRes;
 import android.support.annotation.StringRes;
-import android.support.v4.graphics.ColorUtils;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
@@ -42,19 +28,15 @@ import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.data.model.MatchFixture;
-import life.plank.juna.zone.data.model.ScrubberData;
 import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.util.football.ScoreBuilder;
 
-import static android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM;
 import static life.plank.juna.zone.util.common.AppConstants.DASH;
-import static life.plank.juna.zone.util.common.AppConstants.FOUL;
 import static life.plank.juna.zone.util.common.AppConstants.FT;
 import static life.plank.juna.zone.util.common.AppConstants.FULL_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.common.AppConstants.GOAL;
 import static life.plank.juna.zone.util.common.AppConstants.HALF_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.common.AppConstants.HT;
-import static life.plank.juna.zone.util.common.AppConstants.LIVE;
 import static life.plank.juna.zone.util.common.AppConstants.NOT_STARTED;
 import static life.plank.juna.zone.util.common.AppConstants.NS;
 import static life.plank.juna.zone.util.common.AppConstants.RED_CARD;
@@ -63,26 +45,10 @@ import static life.plank.juna.zone.util.common.AppConstants.WIDE_DASH;
 import static life.plank.juna.zone.util.common.AppConstants.YELLOW_CARD;
 import static life.plank.juna.zone.util.common.AppConstants.YELLOW_RED;
 import static life.plank.juna.zone.util.time.DateUtil.getDateDiffFromToday;
-import static life.plank.juna.zone.util.time.DateUtil.getDateForScrubber;
 import static life.plank.juna.zone.util.time.DateUtil.getFutureMatchTime;
 import static life.plank.juna.zone.util.time.DateUtil.getTimeDiffFromNow;
 
 public class DataUtil {
-
-    private static final String[] dummyEvents = new String[] {
-            GOAL,
-            SUBSTITUTION,
-            YELLOW_CARD,
-            RED_CARD,
-            YELLOW_RED,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL
-    };
-    private static Random random = new Random();
 
     public static String findString(@StringRes int stringRes) {
         return ZoneApplication.getContext().getString(stringRes);
@@ -320,176 +286,8 @@ public class DataUtil {
         return null;
     }
 
-    public static GradientDrawable getLeagueBackground(@ColorRes int leagueColor) {
-        return new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] {
-                ColorUtils.compositeColors(ZoneApplication.getContext().getColor(R.color.color_league_gradient), ZoneApplication.getContext().getColor(leagueColor)),
-                ZoneApplication.getContext().getColor(leagueColor)
-        });
-    }
-
     public static boolean isValidEmail(CharSequence target) {
         return (target != null && !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
-    }
-
-    //region Dummy Data for Scrubber. TODO : remove this region after getting the data from backend.
-    private static List<ScrubberData> getDefinedDummyScrubberData() {
-        List<ScrubberData> scrubberDataList = new ArrayList<>();
-        scrubberDataList.add(new ScrubberData(0, 18, LIVE, false));
-        scrubberDataList.add(new ScrubberData(2, 22, FOUL, true));
-        scrubberDataList.add(new ScrubberData(4, 26, GOAL, true));
-        scrubberDataList.add(new ScrubberData(6, 28, SUBSTITUTION, false));
-        scrubberDataList.add(new ScrubberData(8, 30, FOUL, true));
-        scrubberDataList.add(new ScrubberData(12, 32, YELLOW_CARD, false));
-        scrubberDataList.add(new ScrubberData(15, 34, SUBSTITUTION, true));
-        scrubberDataList.add(new ScrubberData(18, 38, FOUL, true));
-        scrubberDataList.add(new ScrubberData(20, 44, YELLOW_CARD, true));
-        scrubberDataList.add(new ScrubberData(21, 48, GOAL, false));
-        scrubberDataList.add(new ScrubberData(22, 46, FOUL, true));
-        scrubberDataList.add(new ScrubberData(24, 42, FOUL, true));
-        scrubberDataList.add(new ScrubberData(28, 36, SUBSTITUTION, false));
-        scrubberDataList.add(new ScrubberData(32, 32, FOUL, true));
-        scrubberDataList.add(new ScrubberData(38, 34, RED_CARD, true));
-        scrubberDataList.add(new ScrubberData(42, 30, FOUL, true));
-        scrubberDataList.add(new ScrubberData(45, 34, HT, true));
-        scrubberDataList.add(new ScrubberData(46, 38, FOUL, true));
-        scrubberDataList.add(new ScrubberData(48, 44, GOAL, true));
-        scrubberDataList.add(new ScrubberData(52, 42, FOUL, true));
-        scrubberDataList.add(new ScrubberData(53, 36, SUBSTITUTION, true));
-        scrubberDataList.add(new ScrubberData(54, 34, SUBSTITUTION, false));
-        scrubberDataList.add(new ScrubberData(58, 38, FOUL, true));
-        scrubberDataList.add(new ScrubberData(62, 44, GOAL, true));
-        scrubberDataList.add(new ScrubberData(64, 40, FOUL, true));
-        scrubberDataList.add(new ScrubberData(66, 38, RED_CARD, false));
-        scrubberDataList.add(new ScrubberData(71, 36, FOUL, true));
-        scrubberDataList.add(new ScrubberData(77, 32, SUBSTITUTION, true));
-        scrubberDataList.add(new ScrubberData(82, 26, FOUL, true));
-        scrubberDataList.add(new ScrubberData(85, 34, GOAL, true));
-        scrubberDataList.add(new ScrubberData(89, 36, FOUL, true));
-        scrubberDataList.add(new ScrubberData(90, 40, YELLOW_RED, true));
-        scrubberDataList.add(new ScrubberData(92, 46, FOUL, true));
-        scrubberDataList.add(new ScrubberData(94, 48, FT, true));
-        return scrubberDataList;
-    }
-
-    static List<ScrubberData> getRandomDummyScrubberData() {
-        List<ScrubberData> scrubberDataList = new ArrayList<>();
-        for (int i = 0; i < 100; i += 2) {
-            switch (i) {
-                case 0:
-                    scrubberDataList.add(new ScrubberData(0, getRandomInteraction(), LIVE, false));
-                    break;
-                case 40:
-                    scrubberDataList.add(new ScrubberData(40, getRandomInteraction(), HT, true));
-                    break;
-                case 98:
-                    scrubberDataList.add(new ScrubberData(98, getRandomInteraction(), FT, true));
-                    break;
-                default:
-                    scrubberDataList.add(new ScrubberData(i, getRandomInteraction(), getRandomEvent(), getRandomBoolean()));
-                    break;
-            }
-        }
-        return scrubberDataList;
-    }
-
-    private static String getRandomEvent() {
-        return dummyEvents[random.nextInt(dummyEvents.length - 1)];
-    }
-
-    private static boolean getRandomBoolean() {
-        return random.nextBoolean();
-    }
-
-    private static int getRandomInteraction() {
-        return random.nextInt(50);
-    }
-    //endregion
-
-    /**
-     * Method for converting the {@link List<ScrubberData>} list to the {@link LineChart} compatible, customized {@link LineDataSet}.
-     *
-     * @param scrubberDataList the {@link List<ScrubberData>} list
-     * @return the {@link LineDataSet} object for use by the lineChart.
-     */
-    static LineDataSet getLineDataSet(List<ScrubberData> scrubberDataList) {
-        List<Entry> entries = new ArrayList<>();
-        for (ScrubberData scrubberData : scrubberDataList) {
-            entries.add(new Entry(
-                    scrubberData.getMillisecondsX(),
-                    scrubberData.getInteractionY(),
-                    getSuitableScrubberIcon(scrubberData.getEvent().getEventType(), scrubberData.getEvent().isHomeTeam())
-            ));
-        }
-        LineDataSet dataSet = new LineDataSet(entries, ZoneApplication.getContext().getString(R.string.scrubber));
-        dataSet.setDrawIcons(true);
-        dataSet.setDrawCircles(false);
-        dataSet.setDrawValues(false);
-        dataSet.setColor(ZoneApplication.getContext().getColor(R.color.mainGradientEnd));
-        dataSet.setLineWidth(1f);
-        dataSet.setDrawFilled(true);
-        dataSet.setFillDrawable(new GradientDrawable(TOP_BOTTOM, new int[] {
-                ZoneApplication.getContext().getColor(R.color.mainGradientTranslucentStart),
-                ZoneApplication.getContext().getColor(R.color.mainGradientTranslucentEnd)
-        }));
-        return dataSet;
-    }
-
-    /**
-     * Method for getting icons for scrubber events.<br/>
-     * <b>Note</b> : Icons will only be shown for <b>YELLOW_CARD, RED_CARD, YELLOW_RED, GOAL, SUBSTITUTION, LIVE, HT and FT events.</b>
-     */
-    private static Drawable getSuitableScrubberIcon(String eventType, boolean isHomeTeam) {
-        @DrawableRes int drawableIcon;
-        switch (eventType) {
-            case YELLOW_CARD:
-                drawableIcon = isHomeTeam ?
-                        R.drawable.yellow_left :
-                        R.drawable.yellow_right;
-                break;
-            case RED_CARD:
-                drawableIcon = isHomeTeam ?
-                        R.drawable.red_left :
-                        R.drawable.red_right;
-                break;
-            case YELLOW_RED:
-                drawableIcon = R.drawable.yellow_red;
-                break;
-            case GOAL:
-                drawableIcon = isHomeTeam ?
-                        R.drawable.ic_goal_left :
-                        R.drawable.ic_goal_right;
-                break;
-            case SUBSTITUTION:
-                drawableIcon = isHomeTeam ?
-                        R.drawable.ic_sub_left :
-                        R.drawable.ic_sub_right;
-                break;
-            case LIVE:
-            case HT:
-            case FT:
-                drawableIcon = R.drawable.ic_whistle;
-                break;
-            default:
-                drawableIcon = 0;
-                break;
-        }
-        return drawableIcon != 0 ? ZoneApplication.getContext().getResources().getDrawable(drawableIcon, null) : null;
-    }
-
-    /**
-     * Customizing the {@link LineChart} instance according to our needs.
-     *
-     * @param lineChart the {@link LineChart} instance to customize.
-     */
-    private static void prepareScrubber(LineChart lineChart) {
-        lineChart.setPinchZoom(true);
-        lineChart.getAxisLeft().setEnabled(false);
-        lineChart.getAxisRight().setEnabled(false);
-        lineChart.getDescription().setEnabled(false);
-        lineChart.setDrawGridBackground(false);
-        lineChart.getLegend().setEnabled(false);
-        lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        lineChart.getXAxis().setValueFormatter((value, axis) -> getDateForScrubber((long) value));
     }
 
     public static String getDisplayTimeStatus(String apiTimeStatus) {
@@ -592,55 +390,6 @@ public class DataUtil {
             if (!isNullOrEmpty(newList)) {
                 originalList.addAll(newList);
             }
-        }
-    }
-
-    public static class ScrubberLoader extends AsyncTask<Void, Void, LineData> {
-
-        private WeakReference<LineChart> lineChartRef;
-        private List<ScrubberData> scrubberDataList;
-        private boolean isRandom;
-
-        private ScrubberLoader(LineChart lineChart, List<ScrubberData> scrubberDataList) {
-            this.lineChartRef = new WeakReference<>(lineChart);
-            this.scrubberDataList = scrubberDataList;
-        }
-
-        //        TODO: remove below two methods once Scrubber API integration completes
-        private ScrubberLoader(LineChart lineChart, boolean isRandom) {
-            this.lineChartRef = new WeakReference<>(lineChart);
-            this.isRandom = isRandom;
-        }
-
-        public static void prepare(LineChart lineChart, List<ScrubberData> scrubberDataList) {
-            new ScrubberLoader(lineChart, scrubberDataList).execute();
-        }
-
-        public static void prepare(LineChart lineChart, boolean isRandom) {
-            new ScrubberLoader(lineChart, isRandom).execute();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            prepareScrubber(lineChartRef.get());
-        }
-
-        @Override
-        protected LineData doInBackground(Void... voids) {
-            List<ILineDataSet> lineDataSets1 = new ArrayList<>();
-            lineDataSets1.add(getLineDataSet(
-                    isNullOrEmpty(scrubberDataList) ?
-                            isRandom ?
-                                    getRandomDummyScrubberData() :
-                                    getDefinedDummyScrubberData() :
-                            scrubberDataList));
-            return new LineData(lineDataSets1);
-        }
-
-        @Override
-        protected void onPostExecute(LineData lineData) {
-            lineChartRef.get().setData(lineData);
-            lineChartRef.get().invalidate();
         }
     }
 }
