@@ -54,7 +54,7 @@ public class DateUtil {
     public static final SimpleDateFormat COMMENT_TIME_DATE_FORMAT = new SimpleDateFormat(COMMENT_TIME_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat HEADER_DATE_FORMAT = new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat TIMELINE_HEADER_DATE_FORMAT = new SimpleDateFormat(TIMELINE_HEADER_DATE_STRING, Locale.getDefault());
-    private static final SimpleDateFormat FUTURE_DATE_FORMAT = new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault());
+    public static final SimpleDateFormat FUTURE_DATE_FORMAT = new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault());
     private static final SimpleDateFormat MINUTE_SECOND_TIME_FORMAT = new SimpleDateFormat(MINUTE_SECOND_TIME_STRING, Locale.getDefault());
     private static final SimpleDateFormat SCHEDULED_MATCH_DATE_FORMAT = new SimpleDateFormat(SCHEDULED_MATCH_DATE_STRING, Locale.getDefault());
 
@@ -176,14 +176,6 @@ public class DateUtil {
                 return ZoneApplication.getContext().getString(R.string.tomorrow);
             default:
                 return TIMELINE_HEADER_DATE_FORMAT.format(matchStartTime);
-        }
-    }
-
-    public static String getDateForScrubber(long milliSeconds) {
-        try {
-            return FUTURE_DATE_FORMAT.format(new Date(milliSeconds));
-        } catch (Exception e) {
-            return String.valueOf(milliSeconds);
         }
     }
 
