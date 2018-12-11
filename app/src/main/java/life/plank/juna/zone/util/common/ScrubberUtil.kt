@@ -3,7 +3,6 @@ package life.plank.juna.zone.util.common
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM
-import android.os.SystemClock
 import android.support.annotation.DrawableRes
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -26,16 +25,6 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
 import kotlin.collections.ArrayList
-
-/**
- * Method to get a random number between two numbers, inclusive of those numbers
- */
-fun getRandomNumberBetween(lowerBound: Long, upperBound: Long): Long {
-    if (lowerBound < 0 || upperBound < 0) throw UnsupportedOperationException("Numbers must be positive")
-
-    val a = SystemClock.elapsedRealtimeNanos() % upperBound
-    return if (a in lowerBound..upperBound) a else lowerBound + SystemClock.elapsedRealtimeNanos() % (upperBound - lowerBound)
-}
 
 //region Dummy Data for Scrubber. TODO : remove this region after getting the data from backend.
 private val dummyEvents = arrayOf(
