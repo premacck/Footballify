@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import kotlinx.android.synthetic.main.content_post_comment.*
@@ -60,6 +61,9 @@ class PostCommentActivity : BaseCardActivity() {
 
         comment_edit_text.requestFocus()
         showSoftKeyboard(comment_edit_text)
+
+        comment_edit_text.imeOptions = EditorInfo.IME_ACTION_DONE
+        comment_edit_text.setRawInputType(InputType.TYPE_CLASS_TEXT)
 
         comment_edit_text.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
