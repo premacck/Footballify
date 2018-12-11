@@ -209,7 +209,7 @@ fun loadScrubber(lineChart: LineChart?, commentaryList: List<Commentary>, matchE
                 scrubberDataList.add(ScrubberData(
                         it.minute.toLong(),
                         getRandomNumberBetween(
-                                it.minute + it.extraMinute + 4L,
+                                it.minute + it.extraMinute - 4L,
                                 it.minute + it.extraMinute + 4L
                         ),
                         it
