@@ -71,4 +71,5 @@
 
     <string name="private_">private</string>
     <string name="dateformat_yyyy_mm_dd">yyyy-MM-dd</string>
+    <string name="see_more_with_space">&#160;&#160;See more</string>
 </resources>
