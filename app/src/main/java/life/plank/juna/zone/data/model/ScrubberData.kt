@@ -13,4 +13,8 @@ data class ScrubberData(
 ) : Parcelable {
     @IgnoredOnParcel
     var event: MatchEvent = MatchEvent(this.isHomeTeam, this.eventType)
+
+    constructor(millisecondsX: Long, interactionY: Long, event: MatchEvent) : this(millisecondsX, interactionY, event.eventType, event.isHomeTeam) {
+        this.event = event
+    }
 }
