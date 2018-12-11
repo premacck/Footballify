@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.view.ViewGroup
-import butterknife.ButterKnife
 import kotlinx.android.synthetic.main.activity_custom_camera.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -36,7 +35,6 @@ class CustomCameraActivity : BaseCardActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_custom_camera)
-        ButterKnife.bind(this)
         val intent = intent ?: return
         isForImage = intent.getBooleanExtra(getString(R.string.intent_is_camera_for_image), true)
         boardId = intent.getStringExtra(getString(R.string.intent_board_id))
