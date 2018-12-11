@@ -202,20 +202,22 @@ fun loadScrubber(lineChart: LineChart?, scrubberDataList: List<ScrubberData>) {
 }
 
 fun loadScrubber(lineChart: LineChart?, commentaryList: List<Commentary>, matchEventList: MutableList<MatchEvent>) {
-    val scrubberDataList: MutableList<ScrubberData> = ArrayList()
-    getAllTimelineEvents(commentaryList, matchEventList)?.run {
-        if (isNotEmpty()) {
-            forEach {
-                scrubberDataList.add(ScrubberData(
-                        it.minute.toLong(),
-                        getRandomNumberBetween(
-                                it.minute + it.extraMinute - 4L,
-                                it.minute + it.extraMinute + 4L
-                        ),
-                        it
-                ))
+    ZoneApplication.getContext().doAsync {
+        val scrubberDataList: MutableList<ScrubberData> = ArrayList()
+        getAllTimelineEvents(commentaryList, matchEventList)?.run {
+            if (isNotEmpty()) {
+                forEach {
+                    scrubberDataList.add(ScrubberData(
+                            it.minute.toLong(),
+                            getRandomNumberBetween(
+                                    it.minute + it.extraMinute - 4L,
+                                    it.minute + it.extraMinute + 4L
+                            ),
+                            it
+                    ))
+                }
             }
         }
+        uiThread { loadScrubber(lineChart, scrubberDataList) }
     }
-    loadScrubber(lineChart, scrubberDataList)
 }
