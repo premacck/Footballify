@@ -41,10 +41,24 @@ abstract class BaseMatchFragment : CardTileFragment() {
                 FixtureListUpdateTask.update(matchDetails(), null, this, false)
                 publicBoardToolbar().setLiveTimeStatus(matchDetails().matchStartTime, timeStatus)
             }
-            MATCH_EVENTS ->
-                zoneLiveData.getMatchEventList(gson())?.run { (currentChildFragment() as? LineupFragment)?.updateMatchEvents(this) }
-            COMMENTARY_DATA ->
-                zoneLiveData.getCommentaryList(gson())?.run { (currentChildFragment() as? MatchStatsFragment)?.updateCommentary(this) }
+            MATCH_EVENTS -> {
+                zoneLiveData.getMatchEventList(gson())?.run {
+                    if (isNullOrEmpty(matchDetails().matchEvents)) {
+                        matchDetails().matchEvents = ArrayList()
+                    }
+                    matchDetails().matchEvents?.addAll(this)
+                    (currentChildFragment() as? LineupFragment)?.updateMatchEvents(this)
+                }
+            }
+            COMMENTARY_DATA -> {
+                zoneLiveData.getCommentaryList(gson())?.run {
+                    if (isNullOrEmpty(matchDetails().commentary)) {
+                        matchDetails().commentary = ArrayList()
+                    }
+                    matchDetails().commentary?.addAll(0, this)
+                    (currentChildFragment() as? MatchStatsFragment)?.updateCommentary(this)
+                }
+            }
             MATCH_STATS_DATA ->
                 zoneLiveData.getMatchStats(gson())?.run { (currentChildFragment() as? MatchStatsFragment)?.updateMatchStats(this) }
             HIGHLIGHTS_DATA ->

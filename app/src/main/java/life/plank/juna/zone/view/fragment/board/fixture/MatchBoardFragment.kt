@@ -119,8 +119,12 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
 
             (item_scrubber as? LineChart)?.run {
                 if (matchDetails.matchStartTime.time <= Date().time) {
-                    loadScrubber(this, false)
-                    this.onDebouncingClick { pushPopup(TimelinePopup.newInstance(currentMatchId, matchDetails)) }
+                    if (!isNullOrEmpty(matchDetails.commentary) && !isNullOrEmpty(matchDetails.matchEvents)) {
+                        loadScrubber(this, matchDetails.commentary!!, matchDetails.matchEvents!!)
+                        this.onDebouncingClick { pushPopup(TimelinePopup.newInstance(currentMatchId, matchDetails)) }
+                    } else {
+                        item_scrubber.visibility = View.GONE
+                    }
                 } else {
                     item_scrubber.visibility = View.GONE
                 }
