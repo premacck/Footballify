@@ -62,7 +62,7 @@ public class DateUtil {
         return COMMENT_TIME_DATE_FORMAT.format(date);
     }
 
-    private static Date getIsoFormattedDate(String dateString) throws ParseException {
+    public static Date getIsoFormattedDate(String dateString) throws ParseException {
         return ISO_DATE_FORMAT.parse(dateString);
     }
 
@@ -71,7 +71,7 @@ public class DateUtil {
         return ISO_DATE_FORMAT.format(Calendar.getInstance().getTime());
     }
 
-    private static String getIsoFormattedDate(Date date) {
+    public static String getIsoFormattedDate(Date date) {
         return ISO_DATE_FORMAT.format(date);
     }
 

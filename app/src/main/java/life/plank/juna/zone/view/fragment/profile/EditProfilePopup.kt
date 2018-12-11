@@ -18,6 +18,7 @@ import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.time.DateUtil.getIsoFormattedDate
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.net.HttpURLConnection.HTTP_NO_CONTENT
@@ -60,7 +61,6 @@ class EditProfilePopup : BaseBlurPopup() {
     private fun setOnClickListeners() {
         dob_edit_text.onClick { showCalendar() }
         save_button.onClick {
-
             updateUserDetails(User(displayName = name_edit_text.text.toString(),
                     dateOfBirth = if (isNullOrEmpty(dateOfBirth)) PreferenceManager.CurrentUser.getDob() else dateOfBirth,
                     country = PreferenceManager.CurrentUser.getCountry()
@@ -89,13 +89,13 @@ class EditProfilePopup : BaseBlurPopup() {
         username_edit_text.setText(PreferenceManager.CurrentUser.getHandle())
         email_edit_text.setText(PreferenceManager.CurrentUser.getUserEmail())
         location_edit_text.setText(PreferenceManager.CurrentUser.getLocation())
-        val date = DataUtil.convertDate(PreferenceManager.CurrentUser.getDob(), getString(R.string.dateformat_yyyy_mm_dd))
+        val date = getIsoFormattedDate(PreferenceManager.CurrentUser.getDob())
         val dob = date.date.toString() + SINGLE_SPACE + DateFormatSymbols().shortMonths[date.month] + ", " + (date.year + 1900)
         dob_edit_text.setText(dob)
     }
 
     private fun showCalendar() {
-        val date = DataUtil.convertDate(PreferenceManager.CurrentUser.getDob(), getString(R.string.dateformat_yyyy_mm_dd))
+        val date = getIsoFormattedDate(PreferenceManager.CurrentUser.getDob())
         val calendar = Calendar.getInstance()
         val datePickerDialog = DatePickerDialog(context!!, R.style.DatePickerDialogTheme,
                 { _, year, monthOfYear, dayOfMonth ->

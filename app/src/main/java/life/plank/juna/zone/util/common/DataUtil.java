@@ -563,17 +563,6 @@ public class DataUtil {
         return lineups;
     }
 
-    public static Date convertDate(String dob, String dateFormat) {
-        Date date = null;
-        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
-        try {
-            date = format.parse(dob);
-        } catch (ParseException e) {
-            Log.e("convertDate", e.getMessage());
-        }
-        return date;
-    }
-
     private static void integrateLineupsWithMatchEvents(List<FormationList> allFormationList, MatchEvent matchEvent) {
         for (List<Formation> formationList : allFormationList) {
             for (Formation formation : formationList) {
