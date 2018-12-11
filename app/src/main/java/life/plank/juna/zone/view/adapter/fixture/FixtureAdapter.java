@@ -20,11 +20,11 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.interfaces.LeagueContainer;
-import life.plank.juna.zone.util.common.DataUtil;
 import life.plank.juna.zone.util.view.BaseRecyclerView;
 
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_LIVE;
 import static life.plank.juna.zone.util.common.DataUtil.getSeparator;
+import static life.plank.juna.zone.util.common.ScrubberUtilKt.loadScrubber;
 import static life.plank.juna.zone.util.time.DateUtil.getMatchTimeValue;
 import static life.plank.juna.zone.util.view.UIDisplayUtil.alternateBackgroundColor;
 import static life.plank.juna.zone.util.view.UIDisplayUtil.getDp;
@@ -39,7 +39,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
     private List<MatchFixture> matchFixtureList;
     private LeagueContainer leagueContainer;
 
-    public FixtureAdapter(List<MatchFixture> matchFixtureList, LeagueContainer leagueContainer) {
+    FixtureAdapter(List<MatchFixture> matchFixtureList, LeagueContainer leagueContainer) {
         this.matchFixtureList = matchFixtureList;
         this.leagueContainer = leagueContainer;
         if (this.matchFixtureList == null) {
@@ -171,7 +171,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
             visitingTeamNameTextView.setText(scoreFixture.getAwayTeam().getName());
             scoreTextView.setText(getSeparator(scoreFixture.toMatchDetails(), winPointer, false));
             timeStatusTextView.setText(scoreFixture.getTimeStatus());
-            DataUtil.ScrubberLoader.prepare(scrubber, false);
+            loadScrubber(scrubber, false);
         }
 
         @OnClick(R.id.root_layout)

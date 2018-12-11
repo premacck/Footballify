@@ -23,9 +23,11 @@ import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
 import life.plank.juna.zone.util.common.DataUtil
-import life.plank.juna.zone.util.common.DataUtil.*
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.execute
 import life.plank.juna.zone.util.common.getPositionFromIntentIfAny
+import life.plank.juna.zone.util.common.loadScrubber
 import life.plank.juna.zone.util.customview.PublicBoardToolbar
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
@@ -117,7 +119,7 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
 
             (item_scrubber as? LineChart)?.run {
                 if (matchDetails.matchStartTime.time <= Date().time) {
-                    ScrubberLoader.prepare(this, false)
+                    loadScrubber(this, false)
                     this.onDebouncingClick { pushPopup(TimelinePopup.newInstance(currentMatchId, matchDetails)) }
                 } else {
                     item_scrubber.visibility = View.GONE
