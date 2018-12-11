@@ -9,9 +9,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import butterknife.ButterKnife
-import butterknife.OnClick
-import butterknife.OnTouch
 import com.wonderkiln.camerakit.CameraKit.Constants.*
 import kotlinx.android.synthetic.main.fragment_camera.*
 import life.plank.juna.zone.R
@@ -19,8 +16,10 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.common.AppConstants.IMAGE
 import life.plank.juna.zone.util.common.AppConstants.VIDEO
 import life.plank.juna.zone.util.common.FileHandler
+import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.activity.camera.UploadActivity
+import org.jetbrains.anko.sdk27.coroutines.onTouch
 import org.jetbrains.anko.support.v4.runOnUiThread
 import java.io.File
 import java.io.IOException
@@ -39,14 +38,18 @@ class CameraFragment : Fragment() {
         boardId = args.getString(getString(R.string.intent_board_id))
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_camera, container, false)
-        ButterKnife.bind(this, rootView)
-        return rootView
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_camera, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         imageFolder = FileHandler.createMediaFolderIfNotExists(true)
+        initListeners()
+    }
+
+    private fun initListeners() {
+        camera_flash_toggle.onDebouncingClick { switchFlash() }
+        camera_capture.onTouch { v, event -> onTouchCapture(v, event) }
+        camera_flip.onDebouncingClick { flipCamera() }
     }
 
     override fun onResume() {
@@ -59,8 +62,7 @@ class CameraFragment : Fragment() {
         super.onPause()
     }
 
-    @OnClick(R.id.camera_flash_toggle)
-    fun switchFlash() {
+    private fun switchFlash() {
         when (camera_view.flash) {
             FLASH_OFF -> {
                 camera_view.flash = FLASH_ON
@@ -79,8 +81,7 @@ class CameraFragment : Fragment() {
         }
     }
 
-    @OnTouch(R.id.camera_capture)
-    internal fun onTouchCapture(view: View, motionEvent: MotionEvent): Boolean {
+    private fun onTouchCapture(view: View, motionEvent: MotionEvent): Boolean {
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
                 tap_hold_hint.visibility = View.GONE
@@ -134,8 +135,7 @@ class CameraFragment : Fragment() {
         return false
     }
 
-    @OnClick(R.id.camera_flip)
-    fun flipCamera() {
+    private fun flipCamera() {
         flipView(camera_flip, true)
         when (camera_view.facing) {
             FACING_BACK -> camera_view.facing = FACING_FRONT
