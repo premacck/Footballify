@@ -152,7 +152,7 @@ private fun getSuitableScrubberIcon(eventType: String, isHomeTeam: Boolean): Dra
         else
             R.drawable.red_right
         YELLOW_RED -> R.drawable.yellow_red
-        GOAL -> if (isHomeTeam)
+        GOAL, PENALTY -> if (isHomeTeam)
             R.drawable.ic_goal_left
         else
             R.drawable.ic_goal_right
