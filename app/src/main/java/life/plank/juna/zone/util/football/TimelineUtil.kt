@@ -1,6 +1,5 @@
 package life.plank.juna.zone.util.football
 
-import kotlinx.android.parcel.RawValue
 import life.plank.juna.zone.data.model.Commentary
 import life.plank.juna.zone.data.model.LiveTimeStatus
 import life.plank.juna.zone.data.model.MatchEvent
@@ -8,7 +7,7 @@ import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import java.util.*
 
-fun getAllTimelineEvents(commentaries: @RawValue List<Commentary>, matchEventList: @RawValue MutableList<MatchEvent>): List<MatchEvent>? {
+fun getAllTimelineEvents(commentaries: List<Commentary>, matchEventList: MutableList<MatchEvent>): List<MatchEvent>? {
     if (isNullOrEmpty<Commentary>(commentaries) || isNullOrEmpty<MatchEvent>(matchEventList)) {
         return null
     }

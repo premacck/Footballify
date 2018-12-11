@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM
 import android.support.annotation.DrawableRes
+import android.view.View
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -12,15 +13,21 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.model.Commentary
+import life.plank.juna.zone.data.model.MatchEvent
 import life.plank.juna.zone.data.model.ScrubberData
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.time.DateUtil.getDateForScrubber
+import life.plank.juna.zone.util.football.getAllTimelineEvents
+import life.plank.juna.zone.util.time.DateUtil.FUTURE_DATE_FORMAT
 import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.view.UIDisplayUtil.findDrawable
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
+import kotlin.collections.ArrayList
+
+private const val RANGE_DIFF: Long = 8
 
 //region Dummy Data for Scrubber. TODO : remove this region after getting the data from backend.
 private val dummyEvents = arrayOf(
@@ -43,6 +50,8 @@ private fun getRandomEvent(): String = dummyEvents[random.nextInt(dummyEvents.si
 private fun getRandomBoolean(): Boolean = random.nextBoolean()
 
 private fun getRandomInteraction(): Int = random.nextInt(50)
+
+private fun getInteractionaround(): Int = random.nextInt()
 
 fun getRandomDummyScrubberData(): List<ScrubberData> {
     val scrubberDataList = ArrayList<ScrubberData>()
@@ -133,27 +142,26 @@ internal fun getLineDataSet(scrubberDataList: List<ScrubberData>): LineDataSet {
  * **Note** : Icons will only be shown for **YELLOW_CARD, RED_CARD, YELLOW_RED, GOAL, SUBSTITUTION, LIVE, HT and FT events.**
  */
 private fun getSuitableScrubberIcon(eventType: String, isHomeTeam: Boolean): Drawable? {
-    @DrawableRes val drawableIcon: Int
-    when (eventType) {
-        YELLOW_CARD -> drawableIcon = if (isHomeTeam)
+    @DrawableRes val drawableIcon: Int = when (eventType) {
+        YELLOW_CARD -> if (isHomeTeam)
             R.drawable.yellow_left
         else
             R.drawable.yellow_right
-        RED_CARD -> drawableIcon = if (isHomeTeam)
+        RED_CARD -> if (isHomeTeam)
             R.drawable.red_left
         else
             R.drawable.red_right
-        YELLOW_RED -> drawableIcon = R.drawable.yellow_red
-        GOAL -> drawableIcon = if (isHomeTeam)
+        YELLOW_RED -> R.drawable.yellow_red
+        GOAL -> if (isHomeTeam)
             R.drawable.ic_goal_left
         else
             R.drawable.ic_goal_right
-        SUBSTITUTION -> drawableIcon = if (isHomeTeam)
+        SUBSTITUTION -> if (isHomeTeam)
             R.drawable.ic_sub_left
         else
             R.drawable.ic_sub_right
-        LIVE, HT, FT -> drawableIcon = R.drawable.ic_whistle
-        else -> drawableIcon = 0
+        LIVE, HT, FT -> R.drawable.ic_whistle
+        else -> 0
     }
     return if (drawableIcon != 0) findDrawable(drawableIcon) else null
 }
@@ -171,7 +179,16 @@ private fun prepareScrubber(lineChart: LineChart?) {
     lineChart?.setDrawGridBackground(false)
     lineChart?.legend?.isEnabled = false
     lineChart?.xAxis?.position = XAxis.XAxisPosition.BOTTOM
-    lineChart?.xAxis?.setValueFormatter { value, _ -> getDateForScrubber(value.toLong()) }
+//    TODO: un-comment when refining scrubber model
+//    lineChart?.xAxis?.setValueFormatter { value, _ -> getDateForScrubber(value.toLong()) }
+}
+
+fun getDateForScrubber(milliSeconds: Long): String {
+    return try {
+        FUTURE_DATE_FORMAT.format(Date(milliSeconds))
+    } catch (e: Exception) {
+        milliSeconds.toString()
+    }
 }
 
 fun loadScrubber(lineChart: LineChart, isRandom: Boolean) = loadScrubber(lineChart, if (isRandom) getRandomDummyScrubberData() else getDefinedDummyScrubberData())
@@ -182,8 +199,38 @@ fun loadScrubber(lineChart: LineChart?, scrubberDataList: List<ScrubberData>) {
         val lineDataSets1 = ArrayList<ILineDataSet>()
         lineDataSets1.add(getLineDataSet(scrubberDataList))
         uiThread {
-            lineChart?.data = LineData(lineDataSets1)
-            lineChart?.invalidate()
+            lineChart?.run {
+                if (visibility != View.VISIBLE) visibility = View.VISIBLE
+                data = LineData(lineDataSets1)
+                invalidate()
+            }
         }
     }
+}
+
+fun loadScrubber(lineChart: LineChart?, commentaryList: List<Commentary>, matchEventList: MutableList<MatchEvent>) {
+    ZoneApplication.getContext().doAsync {
+        val scrubberDataList: MutableList<ScrubberData> = ArrayList()
+        getAllTimelineEvents(commentaryList, matchEventList)?.run {
+            if (isNotEmpty()) {
+                forEach {
+                    scrubberDataList.add(ScrubberData(
+                            (it.minute + it.extraMinute).toLong(),
+                            getRandomNumberBetween(
+                                    getLowerBound(it.minute, it.extraMinute),
+                                    it.minute + it.extraMinute + RANGE_DIFF
+                            ),
+                            it
+                    ))
+                }
+            }
+        }
+        uiThread { loadScrubber(lineChart, scrubberDataList.reversed()) }
+    }
+}
+
+private fun getLowerBound(minute: Int, extraMinute: Int): Long {
+    val sum = minute + extraMinute
+    return if (sum <= RANGE_DIFF) Math.abs(sum.toLong())
+    else sum - RANGE_DIFF
 }
