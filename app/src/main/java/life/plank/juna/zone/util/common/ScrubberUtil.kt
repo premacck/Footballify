@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM
 import android.support.annotation.DrawableRes
+import android.view.View
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -25,6 +26,8 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
 import kotlin.collections.ArrayList
+
+private const val RANGE_DIFF: Long = 8
 
 //region Dummy Data for Scrubber. TODO : remove this region after getting the data from backend.
 private val dummyEvents = arrayOf(
@@ -176,7 +179,8 @@ private fun prepareScrubber(lineChart: LineChart?) {
     lineChart?.setDrawGridBackground(false)
     lineChart?.legend?.isEnabled = false
     lineChart?.xAxis?.position = XAxis.XAxisPosition.BOTTOM
-    lineChart?.xAxis?.setValueFormatter { value, _ -> getDateForScrubber(value.toLong()) }
+//    TODO: un-comment when refining scrubber model
+//    lineChart?.xAxis?.setValueFormatter { value, _ -> getDateForScrubber(value.toLong()) }
 }
 
 fun getDateForScrubber(milliSeconds: Long): String {
@@ -195,8 +199,11 @@ fun loadScrubber(lineChart: LineChart?, scrubberDataList: List<ScrubberData>) {
         val lineDataSets1 = ArrayList<ILineDataSet>()
         lineDataSets1.add(getLineDataSet(scrubberDataList))
         uiThread {
-            lineChart?.data = LineData(lineDataSets1)
-            lineChart?.invalidate()
+            lineChart?.run {
+                if (visibility != View.VISIBLE) visibility = View.VISIBLE
+                data = LineData(lineDataSets1)
+                invalidate()
+            }
         }
     }
 }
@@ -208,16 +215,22 @@ fun loadScrubber(lineChart: LineChart?, commentaryList: List<Commentary>, matchE
             if (isNotEmpty()) {
                 forEach {
                     scrubberDataList.add(ScrubberData(
-                            it.minute.toLong(),
+                            (it.minute + it.extraMinute).toLong(),
                             getRandomNumberBetween(
-                                    it.minute + it.extraMinute - 4L,
-                                    it.minute + it.extraMinute + 4L
+                                    getLowerBound(it.minute, it.extraMinute),
+                                    it.minute + it.extraMinute + RANGE_DIFF
                             ),
                             it
                     ))
                 }
             }
         }
-        uiThread { loadScrubber(lineChart, scrubberDataList) }
+        uiThread { loadScrubber(lineChart, scrubberDataList.reversed()) }
     }
+}
+
+private fun getLowerBound(minute: Int, extraMinute: Int): Long {
+    val sum = minute + extraMinute
+    return if (sum <= RANGE_DIFF) Math.abs(sum.toLong())
+    else sum - RANGE_DIFF
 }
