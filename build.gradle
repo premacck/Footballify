@@ -8,12 +8,11 @@ buildscript {
         maven { url "${nexusUrl}/repository/snapshots/" }
         maven { url "${nexusUrl}/repository/rc/" }
         maven { url "${nexusUrl}/repository/releases/" }
-        maven {
-            url "https://jitpack.io"
-        }
+        maven { url "https://jitpack.io" }
         jcenter()
         maven { url 'https://maven.google.com' }
         maven { url 'https://maven.fabric.io/public' }
+        maven { url 'https://github.com/leonardocardoso/mvn-repo/raw/master/maven-deploy' }
         google()
     }
     dependencies {
@@ -37,25 +36,14 @@ apply plugin: 'maven'
 allprojects {
     repositories {
         google()
-        maven {
-            url nexusUrl + "/repository/rc"
-        }
-        maven {
-            url "https://jitpack.io"
-        }
+        maven { url nexusUrl + "/repository/rc" }
+        maven { url "https://jitpack.io" }
         jcenter()
-        maven {
-            url "http://dl.bintray.com/microsoftazuremobile/SDK"
-        }
-        maven {
-            url "http://repository.excilys.com/content/groups/public"
-        }
-        maven {
-            url nexusUrl + "/repository/public"
-        }
-        maven {
-            url 'https://maven.google.com'
-        }
+        maven { url "http://dl.bintray.com/microsoftazuremobile/SDK" }
+        maven { url "http://repository.excilys.com/content/groups/public" }
+        maven { url nexusUrl + "/repository/public" }
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://github.com/leonardocardoso/mvn-repo/raw/master/maven-deploy' }
     }
     ext {
         androidApplicationId = 'life.plank.juna.zone'

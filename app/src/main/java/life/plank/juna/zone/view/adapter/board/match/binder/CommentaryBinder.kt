@@ -34,7 +34,7 @@ class CommentaryBinder(private val listener: MatchStatsListener) : ItemBinder<Co
             commentary_list.visibility = View.VISIBLE
             see_all.visibility = View.VISIBLE
             no_data.visibility = View.GONE
-            commentary_list.adapter = CommentaryAdapter(item.commentaryList)
+            item.commentaryList?.run { commentary_list.adapter = CommentaryAdapter(this as ArrayList) }
 
             see_all.onDebouncingClick { listener.onCommentarySeeAllClick(this) }
         }

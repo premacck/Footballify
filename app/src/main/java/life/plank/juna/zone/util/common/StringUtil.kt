@@ -9,12 +9,23 @@ import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.text.style.UnderlineSpan
 import android.view.View
+import android.widget.TextView
+import com.leocardz.link.preview.library.SourceContent
+import com.leocardz.link.preview.library.TextCrawler
 import life.plank.juna.zone.R
+import life.plank.juna.zone.data.model.Commentary
+import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.facilis.beginPreview
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.web.WebCard
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.util.regex.Pattern
+
+private const val URL_REGEX = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$"
 
 fun String.toSpannableString(): SpannableString = SpannableString(this)
 
@@ -36,6 +47,11 @@ fun SpannableString.semiBold(start: Int = 0, end: Int = length): SpannableString
 
 fun SpannableString.color(@ColorRes colorRes: Int, start: Int = 0, end: Int = length): SpannableString {
     setSpan(ForegroundColorSpan(findColor(colorRes)), start, end, SPAN_EXCLUSIVE_EXCLUSIVE)
+    return this
+}
+
+fun SpannableString.underline(start: Int = 0, end: Int = length): SpannableString {
+    setSpan(UnderlineSpan(), start, end, SPAN_EXCLUSIVE_EXCLUSIVE)
     return this
 }
 
@@ -98,4 +114,112 @@ fun String.asciiToInt(): Int {
         }
     }
     return Math.abs(result)
+}
+
+fun TextView.setCommentaryText(commentaryList: List<Commentary>) {
+    val commentaryString = SpannableStringBuilder()
+    context.doAsync {
+        commentaryList.forEach { commentaryString.append(getDesignedCommentaryString(it.comment), SPACE, "|".bold(), SPACE) }
+        uiThread {
+            text = commentaryString
+        }
+    }
+}
+
+fun getDesignedCommentaryString(rawCommentaryText: String): SpannableStringBuilder {
+    return when {
+        rawCommentaryText.contains(GOAL_) || rawCommentaryText.contains(OWN_GOAL_LOWERCASE) -> getDesignedString(
+                GOAL_,
+                rawCommentaryText,
+                R.color.purple_timeline,
+                R.drawable.ic_goal_left,
+                true
+        )
+        rawCommentaryText.contains(CORNER_) -> getDesignedString(
+                CORNER_,
+                rawCommentaryText,
+                R.color.black,
+                -1,
+                true
+        )
+        rawCommentaryText.contains(SUBSTITUTION_) -> getDesignedString(
+                SUBSTITUTION_,
+                rawCommentaryText,
+                R.color.black,
+                R.drawable.ic_sub_right,
+                true
+        )
+        rawCommentaryText.contains(OFFSIDE_) -> getDesignedString(
+                OFFSIDE_,
+                rawCommentaryText,
+                R.color.black,
+                -1,
+                true
+        )
+        rawCommentaryText.contains(YELLOW_CARD_) -> getDesignedString(
+                YELLOW_CARD_,
+                rawCommentaryText,
+                R.color.commentary_yellow,
+                R.drawable.yellow_right,
+                true
+        )
+        rawCommentaryText.contains(RED_CARD_) -> getDesignedString(
+                RED_CARD_,
+                rawCommentaryText,
+                R.color.scarlet_red,
+                R.drawable.red_right,
+                true
+        )
+        rawCommentaryText.contains(FREE_KICK_) -> getDesignedString(
+                FREE_KICK_,
+                rawCommentaryText,
+                R.color.black,
+                -1,
+                true
+        )
+        rawCommentaryText.contains(FIRST_HALF_ENDED_) -> getDesignedString(
+                rawCommentaryText,
+                rawCommentaryText,
+                R.color.dark_sky_blue,
+                R.drawable.ic_whistle,
+                false
+        )
+        rawCommentaryText.contains(SECOND_HALF_ENDED_) -> getDesignedString(
+                rawCommentaryText,
+                rawCommentaryText,
+                R.color.dark_sky_blue,
+                R.drawable.ic_whistle,
+                false
+        )
+        else -> getDesignedString(
+                null,
+                rawCommentaryText,
+                -1,
+                -1,
+                false
+        )
+    }
+}
+
+fun String.formatLinks(): SpannableString {
+    val formattedString = SpannableString(this)
+    val matcher = Pattern.compile(URL_REGEX).matcher(this)
+    while (matcher.find()) {
+        formattedString.color(R.color.dark_sky_blue, matcher.start(), matcher.end()).underline(matcher.start(), matcher.end())
+    }
+    return formattedString
+}
+
+fun String.formatLinks(textCrawler: TextCrawler, onPostAction: (sourceContent: SourceContent?, isNull: Boolean) -> Unit, onPreAction: () -> Unit = {}): SpannableString {
+    val formattedString = SpannableString(this)
+    val matcher = Pattern.compile(URL_REGEX).matcher(this)
+    var isFirstLinkRecognized = false
+    while (matcher.find()) {
+        formattedString.color(R.color.dark_sky_blue, matcher.start(), matcher.end()).underline(matcher.start(), matcher.end())
+        if (!isFirstLinkRecognized) {
+            isFirstLinkRecognized = true
+            textCrawler.beginPreview(matcher.group(), onPostAction, onPreAction)
+        }
+    }
+    return formattedString
 }
