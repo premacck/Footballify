@@ -1,6 +1,9 @@
 package life.plank.juna.zone.view.fragment.post
 
+import android.app.Dialog
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.media.AudioAttributes
 import android.media.MediaPlayer
@@ -30,11 +33,8 @@ import life.plank.juna.zone.data.model.Emoji
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.EmojiContainer
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.bold
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.common.toClickableWebLink
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.showFor
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
@@ -43,6 +43,7 @@ import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
+import net.openid.appauth.AuthorizationService
 import java.io.IOException
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
@@ -56,6 +57,7 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
     lateinit var boardId: String
     private var emojiBottomSheetBehavior: BottomSheetBehavior<*>? = null
     private var emojiAdapter: EmojiAdapter? = null
+    private var authService: AuthorizationService? = null
 
     companion object {
         private val TAG = PostDetailFragment::class.java.simpleName
@@ -109,8 +111,27 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
             }
         }
         reaction_view.onDebouncingClick {
-            emojiBottomSheetBehavior?.showFor(emojiAdapter!!, feedEntry.feedItem.id)
+            if (DataUtil.isNullOrEmpty(getToken())) {
+                showPopup()
+            } else {
+                emojiBottomSheetBehavior?.showFor(emojiAdapter!!, feedEntry.feedItem.id)
+            }
         }
+    }
+
+    private fun showPopup() {
+        val signUpDialog = Dialog(context!!)
+        authService = AuthorizationService(context!!)
+        signUpDialog.setContentView(R.layout.signup_dialogue)
+
+        signUpDialog.findViewById<View>(R.id.drag_handle).setOnClickListener { signUpDialog.dismiss() }
+
+        signUpDialog.findViewById<View>(R.id.signup_button).setOnClickListener {
+            AuthUtil.loginOrRefreshToken(activity, authService, null, false)
+        }
+        val window = signUpDialog.window
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        signUpDialog.show()
     }
 
     override fun onResume() {
