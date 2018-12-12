@@ -13,6 +13,7 @@ import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.facilis.removeFragmentIfExists
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
 import org.jetbrains.anko.*
@@ -39,10 +40,18 @@ inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(board: Board)
  */
 inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(boardId: String) {
     if (this is T) {
-        restApi()?.run { findAndLaunchBoardById(this) }
+        restApi()?.run { findAndLaunchBoardById(this, boardId) }
     } else {
         startActivity(intentFor<T>(findString(R.string.intent_board_id) to boardId).clearTop())
         finish()
+    }
+}
+
+fun BaseCardActivity.handleDeepLinkIntentIfAny() {
+    intent?.data?.pathSegments?.run {
+        if (isNotEmpty() && size >= 2) {
+            get(1).run { launchWithBoard<HomeActivity>(this) }
+        }
     }
 }
 
@@ -59,8 +68,8 @@ fun BaseCardActivity.handleBoardIntentIfAny() {
     }
 }
 
-fun BaseCardActivity.findAndLaunchBoardById(restApi: RestApi) {
-    restApi.getBoardById(getBoardIdFromIntent(), getToken())
+fun BaseCardActivity.findAndLaunchBoardById(restApi: RestApi, boardId: String? = null) {
+    restApi.getBoardById(boardId ?: getBoardIdFromIntent(), getToken())
             .setObserverThreadsAndSmartSubscribe({}, {
                 it.body()?.run { launchPrivateOrMatchBoard(restApi, this) }
             })

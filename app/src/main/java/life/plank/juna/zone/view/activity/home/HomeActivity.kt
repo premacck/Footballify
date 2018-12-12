@@ -8,6 +8,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.notification.handleFootballLiveDataNotificationIntentIfAny
 import life.plank.juna.zone.notification.handleSocialNotificationIntentIfAny
 import life.plank.juna.zone.util.common.handleBoardIntentIfAny
+import life.plank.juna.zone.util.common.handleDeepLinkIntentIfAny
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.home.HomeFragment
 import org.jetbrains.anko.clearTop
@@ -36,6 +37,8 @@ class HomeActivity : BaseCardActivity() {
         ZoneApplication.getApplication().uiComponent.inject(this)
 
         pushFragment(HomeFragment.newInstance(), false)
+
+        handleDeepLinkIntentIfAny()
 
         handleBoardIntentIfAny()
 
