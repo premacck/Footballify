@@ -20,6 +20,9 @@ import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.*
 import com.ahamed.multiviewadapter.*
+import com.leocardz.link.preview.library.LinkPreviewCallback
+import com.leocardz.link.preview.library.SourceContent
+import com.leocardz.link.preview.library.TextCrawler
 import io.alterac.blurkit.BlurLayout
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
@@ -298,3 +301,10 @@ fun <BM> RecyclerAdapter.addDataManagerAndRegisterBinder(dataManager: DataListMa
 fun View.dragHandle(): ImageView? = findViewById(R.id.drag_handle_image)
 
 fun BaseCard.dragHandle(): ImageView? = getRootView()?.dragHandle()
+
+fun TextCrawler.beginPreview(url: String, onPostAction: (sourceContent: SourceContent?, isNull: Boolean) -> Unit, onPreAction: () -> Unit = {}) {
+    makePreview(object : LinkPreviewCallback {
+        override fun onPre() = onPreAction()
+        override fun onPos(sourceContent: SourceContent?, isNull: Boolean) = onPostAction(sourceContent, isNull)
+    }, url)
+}

@@ -153,6 +153,9 @@ dependencies {
     implementation 'org.apache.commons:commons-io:1.3.2'
     implementation 'io.alterac.blurkit:blurkit:1.0.0'
     implementation project(':asymmetricRecyclerView')
+
+    implementation 'org.jsoup:jsoup:1.8.3'
+    implementation 'com.leocardz:link-preview:2.0.0@aar'
 }
 
 repositories {
