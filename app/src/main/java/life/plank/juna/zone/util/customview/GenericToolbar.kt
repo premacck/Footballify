@@ -18,18 +18,23 @@ import kotlinx.android.synthetic.main.generic_toolbar.view.*
 import kotlinx.android.synthetic.main.layout_board_engagement.view.*
 import kotlinx.android.synthetic.main.layout_private_board_tabs.view.*
 import life.plank.juna.zone.R
+import life.plank.juna.zone.interfaces.BoardHeaderListener
 import life.plank.juna.zone.interfaces.CustomViewListener
 import life.plank.juna.zone.interfaces.EngagementInfoTilesToolbar
-import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
 import life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup
 import life.plank.juna.zone.util.facilis.dragHandle
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 
-class GenericToolbar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), CustomViewListener, EngagementInfoTilesToolbar {
+class GenericToolbar @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0,
+        defStyleRes: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes), CustomViewListener, EngagementInfoTilesToolbar {
 
     private var isFollowing: Boolean = false
 
-    private var listener: PublicBoardHeaderListener? = null
+    private var listener: BoardHeaderListener? = null
 
     init {
         init(context, attrs)
@@ -67,17 +72,17 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     override fun initListeners(fragment: Fragment) {
-        if (fragment is PublicBoardHeaderListener) {
+        if (fragment is BoardHeaderListener) {
             listener = fragment
         } else
-            throw IllegalStateException("Fragment must implement PublicBoardHeaderListener")
+            throw IllegalStateException("Fragment must implement BoardHeaderListener")
     }
 
     override fun initListeners(activity: Activity) {
-        if (activity is PublicBoardHeaderListener) {
+        if (activity is BoardHeaderListener) {
             listener = activity
         } else
-            throw IllegalStateException("Activity must implement PublicBoardHeaderListener")
+            throw IllegalStateException("Activity must implement BoardHeaderListener")
     }
 
 
