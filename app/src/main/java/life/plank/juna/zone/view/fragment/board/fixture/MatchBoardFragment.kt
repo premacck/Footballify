@@ -22,12 +22,9 @@ import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
-import life.plank.juna.zone.util.common.DataUtil
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.execute
-import life.plank.juna.zone.util.common.getPositionFromIntentIfAny
-import life.plank.juna.zone.util.common.loadScrubber
 import life.plank.juna.zone.util.customview.PublicBoardToolbar
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
@@ -163,6 +160,8 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
     override fun getDragView(): View? = drag_area
 
     override fun onMatchTimeStateChange() = updateUi()
+
+    override fun onShareClick() = shareBoardExternally(activity, matchDetails.homeTeam.name, matchDetails.awayTeam.name, board.id)
 
     override fun getFeedEntries(): List<FeedEntry> = feedEntries
 

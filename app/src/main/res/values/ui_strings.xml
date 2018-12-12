@@ -253,4 +253,7 @@
     <string name="someone">Someone</string>
     <string name="all_caught_up">All caught up!</string>
     <string name="failed_to_get_notifications">Failed to get notifications</string>
+    <string name="share_board_to">Share board to</string>
+    <string name="check_out_">Check out&#160;</string>
+    <string name="display_name_match_board">\'s match board!</string>
 </resources>

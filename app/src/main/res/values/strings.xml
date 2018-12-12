@@ -1,6 +1,8 @@
 <resources>
     <!--Demo Environment-->
     <string name="backend_base_url">https://junaapimanager.azure-api.net/</string>
+    <string name="deep_link_base_url">http://ju.na/</string>
+    <string name="deep_link_board_suffix">board/</string>
 
     <string name="app_name">Zone</string>
     <string name="facebook_app_id">575013552837571</string>
