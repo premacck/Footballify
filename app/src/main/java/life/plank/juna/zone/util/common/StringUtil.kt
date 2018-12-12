@@ -10,10 +10,15 @@ import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.widget.TextView
 import life.plank.juna.zone.R
+import life.plank.juna.zone.data.model.Commentary
+import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.web.WebCard
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.util.regex.Pattern
 
 fun String.toSpannableString(): SpannableString = SpannableString(this)
@@ -98,4 +103,87 @@ fun String.asciiToInt(): Int {
         }
     }
     return Math.abs(result)
+}
+
+fun TextView.setCommentaryText(commentaryList: List<Commentary>) {
+    val commentaryString = SpannableStringBuilder()
+    context.doAsync {
+        commentaryList.forEach { commentaryString.append(getDesignedCommentaryString(it.comment), SPACE, "|".bold(), SPACE) }
+        uiThread {
+            text = commentaryString
+        }
+    }
+}
+
+fun getDesignedCommentaryString(rawCommentaryText: String): SpannableStringBuilder = when {
+    rawCommentaryText.contains(GOAL_) || rawCommentaryText.contains(OWN_GOAL_LOWERCASE) -> getDesignedString(
+            GOAL_,
+            rawCommentaryText,
+            R.color.purple_timeline,
+            R.drawable.ic_goal_left,
+            true
+    )
+    rawCommentaryText.contains(CORNER_) -> getDesignedString(
+            CORNER_,
+            rawCommentaryText,
+            R.color.black,
+            -1,
+            true
+    )
+    rawCommentaryText.contains(SUBSTITUTION_) -> getDesignedString(
+            SUBSTITUTION_,
+            rawCommentaryText,
+            R.color.black,
+            R.drawable.ic_sub_right,
+            true
+    )
+    rawCommentaryText.contains(OFFSIDE_) -> getDesignedString(
+            OFFSIDE_,
+            rawCommentaryText,
+            R.color.black,
+            -1,
+            true
+    )
+    rawCommentaryText.contains(YELLOW_CARD_) -> getDesignedString(
+            YELLOW_CARD_,
+            rawCommentaryText,
+            R.color.commentary_yellow,
+            R.drawable.yellow_right,
+            true
+    )
+    rawCommentaryText.contains(RED_CARD_) -> getDesignedString(
+            RED_CARD_,
+            rawCommentaryText,
+            R.color.scarlet_red,
+            R.drawable.red_right,
+            true
+    )
+    rawCommentaryText.contains(FREE_KICK_) -> getDesignedString(
+            FREE_KICK_,
+            rawCommentaryText,
+            R.color.black,
+            -1,
+            true
+    )
+    rawCommentaryText.contains(FIRST_HALF_ENDED_) -> getDesignedString(
+            rawCommentaryText,
+            rawCommentaryText,
+            R.color.dark_sky_blue,
+            R.drawable.ic_whistle,
+            false
+    )
+    rawCommentaryText.contains(SECOND_HALF_ENDED_) -> getDesignedString(
+            rawCommentaryText,
+            rawCommentaryText,
+            R.color.dark_sky_blue,
+            R.drawable.ic_whistle,
+            false
+    )
+    else -> getDesignedString(
+            null,
+            rawCommentaryText,
+            -1,
+            -1,
+            false
+    )
 }
