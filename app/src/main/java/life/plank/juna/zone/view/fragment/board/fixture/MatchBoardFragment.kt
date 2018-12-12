@@ -21,7 +21,7 @@ import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
+import life.plank.juna.zone.interfaces.BoardHeaderListener
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
@@ -38,7 +38,7 @@ import java.lang.ref.WeakReference
 import java.util.*
 import javax.inject.Inject
 
-class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
+class MatchBoardFragment : BaseMatchFragment(), BoardHeaderListener {
 
     @Inject
     lateinit var restApi: RestApi

@@ -34,9 +34,9 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.BoardTemperature;
 import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.interfaces.BoardHeaderListener;
 import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.EngagementInfoTilesToolbar;
-import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.common.NumberFormatter;
 import life.plank.juna.zone.util.facilis.ViewUtilKt;
 import life.plank.juna.zone.util.time.DateUtil;
@@ -103,7 +103,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     private long baseTime;
     private MatchDetails matchDetails;
     private CountDownTimer countDownTimer;
-    private PublicBoardHeaderListener listener;
+    private BoardHeaderListener listener;
 
     public PublicBoardToolbar(Context context) {
         this(context, null);
@@ -157,18 +157,18 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
 
     @Override
     public void initListeners(Fragment fragment) {
-        if (fragment instanceof PublicBoardHeaderListener) {
-            listener = (PublicBoardHeaderListener) fragment;
-        } else throw new IllegalStateException("Fragment must implement PublicBoardHeaderListener");
+        if (fragment instanceof BoardHeaderListener) {
+            listener = (BoardHeaderListener) fragment;
+        } else throw new IllegalStateException("Fragment must implement BoardHeaderListener");
 
         addInfoTilesListener();
     }
 
     @Override
     public void initListeners(Activity activity) {
-        if (activity instanceof PublicBoardHeaderListener) {
-            listener = (PublicBoardHeaderListener) activity;
-        } else throw new IllegalStateException("Activity must implement PublicBoardHeaderListener");
+        if (activity instanceof BoardHeaderListener) {
+            listener = (BoardHeaderListener) activity;
+        } else throw new IllegalStateException("Activity must implement BoardHeaderListener");
 
         addInfoTilesListener();
     }

@@ -18,6 +18,7 @@ import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.interfaces.BoardHeaderListener
 import life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_OWNER_POPUP
 import life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_USER_POPUP
 import life.plank.juna.zone.util.common.DataUtil.findString
@@ -36,7 +37,7 @@ import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
-class PrivateBoardFragment : CardTileFragment() {
+class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
 
     @Inject
     lateinit var restApi: RestApi
@@ -93,6 +94,8 @@ class PrivateBoardFragment : CardTileFragment() {
         private_board_view_pager.adapter = pagerAdapter
         private_board_toolbar.setupWithViewPager(private_board_view_pager, getPositionFromIntentIfAny(pagerAdapter))
     }
+
+    override fun onShareClick() {}
 
     override fun getBackgroundBlurLayout(): ViewGroup? = root_blur_layout
 
