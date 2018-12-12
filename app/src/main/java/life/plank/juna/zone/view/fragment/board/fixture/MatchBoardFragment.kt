@@ -23,6 +23,7 @@ import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.BoardHeaderListener
 import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.util.common.AppConstants.LIVE
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.customview.PublicBoardToolbar
@@ -86,6 +87,8 @@ class MatchBoardFragment : BaseMatchFragment(), BoardHeaderListener {
         updateUi()
         val topic = getString(R.string.pref_football_match_sub) + currentMatchId
         if (!isSubscribed(topic)) subscribeTo(topic)
+
+        updateCommentaryMarquee()
     }
 
     override fun onResume() {
@@ -96,6 +99,20 @@ class MatchBoardFragment : BaseMatchFragment(), BoardHeaderListener {
     override fun onPause() {
         super.onPause()
         board_toolbar.dispose()
+    }
+
+    fun updateCommentaryMarquee() {
+        if (matchDetails.timeStatus == LIVE) {
+            matchDetails.commentary?.reversed()?.run {
+                commentary_marquee.visibility = View.VISIBLE
+                if (size > 5) {
+                    commentary_marquee.setCommentaryText(subList(0, 5))
+                } else {
+                    commentary_marquee.setCommentaryText(this)
+                }
+                commentary_marquee.isSelected = true
+            }
+        } else commentary_marquee.visibility = View.GONE
     }
 
     private fun updateUi() {

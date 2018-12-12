@@ -18,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:background="@drawable/board_blur_bg">
+            android:background="@drawable/board_blur_bg"
+            android:orientation="vertical">
 
             <life.plank.juna.zone.util.customview.PublicBoardToolbar
                 android:id="@+id/board_toolbar"
@@ -34,6 +34,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_margin="2dp" />
+
+            <TextView
+                android:id="@+id/commentary_marquee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@color/white"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:fadingEdgeLength="10dp"
+                android:fontFamily="@font/rajdhani_semibold"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:singleLine="true"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_12sp"
+                android:visibility="visible" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/board_view_pager"

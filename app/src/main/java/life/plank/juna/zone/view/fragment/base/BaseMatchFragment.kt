@@ -13,6 +13,7 @@ import life.plank.juna.zone.util.common.customToast
 import life.plank.juna.zone.util.customview.PublicBoardToolbar
 import life.plank.juna.zone.util.football.FixtureListUpdateTask
 import life.plank.juna.zone.view.fragment.board.fixture.LineupFragment
+import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
 import life.plank.juna.zone.view.fragment.board.fixture.MatchMediaFragment
 import life.plank.juna.zone.view.fragment.board.fixture.MatchStatsFragment
 
@@ -54,6 +55,7 @@ abstract class BaseMatchFragment : CardTileFragment() {
                 zoneLiveData.getCommentaryList(gson())?.run {
                     if (isNullOrEmpty(matchDetails().commentary)) {
                         matchDetails().commentary = ArrayList()
+                        (this@BaseMatchFragment as? MatchBoardFragment)?.updateCommentaryMarquee()
                     }
                     matchDetails().commentary?.addAll(0, this)
                     (currentChildFragment() as? MatchStatsFragment)?.updateCommentary(this)

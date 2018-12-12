@@ -45,6 +45,7 @@ import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.util.TypedValue;
@@ -81,7 +82,9 @@ import life.plank.juna.zone.util.common.AppConstants;
 import life.plank.juna.zone.util.customview.TopGravityDrawable;
 
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
+import static android.text.style.DynamicDrawableSpan.ALIGN_BASELINE;
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static life.plank.juna.zone.util.common.AppConstants.SPACE;
 import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
 
 /**
@@ -440,12 +443,10 @@ public class UIDisplayUtil {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static SpannableStringBuilder getDesignedString(String boldText, String normalText, @ColorRes int color,
-                                                           @DrawableRes int startDrawableRes, boolean toUpperCase, TextView commentaryView) {
+                                                           @DrawableRes int startDrawableRes, boolean toUpperCase) {
         if (isNullOrEmpty(boldText)) {
-            commentaryView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             return new SpannableStringBuilder(normalText);
         } else {
-            commentaryView.setCompoundDrawablesWithIntrinsicBounds(getTopGravityDrawable(startDrawableRes), null, null, null);
             if (toUpperCase) {
                 normalText = normalText.replace(boldText, boldText.toUpperCase());
                 boldText = boldText.toUpperCase();
@@ -453,10 +454,19 @@ public class UIDisplayUtil {
             SpannableStringBuilder text = new SpannableStringBuilder(normalText);
             int startIndex = text.toString().indexOf(boldText);
             text.setSpan(BOLD_STYLE, startIndex, startIndex + boldText.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
-            text.setSpan(
-                    new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), color, null)),
-                    startIndex, startIndex + boldText.length(), SPAN_EXCLUSIVE_EXCLUSIVE
-            );
+            if (color != -1) {
+                text.setSpan(
+                        new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), color, null)),
+                        startIndex, startIndex + boldText.length(), SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+            }
+            if (startDrawableRes != -1) {
+                text.insert(0, SPACE);
+                text.setSpan(
+                        new ImageSpan(ZoneApplication.getContext(), startDrawableRes, ALIGN_BASELINE),
+                        0, 1, SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+            }
             return text;
         }
     }
