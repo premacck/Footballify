@@ -38,6 +38,7 @@ import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.EngagementInfoTilesToolbar;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.common.NumberFormatter;
+import life.plank.juna.zone.util.facilis.ViewUtilKt;
 import life.plank.juna.zone.util.time.DateUtil;
 
 import static life.plank.juna.zone.util.common.AppConstants.BOARD_POPUP;
@@ -189,6 +190,10 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     }
 
     private void addInfoTilesListener() {
+        ViewUtilKt.onDebouncingClick(shareBtn, () -> {
+            listener.onShareClick();
+            return null;
+        });
         switch (matchTimeValue) {
             case MATCH_LIVE:
                 if (baseTime > 0) {

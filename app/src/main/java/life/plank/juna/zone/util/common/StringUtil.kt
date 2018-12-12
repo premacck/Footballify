@@ -78,6 +78,11 @@ fun SpannableStringBuilder.maybeAppend(charSequence: CharSequence?, condition: B
     return this
 }
 
+fun StringBuilder.maybeAppend(charSequence: CharSequence?, condition: Boolean): StringBuilder {
+    if (condition) append(charSequence)
+    return this
+}
+
 fun SpannableStringBuilder.appendOneOrOther(condition: Boolean, conditionOneString: CharSequence?, conditionTwoString: CharSequence?): SpannableStringBuilder {
     append(if (condition) conditionOneString else conditionTwoString)
     return this
