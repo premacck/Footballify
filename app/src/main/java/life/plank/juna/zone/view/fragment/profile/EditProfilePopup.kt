@@ -62,9 +62,7 @@ class EditProfilePopup : BaseBlurPopup() {
         dob_edit_text.onClick { showCalendar() }
         save_button.onClick {
             updateUserDetails(User(displayName = name_edit_text.text.toString(),
-                    dateOfBirth = if (isNullOrEmpty(dateOfBirth)) PreferenceManager.CurrentUser.getDob() else dateOfBirth,
-                    country = PreferenceManager.CurrentUser.getCountry()
-                    , city = PreferenceManager.CurrentUser.getCity()))
+                    dateOfBirth = if (isNullOrEmpty(dateOfBirth)) PreferenceManager.CurrentUser.getDob() else dateOfBirth))
         }
     }
 
