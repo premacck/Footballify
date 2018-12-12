@@ -20,12 +20,13 @@ import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.asciiToInt
-import life.plank.juna.zone.util.sharedpreference.PreferenceManager.CurrentUser.getUserId
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 private const val CHANNEL_ID = "juna_notification_channel"
 private const val TAG = "DrawerNotifier"
+private const val GROUP_SOCIAL_NOTIFICATION = "life.plank.juna.zone.SOCIAL_NOTIFICATION"
+private const val GROUP_LIVE_FOOTBALL_NOTIFICATION = "life.plank.juna.zone.LIVE_FOOTBALL_NOTIFICATION"
 
 /**
  * Method to send social interaction notification in the notification drawer
@@ -64,10 +65,12 @@ fun BaseInAppNotification.sendTextNotification(pendingIntent: PendingIntent) {
     ZoneApplication.getContext()
             .getNotificationManager()
             .setNotificationChannel()
-            .notify(getUserId()?.asciiToInt()
-                    ?: 0, getNotificationBuilder(notificationMessage, pendingIntent)
-                    .setStyle(NotificationCompat.BigTextStyle().bigText(notificationMessage))
-                    .build())
+            .notify(toString().asciiToInt(),
+                    getNotificationBuilder(notificationMessage, pendingIntent)
+                            .setGroup(if (this is JunaNotification) GROUP_SOCIAL_NOTIFICATION else GROUP_LIVE_FOOTBALL_NOTIFICATION)
+                            .setGroupSummary(true)
+                            .setStyle(NotificationCompat.BigTextStyle().bigText(notificationMessage))
+                            .build())
 }
 
 fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: Boolean) {
@@ -84,19 +87,17 @@ fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: 
                 } else {
                     notificationBuilder.setLargeIcon(boardIconBitmap)
                 }
-                notificationManager.notify(getUserId()?.asciiToInt()
-                        ?: 0, notificationBuilder.build())
+                notificationManager.notify(toString().asciiToInt(), notificationBuilder.build())
             }
         }
     } catch (e: Exception) {
         Log.e(TAG, "prepareDrawerNotification(): ", e)
-        notificationManager.notify(getUserId()?.asciiToInt() ?: 0, notificationBuilder.build())
+        notificationManager.notify(toString().asciiToInt(), notificationBuilder.build())
     }
 }
 
 fun getNotificationBuilder(messageBody: SpannableStringBuilder, pendingIntent: PendingIntent): NotificationCompat.Builder {
     return NotificationCompat.Builder(ZoneApplication.getContext(), CHANNEL_ID)
-            .setContentTitle(findString(app_name))
             .setContentText(messageBody)
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
