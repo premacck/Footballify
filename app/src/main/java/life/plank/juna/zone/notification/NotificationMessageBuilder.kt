@@ -8,7 +8,6 @@ import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.dagger.module.NetworkModule.GSON
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.*
-import life.plank.juna.zone.util.common.appendOneOrOther
 import life.plank.juna.zone.util.common.bold
 import life.plank.juna.zone.util.common.maybeAppend
 import life.plank.juna.zone.util.common.semiBold
@@ -66,7 +65,7 @@ private fun SpannableStringBuilder.appendBoard(name: String?): SpannableStringBu
  * Method to get suitable text for the social live football data message
  */
 fun ZoneLiveData.buildNotificationMessage(): SpannableStringBuilder {
-    val header = "$homeTeamName ${findString(vs)} $visitingTeamName"
+    val header = "$homeTeamName ${findString(vs)} $visitingTeamName:"
     val spannableStringBuilder = SpannableStringBuilder(header.bold()).append(NEW_LINE)
     when (liveDataType) {
         MATCH_EVENTS -> {
@@ -75,17 +74,21 @@ fun ZoneLiveData.buildNotificationMessage(): SpannableStringBuilder {
                 if (!isNullOrEmpty(this)) {
                     for (matchEvent in this) {
                         when (matchEvent.eventType) {
-                            GOAL ->
-                                spannableStringBuilder.append(GOAL.semiBold(), findString(_by_), matchEvent.playerName.semiBold(), ", ")
+                            GOAL, OWN_GOAL ->
+                                spannableStringBuilder.append(matchEvent.result, NEW_LINE)
+                                        .append((if (matchEvent.eventType == GOAL) findString(goal) else OWN_GOAL_LOWERCASE).semiBold())
+                                        .append(findString(_by_), matchEvent.playerName.semiBold(), COMMA)
                                         .maybeAppend(findString(assist_by_), !isNullOrEmpty(matchEvent.relatedPlayerName))
                                         .maybeAppend(matchEvent.relatedPlayerName, !isNullOrEmpty(matchEvent.relatedPlayerName))
                             YELLOW_CARD ->
                                 spannableStringBuilder.append(matchEvent.playerName, findString(_receives_yellow_card))
                             RED_CARD, YELLOW_RED ->
                                 spannableStringBuilder.append(matchEvent.playerName, findString(_receives_red_card))
-                            PENALTY ->
-                                spannableStringBuilder.appendOneOrOther(matchEvent.isHomeTeam, homeTeamName, visitingTeamName)
-                                        .append(findString(_conceded_penalty))
+                            PENALTY, MISSED_PENALTY ->
+                                spannableStringBuilder
+                                        .maybeAppend(matchEvent.result, matchEvent.eventType == PENALTY)
+                                        .maybeAppend(NEW_LINE, matchEvent.eventType == PENALTY)
+                                        .append(findString(if (matchEvent.eventType == PENALTY) penalty_conceded_by else penalty_missed_by, matchEvent.playerName))
                         }
                     }
                 }
