@@ -12,20 +12,19 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.TextView
-import com.leocardz.link.preview.library.SourceContent
-import com.leocardz.link.preview.library.TextCrawler
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Commentary
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.facilis.beginPreview
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.web.WebCard
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.regex.Pattern
+import java.util.regex.Pattern.*
 
-private const val URL_REGEX = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$"
+const val URL_REGEX = ("(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)")
+val URL_PATTERN: Pattern = Pattern.compile(URL_REGEX, CASE_INSENSITIVE or MULTILINE or DOTALL)
 
 fun String.toSpannableString(): SpannableString = SpannableString(this)
 
@@ -201,25 +200,13 @@ fun getDesignedCommentaryString(rawCommentaryText: String): SpannableStringBuild
     }
 }
 
+fun CharSequence.containsLink(): Boolean = URL_PATTERN.matcher(this).find()
+
 fun String.formatLinks(): SpannableString {
     val formattedString = SpannableString(this)
-    val matcher = Pattern.compile(URL_REGEX).matcher(this)
+    val matcher = URL_PATTERN.matcher(this)
     while (matcher.find()) {
         formattedString.color(R.color.dark_sky_blue, matcher.start(), matcher.end()).underline(matcher.start(), matcher.end())
-    }
-    return formattedString
-}
-
-fun String.formatLinks(textCrawler: TextCrawler, onPostAction: (sourceContent: SourceContent?, isNull: Boolean) -> Unit, onPreAction: () -> Unit = {}): SpannableString {
-    val formattedString = SpannableString(this)
-    val matcher = Pattern.compile(URL_REGEX).matcher(this)
-    var isFirstLinkRecognized = false
-    while (matcher.find()) {
-        formattedString.color(R.color.dark_sky_blue, matcher.start(), matcher.end()).underline(matcher.start(), matcher.end())
-        if (!isFirstLinkRecognized) {
-            isFirstLinkRecognized = true
-            textCrawler.beginPreview(matcher.group(), onPostAction, onPreAction)
-        }
     }
     return formattedString
 }
