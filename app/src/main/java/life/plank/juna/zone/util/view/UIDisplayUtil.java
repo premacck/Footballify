@@ -121,8 +121,7 @@ public class UIDisplayUtil {
 
     public static Drawable getCommentColor(String comment) {
         if (isNullOrEmpty(comment)) return null;
-        int color = DrawableHashMap.getDrawableMap().get(comment.substring(0, comment.indexOf("$")));
-        return getApplicationContext().getResources().getDrawable(color, null);
+        return DrawableHashMap.getDrawableMap().get(comment.substring(0, comment.indexOf("$")));
     }
 
     public static CharSequence getCommentText(String comment) {
