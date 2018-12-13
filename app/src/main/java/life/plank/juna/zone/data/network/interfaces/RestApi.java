@@ -295,9 +295,6 @@ public interface RestApi {
     @GET(FOOTBALL_SUFFIX + "/teams/popular")
     Observable<Response<List<FootballTeam>>> getPopularTeams(@Header("Authorization") String authHeader);
 
-    @GET(ZONE_BACKEND_SUFFIX + "/zones/nextEvent")
-    Observable<Response<NextMatch>> getNextEvent(@Query("zone") String zoneName, @Header("Authorization") String authHeader);
-
     @GET(ZONE_BACKEND_SUFFIX + "/feedEntries/{id}")
     Observable<Response<FeedEntry>> getFeedEntry(@Path("id") String feedItemId, @Header("Authorization") String authHeader);
 
