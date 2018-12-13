@@ -25,7 +25,10 @@ import life.plank.juna.zone.util.view.UIDisplayUtil.getDrawableTopTarget
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 
-class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+class BoardPoll @JvmOverloads constructor(context: Context,
+                                          attrs: AttributeSet? = null,
+                                          defStyleAttr: Int = 0, defStyleRes: Int = 0) :
+        FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     private lateinit var glide: RequestManager
     private lateinit var pollBindingModel: PollBindingModel
@@ -49,7 +52,9 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         this.pollContainer = pollContainer
 
 //        Loading stadium image
-        glide.load(pollBindingModel.background).into(background_image_view)
+        glide.load(pollBindingModel.background)
+                .apply(RequestOptions.placeholderOf(R.drawable.board_blur_bg))
+                .into(background_image_view)
 
 //        Loading logos
         loadImage(pollBindingModel.homeTeamLogo, poll_first_answer, getDp(28f), getDp(28f))
