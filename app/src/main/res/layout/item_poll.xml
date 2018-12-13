@@ -37,7 +37,7 @@
         <ImageView
             android:id="@+id/background_image_view"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="180dp"
             android:contentDescription="@string/blur_background"
             android:scaleType="centerCrop"
             android:tint="@color/transparent_black_80"
