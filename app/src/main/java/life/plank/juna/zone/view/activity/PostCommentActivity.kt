@@ -107,7 +107,6 @@ class PostCommentActivity : BaseCardActivity() {
                                         loadLinkPreviewImage(sourceContent)
                                         setLinkPreviewViewsVisibility(true, sourceContent)
                                         link_title.text = sourceContent.title
-                                        link_description.text = sourceContent.description
                                     } else setLinkPreviewViewsVisibility(false)
                                 }
                         )
@@ -157,13 +156,11 @@ class PostCommentActivity : BaseCardActivity() {
         isLink = if (isVisible) {
             link_thumbnail.makeVisible()
             link_title.makeVisible()
-            link_description.makeVisible()
             this.sourceContent = sourceContent
             true
         } else {
             link_thumbnail.makeGone()
             link_title.makeGone()
-            link_description.makeGone()
             this.sourceContent = null
             false
         }
@@ -184,28 +181,32 @@ class PostCommentActivity : BaseCardActivity() {
             purple.background = null
             green.background = null
             orange.background = null
-            setColor(R.drawable.blue_gradient, getString(R.string.blue_color))
+//        TODO: un-comment in next pull request
+//            setColor(R.drawable.blue_gradient, getString(R.string.blue_color))
         }
         purple.setOnClickListener {
             blue.background = null
             purple.background = highlight
             green.background = null
             orange.background = null
-            setColor(R.drawable.purple_gradient, getString(R.string.purple_color))
+//        TODO: un-comment in next pull request
+//            setColor(R.drawable.purple_gradient, getString(R.string.purple_color))
         }
         green.setOnClickListener {
             blue.background = null
             purple.background = null
             green.background = highlight
             orange.background = null
-            setColor(R.drawable.green_gradient, getString(R.string.green_color))
+//        TODO: un-comment in next pull request
+//            setColor(R.drawable.green_gradient, getString(R.string.green_color))
         }
         orange.setOnClickListener {
             blue.background = null
             purple.background = null
             green.background = null
             orange.background = highlight
-            setColor(R.drawable.orange_gradient, getString(R.string.orange_color))
+//        TODO: un-comment in next pull request
+//            setColor(R.drawable.orange_gradient, getString(R.string.orange_color))
         }
     }
 

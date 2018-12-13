@@ -52,7 +52,7 @@
     <color name="darkish_pink">#dd5873</color>
     <color name="red_pink">#ef3e56</color>
     <color name="frog_green">#66bd06</color>
-    <color name="color_league_gradient">#50ffffff</color>
+    <color name="white_translucent_50">#50ffffff</color>
     <color name="black_currant">#37003C</color>
     <color name="eclipse">#3D3D3D</color>
     <color name="sangria">#8E0607</color>
@@ -82,5 +82,13 @@
     <color name="velvet">#6d0a45</color>
     <color name="grape_purple">#4b1a4f</color>
     <color name="black_10">#19000000</color>
+    <color name="purple_gradient_one">#3023ae</color>
+    <color name="purple_gradient_two">#c86dd7</color>
+    <color name="blue_gradient_one">#0095bf</color>
+    <color name="blue_gradient_two">#00cff7</color>
+    <color name="green_gradient_one">#429321</color>
+    <color name="green_gradient_two">#b4ec51</color>
+    <color name="orange_gradient_one">#f76b1c</color>
+    <color name="orange_gradient_two">#fad961</color>
 
 </resources>

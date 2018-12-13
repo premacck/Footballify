@@ -7,7 +7,7 @@
         android:topLeftRadius="30dp"
         android:topRightRadius="30dp" />
     <stroke
-        android:width="3px"
+        android:width="1.5dp"
         android:color="@color/grey" />
     <padding
         android:bottom="0dp"
