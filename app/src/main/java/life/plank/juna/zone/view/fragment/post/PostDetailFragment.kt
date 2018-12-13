@@ -36,11 +36,13 @@ import life.plank.juna.zone.interfaces.EmojiContainer
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.facilis.setRootCommentPost
 import life.plank.juna.zone.util.facilis.showFor
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.time.DateUtil.getCommentDateAndTimeFormat
 import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
-import life.plank.juna.zone.util.view.UIDisplayUtil.*
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.view.UIDisplayUtil.getScreenSize
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import net.openid.appauth.AuthorizationService
@@ -255,10 +257,7 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
             ROOT_COMMENT -> {
                 mediaPlayer.stop()
                 setVisibilities(GONE, GONE, VISIBLE)
-                val comment = feedEntry.feedItem.title!!.replace("^\"|\"$".toRegex(), "")
-
-                feed_text_view.background = getCommentColor(comment)
-                feed_text_view.text = getCommentText(comment)
+                feed_text_view.setRootCommentPost(feedEntry.feedItem)
             }
         }
         feed_title_text_view.isSelected = true
