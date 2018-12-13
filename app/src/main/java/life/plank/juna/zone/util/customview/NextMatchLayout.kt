@@ -14,6 +14,7 @@ import life.plank.juna.zone.util.common.DataUtil.getSpecifiedLeague
 import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.common.onTerminate
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.time.DateUtil.getTimeToNextMatch
 import java.net.HttpURLConnection.HTTP_OK
@@ -31,7 +32,7 @@ class NextMatchLayout @JvmOverloads constructor(
 
     fun showNextMatchOnly(restApi: RestApi) {
         time_to_next_match_shimmer.startShimmerAnimation()
-        restApi.getNextEvent(findString(R.string.football), getToken())
+        restApi.getNextMatches(PreferenceManager.CurrentUser.getUserPreferences()[0].zonePreferences?.leagues, getToken())
                 .onTerminate {
                     time_to_next_match_shimmer.stopShimmerAnimation()
                     match_status.background = null
@@ -42,7 +43,7 @@ class NextMatchLayout @JvmOverloads constructor(
                 }, {
                     when (it.code()) {
                         HTTP_OK -> {
-                            val nextMatch = it.body()
+                            val nextMatch = it.body()!![0]
                             nextMatch?.run {
                                 getSpecifiedLeague(leagueName)?.run { league_logo.setImageResource(leagueLogo) }
 
