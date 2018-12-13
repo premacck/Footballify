@@ -86,9 +86,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:contentDescription="@string/pref_home_team_logo"
-            android:padding="10dp"
             android:scaleType="centerInside"
-            android:src="@drawable/img_laliga_logo" />
+            android:src="@drawable/img_see_all_leagues" />
 
         <TextView
             android:id="@+id/all_leagues_title"
