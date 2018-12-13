@@ -28,6 +28,7 @@ import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.util.common.URL_PATTERN
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import org.jetbrains.anko.runOnUiThread
@@ -37,6 +38,18 @@ fun Display.getScreenSize(): IntArray {
     val size = Point()
     getSize(size)
     return intArrayOf(size.x, size.y)
+}
+
+fun View.makeVisible() {
+    if (visibility != View.VISIBLE) visibility = View.VISIBLE
+}
+
+fun View.makeInvisible() {
+    if (visibility != View.INVISIBLE) visibility = View.INVISIBLE
+}
+
+fun View.makeGone() {
+    if (visibility != View.GONE) visibility = View.GONE
 }
 
 fun View.toggleInteraction(isEnabled: Boolean) {
@@ -303,8 +316,15 @@ fun View.dragHandle(): ImageView? = findViewById(R.id.drag_handle_image)
 fun BaseCard.dragHandle(): ImageView? = getRootView()?.dragHandle()
 
 fun TextCrawler.beginPreview(url: String, onPostAction: (sourceContent: SourceContent?, isNull: Boolean) -> Unit, onPreAction: () -> Unit = {}) {
-    makePreview(object : LinkPreviewCallback {
-        override fun onPre() = onPreAction()
-        override fun onPos(sourceContent: SourceContent?, isNull: Boolean) = onPostAction(sourceContent, isNull)
-    }, url)
+    val matcher = URL_PATTERN.matcher(url)
+    var isFirstLinkRecognized = false
+    while (matcher.find()) {
+        if (!isFirstLinkRecognized) {
+            isFirstLinkRecognized = true
+            makePreview(object : LinkPreviewCallback {
+                override fun onPre() = onPreAction()
+                override fun onPos(sourceContent: SourceContent?, isNull: Boolean) = onPostAction(sourceContent, isNull)
+            }, url)
+        }
+    }
 }
