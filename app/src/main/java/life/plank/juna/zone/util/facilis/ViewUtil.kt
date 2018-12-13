@@ -7,15 +7,11 @@ import android.animation.PropertyValuesHolder
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.GradientDrawable.Orientation
-import android.graphics.drawable.GradientDrawable.Orientation.TR_BL
 import android.os.Build
 import android.os.SystemClock
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.support.annotation.AnimRes
-import android.support.annotation.ColorRes
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.CoordinatorLayout
 import android.view.*
@@ -32,12 +28,16 @@ import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.model.FeedItem
+import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.URL_PATTERN
-import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.common.formatLinks
+import life.plank.juna.zone.util.common.formatMentions
+import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
-import java.util.*
 
 fun Display.getScreenSize(): IntArray {
     val size = Point()
@@ -340,16 +340,23 @@ fun TextCrawler.beginPreview(url: String, onPostAction: (sourceContent: SourceCo
     }
 }
 
-fun View.setGradient(@ColorRes vararg colors: Int, orientation: Orientation = TR_BL) {
-    val colorArray: MutableList<Int> = ArrayList()
-    colors.forEach { colorArray.add(it) }
-    background = getGradientOf(colors, orientation)
+fun View.setGradientBackground(drawableText: String) {
+    when (drawableText) {
+        findString(R.string.blue_color) -> background = findDrawable(R.drawable.blue_gradient)
+        findString(R.string.purple_color) -> background = findDrawable(R.drawable.purple_gradient)
+        findString(R.string.green_color) -> background = findDrawable(R.drawable.green_gradient)
+        findString(R.string.orange_color) -> background = findDrawable(R.drawable.orange_gradient)
+    }
 }
 
-fun gradientOf(orientation: Orientation = TR_BL, @ColorRes vararg colors: Int): GradientDrawable {
-    val colorArray: MutableList<Int> = ArrayList()
-    colors.forEach { colorArray.add(it) }
-    return getGradientOf(colorArray.toIntArray(), orientation)
+fun TextView.setRootCommentPost(feedItem: FeedItem) {
+    if (!isNullOrEmpty(feedItem.backgroundColor)) {
+        feedItem.backgroundColor?.run { setGradientBackground(get(0)) }
+        text = feedItem.title.formatLinks().formatMentions()
+    } else {
+//        TODO: remove comment $ prepend usage
+        val comment: String = feedItem.title.replace("^\"|\"$".toRegex(), "")
+        background = getCommentColor(comment)
+        text = getCommentText(comment)?.toString()?.formatLinks()?.formatMentions()
+    }
 }
-
-fun getGradientOf(colors: IntArray, orientation: Orientation = TR_BL): GradientDrawable = GradientDrawable(orientation, colors)

@@ -14,8 +14,8 @@ import kotlinx.android.synthetic.main.item_board_tile.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.view.UIDisplayUtil.getCommentColor
-import life.plank.juna.zone.util.view.UIDisplayUtil.getCommentText
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.facilis.setRootCommentPost
 
 /**
  * Created by plank-prachi on 4/10/2018.
@@ -43,7 +43,7 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRe
                     .into(view.profile_picture)
         }
 
-        if (feedItem.contentType == null) return
+        if (isNullOrEmpty(feedItem.contentType)) return
 
         when (feedItem.contentType) {
             AUDIO -> {
@@ -68,11 +68,7 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRe
             }
             else -> {
                 setVisibility(holder, VISIBLE, GONE, GONE)
-                if (feedItem.title != null) {
-                    val comment = feedItem.title?.replace("^\"|\"$".toRegex(), "")
-                    view.comment_text_view.background = getCommentColor(comment)
-                    view.comment_text_view.text = getCommentText(comment)
-                }
+                view.comment_text_view.setRootCommentPost(feedItem)
             }
         }
     }

@@ -119,11 +119,13 @@ public class UIDisplayUtil {
         emojiList.add(new Emoji(0x1F92B, 0));
     }
 
+    @Nullable
     public static Drawable getCommentColor(String comment) {
         if (isNullOrEmpty(comment)) return null;
         return DrawableHashMap.getDrawableMap().get(comment.substring(0, comment.indexOf("$")));
     }
 
+    @Nullable
     public static CharSequence getCommentText(String comment) {
         if (isNullOrEmpty(comment)) return null;
         return comment.substring(comment.indexOf("$") + 1);

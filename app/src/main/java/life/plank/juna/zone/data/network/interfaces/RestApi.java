@@ -9,6 +9,7 @@ import java.util.Set;
 import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.model.Emoji;
 import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.data.model.FeedItemComment;
 import life.plank.juna.zone.data.model.FootballTeam;
 import life.plank.juna.zone.data.model.Lineups;
@@ -117,12 +118,10 @@ public interface RestApi {
                                                               @Header("Authorization") String authHeader);
 
     //working
-    @POST(ZONE_BACKEND_SUFFIX + "/boards/{id}/feedItems")
-    Observable<Response<JsonObject>> postFeedItemOnBoard(@Body String getEditTextValue,
-                                                         @Path("id") String boardId,
+    @POST(ZONE_BACKEND_SUFFIX + "/activities/feeditems")
+    Observable<Response<JsonObject>> postFeedItemOnBoard(@Body FeedItem feedItem,
+                                                         @Query("boardId") String boardId,
                                                          @Query("contentType") String contentType,
-                                                         @Query("userId") String userId,
-                                                         @Query("dateCreated") String dateCreated,
                                                          @Header("Authorization") String authHeader);
 
     //working

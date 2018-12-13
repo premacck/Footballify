@@ -71,7 +71,7 @@ fun String.toClickableWebLink(activity: Activity?): SpannableString {
     return spannableString
 }
 
-fun String.formatMentions(): SpannableString {
+fun CharSequence.formatMentions(): SpannableString {
     val formattedReply = SpannableString(this)
 
     if (!contains("@")) return formattedReply
@@ -202,11 +202,11 @@ fun getDesignedCommentaryString(rawCommentaryText: String): SpannableStringBuild
 
 fun CharSequence.containsLink(): Boolean = URL_PATTERN.matcher(this).find()
 
-fun String.formatLinks(): SpannableString {
+fun CharSequence.formatLinks(): SpannableString {
     val formattedString = SpannableString(this)
     val matcher = URL_PATTERN.matcher(this)
     while (matcher.find()) {
-        formattedString.color(R.color.dark_sky_blue, matcher.start(), matcher.end()).underline(matcher.start(), matcher.end())
+        formattedString.color(R.color.colorPrimary, matcher.start(), matcher.end()).underline(matcher.start(), matcher.end())
     }
     return formattedString
 }

@@ -27,13 +27,16 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.*
 import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.facilis.setRootCommentPost
 import life.plank.juna.zone.util.facilis.showFor
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.PinManager.isFeedItemPinned
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.PinManager.toggleFeedItemPin
 import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
 import life.plank.juna.zone.util.view.EmojiHashMap
-import life.plank.juna.zone.util.view.UIDisplayUtil.*
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.view.UIDisplayUtil.getScreenSize
 import org.jetbrains.anko.windowManager
 import retrofit2.Response
 import rx.Subscriber
@@ -189,23 +192,12 @@ class BoardFeedDetailAdapter(private val restApi: RestApi,
                 ROOT_COMMENT -> {
                     mediaPlayer.stop()
                     holder.setVisibilities(View.GONE, View.GONE, View.VISIBLE)
-                    val comment = feedItem.title!!.replace("^\"|\"$".toRegex(), "")
-
-                    holder.itemView.feed_text_view.background = getCommentColor(comment)
-                    holder.itemView.feed_text_view.text = getCommentText(comment)
-                    holder.itemView.feed_title_text_view.text = getCommentText(comment)
-
+                    holder.itemView.feed_text_view.setRootCommentPost(feedItem)
                 }
             }
         }
 
-        holder.itemView.feed_title_text_view.setOnClickListener {
-            holder.itemView.scroll_view.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-            holder.itemView.scroll_view.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-            holder.itemView.feed_description.text = feedItem.description
-        }
-
-        holder.itemView.pin_image_view.setOnClickListener {
+        holder.itemView.pin_image_view.onDebouncingClick {
             if (feedInteractions.hasPinned) {
                 unpinItem(feedsListItem!![position], position)
             } else {

@@ -10,8 +10,7 @@
 
         <FrameLayout
             android:id="@+id/card_parent_layout"
-            style="@style/MatchParentSize"
-            android:background="@drawable/blue_gradient">
+            style="@style/MatchParentSize">
 
             <ScrollView
                 style="@style/MatchParentSize"
@@ -23,60 +22,134 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:animateLayoutChanges="true"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/link_thumbnail"
-                        android:layout_width="match_parent"
-                        android:layout_height="320dp"
-                        android:layout_marginBottom="5dp"
-                        android:contentDescription="@string/thumbnail"
-                        android:scaleType="centerInside"
-                        android:visibility="gone" />
-
-                    <TextView
-                        android:id="@+id/link_title"
+                    <LinearLayout
+                        android:id="@+id/link_preview_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/rajdhani_semibold"
-                        android:maxLines="2"
-                        android:paddingStart="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingEnd="10dp"
-                        android:paddingBottom="5dp"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:visibility="gone" />
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/link_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/rajdhani_semibold"
-                        android:maxLines="4"
-                        android:paddingStart="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingEnd="10dp"
-                        android:paddingBottom="5dp"
-                        android:textColor="@color/grey_shimmer"
-                        android:textSize="12sp"
-                        android:visibility="gone" />
+                        <life.plank.juna.zone.util.customview.ShimmerRelativeLayout
+                            android:id="@+id/link_thumbnail_shimmer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/link_thumbnail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:contentDescription="@string/thumbnail"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/shimmer_rectangle" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_alignParentTop="true"
+                                android:contentDescription="@string/blur_background"
+                                android:src="@drawable/bg_gradient_white_top" />
+
+                        </life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="@font/raleway_medium"
+                            android:text="@string/title"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_12sp" />
+
+                        <TextView
+                            android:id="@+id/link_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/rajdhani_semibold"
+                            android:maxLines="2"
+                            android:paddingStart="10dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="5dp"
+                            android:textColor="@color/grey"
+                            android:textSize="16sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:background="@color/grey_shimmer" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="@font/raleway_medium"
+                            android:text="@string/summary"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_12sp" />
+
+                        <TextView
+                            android:id="@+id/link_summary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/rajdhani_semibold"
+                            android:maxLines="4"
+                            android:paddingStart="10dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="5dp"
+                            android:textColor="@color/grey_0_7"
+                            android:textSize="14sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:background="@color/grey_shimmer" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="@font/raleway_medium"
+                            android:text="@string/description"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_12sp" />
+
+                    </LinearLayout>
 
                     <EditText
                         android:id="@+id/comment_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_marginBottom="20dp"
                         android:background="@color/transparent"
+                        android:paddingStart="10dp"
                         android:fontFamily="@font/raleway_bold"
                         android:imeOptions="actionDone"
                         android:inputType="textMultiLine"
                         android:maxLength="500"
-                        android:padding="20dp"
+                        android:paddingTop="20dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="20dp"
+                        android:textColorHighlight="@color/white_translucent_50"
                         android:selectAllOnFocus="true"
                         android:text="@string/what_s_on_your_mind"
                         android:textColor="@color/white"
@@ -93,6 +166,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:animateLayoutChanges="true"
             android:orientation="horizontal"
             android:padding="10dp">
 
@@ -145,7 +219,6 @@
                 android:layout_weight="1"
                 android:background="@drawable/white_border_button"
                 android:fontFamily="@font/raleway_semibold"
-                android:foreground="@drawable/ripple_dark_rect_curved_corners"
                 android:gravity="center"
                 android:text="@string/post"
                 android:textAllCaps="true"
