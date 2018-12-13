@@ -95,6 +95,7 @@ class PostCommentActivity : BaseCardActivity() {
 
     private fun initListeners() {
         post_btn.onDebouncingClick { postText() }
+
         comment_edit_text.textChangedListener {
             onTextChanged { charSequence, _, _, _ ->
                 charSequence?.run {
