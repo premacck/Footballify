@@ -1,6 +1,6 @@
 <resources>
     <!--Demo Environment-->
-    <string name="backend_base_url">https://junaapimanager.azure-api.net/</string>
+    <string name="backend_base_url">https://juna.azure-api.net/</string>
     <string name="deep_link_base_url">http://ju.na/</string>
     <string name="deep_link_board_suffix">board/</string>
 

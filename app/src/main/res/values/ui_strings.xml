@@ -259,4 +259,6 @@
     <string name="display_name_match_board">\'s match board!</string>
     <string name="summary">Summary</string>
     <string name="your_card_looks_great">Your card looks great!</string>
+    <string name="welcome_to_juna">Welcome to juna</string>
+    <string name="fill_data">We’ve filled some data for you. You can edit by tapping on the same.</string>
 </resources>

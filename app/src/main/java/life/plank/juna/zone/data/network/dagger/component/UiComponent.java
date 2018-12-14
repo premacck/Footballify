@@ -17,6 +17,7 @@ import life.plank.juna.zone.view.activity.home.HomeActivity;
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity;
 import life.plank.juna.zone.view.activity.zone.ZoneActivity;
 import life.plank.juna.zone.view.adapter.common.BoardFeedDetailAdapter;
+import life.plank.juna.zone.view.cardmaker.CreateCardActivity;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.CommentaryPopup;
 import life.plank.juna.zone.view.fragment.board.fixture.LineupFragment;
@@ -130,6 +131,7 @@ public interface UiComponent {
 
     void inject(ShareLinkPopup shareLinkPopup);
 
+    void inject(CreateCardActivity createCardActivity);
     @Subcomponent.Builder
     interface Builder {
         UiComponent build();

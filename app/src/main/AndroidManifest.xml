@@ -127,7 +127,9 @@
         <activity
             android:name=".view.activity.profile.UserProfileActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".view.cardmaker.CreateCardActivity"
+            android:screenOrientation="portrait" />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="${crashlyticsApiKey}" />

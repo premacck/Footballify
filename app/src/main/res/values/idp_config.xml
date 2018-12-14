@@ -7,7 +7,7 @@
     <string name="b2c_redirect_uri" translatable="false">life.plank.juna.zone://oauth/redirect</string>
     <string name="b2c_signupin_policy" translatable="false">B2C_1_SignInUp</string>
     <string name="subscription_key_key" translatable="false">Ocp-Apim-Subscription-Key</string>
-    <string name="subscription_key_value" translatable="false">c1c7d00eb0954668951a91416c280117</string>
+    <string name="subscription_key_value" translatable="false">23f5781cefa64e51bfd3515f4a26f5fd</string>
 
     <!--Developer Environment-->
     <!--<bool name="b2c_enabled">true</bool>-->
