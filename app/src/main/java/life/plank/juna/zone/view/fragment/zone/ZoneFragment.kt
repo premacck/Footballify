@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.facebook.FacebookSdk.getApplicationContext
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.follow_league_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_team_selection.*
 import kotlinx.android.synthetic.main.fragment_zone.*
@@ -40,8 +39,6 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
 
     @Inject
     lateinit var gson: Gson
-    @Inject
-    lateinit var picasso: Picasso
     @Inject
     lateinit var restApi: RestApi
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>

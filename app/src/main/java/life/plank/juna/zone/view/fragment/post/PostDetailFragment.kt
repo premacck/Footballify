@@ -23,7 +23,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_post_detail.*
 import life.plank.juna.zone.R
@@ -237,9 +236,10 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
                 mediaPlayer.start()
 
                 try {
-                    Picasso.with(activity).load(feedEntry.feedItem.url)
-                            .error(R.drawable.ic_place_holder)
-                            .placeholder(R.drawable.ic_place_holder)
+                    Glide.with(this)
+                            .load(feedEntry.feedItem.url)
+                            .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder)
+                                    .error(R.drawable.ic_place_holder))
                             .into(feed_image_view)
                 } catch (e: Exception) {
                     feed_image_view.setImageResource(R.drawable.ic_place_holder)

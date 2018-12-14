@@ -10,7 +10,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,10 +82,10 @@ public class LineupPlayer extends FrameLayout {
                     .setPlayerNumber(formation.getNumber())
                     .setGoal(formation.getGoals())
                     .setName(formation.getNickname());
-            Picasso.with(getContext())
+            Glide.with(getContext())
                     .load(formation.getImagePath())
-                    .placeholder(R.drawable.ic_default_profile)
-                    .error(R.drawable.ic_default_profile)
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_default_profile)
+                            .error(R.drawable.ic_default_profile))
                     .into(lineupPlayerPic);
         }
     }

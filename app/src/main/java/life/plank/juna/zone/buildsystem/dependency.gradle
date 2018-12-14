@@ -26,22 +26,12 @@ ext {
     materialSearchViewVersion = '1.4.0'
     materialDesignDimensVersion = '1.4'
     materializeVersion = '1.0.0@aar'
-    circleImageView = '2.1.0'
-    fabTransitionActivityVersion = '0.2.0'
-    materialSpinner = '1.1.0'
-    avLoadingIndicatorViewVersion = '2.1.3'
     constraintLayoutVersion = '1.0.2'
-    materialStyledDialogVersion = '2.0'
     daggerVersion = '2.11'
-    progressBarVersion = '1.1.2'
     facebookSdkVersion = '4.28.0'
     twitterSdkVersion = '3.1.1'
-    tooltipSdkVersion = '0.2.2'
-    picassoVersion = '2.3.2'
     nineoldandroidsVersion = '2.4.0'
     recyclerViewAnimatorVersion = '1.0.1@aar'
-    slidingUpPanelVersion = '3.4.0'
-    bubbleLayoutVersion = '1.2.0'
     glideVersion = '4.6.1'
     supportAppCompat = '27.0.2'
     videoPlayer = 'r2.5.1'
@@ -76,20 +66,10 @@ ext {
             materialSearchView    : "com.miguelcatalan:materialsearchview:${materialSearchViewVersion}",
             materialDesignDimens  : "com.dmitrymalkovich.android:material-design-dimens:${materialDesignDimensVersion}",
             materialize           : "com.mikepenz:materialize:${materializeVersion}",
-            circleImageView       : "de.hdodenhof:circleimageview:${circleImageView}",
-            fabTransitionActivity : "com.github.coyarzun89:fabtransitionactivity:${fabTransitionActivityVersion}",
-            materialSpinner       : "com.jaredrummler:material-spinner:${materialSpinner}",
-            avLoadingIndicatorView: "com.wang.avi:library:${avLoadingIndicatorViewVersion}",
-            materialStyledDialog  : "com.github.javiersantos:MaterialStyledDialogs:${materialStyledDialogVersion}",
-            progressButton        : "com.alirezaahmadi:progress-button:${progressBarVersion}",
             facebookSdk           : "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}",
             twitterSdk            : "com.twitter.sdk.android:twitter:${twitterSdkVersion}",
-            tooltipSdk            : "com.github.douglasjunior:android-simple-tooltip:${tooltipSdkVersion}",
-            picasso               : "com.squareup.picasso:picasso:${picassoVersion}",
             nineoldandroids       : "com.nineoldandroids:library:${nineoldandroidsVersion}",
             recyclerViewAnimator  : "com.mikepenz:itemanimators:${recyclerViewAnimatorVersion}",
-            slidingUpPanelVersion : "com.sothree.slidinguppanel:library:${slidingUpPanelVersion}",
-            bubbleLayout          : "com.daasuu:BubbleLayout:${bubbleLayoutVersion}",
             glide                 : "com.github.bumptech.glide:glide:${glideVersion}",
             appCompatLibrary      : "com.android.support:appcompat-v7:${supportAppCompat}",
             videoPlayer           : "com.google.android.exoplayer:exoplayer:${videoPlayer}",

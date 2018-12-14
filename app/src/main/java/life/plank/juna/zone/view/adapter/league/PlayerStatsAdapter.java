@@ -7,7 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +39,10 @@ public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.
         holder.playerStatsAssistTextView.setText(String.valueOf(playerStatsList.get(position).getAssist()));
         holder.playerStatsYellowTextView.setText(String.valueOf(playerStatsList.get(position).getYellowCard()));
         holder.playerStatsRedCardTextView.setText(String.valueOf(playerStatsList.get(position).getRedCard()));
-        Picasso.with(holder.playerStatsTeamLogoImage.getContext())
+        Glide.with(holder.playerStatsTeamLogoImage.getContext())
                 .load(playerStatsList.get(position).getFootballTeamLogo())
-                .placeholder(R.drawable.ic_place_holder)
-                .error(R.drawable.ic_place_holder)
+                .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder)
+                        .error(R.drawable.ic_place_holder))
                 .into(holder.playerStatsTeamLogoImage);
     }
 

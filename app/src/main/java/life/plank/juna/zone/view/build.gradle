@@ -41,20 +41,10 @@ dependencies {
     implementation viewDependencies.materialSearchView
     implementation viewDependencies.materialDesignDimens
     implementation viewDependencies.materialize
-    implementation viewDependencies.circleImageView
-    implementation viewDependencies.fabTransitionActivity
-    implementation viewDependencies.materialSpinner
-    implementation viewDependencies.avLoadingIndicatorView
-    implementation viewDependencies.materialStyledDialog
-    implementation viewDependencies.progressButton
     implementation viewDependencies.facebookSdk
     implementation viewDependencies.twitterSdk
-    implementation viewDependencies.tooltipSdk
-    implementation viewDependencies.picasso
     implementation viewDependencies.nineoldandroids
     implementation viewDependencies.recyclerViewAnimator
-    implementation viewDependencies.slidingUpPanelVersion
-    implementation viewDependencies.bubbleLayout
     implementation viewDependencies.glide
     implementation viewDependencies.appCompatLibrary
     implementation viewDependencies.videoPlayer
