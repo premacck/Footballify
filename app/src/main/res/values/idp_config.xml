@@ -3,9 +3,9 @@
 
     <bool name="b2c_enabled">true</bool>
     <string name="b2c_tenant">planklabs.onmicrosoft.com</string>
-    <string name="b2c_client_id" translatable="false">927aea24-2e66-46d1-ad70-cae1dd260c0e</string>
+    <string name="b2c_client_id" translatable="false">60e0c468-512d-4c0f-8bd2-db94ecd67f21</string>
     <string name="b2c_redirect_uri" translatable="false">life.plank.juna.zone://oauth/redirect</string>
-    <string name="b2c_signupin_policy" translatable="false">B2C_1_SignUpIn</string>
+    <string name="b2c_signupin_policy" translatable="false">B2C_1_SignInUp</string>
     <string name="subscription_key_key" translatable="false">Ocp-Apim-Subscription-Key</string>
     <string name="subscription_key_value" translatable="false">c1c7d00eb0954668951a91416c280117</string>
 
@@ -20,7 +20,7 @@
 
     <!--options-->
     <string name="b2c_name">B2C</string>
-    <string name="b2c_discovery_uri" translatable="false">https://planklabs.b2clogin.com/planklabs.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_SignUpIn</string>
+    <string name="b2c_discovery_uri" translatable="false">https://planklabs.b2clogin.com/planklabs.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_SignInUp</string>
     <string name="b2c_scope_string" translatable="false">openid profile</string>
     <string name="discovery_endpoint_value_name">discoveryEndpointRes</string>
     <string name="auth_end_point_value_name">authEndpointRes</string>
