@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.zone_tool_bar.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.interfaces.CustomViewListener
@@ -68,7 +68,7 @@ class ZoneToolBar @JvmOverloads constructor(context: Context,
             setProfilePic(R.drawable.ic_default_profile)
             return
         }
-        Picasso.with(context).load(url).into(toolbar_profile_pic)
+        Glide.with(context).load(url).into(toolbar_profile_pic)
     }
 
     fun setProfilePic(@DrawableRes drawableRes: Int) {

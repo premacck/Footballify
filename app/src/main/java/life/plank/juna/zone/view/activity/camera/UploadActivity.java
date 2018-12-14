@@ -23,9 +23,10 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.JsonObject;
 import com.iceteck.silicompressorr.SiliCompressor;
-import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -81,8 +82,6 @@ public class UploadActivity extends AppCompatActivity {
 
     @Inject
     RestApi restApi;
-    @Inject
-    Picasso picasso;
     @BindView(R.id.captured_image_view)
     ImageView capturedImageView;
     @BindView(R.id.profile_image_view)
@@ -170,9 +169,10 @@ public class UploadActivity extends AppCompatActivity {
         capturedVideoView.setVisibility(type.equals(VIDEO) ? View.VISIBLE : View.GONE);
         capturedImageView.setVisibility(type.equals(VIDEO) ? View.GONE : View.VISIBLE);
 
-        picasso.load(PreferenceManager.CurrentUser.getProfilePicUrl())
-                .error(R.drawable.ic_default_profile)
-                .placeholder(R.drawable.ic_default_profile)
+        Glide.with(this)
+                .load(PreferenceManager.CurrentUser.getProfilePicUrl())
+                .apply(RequestOptions.placeholderOf(R.drawable.ic_default_profile)
+                        .error(R.drawable.ic_default_profile))
                 .into(profilePicture);
     }
 

@@ -23,7 +23,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -62,8 +61,6 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -368,41 +365,6 @@ public class UIDisplayUtil {
             @Override
             public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                 textView.setCompoundDrawablesWithIntrinsicBounds(null, null, resource, null);
-            }
-        };
-    }
-
-    public static Target getStartDrawableTargetPicasso(TextView textView) {
-        return new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                textView.setCompoundDrawablesWithIntrinsicBounds(new BitmapDrawable(ZoneApplication.getContext().getResources(), bitmap), null, null, null);
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-                textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error, 0, 0, 0);
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) { }
-        };
-    }
-
-    public static Target getEndDrawableTargetPicasso(TextView textView) {
-        return new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                textView.setCompoundDrawablesWithIntrinsicBounds(null, null, new BitmapDrawable(ZoneApplication.getContext().getResources(), bitmap), null);
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-                textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error, 0);
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
             }
         };
     }
