@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <life.plank.juna.zone.util.customview.ZoneToolBar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:clipToPadding="false"
+        android:isScrollContainer="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginEnd="17dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/raleway_semibold"
+                android:lineSpacingExtra="8sp"
+                android:text="@string/welcome_to_juna"
+                android:textColor="@color/grey"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@font/rajdhani_medium"
+                android:lineSpacingExtra="6sp"
+                android:text="@string/fill_data"
+                android:textColor="@color/grey"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="340dp"
+                            android:layout_height="380dp"
+                            android:layout_marginTop="35dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/zone_thumb_image" />
+
+                        <ImageView
+                            android:layout_width="340dp"
+                            android:layout_height="380dp"
+                            android:layout_marginTop="30dp"
+                            android:background="@color/black_50"
+                            android:scaleType="centerCrop" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:layout_width="340dp"
+                        android:layout_height="500dp"
+                        android:src="@drawable/img_photo_frame" />
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="37dp"
+                        android:layout_centerInParent="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_camera" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginTop="410dp"
+                        android:fontFamily="@font/rajdhani_semibold"
+                        android:letterSpacing="0.02"
+                        android:text="#1402"
+                        android:textColor="#093971"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginTop="425dp"
+                        android:fontFamily="@font/rajdhani_semibold"
+                        android:text="Jane Doe"
+                        android:textColor="#093971"
+                        android:textSize="24sp" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <Button
+                android:id="@+id/create_board_button"
+                android:layout_width="222dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/raleway_bold"
+                android:text="@string/proceed"
+                android:textColor="@color/white"
+                android:textSize="19sp" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/popup_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:elevation="8dp" />
+
+</RelativeLayout>
