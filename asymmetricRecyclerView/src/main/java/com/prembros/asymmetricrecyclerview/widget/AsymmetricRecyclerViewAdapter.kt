@@ -2,33 +2,35 @@ package com.prembros.asymmetricrecyclerview.widget
 
 import android.content.Context
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.prembros.asymmetricrecyclerview.base.AsymmetricBaseAdapter
 import com.prembros.asymmetricrecyclerview.base.AsymmetricItem
 import com.prembros.asymmetricrecyclerview.implementation.AdapterImpl
+import com.prembros.asymmetricrecyclerview.implementation.AdapterImpl.ViewHolder
 
-class AsymmetricRecyclerViewAdapter<T : androidx.recyclerview.widget.RecyclerView.ViewHolder>(
+class AsymmetricRecyclerViewAdapter<T : RecyclerView.ViewHolder>(
         context: Context,
         private val recyclerView: AsymmetricRecyclerView,
         private val wrappedAdapter: WrappedAsymmetricRecyclerAdapter<T>
-) : androidx.recyclerview.widget.RecyclerView.Adapter<AdapterImpl.ViewHolder>(), AsymmetricBaseAdapter<T> {
+) : RecyclerView.Adapter<ViewHolder>(), AsymmetricBaseAdapter<T> {
     private val adapterImpl: AdapterImpl<T> = AdapterImpl(context, this, recyclerView)
 
     override val actualItemCount: Int
         get() = wrappedAdapter.itemCount
 
     init {
-        wrappedAdapter.registerAdapterDataObserver(object : androidx.recyclerview.widget.RecyclerView.AdapterDataObserver() {
+        wrappedAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onChanged() {
                 recalculateItemsPerRow()
             }
         })
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterImpl.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return adapterImpl.onCreateViewHolder()
     }
 
-    override fun onBindViewHolder(holder: AdapterImpl.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         adapterImpl.onBindViewHolder(holder, position, recyclerView)
     }
 

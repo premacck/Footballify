@@ -4,11 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewTreeObserver
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.prembros.asymmetricrecyclerview.base.AsymmetricRecyclerViewListener
 import com.prembros.asymmetricrecyclerview.base.AsymmetricView
 import com.prembros.asymmetricrecyclerview.implementation.AsymmetricViewImpl
 
-class AsymmetricRecyclerView(context: Context, attrs: AttributeSet) : androidx.recyclerview.widget.RecyclerView(context, attrs, 0), AsymmetricView {
+class AsymmetricRecyclerView(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs, 0), AsymmetricView {
 
     private val viewImpl: AsymmetricViewImpl = AsymmetricViewImpl(context)
     private var listener: AsymmetricRecyclerViewListener? = null
@@ -42,7 +44,7 @@ class AsymmetricRecyclerView(context: Context, attrs: AttributeSet) : androidx.r
         }
 
     init {
-        layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, VERTICAL, false)
+        layoutManager = LinearLayoutManager(context, VERTICAL, false)
 
         val vto = viewTreeObserver
         vto?.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -60,7 +62,7 @@ class AsymmetricRecyclerView(context: Context, attrs: AttributeSet) : androidx.r
         this.listener = listener
     }
 
-    override fun setAdapter(adapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>?) {
+    override fun setAdapter(adapter: RecyclerView.Adapter<*>?) {
         if (adapter != null) {
             if (adapter !is AsymmetricRecyclerViewAdapter<*>) {
                 throw UnsupportedOperationException("Adapter must be an instance of AsymmetricRecyclerViewAdapter")
@@ -69,7 +71,7 @@ class AsymmetricRecyclerView(context: Context, attrs: AttributeSet) : androidx.r
             this.adapter = adapter
             super.setAdapter(adapter)
 
-            this.adapter!!.recalculateItemsPerRow()
+            this.adapter?.recalculateItemsPerRow()
         } else
             super.setAdapter(null)
     }

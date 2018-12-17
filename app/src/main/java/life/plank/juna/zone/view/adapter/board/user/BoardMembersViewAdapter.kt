@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.adapter.board.user
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_user.view.*
 import life.plank.juna.zone.R
@@ -23,7 +24,7 @@ class BoardMembersViewAdapter(
         private val fragment: BaseFragment,
         private val displayName: String,
         private val boardName: String
-) : androidx.recyclerview.widget.RecyclerView.Adapter<BoardMembersViewAdapter.BoardMembersViewHolder>() {
+) : RecyclerView.Adapter<BoardMembersViewAdapter.BoardMembersViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardMembersViewHolder =
             BoardMembersViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false))
@@ -69,5 +70,5 @@ class BoardMembersViewAdapter(
         notifyDataSetChanged()
     }
 
-    class BoardMembersViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
+    class BoardMembersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

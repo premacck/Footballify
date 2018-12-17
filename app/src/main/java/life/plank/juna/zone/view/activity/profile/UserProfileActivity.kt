@@ -114,7 +114,6 @@ class UserProfileActivity : BaseCardActivity() {
     override fun restApi(): RestApi? = restApi
 
     private fun initRecyclerView() {
-        my_boards_list.layoutManager = androidx.recyclerview.widget.GridLayoutManager(applicationContext, 5)
         userBoardsAdapter = UserBoardsAdapter(this, restApi, Glide.with(this), true)
         my_boards_list.adapter = userBoardsAdapter
         get_coins_list.adapter = getCoinsAdapter

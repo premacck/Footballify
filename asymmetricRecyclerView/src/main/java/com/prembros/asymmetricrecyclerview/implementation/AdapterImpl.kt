@@ -13,6 +13,8 @@ import android.widget.AbsListView.LayoutParams
 import android.widget.AbsListView.LayoutParams.MATCH_PARENT
 import android.widget.AbsListView.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
+import androidx.collection.ArrayMap
+import androidx.recyclerview.widget.RecyclerView
 import com.prembros.asymmetricrecyclerview.R
 import com.prembros.asymmetricrecyclerview.base.AsymmetricBaseAdapter
 import com.prembros.asymmetricrecyclerview.base.AsymmetricItem
@@ -30,14 +32,14 @@ import java.lang.ref.WeakReference
 import java.util.*
 
 @Suppress("UNCHECKED_CAST", "DEPRECATION")
-class AdapterImpl<T : androidx.recyclerview.widget.RecyclerView.ViewHolder>(
+class AdapterImpl<T : RecyclerView.ViewHolder>(
         private val context: Context,
         private val asymmetricAdapter: AsymmetricBaseAdapter<T>,
         private val listView: AsymmetricView
 ) : View.OnClickListener, View.OnLongClickListener {
     private val itemsPerRow = SparseArray<RowInfo>()
     private val linearLayoutPool: ObjectPool<LinearLayout> = ObjectPool(LinearLayoutPoolObjectFactory(context))
-    private val viewHoldersMap = androidx.collection.ArrayMap<Int, ObjectPool<AsymmetricViewHolder<T>>>()
+    private val viewHoldersMap = ArrayMap<Int, ObjectPool<AsymmetricViewHolder<T>>>()
     private val debugEnabled: Boolean = listView.isDebugging
     private var asyncTask: ProcessRowsTask<T>? = null
 
@@ -76,15 +78,13 @@ class AdapterImpl<T : androidx.recyclerview.widget.RecyclerView.ViewHolder>(
     }
 
     fun recalculateItemsPerRow() {
-        if (asyncTask != null) {
-            asyncTask!!.cancel(true)
-        }
+        asyncTask?.cancel(true)
 
         linearLayoutPool.clear()
         itemsPerRow.clear()
 
         asyncTask = ProcessRowsTask(this)
-        asyncTask!!.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR)
+        asyncTask?.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR)
     }
 
     override fun onClick(v: View) {
@@ -251,7 +251,7 @@ class AdapterImpl<T : androidx.recyclerview.widget.RecyclerView.ViewHolder>(
         return childLayout
     }
 
-    internal class ProcessRowsTask<VH : androidx.recyclerview.widget.RecyclerView.ViewHolder>(adapterImpl: AdapterImpl<VH>) : AsyncTask<Void, Void, List<RowInfo>>() {
+    internal class ProcessRowsTask<VH : RecyclerView.ViewHolder>(adapterImpl: AdapterImpl<VH>) : AsyncTask<Void, Void, List<RowInfo>>() {
 
         private val ref: WeakReference<AdapterImpl<VH>> = WeakReference(adapterImpl)
 
@@ -304,9 +304,9 @@ class AdapterImpl<T : androidx.recyclerview.widget.RecyclerView.ViewHolder>(
         }
     }
 
-    private class ViewState<T : androidx.recyclerview.widget.RecyclerView.ViewHolder> constructor(val viewType: Int, val rowItem: RowItem, val viewHolder: AsymmetricViewHolder<T>)
+    private class ViewState<T : RecyclerView.ViewHolder> constructor(val viewType: Int, val rowItem: RowItem, val viewHolder: AsymmetricViewHolder<T>)
 
-    class ViewHolder(itemView: LinearLayout) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: LinearLayout) : RecyclerView.ViewHolder(itemView) {
         fun itemView(): LinearLayout {
             return itemView as LinearLayout
         }

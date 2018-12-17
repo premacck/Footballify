@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_league_stats.*
 import life.plank.juna.zone.R
@@ -102,7 +103,7 @@ class LeagueStatsFragment : BaseLeagueFragment() {
         }
     }
 
-    private fun updateUI(available: Boolean, recyclerView: androidx.recyclerview.widget.RecyclerView, seeMoreView: TextView, noDataView: TextView) {
+    private fun updateUI(available: Boolean, recyclerView: RecyclerView, seeMoreView: TextView, noDataView: TextView) {
         recyclerView.visibility = if (available) View.VISIBLE else View.INVISIBLE
         seeMoreView.visibility = if (available) View.VISIBLE else View.GONE
         noDataView.visibility = if (available) View.GONE else View.VISIBLE

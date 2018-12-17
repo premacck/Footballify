@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.fragment.base
 
+import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.MatchDetails
@@ -79,7 +80,7 @@ abstract class BaseMatchFragment : CardTileFragment() {
 
     abstract fun onBoardStateChange(isActive: Boolean)
 
-    abstract fun currentChildFragment(): androidx.fragment.app.Fragment?
+    abstract fun currentChildFragment(): Fragment?
 
     abstract fun publicBoardToolbar(): PublicBoardToolbar
 }

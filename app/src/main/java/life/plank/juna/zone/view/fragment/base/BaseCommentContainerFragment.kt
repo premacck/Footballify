@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_forum.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.CommentEvent
@@ -67,7 +68,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
         return commentEvent
     }
 
-    abstract fun commentsRecyclerView(): androidx.recyclerview.widget.RecyclerView
+    abstract fun commentsRecyclerView(): RecyclerView
 
     abstract fun specifyCommentEvent()
 

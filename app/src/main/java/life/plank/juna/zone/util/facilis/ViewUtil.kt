@@ -17,6 +17,7 @@ import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.*
 import androidx.annotation.AnimRes
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.ahamed.multiviewadapter.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.leocardz.link.preview.library.LinkPreviewCallback
@@ -161,7 +162,7 @@ fun View.setTopMargin(topMargin: Int) {
     params?.run {
         when (params) {
             is RelativeLayout.LayoutParams -> params.topMargin = topMargin
-            is androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams -> params.topMargin = topMargin
+            is CoordinatorLayout.LayoutParams -> params.topMargin = topMargin
             is FrameLayout.LayoutParams -> params.topMargin = topMargin
             is LinearLayout.LayoutParams -> params.topMargin = topMargin
         }

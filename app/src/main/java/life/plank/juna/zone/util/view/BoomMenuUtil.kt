@@ -10,6 +10,8 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -31,7 +33,7 @@ fun Activity.setupBoomMenu(@BoomMenuPage page: Int, boardId: String?, bottomShee
     boomMenu().setup(page, this, boardId, bottomSheetBehaviour)
 }
 
-fun androidx.fragment.app.Fragment.setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?, bottomSheetBehaviour: BottomSheetBehavior<*>? = null) {
+fun Fragment.setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?, bottomSheetBehaviour: BottomSheetBehavior<*>? = null) {
     boomMenu().setup(page, activity, boardId, bottomSheetBehaviour)
 }
 
@@ -79,9 +81,9 @@ fun BoomMenu.setupWith(nestedScrollView: NestedScrollView) {
     }
 }
 
-fun BoomMenu.setupWith(recyclerView: androidx.recyclerview.widget.RecyclerView) {
-    recyclerView.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
+fun BoomMenu.setupWith(recyclerView: RecyclerView) {
+    recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             if (dy > 5) {
                 hide()
             } else if (dy < -5) {
@@ -283,7 +285,7 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
 
 fun Activity.boomMenu(): BoomMenu = find(R.id.boom_menu)
 
-fun androidx.fragment.app.Fragment.boomMenu(): BoomMenu = find(R.id.boom_menu)
+fun Fragment.boomMenu(): BoomMenu = find(R.id.boom_menu)
 
 fun Activity.dismissBoomMenuIfOpen(): Boolean {
     findViewById<BoomMenu>(R.id.boom_menu)?.run {
@@ -296,7 +298,7 @@ fun Activity.dismissBoomMenuIfOpen(): Boolean {
     return true
 }
 
-fun androidx.fragment.app.Fragment.dismissBoomMenuIfOpen(): Boolean {
+fun Fragment.dismissBoomMenuIfOpen(): Boolean {
     view?.findViewById<BoomMenu>(R.id.boom_menu)?.run {
         if (isOpen()) {
             toggleBoomMenu()

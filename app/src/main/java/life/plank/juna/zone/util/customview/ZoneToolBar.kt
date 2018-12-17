@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.zone_tool_bar.view.*
 import life.plank.juna.zone.R
@@ -74,7 +75,7 @@ class ZoneToolBar @JvmOverloads constructor(context: Context,
         toolbar_profile_pic.setImageResource(drawableRes)
     }
 
-    override fun initListeners(fragment: androidx.fragment.app.Fragment) {
+    override fun initListeners(fragment: Fragment) {
         if (fragment is ZoneToolbarListener) {
             listener = fragment
         } else

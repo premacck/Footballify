@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.prembros.asymmetricrecyclerview.base.AsymmetricRecyclerViewListener
@@ -52,6 +53,7 @@ import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
 import org.jetbrains.anko.support.v4.toast
 import java.net.HttpURLConnection
 import java.util.*
+import java.util.Objects.requireNonNull
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
@@ -101,7 +103,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
         boomMenu().setupWith(nestedScrollView)
 
         if (isBoardActive) {
-            setupBoomMenu(BOOM_MENU_FULL, Objects.requireNonNull<androidx.fragment.app.FragmentActivity>(activity), boardId, emojiBottomSheetBehavior)
+            setupBoomMenu(BOOM_MENU_FULL, requireNonNull<FragmentActivity>(activity), boardId, emojiBottomSheetBehavior)
         } else {
             boomMenu().onDebouncingClick { toast(R.string.board_not_active) }
         }

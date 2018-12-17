@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_team_selection.*
 import life.plank.juna.zone.R
@@ -53,7 +55,7 @@ class TeamSelectionFragment : SearchableCard() {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 
-    override fun getRootView(): androidx.cardview.widget.CardView? = root_card
+    override fun getRootView(): CardView? = root_card
 
     override fun getDragView(): View? = drag_area
 
@@ -61,7 +63,7 @@ class TeamSelectionFragment : SearchableCard() {
 
     override fun searchedList(): MutableList<*> = teamList
 
-    override fun searchAdapter(): androidx.recyclerview.widget.RecyclerView.Adapter<*>? = onBoardingAdapter
+    override fun searchAdapter(): RecyclerView.Adapter<*>? = onBoardingAdapter
 
     override fun searchAction(searchString: String) = getFootballTeams(searchString)
 

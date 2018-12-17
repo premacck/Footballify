@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_image_and_title.view.*
@@ -32,7 +33,7 @@ class UserBoardsAdapter(
         private val restApi: RestApi,
         private val glide: RequestManager,
         private val isTitleShown: Boolean
-) : androidx.recyclerview.widget.RecyclerView.Adapter<UserBoardsAdapter.UserBoardsViewHolder>() {
+) : RecyclerView.Adapter<UserBoardsAdapter.UserBoardsViewHolder>() {
 
     private var boardList: MutableList<Board> = ArrayList()
 
@@ -128,5 +129,5 @@ class UserBoardsAdapter(
         }
     }
 
-    class UserBoardsViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
+    class UserBoardsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

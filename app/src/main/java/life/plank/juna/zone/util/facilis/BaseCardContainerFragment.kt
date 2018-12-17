@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import java.lang.ref.WeakReference
@@ -29,12 +32,12 @@ abstract class BaseCardContainerFragment : BaseCard() {
 
     abstract fun baseCardToInflate(position: Int): BaseFragment
 
-    class BaseCardContainerPagerAdapter(fm: androidx.fragment.app.FragmentManager, baseCardContainerFragment: BaseCardContainerFragment) : androidx.fragment.app.FragmentStatePagerAdapter(fm) {
+    class BaseCardContainerPagerAdapter(fm: FragmentManager, baseCardContainerFragment: BaseCardContainerFragment) : FragmentStatePagerAdapter(fm) {
 
         private val ref: WeakReference<BaseCardContainerFragment> = WeakReference(baseCardContainerFragment)
         private var currentCard: BaseFragment? = null
 
-        override fun getItem(position: Int): androidx.fragment.app.Fragment? = ref.get()?.baseCardToInflate(position)
+        override fun getItem(position: Int): Fragment? = ref.get()?.baseCardToInflate(position)
 
         override fun getCount(): Int = ref.get()?.baseCardCount() ?: 0
 

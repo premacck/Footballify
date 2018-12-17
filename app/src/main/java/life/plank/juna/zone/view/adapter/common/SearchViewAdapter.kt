@@ -6,6 +6,7 @@ import android.graphics.PorterDuffColorFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_image_and_title.view.*
@@ -14,7 +15,7 @@ import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
 
-class SearchViewAdapter(private val userList: MutableList<User>, private val glide: RequestManager) : androidx.recyclerview.widget.RecyclerView.Adapter<SearchViewAdapter.SearchViewHolder>() {
+class SearchViewAdapter(private val userList: MutableList<User>, private val glide: RequestManager) : RecyclerView.Adapter<SearchViewAdapter.SearchViewHolder>() {
 
     val selectedUsers: MutableSet<User> = HashSet()
 
@@ -62,5 +63,5 @@ class SearchViewAdapter(private val userList: MutableList<User>, private val gli
         notifyDataSetChanged()
     }
 
-    class SearchViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
+    class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

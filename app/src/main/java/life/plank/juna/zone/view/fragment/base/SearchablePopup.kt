@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.EditText
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.experimental.Runnable
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import rx.Subscription
@@ -61,7 +62,7 @@ abstract class SearchablePopup : BaseBlurPopup() {
 
     abstract fun searchedList(): MutableList<*>
 
-    abstract fun searchAdapter(): androidx.recyclerview.widget.RecyclerView.Adapter<*>?
+    abstract fun searchAdapter(): RecyclerView.Adapter<*>?
 
     abstract fun searchAction(searchString: String)
 

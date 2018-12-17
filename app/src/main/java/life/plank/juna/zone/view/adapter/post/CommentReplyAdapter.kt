@@ -4,6 +4,7 @@ import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_base_comment.view.*
@@ -27,7 +28,7 @@ class CommentReplyAdapter(
         private val parentCommentPosition: Int,
         private val replies: List<FeedItemComment>,
         private val commentContainerFragment: BaseCommentContainerFragment
-) : androidx.recyclerview.widget.RecyclerView.Adapter<CommentReplyAdapter.PostCommentReplyViewHolder>() {
+) : RecyclerView.Adapter<CommentReplyAdapter.PostCommentReplyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostCommentReplyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_base_comment, parent, false)
@@ -65,5 +66,5 @@ class CommentReplyAdapter(
 
     override fun getItemCount(): Int = replies.size
 
-    class PostCommentReplyViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
+    class PostCommentReplyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

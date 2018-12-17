@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_user_search.*
@@ -120,7 +121,7 @@ class SearchUserPopup : SearchablePopup() {
 
     override fun searchedList(): MutableList<*> = userList
 
-    override fun searchAdapter(): androidx.recyclerview.widget.RecyclerView.Adapter<*>? = adapter
+    override fun searchAdapter(): RecyclerView.Adapter<*>? = adapter
 
     override fun searchAction(searchString: String) = getSearchedUsers(searchString)
 

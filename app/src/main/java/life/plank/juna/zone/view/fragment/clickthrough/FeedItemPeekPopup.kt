@@ -5,6 +5,7 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.alterac.blurkit.BlurLayout
@@ -102,7 +103,7 @@ class FeedItemPeekPopup : BaseBlurPopup(), EmojiContainer {
                 emojiBottomSheetBehavior, emojiAdapter, null, Glide.with(this))
         board_tiles_full_recycler_view.adapter = boardFeedDetailAdapter
         boardFeedDetailAdapter?.update(feedEntries)
-        androidx.recyclerview.widget.PagerSnapHelper().attachToRecyclerView(board_tiles_full_recycler_view)
+        PagerSnapHelper().attachToRecyclerView(board_tiles_full_recycler_view)
         board_tiles_full_recycler_view.scrollToPosition(position)
     }
 
