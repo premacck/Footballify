@@ -23,7 +23,7 @@
             android:src="@drawable/ic_options"
             android:tint="@color/white_40" />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                         android:textSize="12sp" />
                 </RelativeLayout>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/user_profile_image"
                     android:layout_width="310dp"
                     android:layout_height="310dp"
@@ -88,7 +88,7 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/zone_thumb_image" />
 
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/user_name"
@@ -151,7 +151,7 @@
                 style="@style/DragHandleImageView"
                 android:contentDescription="@string/thumbnail" />
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <View
             android:id="@+id/drag_area"

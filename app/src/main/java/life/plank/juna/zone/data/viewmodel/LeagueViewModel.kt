@@ -1,10 +1,10 @@
 package life.plank.juna.zone.data.viewmodel
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import android.arch.persistence.room.RoomDatabase
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.room.RoomDatabase
 import life.plank.juna.zone.data.local.model.LeagueInfo
 import life.plank.juna.zone.data.local.repository.LeagueRepository
 import life.plank.juna.zone.data.model.*

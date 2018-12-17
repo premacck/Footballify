@@ -137,8 +137,8 @@ class CreateBoardActivity : BaseCardActivity() {
                 Activity.RESULT_OK -> {
                     filePath = getPathForGalleryImageView(data!!.data, this)
                     if (filePath != null) {
-                        boardIconAdapter.boardIconList.add(0, filePath)
-                        boardIconAdapter.setSelectedIndex(0)
+                        boardIconAdapter.boardIconList.add(0, filePath!!)
+                        boardIconAdapter.selectedIndex = 0
                         boardIconAdapter.notifyDataSetChanged()
                         isIconSelected = true
                         validateCreateBoardContent()

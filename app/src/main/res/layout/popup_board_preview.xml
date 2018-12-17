@@ -8,7 +8,7 @@
         android:id="@+id/root_blur_layout"
         style="@style/BlurLayoutFullScreen" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/root_card"
         style="@style/CardView.Root"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
                     android:textColor="@color/grey"
                     android:textSize="16sp" />
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/board_parent_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                             app:dragHandleVisibility="invisible"
                             app:isLockVisible="true" />
 
-                        <android.support.v7.widget.CardView
+                        <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="7dp"
@@ -97,11 +97,11 @@
                                     android:textSize="12sp" />
                             </RelativeLayout>
 
-                        </android.support.v7.widget.CardView>
+                        </androidx.cardview.widget.CardView>
 
                     </LinearLayout>
 
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
                 <Button
                     android:id="@+id/create_board_button"
@@ -166,6 +166,6 @@
 
         </ScrollView>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

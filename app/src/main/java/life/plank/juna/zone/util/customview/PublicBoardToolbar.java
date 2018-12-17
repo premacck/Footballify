@@ -6,13 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -24,12 +17,17 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.Date;
 import java.util.TimeZone;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.BoardTemperature;
@@ -66,33 +64,20 @@ import static life.plank.juna.zone.util.view.UIDisplayUtil.getDp;
 
 public class PublicBoardToolbar extends Toolbar implements CustomViewListener, EngagementInfoTilesToolbar {
 
-    @BindView(R.id.logo)
-    ImageView leagueLogoView;
-    @BindView(R.id.score_layout)
-    LinearLayout scoreLayout;
-    @BindView(R.id.score)
-    TextView scoreView;
-    @BindView(R.id.time_status)
-    Chronometer timeStatusView;
-    @BindView(R.id.win_pointer)
-    ImageView winPointer;
-    @BindView(R.id.home_team_logo)
-    ImageView homeTeamLogoView;
-    @BindView(R.id.visiting_team_logo)
-    ImageView visitingTeamLogoView;
-    @BindView(R.id.options_menu)
-    ImageButton optionsMenu;
-    @BindView(R.id.share_btn)
-    ImageButton shareBtn;
-    @BindView(R.id.people_count)
-    TextView peopleCountView;
-    @BindView(R.id.post_count)
-    TextView postCountView;
-    @BindView(R.id.interaction_count)
-    TextView interactionCountView;
-    @BindView(R.id.info_tiles_tab_layout)
-    TabLayout infoTilesTabLayout;
-
+    private ImageView leagueLogoView;
+    private LinearLayout scoreLayout;
+    private TextView scoreView;
+    private Chronometer timeStatusView;
+    private ImageView winPointer;
+    private ImageView homeTeamLogoView;
+    private ImageView visitingTeamLogoView;
+    private ImageButton optionsMenu;
+    private ImageButton shareBtn;
+    private TextView peopleCountView;
+    private TextView postCountView;
+    private TextView interactionCountView;
+    private TabLayout infoTilesTabLayout;
+    
     private boolean isFavourite;
     private boolean isNotificationOn;
     private boolean isFollowing;
@@ -119,8 +104,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     }
 
     private void init(Context context, AttributeSet attrs) {
-        View rootView = inflate(context, R.layout.public_board_toolbar, this);
-        ButterKnife.bind(this, rootView);
+        initViews(inflate(context, R.layout.public_board_toolbar, this));
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.PublicBoardToolbar);
 
         boolean initWithDefaults = array.getBoolean(R.styleable.PublicBoardToolbar_useDefaults, true);
@@ -139,6 +123,23 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         showLock(array.getBoolean(R.styleable.PublicBoardToolbar_showLock, false));
 
         array.recycle();
+    }
+
+    //    TODO: Remove when converting this class to kotlin
+    private void initViews(View rootView) {
+        leagueLogoView = rootView.findViewById(R.id.logo);
+        scoreLayout = rootView.findViewById(R.id.score_layout);
+        scoreView = rootView.findViewById(R.id.score);
+        timeStatusView = rootView.findViewById(R.id.time_status);
+        winPointer = rootView.findViewById(R.id.win_pointer);
+        homeTeamLogoView = rootView.findViewById(R.id.home_team_logo);
+        visitingTeamLogoView = rootView.findViewById(R.id.visiting_team_logo);
+        optionsMenu = rootView.findViewById(R.id.options_menu);
+        shareBtn = rootView.findViewById(R.id.share_btn);
+        peopleCountView = rootView.findViewById(R.id.people_count);
+        postCountView = rootView.findViewById(R.id.post_count);
+        interactionCountView = rootView.findViewById(R.id.interaction_count);
+        infoTilesTabLayout = rootView.findViewById(R.id.info_tiles_tab_layout);
     }
 
     public void setUpPopUp(Activity activity, Long currentMatchId) {

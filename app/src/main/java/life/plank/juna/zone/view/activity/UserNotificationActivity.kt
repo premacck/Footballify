@@ -3,10 +3,10 @@ package life.plank.juna.zone.view.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.shimmer_notification.*
 import kotlinx.android.synthetic.main.user_notification.*
 import life.plank.juna.zone.R

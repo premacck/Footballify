@@ -106,7 +106,7 @@ class TimelinePopup : BaseBlurPopup() {
             MATCH_EVENTS -> {
                 val matchEventList = zoneLiveData.getMatchEventList(gson)
                 if (adapter != null && !isNullOrEmpty(matchEventList)) {
-                    adapter!!.updateLiveEvents(matchEventList)
+                    adapter!!.updateLiveEvents(matchEventList!!)
                     timeline_recycler_view.smoothScrollToPosition(0)
                 }
             }

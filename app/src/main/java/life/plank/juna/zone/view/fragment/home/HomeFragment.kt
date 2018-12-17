@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -268,13 +267,13 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         shimmer_user_zones.startShimmerAnimation()
     }
 
-    private fun onRecyclerViewContentsLoaded(recyclerView: RecyclerView, shimmerRelativeLayout: ShimmerRelativeLayout, isLoading: Boolean = false) {
+    private fun onRecyclerViewContentsLoaded(recyclerView: androidx.recyclerview.widget.RecyclerView, shimmerRelativeLayout: ShimmerRelativeLayout, isLoading: Boolean = false) {
         recyclerView.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
         if (isLoading) shimmerRelativeLayout.startShimmerAnimation() else shimmerRelativeLayout.stopShimmerAnimation()
         shimmerRelativeLayout.visibility = if (isLoading) View.VISIBLE else View.INVISIBLE
     }
 
-    private fun onRecyclerViewContentsFailedToLoad(recyclerView: RecyclerView, shimmerRelativeLayout: ShimmerRelativeLayout) {
+    private fun onRecyclerViewContentsFailedToLoad(recyclerView: androidx.recyclerview.widget.RecyclerView, shimmerRelativeLayout: ShimmerRelativeLayout) {
         recyclerView.visibility = View.INVISIBLE
         shimmerRelativeLayout.stopShimmerAnimation()
         (shimmerRelativeLayout as? ShimmerRelativeLayout)?.alpha = 0.2f

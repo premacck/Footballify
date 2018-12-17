@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.fragment.base
 
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -68,7 +67,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
         return commentEvent
     }
 
-    abstract fun commentsRecyclerView(): RecyclerView
+    abstract fun commentsRecyclerView(): androidx.recyclerview.widget.RecyclerView
 
     abstract fun specifyCommentEvent()
 

@@ -1,10 +1,10 @@
 package com.prembros.asymmetricrecyclerview.base
 
 import android.content.Context
-import android.support.annotation.ColorRes
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
+import androidx.annotation.ColorRes
 
 @Suppress("DEPRECATION")
 object MasonryUtils {

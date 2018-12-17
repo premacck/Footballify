@@ -1,12 +1,10 @@
 package life.plank.juna.zone.view.adapter.common
 
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.item_emoji.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Emoji
@@ -30,7 +28,7 @@ class EmojiAdapter(
         private var feedItemId: String? = null,
         private val isFeedItem: Boolean,
         private val emojiContainer: EmojiContainer
-) : RecyclerView.Adapter<EmojiAdapter.EmojiViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<EmojiAdapter.EmojiViewHolder>() {
 
     private var emojiList: MutableList<Emoji> = ArrayList()
 
@@ -47,13 +45,13 @@ class EmojiAdapter(
                 if (emoji.emojiCount > 0) {
                     emoji_count.visibility = View.VISIBLE
                     emoji_count.text = emoji.emojiCount.toString()
-                    (emoji_root_layout.layoutParams as? GridLayoutManager.LayoutParams)?.run {
+                    (emoji_root_layout.layoutParams as? androidx.recyclerview.widget.GridLayoutManager.LayoutParams)?.run {
                         bottomMargin = getDp(10f).toInt()
                         emoji_root_layout.layoutParams = this
                     }
                 } else {
                     emoji_count.visibility = View.GONE
-                    (emoji_root_layout.layoutParams as? GridLayoutManager.LayoutParams)?.run {
+                    (emoji_root_layout.layoutParams as? androidx.recyclerview.widget.GridLayoutManager.LayoutParams)?.run {
                         bottomMargin = getDp(2f).toInt()
                         emoji_root_layout.layoutParams = this
                     }
@@ -134,5 +132,5 @@ class EmojiAdapter(
 
     override fun getItemCount(): Int = emojiList.size
 
-    class EmojiViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class EmojiViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
 }

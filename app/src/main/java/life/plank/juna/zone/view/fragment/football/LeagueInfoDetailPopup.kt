@@ -10,6 +10,8 @@ import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_league_info_detail.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.model.PlayerStats
+import life.plank.juna.zone.data.model.TeamStats
 import life.plank.juna.zone.util.common.AppConstants
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.view.adapter.league.PlayerStatsAdapter
@@ -46,12 +48,12 @@ class LeagueInfoDetailPopup : BaseBlurPopup() {
             AppConstants.TEAM_STATS -> {
                 teamStatsAdapter = TeamStatsAdapter(Glide.with(this))
                 standing_recycler_view.adapter = teamStatsAdapter!!
-                teamStatsAdapter?.update(arguments?.getParcelableArrayList(getString(R.string.intent_list)))
+                teamStatsAdapter?.update(arguments?.getParcelableArrayList<TeamStats>(getString(R.string.intent_list)) as MutableList<TeamStats>)
             }
             AppConstants.PLAYER_STATS -> {
                 playerStatsAdapter = PlayerStatsAdapter()
                 standing_recycler_view.adapter = playerStatsAdapter!!
-                playerStatsAdapter?.update(arguments?.getParcelableArrayList(getString(R.string.intent_list)))
+                playerStatsAdapter?.update(arguments?.getParcelableArrayList<PlayerStats>(getString(R.string.intent_list)) as MutableList<PlayerStats>)
             }
         }
         addHeader(viewToLoad)

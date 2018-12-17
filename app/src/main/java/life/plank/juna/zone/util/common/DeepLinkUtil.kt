@@ -1,7 +1,7 @@
 package life.plank.juna.zone.util.common
 
 import android.app.Activity
-import android.support.v4.app.ShareCompat
+import androidx.core.app.ShareCompat
 import life.plank.juna.zone.R
 import life.plank.juna.zone.util.common.AppConstants.NEW_LINE
 import life.plank.juna.zone.util.common.DataUtil.findString

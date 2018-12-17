@@ -1,8 +1,8 @@
 package life.plank.juna.zone.data.model
 
-import android.arch.persistence.room.Embedded
-import android.arch.persistence.room.Entity
 import android.os.Parcelable
+import androidx.room.Embedded
+import androidx.room.Entity
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize

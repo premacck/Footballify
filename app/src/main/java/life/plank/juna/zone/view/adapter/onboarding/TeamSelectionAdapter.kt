@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter.onboarding
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,7 @@ import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 class TeamSelectionAdapter(
         private val glide: RequestManager,
         private val teamList: MutableList<FootballTeam>
-) : RecyclerView.Adapter<TeamSelectionAdapter.FootballFeedViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<TeamSelectionAdapter.FootballFeedViewHolder>() {
 
     private var selectedTeams: MutableSet<FootballTeam> = HashSet()
     var selectedTeamNames: MutableSet<String> = HashSet()
@@ -78,5 +77,5 @@ class TeamSelectionAdapter(
         notifyDataSetChanged()
     }
 
-    class FootballFeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class FootballFeedViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
 }

@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter.board.match.binder
 
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +28,7 @@ class CommentaryBinder(private val listener: MatchStatsListener) : ItemBinder<Co
                 return
             }
 
-            (commentary_list.layoutManager as LinearLayoutManager).reverseLayout = true
+            (commentary_list.layoutManager as androidx.recyclerview.widget.LinearLayoutManager).reverseLayout = true
             commentary_list.scrollToPosition(item.commentaryList!!.size - 1)
             commentary_list.visibility = View.VISIBLE
             see_all.visibility = View.VISIBLE

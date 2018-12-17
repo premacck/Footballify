@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.adapter.board.user
 
 import android.graphics.Color
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +32,7 @@ class UserBoardsAdapter(
         private val restApi: RestApi,
         private val glide: RequestManager,
         private val isTitleShown: Boolean
-) : RecyclerView.Adapter<UserBoardsAdapter.UserBoardsViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<UserBoardsAdapter.UserBoardsViewHolder>() {
 
     private var boardList: MutableList<Board> = ArrayList()
 
@@ -129,5 +128,5 @@ class UserBoardsAdapter(
         }
     }
 
-    class UserBoardsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class UserBoardsViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
 }

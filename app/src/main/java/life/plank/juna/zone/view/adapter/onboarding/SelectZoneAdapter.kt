@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter.onboarding
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,7 @@ import java.util.*
 class SelectZoneAdapter(
         private val zonesList: ArrayList<Zones>,
         private val glide: RequestManager
-) : RecyclerView.Adapter<SelectZoneAdapter.ZoneViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<SelectZoneAdapter.ZoneViewHolder>() {
 
     private var selectedZones: MutableSet<Zones> = HashSet()
     var selectedZoneNames: MutableSet<String> = HashSet()
@@ -75,5 +74,5 @@ class SelectZoneAdapter(
         return zonesList.size
     }
 
-    class ZoneViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class ZoneViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
 }

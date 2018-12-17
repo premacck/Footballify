@@ -48,8 +48,8 @@ class NextMatchLayout @JvmOverloads constructor(
                                     nextMatch?.run {
                                         getSpecifiedLeague(leagueName)?.run { league_logo.setImageResource(leagueLogo) }
 
-                                        Glide.with(context).load(homeTeamLogo).into(home_team_logo)
-                                        Glide.with(context).load(awayTeamLogo).into(visiting_team_logo)
+                                        Glide.with(this@NextMatchLayout).load(homeTeamLogo).into(home_team_logo)
+                                        Glide.with(this@NextMatchLayout).load(awayTeamLogo).into(visiting_team_logo)
 
                                         match_status.text = getTimeToNextMatch(matchStartTime)
                                         match_between.text = displayName

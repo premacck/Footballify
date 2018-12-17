@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
 import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -115,7 +114,7 @@ class UserProfileActivity : BaseCardActivity() {
     override fun restApi(): RestApi? = restApi
 
     private fun initRecyclerView() {
-        my_boards_list.layoutManager = GridLayoutManager(applicationContext, 5)
+        my_boards_list.layoutManager = androidx.recyclerview.widget.GridLayoutManager(applicationContext, 5)
         userBoardsAdapter = UserBoardsAdapter(this, restApi, Glide.with(this), true)
         my_boards_list.adapter = userBoardsAdapter
         get_coins_list.adapter = getCoinsAdapter

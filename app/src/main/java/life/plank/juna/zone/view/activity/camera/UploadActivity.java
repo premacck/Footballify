@@ -9,9 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore.Images.Media;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +22,7 @@ import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 import com.iceteck.silicompressorr.SiliCompressor;
 
@@ -36,9 +34,8 @@ import java.lang.ref.WeakReference;
 import javax.inject.Inject;
 import javax.net.ssl.HttpsURLConnection;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -82,22 +79,15 @@ public class UploadActivity extends AppCompatActivity {
 
     @Inject
     RestApi restApi;
-    @BindView(R.id.captured_image_view)
-    ImageView capturedImageView;
-    @BindView(R.id.profile_image_view)
-    ImageView profilePicture;
-    @BindView(R.id.title_text)
-    TextInputEditText titleEditText;
-    @BindView(R.id.captured_video_view)
-    VideoView capturedVideoView;
-    @BindView(R.id.play_btn)
-    ImageButton playBtn;
-    @BindView(R.id.post_btn)
-    Button postBtn;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
-    @BindView(R.id.root_layout)
-    ScrollView scrollView;
+
+    private ImageView capturedImageView;
+    private ImageView profilePicture;
+    private TextInputEditText titleEditText;
+    private VideoView capturedVideoView;
+    private ImageButton playBtn;
+    private Button postBtn;
+    private ProgressBar progressBar;
+    private ScrollView scrollView;
 
     private String openFrom;
     private String userId, boardId;
@@ -138,6 +128,52 @@ public class UploadActivity extends AppCompatActivity {
         boardId = intent.getStringExtra(getString(R.string.intent_board_id));
         openFrom = intent.getStringExtra(getString(R.string.intent_open_from));
         handleMediaContent();
+        initListeners();
+    }
+
+    public void initListeners() {
+        initViews();
+        postBtn.setOnClickListener(view -> {
+            if (titleEditText.getText() != null && titleEditText.getText().toString().trim().isEmpty()) {
+                titleEditText.setError(getString(R.string.please_enter_title));
+                return;
+            }
+            switch (openFrom) {
+                case IMAGE:
+                case GALLERY:
+                    postMediaContent(getString(R.string.media_type_image), IMAGE, userId, getRequestDateStringOfNow());
+                    break;
+                case VIDEO:
+                    postMediaContent(getString(R.string.media_type_video), VIDEO, userId, getRequestDateStringOfNow());
+                    break;
+                case AUDIO:
+                    postMediaContent(getString(R.string.media_type_audio), AUDIO, userId, getRequestDateStringOfNow());
+                    break;
+                default:
+                    Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        });
+        playBtn.setOnClickListener(view -> {
+            playBtn.setVisibility(View.GONE);
+            capturedVideoView.start();
+        });
+        capturedVideoView.setOnClickListener(view -> {
+            playBtn.setVisibility(View.VISIBLE);
+            capturedVideoView.pause();
+        });
+    }
+
+    //    TODO: Remove when converting this class to kotlin
+    private void initViews() {
+        capturedImageView = findViewById(R.id.captured_image_view);
+        profilePicture = findViewById(R.id.profile_image_view);
+        titleEditText = findViewById(R.id.title_text);
+        capturedVideoView = findViewById(R.id.captured_video_view);
+        playBtn = findViewById(R.id.play_btn);
+        postBtn = findViewById(R.id.post_btn);
+        progressBar = findViewById(R.id.progress_bar);
+        scrollView = findViewById(R.id.root_layout);
     }
 
     @AfterPermissionGranted(CAMERA_AND_STORAGE_PERMISSIONS)
@@ -165,7 +201,6 @@ public class UploadActivity extends AppCompatActivity {
 
     private void updateUI(String type) {
         setContentView(R.layout.activity_upload);
-        ButterKnife.bind(this);
         capturedVideoView.setVisibility(type.equals(VIDEO) ? View.VISIBLE : View.GONE);
         capturedImageView.setVisibility(type.equals(VIDEO) ? View.GONE : View.VISIBLE);
 
@@ -314,41 +349,6 @@ public class UploadActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    @OnClick(R.id.post_btn)
-    public void onPostBtnClick() {
-        if (titleEditText.getText() != null && titleEditText.getText().toString().trim().isEmpty()) {
-            titleEditText.setError(getString(R.string.please_enter_title));
-            return;
-        }
-        switch (openFrom) {
-            case IMAGE:
-            case GALLERY:
-                postMediaContent(getString(R.string.media_type_image), IMAGE, userId, getRequestDateStringOfNow());
-                break;
-            case VIDEO:
-                postMediaContent(getString(R.string.media_type_video), VIDEO, userId, getRequestDateStringOfNow());
-                break;
-            case AUDIO:
-                postMediaContent(getString(R.string.media_type_audio), AUDIO, userId, getRequestDateStringOfNow());
-                break;
-            default:
-                Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
-                break;
-        }
-    }
-
-    @OnClick(R.id.play_btn)
-    public void playVideo() {
-        playBtn.setVisibility(View.GONE);
-        capturedVideoView.start();
-    }
-
-    @OnClick(R.id.captured_video_view)
-    public void pauseVideo() {
-        playBtn.setVisibility(View.VISIBLE);
-        capturedVideoView.pause();
     }
 
     @Override

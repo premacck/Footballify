@@ -2,7 +2,7 @@
 
 package life.plank.juna.zone.data.local.typeconverter
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.*

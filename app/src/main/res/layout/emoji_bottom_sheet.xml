@@ -21,7 +21,7 @@
         style="@style/DragHandleImageView"
         android:contentDescription="@string/thumbnail" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/emoji_recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         android:layout_marginTop="13dp"
         android:clipToPadding="false"
         android:paddingBottom="110dp"
-        app:layoutManager="android.support.v7.widget.GridLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="5"
         tools:listitem="@layout/item_emoji" />
 

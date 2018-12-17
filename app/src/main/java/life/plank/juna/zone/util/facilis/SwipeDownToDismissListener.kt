@@ -5,13 +5,13 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.support.v4.view.animation.FastOutLinearInInterpolator
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import java.util.*
 

@@ -1,6 +1,6 @@
 package life.plank.juna.zone.data.local.dao
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import life.plank.juna.zone.data.local.model.LeagueInfo
 import life.plank.juna.zone.data.model.FixtureByMatchDay
 import life.plank.juna.zone.data.model.PlayerStats

@@ -1,8 +1,8 @@
 package life.plank.juna.zone.view.fragment.base
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import life.plank.juna.zone.data.local.model.LeagueInfo
 import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.Standings

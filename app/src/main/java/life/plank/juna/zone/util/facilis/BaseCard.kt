@@ -2,10 +2,10 @@ package life.plank.juna.zone.util.facilis
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.annotation.IdRes
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
+import androidx.annotation.IdRes
 import io.alterac.blurkit.BlurLayout
 import life.plank.juna.zone.R
 import life.plank.juna.zone.util.view.UIDisplayUtil

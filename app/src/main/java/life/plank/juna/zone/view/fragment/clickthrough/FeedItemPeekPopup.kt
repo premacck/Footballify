@@ -2,12 +2,11 @@ package life.plank.juna.zone.view.fragment.clickthrough
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v7.widget.PagerSnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.popup_feed_item_peek.*
@@ -103,7 +102,7 @@ class FeedItemPeekPopup : BaseBlurPopup(), EmojiContainer {
                 emojiBottomSheetBehavior, emojiAdapter, null, Glide.with(this))
         board_tiles_full_recycler_view.adapter = boardFeedDetailAdapter
         boardFeedDetailAdapter?.update(feedEntries)
-        PagerSnapHelper().attachToRecyclerView(board_tiles_full_recycler_view)
+        androidx.recyclerview.widget.PagerSnapHelper().attachToRecyclerView(board_tiles_full_recycler_view)
         board_tiles_full_recycler_view.scrollToPosition(position)
     }
 

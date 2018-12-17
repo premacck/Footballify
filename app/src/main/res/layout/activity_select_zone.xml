@@ -23,7 +23,7 @@
         android:textColor="@color/grey"
         android:textSize="20sp" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/board_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

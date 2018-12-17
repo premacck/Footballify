@@ -3,7 +3,6 @@ package life.plank.juna.zone.view.fragment.camera
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.MediaStore
-import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +20,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 
-class CustomGalleryFragment : Fragment() {
+class CustomGalleryFragment : androidx.fragment.app.Fragment() {
 
     companion object {
 
@@ -53,7 +52,7 @@ class CustomGalleryFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = GalleryAdapter(activity as CustomCameraActivity?, Glide.with(activity!!))
+        adapter = GalleryAdapter(activity as CustomCameraActivity, Glide.with(activity!!))
         gallery_recycler_view.adapter = adapter
     }
 

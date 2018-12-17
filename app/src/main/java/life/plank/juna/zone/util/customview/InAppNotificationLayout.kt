@@ -61,18 +61,18 @@ class InAppNotificationLayout @JvmOverloads constructor(
                 }
 
                 imageUrl?.run {
-                    Glide.with(context).load(this)
+                    Glide.with(this@InAppNotificationLayout).load(this)
                             .apply(RequestOptions.overrideOf(getDp(85f).toInt(), getDp(85f).toInt()))
                             .into(notification_image)
                 }
             }
             zoneLiveData != null -> {
                 notification_image.setImageDrawable(resources.getDrawable(R.drawable.ic_match_bg, null))
-                Glide.with(context).load(zoneLiveData?.homeTeamLogo)
+                Glide.with(this@InAppNotificationLayout).load(zoneLiveData?.homeTeamLogo)
                         .apply(RequestOptions.overrideOf(getDp(30f).toInt(), getDp(30f).toInt())
                                 .placeholder(R.drawable.shimmer_circle))
                         .into(home_team_logo)
-                Glide.with(context).load(zoneLiveData?.visitingTeamLogo)
+                Glide.with(this@InAppNotificationLayout).load(zoneLiveData?.visitingTeamLogo)
                         .apply(RequestOptions.overrideOf(getDp(30f).toInt(), getDp(30f).toInt())
                                 .placeholder(R.drawable.shimmer_circle))
                         .into(visiting_team_logo)

@@ -1,9 +1,8 @@
 package com.prembros.asymmetricrecyclerview.widget
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 
-class AsymmetricViewHolder<VH : RecyclerView.ViewHolder> : RecyclerView.ViewHolder {
+class AsymmetricViewHolder<VH : androidx.recyclerview.widget.RecyclerView.ViewHolder> : androidx.recyclerview.widget.RecyclerView.ViewHolder {
     internal val wrappedViewHolder: VH?
 
     constructor(wrappedViewHolder: VH) : super(wrappedViewHolder.itemView) {

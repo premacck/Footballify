@@ -7,9 +7,9 @@ import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
 import android.graphics.Color
 import android.media.RingtoneManager
-import android.support.v4.app.NotificationCompat
 import android.text.SpannableStringBuilder
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import com.bumptech.glide.Glide
 import life.plank.juna.zone.R
 import life.plank.juna.zone.R.string.*

@@ -1,7 +1,6 @@
 package life.plank.juna.zone.util.common
 
 import android.app.Activity
-import android.support.annotation.ColorRes
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -12,6 +11,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.ColorRes
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Commentary
 import life.plank.juna.zone.util.common.AppConstants.*

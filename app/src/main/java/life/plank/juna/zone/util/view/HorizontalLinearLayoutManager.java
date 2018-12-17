@@ -1,8 +1,9 @@
 package life.plank.juna.zone.util.view;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 /**
  * Created to see how the layout is, in the XML file.

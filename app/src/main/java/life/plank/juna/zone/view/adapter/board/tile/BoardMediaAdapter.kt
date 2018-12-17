@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter.board.tile
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -98,5 +97,5 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRe
 
     override fun getItemCount(): Int = boardFeed.size
 
-    class BoardMediaViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    class BoardMediaViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
 }

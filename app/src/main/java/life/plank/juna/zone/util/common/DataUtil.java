@@ -1,8 +1,6 @@
 package life.plank.juna.zone.util.common;
 
 import android.content.Intent;
-import android.support.annotation.IntegerRes;
-import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
@@ -16,6 +14,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.IntegerRes;
+import androidx.annotation.StringRes;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedEntry;

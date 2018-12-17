@@ -1,10 +1,10 @@
 package life.plank.juna.zone.view.fragment.football
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_fixture.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication

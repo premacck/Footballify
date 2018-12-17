@@ -2,10 +2,6 @@ package life.plank.juna.zone.view.fragment.board.fixture
 
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.view.PagerAdapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -184,7 +180,7 @@ class MatchBoardFragment : BaseMatchFragment(), BoardHeaderListener {
 
     override fun getTheBoardId(): String? = board.id
 
-    override fun currentChildFragment(): Fragment? = boardPagerAdapter?.currentFragment
+    override fun currentChildFragment(): androidx.fragment.app.Fragment? = boardPagerAdapter?.currentFragment
 
     override fun publicBoardToolbar(): PublicBoardToolbar = board_toolbar
 
@@ -218,12 +214,12 @@ class MatchBoardFragment : BaseMatchFragment(), BoardHeaderListener {
     /** Follow board by default when entered. Nothing to do on receiving the response code */
     private fun followBoard() = restApi.followBoard(PreferenceManager.Auth.getToken(), board.id).execute()
 
-    class BoardPagerAdapter(supportFragmentManager: FragmentManager, matchBoardFragment: MatchBoardFragment) : FragmentStatePagerAdapter(supportFragmentManager) {
+    class BoardPagerAdapter(supportFragmentManager: androidx.fragment.app.FragmentManager, matchBoardFragment: MatchBoardFragment) : androidx.fragment.app.FragmentStatePagerAdapter(supportFragmentManager) {
 
-        var currentFragment: Fragment? = null
+        var currentFragment: androidx.fragment.app.Fragment? = null
         private val ref: WeakReference<MatchBoardFragment> = WeakReference(matchBoardFragment)
 
-        override fun getItem(position: Int): Fragment? {
+        override fun getItem(position: Int): androidx.fragment.app.Fragment? {
             return ref.get()?.run {
                 when (position) {
                     0 -> MatchStatsFragment.newInstance(matchDetails)
@@ -254,7 +250,7 @@ class MatchBoardFragment : BaseMatchFragment(), BoardHeaderListener {
                 findString(R.string.media) -> 2
                 findString(R.string.forum) -> 3
                 findString(R.string.tiles) -> 4
-                else -> PagerAdapter.POSITION_NONE
+                else -> androidx.viewpager.widget.PagerAdapter.POSITION_NONE
             }
         }
 
@@ -262,7 +258,7 @@ class MatchBoardFragment : BaseMatchFragment(), BoardHeaderListener {
 
         override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
             if (currentFragment !== `object`) {
-                currentFragment = `object` as Fragment
+                currentFragment = `object` as androidx.fragment.app.Fragment
             }
             super.setPrimaryItem(container, position, `object`)
         }

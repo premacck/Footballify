@@ -1,14 +1,13 @@
 package life.plank.juna.zone.view.fragment.board.fixture
 
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v4.app.FragmentActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.prembros.asymmetricrecyclerview.base.AsymmetricRecyclerViewListener
 import com.prembros.asymmetricrecyclerview.widget.AsymmetricRecyclerViewAdapter
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
@@ -102,7 +101,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
         boomMenu().setupWith(nestedScrollView)
 
         if (isBoardActive) {
-            setupBoomMenu(BOOM_MENU_FULL, Objects.requireNonNull<FragmentActivity>(activity), boardId, emojiBottomSheetBehavior)
+            setupBoomMenu(BOOM_MENU_FULL, Objects.requireNonNull<androidx.fragment.app.FragmentActivity>(activity), boardId, emojiBottomSheetBehavior)
         } else {
             boomMenu().onDebouncingClick { toast(R.string.board_not_active) }
         }

@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.fragment.camera
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -25,7 +24,7 @@ import org.jetbrains.anko.support.v4.runOnUiThread
 import java.io.File
 import java.io.IOException
 
-class CameraFragment : Fragment() {
+class CameraFragment : androidx.fragment.app.Fragment() {
 
     private var boardId: String? = null
     private var pendingVideoCapture: Boolean = false

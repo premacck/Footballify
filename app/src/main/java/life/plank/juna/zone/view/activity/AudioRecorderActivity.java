@@ -8,9 +8,6 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +15,9 @@ import android.widget.LinearLayout;
 
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.common.AppConstants;
 
@@ -131,7 +131,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
         }
     }
 
-    class RecordButton extends android.support.v7.widget.AppCompatButton {
+    class RecordButton extends androidx.appcompat.widget.AppCompatButton {
         boolean startRecording = true;
         View.OnClickListener clicker = new View.OnClickListener() {
             public void onClick(View v) {
@@ -152,7 +152,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
         }
     }
 
-    class PlayButton extends android.support.v7.widget.AppCompatButton {
+    class PlayButton extends androidx.appcompat.widget.AppCompatButton {
         boolean startPlaying = true;
         OnClickListener clicker = new OnClickListener() {
             public void onClick(View v) {

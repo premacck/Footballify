@@ -1,24 +1,22 @@
 package life.plank.juna.zone.util.facilis
 
-import android.support.annotation.AnimRes
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
 import android.util.Log
+import androidx.annotation.AnimRes
 import life.plank.juna.zone.R
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 
-fun FragmentManager.findCard(tag: String): BaseCard? {
+fun androidx.fragment.app.FragmentManager.findCard(tag: String): BaseCard? {
     return this.findFragmentByTag(tag) as? BaseCard
 }
 
-fun FragmentManager.findLastCard(): BaseCard? {
+fun androidx.fragment.app.FragmentManager.findLastCard(): BaseCard? {
     return fragments[fragments.size - 1] as? BaseCard
 }
 
-inline fun <reified T : Any> FragmentManager.findFragment(): BaseFragment? {
+inline fun <reified T : Any> androidx.fragment.app.FragmentManager.findFragment(): BaseFragment? {
     for (fragment in fragments.reversed()) {
         if (fragment is T && fragment is BaseFragment) {
             return fragment
@@ -27,7 +25,7 @@ inline fun <reified T : Any> FragmentManager.findFragment(): BaseFragment? {
     return null
 }
 
-fun FragmentManager.findLastFragment(): BaseFragment? {
+fun androidx.fragment.app.FragmentManager.findLastFragment(): BaseFragment? {
     for (fragment in fragments.reversed()) {
         if (fragment is BaseFragment) {
             return fragment
@@ -36,11 +34,11 @@ fun FragmentManager.findLastFragment(): BaseFragment? {
     return null
 }
 
-fun FragmentManager.findLastFragment(tag: String?): BaseFragment? {
+fun androidx.fragment.app.FragmentManager.findLastFragment(tag: String?): BaseFragment? {
     return findFragmentByTag(tag) as? BaseFragment
 }
 
-fun FragmentManager.findPopupDialog(tag: String): BaseBlurPopup? {
+fun androidx.fragment.app.FragmentManager.findPopupDialog(tag: String): BaseBlurPopup? {
     return findFragmentByTag(tag) as? BaseBlurPopup
 }
 
@@ -52,7 +50,7 @@ inline fun <reified T : BaseFragment> BaseCardActivity.removeFragmentIfExists() 
     }
 }
 
-fun FragmentManager.removeActivePopupsIfAny(): Boolean {
+fun androidx.fragment.app.FragmentManager.removeActivePopupsIfAny(): Boolean {
     for (popup in fragments.reversed()) {
         if (popup is BaseDialogFragment && popup.isAdded) {
             if (popup.onBackPressed()) {
@@ -64,7 +62,7 @@ fun FragmentManager.removeActivePopupsIfAny(): Boolean {
     return true
 }
 
-fun FragmentManager.removeActiveCardsIfAny(): Boolean {
+fun androidx.fragment.app.FragmentManager.removeActiveCardsIfAny(): Boolean {
     for (card in fragments.reversed()) {
         if (card is BaseCard && card.isAdded) {
             return if (card.onBackPressed()) {
@@ -76,7 +74,7 @@ fun FragmentManager.removeActiveCardsIfAny(): Boolean {
     return true
 }
 
-fun FragmentManager.moveCurrentCardToBackground() {
+fun androidx.fragment.app.FragmentManager.moveCurrentCardToBackground() {
     val lastFragment = findLastFragment()
     lastFragment?.run {
         if (lastFragment is BaseCard) {
@@ -86,7 +84,7 @@ fun FragmentManager.moveCurrentCardToBackground() {
     }
 }
 
-fun FragmentManager.movePreviousCardToForeground() {
+fun androidx.fragment.app.FragmentManager.movePreviousCardToForeground() {
     val lastFragment = findLastFragment()
     lastFragment?.run {
         if (lastFragment is BaseCard) {
@@ -96,7 +94,7 @@ fun FragmentManager.movePreviousCardToForeground() {
     }
 }
 
-fun FragmentManager.pushFragment(resId: Int, card: BaseFragment, tag: String, index: Int, isAddToBackStack: Boolean = true) {
+fun androidx.fragment.app.FragmentManager.pushFragment(resId: Int, card: BaseFragment, tag: String, index: Int, isAddToBackStack: Boolean = true) {
     if (index < 0) return
     this.beginTransaction()
             .addCustomAnimations(R.anim.float_up, R.anim.sink_up, R.anim.float_down, R.anim.sink_down, index)
@@ -106,7 +104,7 @@ fun FragmentManager.pushFragment(resId: Int, card: BaseFragment, tag: String, in
     Log.i("pushFragment", "Added index: $index")
 }
 
-fun FragmentManager.pushPopup(resId: Int, popup: BaseDialogFragment, tag: String) {
+fun androidx.fragment.app.FragmentManager.pushPopup(resId: Int, popup: BaseDialogFragment, tag: String) {
     this.beginTransaction()
             .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
             .add(resId, popup, tag)
@@ -114,11 +112,11 @@ fun FragmentManager.pushPopup(resId: Int, popup: BaseDialogFragment, tag: String
             .commit()
 }
 
-fun FragmentTransaction.addCustomAnimations(@AnimRes enter: Int, @AnimRes exit: Int, @AnimRes popEnter: Int, @AnimRes popExit: Int, index: Int = 0): FragmentTransaction {
+fun androidx.fragment.app.FragmentTransaction.addCustomAnimations(@AnimRes enter: Int, @AnimRes exit: Int, @AnimRes popEnter: Int, @AnimRes popExit: Int, index: Int = 0): androidx.fragment.app.FragmentTransaction {
     if (index > 0) this.setCustomAnimations(enter, exit, popEnter, popExit)
     return this
 }
 
-fun FragmentTransaction.addToBackStack(addFlag: Boolean = true, tag: String): FragmentTransaction {
+fun androidx.fragment.app.FragmentTransaction.addToBackStack(addFlag: Boolean = true, tag: String): androidx.fragment.app.FragmentTransaction {
     return if (addFlag) this.addToBackStack(tag) else this
 }

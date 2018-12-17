@@ -2,11 +2,6 @@ package life.plank.juna.zone.view.fragment.football
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.view.PagerAdapter
-import android.support.v7.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,7 +50,7 @@ class LeagueInfoFragment : BaseCard() {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = null
 
-    override fun getRootView(): CardView? = root_card
+    override fun getRootView(): androidx.cardview.widget.CardView? = root_card
 
     override fun getDragView(): View? = drag_area
 
@@ -90,9 +85,9 @@ class LeagueInfoFragment : BaseCard() {
         super.onDestroy()
     }
 
-    class LeagueInfoPagerAdapter(fm: FragmentManager?, private val league: League) : FragmentStatePagerAdapter(fm) {
+    class LeagueInfoPagerAdapter(fm: androidx.fragment.app.FragmentManager?, private val league: League) : androidx.fragment.app.FragmentStatePagerAdapter(fm) {
 
-        override fun getItem(position: Int): Fragment? {
+        override fun getItem(position: Int): androidx.fragment.app.Fragment? {
             return when (position) {
                 0 -> FixtureFragment.newInstance(league)
                 1 -> StandingsFragment.newInstance(league)
@@ -101,7 +96,7 @@ class LeagueInfoFragment : BaseCard() {
             }
         }
 
-        override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE
+        override fun getItemPosition(`object`: Any): Int = androidx.viewpager.widget.PagerAdapter.POSITION_NONE
 
         override fun getCount(): Int = 3
 

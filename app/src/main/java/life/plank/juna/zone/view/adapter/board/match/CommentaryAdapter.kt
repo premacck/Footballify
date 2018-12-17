@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter.board.match
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import life.plank.juna.zone.data.model.Commentary
 import life.plank.juna.zone.util.common.getDesignedCommentaryString
 import life.plank.juna.zone.util.view.UIDisplayUtil.alternateBackgroundColor
 
-class CommentaryAdapter(var commentaries: MutableList<Commentary>) : RecyclerView.Adapter<CommentaryAdapter.CommentsViewHolder>() {
+class CommentaryAdapter(var commentaries: MutableList<Commentary>) : androidx.recyclerview.widget.RecyclerView.Adapter<CommentaryAdapter.CommentsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentsViewHolder =
             CommentsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_commentary, parent, false))
@@ -40,5 +39,5 @@ class CommentaryAdapter(var commentaries: MutableList<Commentary>) : RecyclerVie
         notifyItemRangeInserted(previousIndex, commentaries.size)
     }
 
-    class CommentsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class CommentsViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
 }
