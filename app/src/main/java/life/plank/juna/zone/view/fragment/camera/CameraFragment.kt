@@ -19,6 +19,7 @@ import life.plank.juna.zone.util.common.FileHandler
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.activity.camera.UploadActivity
+import life.plank.juna.zone.view.cardmaker.CreateCardActivity
 import org.jetbrains.anko.sdk27.coroutines.onTouch
 import org.jetbrains.anko.support.v4.runOnUiThread
 import java.io.File
@@ -84,25 +85,27 @@ class CameraFragment : Fragment() {
     private fun onTouchCapture(view: View, motionEvent: MotionEvent): Boolean {
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
-                tap_hold_hint.visibility = View.GONE
-                touchFeedBackAnimation(view, true)
-                pendingVideoCapture = true
-                view.postDelayed({
-                    if (pendingVideoCapture) {
-                        capturingVideo = true
-                        camera_capture.setImageResource(R.drawable.camera_active)
-                        camera_capture.startAnimation(AnimationUtils.loadAnimation(ZoneApplication.getContext(), R.anim.camera_active))
-                        setExtraButtonsVisibility(View.INVISIBLE)
-                        camera_view.captureVideo { cameraKitVideo ->
-                            runOnUiThread {
-                                layout_busy_progress_bar.visibility = View.GONE
-                                UploadActivity.launch(activity, VIDEO, boardId, cameraKitVideo.videoFile.absolutePath)
-                                activity?.finish()
+                if(!boardId.isNullOrEmpty()) {
+                    tap_hold_hint.visibility = View.GONE
+                    touchFeedBackAnimation(view, true)
+                    pendingVideoCapture = true
+                    view.postDelayed({
+                        if (pendingVideoCapture) {
+                            capturingVideo = true
+                            camera_capture.setImageResource(R.drawable.camera_active)
+                            camera_capture.startAnimation(AnimationUtils.loadAnimation(ZoneApplication.getContext(), R.anim.camera_active))
+                            setExtraButtonsVisibility(View.INVISIBLE)
+                            camera_view.captureVideo { cameraKitVideo ->
+                                runOnUiThread {
+                                    layout_busy_progress_bar.visibility = View.GONE
+                                    UploadActivity.launch(activity, VIDEO, boardId, cameraKitVideo.videoFile.absolutePath)
+                                    activity?.finish()
+                                }
                             }
                         }
-                    }
-                }, 250)
-                return true
+                    }, 250)
+                    return true
+                }
             }
             MotionEvent.ACTION_UP -> {
                 pendingVideoCapture = false
@@ -121,7 +124,11 @@ class CameraFragment : Fragment() {
                         try {
                             runOnUiThread {
                                 layout_busy_progress_bar.visibility = View.GONE
-                                UploadActivity.launch(activity, IMAGE, boardId, FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap))
+                                if(!boardId.isNullOrEmpty()) {
+                                    UploadActivity.launch(activity, IMAGE, boardId, FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap))
+                                }else{
+                                    CreateCardActivity.launch(activity!!, FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap))
+                                }
                                 activity?.finish()
                             }
                         } catch (e: IOException) {

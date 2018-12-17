@@ -20,6 +20,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.activity.camera.CustomCameraActivity;
 import life.plank.juna.zone.view.activity.camera.UploadActivity;
+import life.plank.juna.zone.view.cardmaker.CreateCardActivity;
 
 import static life.plank.juna.zone.util.common.AppConstants.IMAGE;
 import static life.plank.juna.zone.util.common.AppConstants.VIDEO;
@@ -79,8 +80,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
         }
 
         @OnClick(R.id.gallery_item_thumbnail)
-        public void onGalleryImageSelected() {
-            UploadActivity.launch(ref.get().activity, ref.get().activity.isForImage() ? IMAGE : VIDEO, ref.get().activity.boardId, itemPath);
+        void onGalleryImageSelected() {
+            if (ref.get().activity.boardId.isEmpty()) {
+                CreateCardActivity.Companion.launch(ref.get().activity, itemPath);
+            } else {
+                UploadActivity.launch(ref.get().activity, ref.get().activity.isForImage() ? IMAGE : VIDEO, ref.get().activity.boardId, itemPath);
+            }
         }
     }
 }
