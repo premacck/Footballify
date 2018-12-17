@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.next_match_row.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.getSpecifiedLeague
 import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.common.onTerminate
@@ -43,15 +42,17 @@ class NextMatchLayout @JvmOverloads constructor(
                 }, {
                     when (it.code()) {
                         HTTP_OK -> {
-                            val nextMatch = it.body()!![0]
-                            nextMatch?.run {
-                                getSpecifiedLeague(leagueName)?.run { league_logo.setImageResource(leagueLogo) }
+                            if (!it.body()!!.isEmpty()) {
+                                val nextMatch = it.body()!![0]
+                                nextMatch?.run {
+                                    getSpecifiedLeague(leagueName)?.run { league_logo.setImageResource(leagueLogo) }
 
-                                Glide.with(context).load(homeTeamLogo).into(home_team_logo)
-                                Glide.with(context).load(awayTeamLogo).into(visiting_team_logo)
+                                    Glide.with(context).load(homeTeamLogo).into(home_team_logo)
+                                    Glide.with(context).load(awayTeamLogo).into(visiting_team_logo)
 
-                                match_status.text = getTimeToNextMatch(matchStartTime)
-                                match_between.text = displayName
+                                    match_status.text = getTimeToNextMatch(matchStartTime)
+                                    match_between.text = displayName
+                                }
                             }
                         }
                         else -> {
