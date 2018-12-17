@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.adapter
 
 import android.app.Activity
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,7 @@ import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment
 
 class LeagueSelectionAdapter(private val activity: Activity,
                              private val leagueList: MutableList<League>
-) : RecyclerView.Adapter<LeagueSelectionAdapter.LeagueViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<LeagueSelectionAdapter.LeagueViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeagueViewHolder =
             LeagueViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_onboarding, parent, false))
@@ -44,5 +43,5 @@ class LeagueSelectionAdapter(private val activity: Activity,
         notifyDataSetChanged()
     }
 
-    class LeagueViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class LeagueViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
 }

@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.fragment.football
 
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -77,12 +76,12 @@ class StandingsFragment : BaseLeagueFragment() {
             updateUI(false, standing_recycler_view, no_standings)
         } else {
             updateUI(true, standing_recycler_view, no_standings)
-            standingTableAdapter!!.update(standingsList)
-            leagueViewModel.updateStandings(league.id, standingsList!!)
+            standingTableAdapter!!.update(standingsList!!)
+            leagueViewModel.updateStandings(league.id, standingsList)
         }
     }
 
-    private fun updateUI(available: Boolean, recyclerView: RecyclerView, noDataView: TextView) {
+    private fun updateUI(available: Boolean, recyclerView: androidx.recyclerview.widget.RecyclerView, noDataView: TextView) {
         recyclerView.visibility = if (available) View.VISIBLE else View.INVISIBLE
         noDataView.visibility = if (available) View.GONE else View.VISIBLE
     }

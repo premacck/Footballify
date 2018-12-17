@@ -2,12 +2,11 @@ package life.plank.juna.zone.util.customview
 
 import android.app.Activity
 import android.content.Context
-import android.support.annotation.DrawableRes
-import android.support.v4.app.Fragment
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
+import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.zone_tool_bar.view.*
 import life.plank.juna.zone.R
@@ -68,14 +67,14 @@ class ZoneToolBar @JvmOverloads constructor(context: Context,
             setProfilePic(R.drawable.ic_default_profile)
             return
         }
-        Glide.with(context).load(url).into(toolbar_profile_pic)
+        Glide.with(this).load(url).into(toolbar_profile_pic)
     }
 
     fun setProfilePic(@DrawableRes drawableRes: Int) {
         toolbar_profile_pic.setImageResource(drawableRes)
     }
 
-    override fun initListeners(fragment: Fragment) {
+    override fun initListeners(fragment: androidx.fragment.app.Fragment) {
         if (fragment is ZoneToolbarListener) {
             listener = fragment
         } else

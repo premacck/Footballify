@@ -1,8 +1,6 @@
 package life.plank.juna.zone.view.fragment.onboarding
 
 import android.os.Bundle
-import android.support.v7.widget.CardView
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -55,7 +53,7 @@ class TeamSelectionFragment : SearchableCard() {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 
-    override fun getRootView(): CardView? = root_card
+    override fun getRootView(): androidx.cardview.widget.CardView? = root_card
 
     override fun getDragView(): View? = drag_area
 
@@ -63,7 +61,7 @@ class TeamSelectionFragment : SearchableCard() {
 
     override fun searchedList(): MutableList<*> = teamList
 
-    override fun searchAdapter(): RecyclerView.Adapter<*>? = onBoardingAdapter
+    override fun searchAdapter(): androidx.recyclerview.widget.RecyclerView.Adapter<*>? = onBoardingAdapter
 
     override fun searchAction(searchString: String) = getFootballTeams(searchString)
 

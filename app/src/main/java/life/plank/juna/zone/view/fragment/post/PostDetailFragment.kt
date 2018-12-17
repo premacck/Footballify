@@ -9,7 +9,6 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -23,6 +22,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_post_detail.*
 import life.plank.juna.zone.R

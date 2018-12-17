@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.fragment.onboarding
 
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -121,7 +120,7 @@ class SearchUserPopup : SearchablePopup() {
 
     override fun searchedList(): MutableList<*> = userList
 
-    override fun searchAdapter(): RecyclerView.Adapter<*>? = adapter
+    override fun searchAdapter(): androidx.recyclerview.widget.RecyclerView.Adapter<*>? = adapter
 
     override fun searchAction(searchString: String) = getSearchedUsers(searchString)
 

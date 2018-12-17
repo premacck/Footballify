@@ -1,7 +1,6 @@
 package life.plank.juna.zone.data.network.dagger.module;
 
-import android.support.v7.widget.PagerSnapHelper;
-
+import androidx.recyclerview.widget.PagerSnapHelper;
 import dagger.Module;
 import dagger.Provides;
 import life.plank.juna.zone.data.network.dagger.scope.UiScope;

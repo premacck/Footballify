@@ -3,17 +3,14 @@ package life.plank.juna.zone.util.customview
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
-import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
-import butterknife.ButterKnife
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.generic_toolbar.view.*
 import kotlinx.android.synthetic.main.layout_board_engagement.view.*
 import kotlinx.android.synthetic.main.layout_private_board_tabs.view.*
@@ -42,7 +39,6 @@ class GenericToolbar @JvmOverloads constructor(
 
     private fun init(context: Context, attrs: AttributeSet?) {
         val rootView = View.inflate(context, R.layout.generic_toolbar, this)
-        ButterKnife.bind(this, rootView)
 
         val array = context.obtainStyledAttributes(attrs, R.styleable.GenericToolbar)
         setBackgroundColor(array.getColor(R.styleable.GenericToolbar_backgroundColor, resources.getColor(R.color.transparent, null)))
@@ -71,7 +67,7 @@ class GenericToolbar @JvmOverloads constructor(
         }
     }
 
-    override fun initListeners(fragment: Fragment) {
+    override fun initListeners(fragment: androidx.fragment.app.Fragment) {
         if (fragment is BoardHeaderListener) {
             listener = fragment
         } else
@@ -132,7 +128,7 @@ class GenericToolbar @JvmOverloads constructor(
         return info_tiles_tab_layout
     }
 
-    override fun setupWithViewPager(viewPager: ViewPager, defaultSelection: Int) {
+    override fun setupWithViewPager(viewPager: androidx.viewpager.widget.ViewPager, defaultSelection: Int) {
         info_tiles_tab_layout.setupWithViewPager(viewPager)
         viewPager.setCurrentItem(defaultSelection, true)
     }

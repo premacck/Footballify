@@ -6,7 +6,7 @@
         android:id="@+id/root_blur_layout"
         style="@style/BlurLayoutFullScreen" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/root_card"
         style="@style/CardView.Root"
         android:layout_height="wrap_content"
@@ -128,6 +128,6 @@
                 android:tint="@color/black_76_opaque" />
             
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

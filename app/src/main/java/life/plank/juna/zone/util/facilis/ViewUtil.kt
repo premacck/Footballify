@@ -11,15 +11,14 @@ import android.os.Build
 import android.os.SystemClock
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.support.annotation.AnimRes
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.CoordinatorLayout
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.*
+import androidx.annotation.AnimRes
 import com.ahamed.multiviewadapter.*
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.leocardz.link.preview.library.LinkPreviewCallback
 import com.leocardz.link.preview.library.SourceContent
 import com.leocardz.link.preview.library.TextCrawler
@@ -162,7 +161,7 @@ fun View.setTopMargin(topMargin: Int) {
     params?.run {
         when (params) {
             is RelativeLayout.LayoutParams -> params.topMargin = topMargin
-            is CoordinatorLayout.LayoutParams -> params.topMargin = topMargin
+            is androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams -> params.topMargin = topMargin
             is FrameLayout.LayoutParams -> params.topMargin = topMargin
             is LinearLayout.LayoutParams -> params.topMargin = topMargin
         }
@@ -273,7 +272,7 @@ fun Context?.doAfterDelay(delayMillis: Int, action: () -> Unit) {
 }
 
 fun BottomSheetBehavior<*>.show(peekHeight: Int = 850) {
-    state = BottomSheetBehavior.STATE_EXPANDED
+    state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
     this.peekHeight = peekHeight
 }
 
@@ -283,12 +282,12 @@ fun BottomSheetBehavior<*>.showFor(emojiAdapter: EmojiAdapter?, id: String?, pee
 }
 
 fun BottomSheetBehavior<*>.hide() {
-    state = BottomSheetBehavior.STATE_HIDDEN
+    state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
     peekHeight = 0
 }
 
 fun BottomSheetBehavior<*>.hideIfShown(): Boolean {
-    if (peekHeight == 0 || state == BottomSheetBehavior.STATE_HIDDEN || state == BottomSheetBehavior.STATE_COLLAPSED) {
+    if (peekHeight == 0 || state == com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN || state == com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED) {
         return true
     }
     hide()

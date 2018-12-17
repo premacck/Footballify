@@ -1,10 +1,9 @@
 package com.prembros.asymmetricrecyclerview.base
 
-import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.prembros.asymmetricrecyclerview.widget.AsymmetricViewHolder
 
-interface AsymmetricBaseAdapter<T : RecyclerView.ViewHolder> {
+interface AsymmetricBaseAdapter<T : androidx.recyclerview.widget.RecyclerView.ViewHolder> {
 
     val actualItemCount: Int
 

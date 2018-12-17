@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter.user
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import life.plank.juna.zone.util.facilis.longClickWithVibrate
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import java.util.*
 
-class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, private val glide: RequestManager) : RecyclerView.Adapter<UserFeedAdapter.UserFeedViewHolder>() {
+class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, private val glide: RequestManager) : androidx.recyclerview.widget.RecyclerView.Adapter<UserFeedAdapter.UserFeedViewHolder>() {
 
     private var userFeed: MutableList<FeedEntry> = ArrayList()
     private var isUpdated: Boolean = false
@@ -55,5 +54,5 @@ class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, privat
         notifyDataSetChanged()
     }
 
-    class UserFeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class UserFeedViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
 }

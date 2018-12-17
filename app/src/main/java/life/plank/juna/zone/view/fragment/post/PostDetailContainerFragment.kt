@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.fragment.post
 
 import android.os.Bundle
-import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +49,7 @@ class PostDetailContainerFragment : BaseCardContainerFragment() {
 
     override fun baseCardCount(): Int = feedList.size
 
-    override fun viewPager(): ViewPager = post_detail_view_pager
+    override fun viewPager(): androidx.viewpager.widget.ViewPager = post_detail_view_pager
 
     override fun baseCardToInflate(position: Int): BaseFragment = PostDetailFragment.newInstance(feedList[position], boardId)
 }

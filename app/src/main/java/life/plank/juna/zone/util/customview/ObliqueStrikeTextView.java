@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 
 import life.plank.juna.zone.R;
 
-public class ObliqueStrikeTextView extends android.support.v7.widget.AppCompatTextView {
+public class ObliqueStrikeTextView extends androidx.appcompat.widget.AppCompatTextView {
 
     private Paint paint;
 

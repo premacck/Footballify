@@ -33,7 +33,7 @@ class BenchDataBinder(private val glide: RequestManager) : ItemBinder<Substituti
 
             val adapter = BenchDataAdapter()
             bench_data_recycler_view.adapter = adapter
-            adapter.update(item.substitutionEvents)
+            adapter.update(item.substitutionEvents!!)
 
             loadImage(item.homeTeam!!.logoLink, home_team_logo)
             loadImage(item.awayTeam!!.logoLink, visiting_team_logo)

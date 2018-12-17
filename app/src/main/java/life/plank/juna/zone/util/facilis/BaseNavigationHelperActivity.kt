@@ -1,7 +1,7 @@
 package life.plank.juna.zone.util.facilis
 
-import android.support.annotation.IdRes
 import android.util.Log
+import androidx.annotation.IdRes
 import life.plank.juna.zone.util.view.dismissBoomMenuIfOpen
 import life.plank.juna.zone.view.activity.base.BaseActivity
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment

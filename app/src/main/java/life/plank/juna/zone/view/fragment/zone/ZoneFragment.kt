@@ -1,14 +1,11 @@
 package life.plank.juna.zone.view.fragment.zone
 
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.facebook.FacebookSdk.getApplicationContext
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.follow_league_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_team_selection.*
@@ -31,7 +28,7 @@ import life.plank.juna.zone.util.view.setupBoomMenu
 import life.plank.juna.zone.util.view.setupWith
 import life.plank.juna.zone.view.adapter.LeagueSelectionAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
-import life.plank.juna.zone.view.latestMatch.MultiListAdapter
+import life.plank.juna.zone.view.latestMatch.FootballZoneAdapter
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
@@ -42,7 +39,7 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
     @Inject
     lateinit var restApi: RestApi
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
-    lateinit var adapter: MultiListAdapter
+    lateinit var adapter: FootballZoneAdapter
     private var leagueSelectionAdapter: LeagueSelectionAdapter? = null
     private var leagueList = ArrayList<League>()
 
@@ -84,15 +81,14 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
     }
 
     private fun initRecyclerView() {
-        adapter = MultiListAdapter(activity!!, restApi, this)
-        football_feed_recycler_view.layoutManager = LinearLayoutManager(getApplicationContext())
+        adapter = FootballZoneAdapter(activity!!, restApi, this)
         football_feed_recycler_view.adapter = adapter
 
-        progress_bar?.visibility = View.GONE
+        progress_bar.visibility = View.GONE
     }
 
     private fun initBottomSheetRecyclerView() {
-        onboarding_recycler_view.layoutManager = GridLayoutManager(context, 3)
+        onboarding_recycler_view.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 3)
         leagueSelectionAdapter = LeagueSelectionAdapter(activity!!, leagueList)
         onboarding_recycler_view.adapter = leagueSelectionAdapter
     }

@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.adapter.user
 
 import android.app.Activity
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,7 @@ class UserZoneAdapter(
         private val activity: Activity,
         private val restApi: RestApi,
         private val userPreferenceList: MutableList<UserPreference>
-) : RecyclerView.Adapter<UserZoneAdapter.UserZoneViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<UserZoneAdapter.UserZoneViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserZoneViewHolder {
         return UserZoneViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_zone_user_feed, parent, false))
@@ -32,7 +31,8 @@ class UserZoneAdapter(
         val (zone) = userPreferenceList[position]
         holder.itemView.football!!.text = zone?.name
 
-        if(!isNullOrEmpty(PreferenceManager.CurrentUser.getUserPreferences()[0].zonePreferences)){
+        val userPreferences = PreferenceManager.CurrentUser.getUserPreferences()
+        if (userPreferences.isNotEmpty() && !isNullOrEmpty(userPreferences[0].zonePreferences)) {
             holder.itemView.time_to_next_match.showNextMatchOnly(restApi)
         }
 
@@ -47,5 +47,5 @@ class UserZoneAdapter(
 
     override fun getItemCount(): Int = userPreferenceList.size
 
-    class UserZoneViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class UserZoneViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
 }

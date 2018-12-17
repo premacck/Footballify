@@ -62,7 +62,7 @@ class CreateBoardActivity : BaseCardActivity() {
 
         validateCreateBoardContent()
 
-        tool_bar.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
+        PreferenceManager.CurrentUser.getProfilePicUrl()?.run { tool_bar.setProfilePic(this) }
         tool_bar.isNotificationViewVisible(View.GONE)
         user_greeting.text = getString(R.string.hi_user, intent.getStringExtra(ZoneApplication.getContext().getString(R.string.username)))
 
@@ -137,8 +137,8 @@ class CreateBoardActivity : BaseCardActivity() {
                 Activity.RESULT_OK -> {
                     filePath = getPathForGalleryImageView(data!!.data, this)
                     if (filePath != null) {
-                        boardIconAdapter.boardIconList.add(0, filePath)
-                        boardIconAdapter.setSelectedIndex(0)
+                        boardIconAdapter.boardIconList.add(0, filePath!!)
+                        boardIconAdapter.selectedIndex = 0
                         boardIconAdapter.notifyDataSetChanged()
                         isIconSelected = true
                         validateCreateBoardContent()

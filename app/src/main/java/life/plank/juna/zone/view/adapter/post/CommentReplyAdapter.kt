@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter.post
 
-import android.support.v7.widget.RecyclerView
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +27,7 @@ class CommentReplyAdapter(
         private val parentCommentPosition: Int,
         private val replies: List<FeedItemComment>,
         private val commentContainerFragment: BaseCommentContainerFragment
-) : RecyclerView.Adapter<CommentReplyAdapter.PostCommentReplyViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<CommentReplyAdapter.PostCommentReplyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostCommentReplyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_base_comment, parent, false)
@@ -66,5 +65,5 @@ class CommentReplyAdapter(
 
     override fun getItemCount(): Int = replies.size
 
-    class PostCommentReplyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class PostCommentReplyViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
 }

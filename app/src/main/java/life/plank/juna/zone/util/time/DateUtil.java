@@ -2,7 +2,6 @@ package life.plank.juna.zone.util.time;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v4.content.res.ResourcesCompat;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -15,6 +14,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
 
+import androidx.core.content.res.ResourcesCompat;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.MatchFixture;

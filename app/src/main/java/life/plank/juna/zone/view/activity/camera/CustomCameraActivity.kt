@@ -3,9 +3,6 @@ package life.plank.juna.zone.view.activity.camera
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.activity_custom_camera.*
 import life.plank.juna.zone.R
@@ -48,11 +45,11 @@ class CustomCameraActivity : BaseCardActivity() {
         camera_view_pager.adapter = pagerAdapter
     }
 
-    class CameraPagerAdapter(fm: FragmentManager, val boardId: String, private val isForImage: Boolean) : FragmentPagerAdapter(fm) {
+    class CameraPagerAdapter(fm: androidx.fragment.app.FragmentManager, val boardId: String, private val isForImage: Boolean) : androidx.fragment.app.FragmentPagerAdapter(fm) {
 
-        var currentFragment: Fragment? = null
+        var currentFragment: androidx.fragment.app.Fragment? = null
 
-        override fun getItem(position: Int): Fragment {
+        override fun getItem(position: Int): androidx.fragment.app.Fragment {
             return when (position) {
                 0 -> CameraFragment.newInstance(boardId)
                 else -> CustomGalleryFragment.newInstance(isForImage)
@@ -65,7 +62,7 @@ class CustomCameraActivity : BaseCardActivity() {
 
         override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
             if (currentFragment !== `object`) {
-                currentFragment = `object` as Fragment
+                currentFragment = `object` as androidx.fragment.app.Fragment
             }
             super.setPrimaryItem(container, position, `object`)
         }

@@ -10,7 +10,7 @@
         android:id="@+id/blur_layout"
         style="@style/BlurLayoutFullScreen" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/root_card"
         style="@style/CardView.Root">
 
@@ -137,17 +137,17 @@
                 android:textColor="@color/grey"
                 android:textSize="12sp" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cards_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bio"
                 android:layout_alignStart="@+id/profile_image_view"
                 android:layout_marginTop="17dp"
-                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="3"
                 tools:listitem="@layout/item_board_grid_row" />
 
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

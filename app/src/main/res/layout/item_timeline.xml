@@ -28,7 +28,7 @@
             android:contentDescription="@string/timeline_whistle" />
 
         <TextView
-            android:id="@+id/whistle_text_1"
+            android:id="@+id/whistle_event_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/whistle"
@@ -44,7 +44,7 @@
             tools:ignore="RelativeOverlap" />
 
         <TextView
-            android:id="@+id/whistle_text_2"
+            android:id="@+id/whistle_event_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/whistle"
@@ -80,7 +80,7 @@
         android:layout_centerVertical="true">
 
         <TextView
-            android:id="@+id/timeline_text_1"
+            android:id="@+id/timeline_event_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/rajdhani_medium"
@@ -92,7 +92,7 @@
             android:drawablePadding="10dp" />
 
         <TextView
-            android:id="@+id/timeline_text_2"
+            android:id="@+id/timeline_event_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/rajdhani_medium"

@@ -2,7 +2,6 @@ package life.plank.juna.zone.util.sharedpreference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.StringRes;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
@@ -15,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import androidx.annotation.StringRes;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItem;

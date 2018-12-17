@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.fragment.zone
 
 import android.os.Bundle
-import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,7 @@ class ZoneContainerFragment : BaseCardContainerFragment() {
 
     override fun baseCardCount(): Int = 1
 
-    override fun viewPager(): ViewPager = zone_view_pager
+    override fun viewPager(): androidx.viewpager.widget.ViewPager = zone_view_pager
 
     override fun baseCardToInflate(position: Int): BaseFragment = ZoneFragment.newInstance()
 }

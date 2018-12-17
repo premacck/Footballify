@@ -5,8 +5,6 @@ import android.database.CursorIndexOutOfBoundsException
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.AsyncTask
-import android.support.v4.util.ArrayMap
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.util.SparseArray
 import android.view.View
@@ -32,14 +30,14 @@ import java.lang.ref.WeakReference
 import java.util.*
 
 @Suppress("UNCHECKED_CAST", "DEPRECATION")
-class AdapterImpl<T : RecyclerView.ViewHolder>(
+class AdapterImpl<T : androidx.recyclerview.widget.RecyclerView.ViewHolder>(
         private val context: Context,
         private val asymmetricAdapter: AsymmetricBaseAdapter<T>,
         private val listView: AsymmetricView
 ) : View.OnClickListener, View.OnLongClickListener {
     private val itemsPerRow = SparseArray<RowInfo>()
     private val linearLayoutPool: ObjectPool<LinearLayout> = ObjectPool(LinearLayoutPoolObjectFactory(context))
-    private val viewHoldersMap = ArrayMap<Int, ObjectPool<AsymmetricViewHolder<T>>>()
+    private val viewHoldersMap = androidx.collection.ArrayMap<Int, ObjectPool<AsymmetricViewHolder<T>>>()
     private val debugEnabled: Boolean = listView.isDebugging
     private var asyncTask: ProcessRowsTask<T>? = null
 
@@ -253,7 +251,7 @@ class AdapterImpl<T : RecyclerView.ViewHolder>(
         return childLayout
     }
 
-    internal class ProcessRowsTask<VH : RecyclerView.ViewHolder>(adapterImpl: AdapterImpl<VH>) : AsyncTask<Void, Void, List<RowInfo>>() {
+    internal class ProcessRowsTask<VH : androidx.recyclerview.widget.RecyclerView.ViewHolder>(adapterImpl: AdapterImpl<VH>) : AsyncTask<Void, Void, List<RowInfo>>() {
 
         private val ref: WeakReference<AdapterImpl<VH>> = WeakReference(adapterImpl)
 
@@ -306,9 +304,9 @@ class AdapterImpl<T : RecyclerView.ViewHolder>(
         }
     }
 
-    private class ViewState<T : RecyclerView.ViewHolder> constructor(val viewType: Int, val rowItem: RowItem, val viewHolder: AsymmetricViewHolder<T>)
+    private class ViewState<T : androidx.recyclerview.widget.RecyclerView.ViewHolder> constructor(val viewType: Int, val rowItem: RowItem, val viewHolder: AsymmetricViewHolder<T>)
 
-    class ViewHolder(itemView: LinearLayout) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: LinearLayout) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         fun itemView(): LinearLayout {
             return itemView as LinearLayout
         }

@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.fragment.base
 
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.EditText
 import kotlinx.coroutines.experimental.Runnable
@@ -60,7 +59,7 @@ abstract class SearchableCard : BaseCard() {
 
     abstract fun searchedList(): MutableList<*>
 
-    abstract fun searchAdapter(): RecyclerView.Adapter<*>?
+    abstract fun searchAdapter(): androidx.recyclerview.widget.RecyclerView.Adapter<*>?
 
     abstract fun searchAction(searchString: String)
 

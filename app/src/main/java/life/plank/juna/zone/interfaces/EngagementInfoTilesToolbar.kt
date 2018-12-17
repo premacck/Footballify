@@ -1,8 +1,7 @@
 package life.plank.juna.zone.interfaces
 
-import android.support.annotation.DrawableRes
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
+import androidx.annotation.DrawableRes
+import com.google.android.material.tabs.TabLayout
 
 interface EngagementInfoTilesToolbar {
 
@@ -20,5 +19,5 @@ interface EngagementInfoTilesToolbar {
 
     fun showLock(showLock: Boolean)
 
-    fun setupWithViewPager(viewPager: ViewPager, defaultSelection: Int)
+    fun setupWithViewPager(viewPager: androidx.viewpager.widget.ViewPager, defaultSelection: Int)
 }

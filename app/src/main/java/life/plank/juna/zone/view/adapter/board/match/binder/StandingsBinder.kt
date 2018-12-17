@@ -35,7 +35,7 @@ class StandingsBinder : ItemBinder<StandingsBindingModel, StandingsBinder.Standi
             standing_recycler_view.visibility = View.VISIBLE
             val adapter = StandingTableAdapter(Glide.with(ZoneApplication.getContext()), true)
             standing_recycler_view.adapter = adapter
-            adapter.update(item.standingsList)
+            adapter.update(item.standingsList!!)
             layoutParams.height = getDp(140f).toInt()
             requestLayout()
         }

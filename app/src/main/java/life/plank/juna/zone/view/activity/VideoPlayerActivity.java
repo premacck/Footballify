@@ -3,7 +3,6 @@ package life.plank.juna.zone.view.activity;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -25,19 +24,19 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.appcompat.app.AppCompatActivity;
 import life.plank.juna.zone.R;
 
 public class VideoPlayerActivity extends AppCompatActivity {
-    @BindView(R.id.player_view)
-    public SimpleExoPlayerView simpleExoPlayerView;
+
+    private SimpleExoPlayerView simpleExoPlayerView;
     SimpleExoPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
+        simpleExoPlayerView = findViewById(R.id.player_view);
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         TrackSelection.Factory videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
         TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
@@ -48,7 +47,6 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     public void initializePlayer() {
         simpleExoPlayerView = new SimpleExoPlayerView(this);
-        ButterKnife.bind(this);
         simpleExoPlayerView.setUseController(true);
         simpleExoPlayerView.requestFocus();
         simpleExoPlayerView.setPlayer(player);

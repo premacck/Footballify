@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter.common
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import life.plank.juna.zone.util.common.execute
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 
-class NotificationAdapter(private val restApi: RestApi) : RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
+class NotificationAdapter(private val restApi: RestApi) : androidx.recyclerview.widget.RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
 
     val notificationList: MutableList<PseudoNotification> = ArrayList()
 
@@ -45,5 +44,5 @@ class NotificationAdapter(private val restApi: RestApi) : RecyclerView.Adapter<N
         notifyDataSetChanged()
     }
 
-    class NotificationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class NotificationViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
 }

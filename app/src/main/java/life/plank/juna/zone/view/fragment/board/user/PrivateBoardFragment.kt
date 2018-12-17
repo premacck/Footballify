@@ -2,10 +2,6 @@ package life.plank.juna.zone.view.fragment.board.user
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v7.widget.CardView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -99,7 +95,7 @@ class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = root_blur_layout
 
-    override fun getRootView(): CardView? = root_card
+    override fun getRootView(): androidx.cardview.widget.CardView? = root_card
 
     override fun getDragView(): View? = drag_area
 
@@ -148,11 +144,11 @@ class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
         }, this)
     }
 
-    class PrivateBoardPagerAdapter(fm: FragmentManager, private val board: Board) : FragmentPagerAdapter(fm) {
+    class PrivateBoardPagerAdapter(fm: androidx.fragment.app.FragmentManager, private val board: Board) : androidx.fragment.app.FragmentPagerAdapter(fm) {
 
-        var currentFragment: Fragment? = null
+        var currentFragment: androidx.fragment.app.Fragment? = null
 
-        override fun getItem(position: Int): Fragment? {
+        override fun getItem(position: Int): androidx.fragment.app.Fragment? {
             return when (position) {
                 0 -> PrivateBoardInfoFragment.newInstance(board.description!!, board.id, board.owner.displayName, board.name!!)
                 1 -> ForumFragment.newInstance(board.id)
@@ -183,7 +179,7 @@ class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
 
         override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
             if (currentFragment !== `object`) {
-                currentFragment = `object` as Fragment
+                currentFragment = `object` as androidx.fragment.app.Fragment
             }
             super.setPrimaryItem(container, position, `object`)
         }

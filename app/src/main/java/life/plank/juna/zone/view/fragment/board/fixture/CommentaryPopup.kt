@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.fragment.board.fixture
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,7 +53,7 @@ class CommentaryPopup : BaseBlurPopup() {
     private fun initRecyclerView() {
         if (!isNullOrEmpty(commentaryList)) {
             adapter = CommentaryAdapter(commentaryList)
-            (commentary_recycler_view.layoutManager as LinearLayoutManager).reverseLayout = true
+            (commentary_recycler_view.layoutManager as androidx.recyclerview.widget.LinearLayoutManager).reverseLayout = true
             commentary_recycler_view.adapter = adapter
             commentary_recycler_view.scrollToPosition(commentaryList.size - 1)
         }

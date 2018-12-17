@@ -6,8 +6,6 @@ import android.graphics.drawable.Drawable
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +15,7 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.football_feed_detail_row.view.*
 import kotlinx.android.synthetic.main.layout_interaction_component.view.*
@@ -56,7 +55,7 @@ class BoardFeedDetailAdapter(private val restApi: RestApi,
                              private val emojiBottomSheetBehavior: BottomSheetBehavior<*>?,
                              private val emojiAdapter: EmojiAdapter?,
                              private val target: String?,
-                             private val glide: RequestManager) : RecyclerView.Adapter<BoardFeedDetailAdapter.FootballFeedDetailViewHolder>() {
+                             private val glide: RequestManager) : androidx.recyclerview.widget.RecyclerView.Adapter<BoardFeedDetailAdapter.FootballFeedDetailViewHolder>() {
 
     private val mediaPlayer = MediaPlayer()
     private val TAG = BoardFeedDetailAdapter::class.java.canonicalName
@@ -284,7 +283,7 @@ class BoardFeedDetailAdapter(private val restApi: RestApi,
                 })
     }
 
-    class FootballFeedDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class FootballFeedDetailViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         fun setVisibilities(imageViewVisibility: Int, videoViewVisibility: Int, textViewVisibility: Int) {
             itemView.feed_image_view.visibility = imageViewVisibility

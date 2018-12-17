@@ -1,9 +1,8 @@
 package life.plank.juna.zone.data.network.dagger.module;
 
-import android.arch.lifecycle.MutableLiveData;
-
 import java.util.List;
 
+import androidx.lifecycle.MutableLiveData;
 import dagger.Module;
 import dagger.Provides;
 import life.plank.juna.zone.data.local.model.LeagueInfo;

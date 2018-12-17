@@ -12,7 +12,7 @@ import life.plank.juna.zone.interfaces.OnItemClickListener
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.addDataManagerAndRegisterBinder
 
-class MultiListAdapter(activity: Activity, restApi: RestApi, onItemClickListener: OnItemClickListener) : RecyclerAdapter() {
+class FootballZoneAdapter(activity: Activity, restApi: RestApi, onItemClickListener: OnItemClickListener) : RecyclerAdapter() {
 
     private val topMatchDataManager: DataListManager<NextMatch> = DataListManager(this)
     private val lowerMatchDataManager: DataListManager<NextMatch> = DataListManager(this)

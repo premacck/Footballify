@@ -1,6 +1,5 @@
 package life.plank.juna.zone.util.common
 
-import android.support.v4.view.PagerAdapter
 import life.plank.juna.zone.R
 import life.plank.juna.zone.notification.getLiveFootballNotificationIntentActionFromActivity
 import life.plank.juna.zone.notification.getSocialNotificationIntentActionFromActivity
@@ -10,7 +9,7 @@ import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
 
-fun CardTileFragment.getPositionFromIntentIfAny(pagerAdapter: PagerAdapter?): Int {
+fun CardTileFragment.getPositionFromIntentIfAny(pagerAdapter: androidx.viewpager.widget.PagerAdapter?): Int {
     return getSocialNotificationIntentActionFromActivity()?.run {
         (activity as? BaseCardActivity)?.intent?.removeExtra(findString(R.string.intent_action))
         when (this) {
@@ -32,4 +31,5 @@ fun CardTileFragment.getPositionFromIntentIfAny(pagerAdapter: PagerAdapter?): In
     }
 }
 
-fun PagerAdapter?.positionOf(tabName: String): Int = this?.run { getItemPosition(tabName) } ?: 0
+fun androidx.viewpager.widget.PagerAdapter?.positionOf(tabName: String): Int = this?.run { getItemPosition(tabName) }
+        ?: 0
