@@ -62,7 +62,7 @@ class CreateBoardActivity : BaseCardActivity() {
 
         validateCreateBoardContent()
 
-        tool_bar.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
+        PreferenceManager.CurrentUser.getProfilePicUrl()?.run { tool_bar.setProfilePic(this) }
         tool_bar.isNotificationViewVisible(View.GONE)
         user_greeting.text = getString(R.string.hi_user, intent.getStringExtra(ZoneApplication.getContext().getString(R.string.username)))
 
