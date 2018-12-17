@@ -110,7 +110,8 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
             tile_content_layout.removeView(extras_layout)
             tile_content_layout.removeView(board_poll)
         } else {
-            getBoardPolls()
+//            TODO: un-comment after the go-ahead from backend
+//            getBoardPolls()
         }
 
         setListeners()
