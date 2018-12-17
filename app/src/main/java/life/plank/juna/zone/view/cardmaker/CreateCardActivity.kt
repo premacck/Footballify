@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.activity_create_card.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.view.CardPreviewFragment
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.camera.CustomCameraActivity
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -44,9 +45,18 @@ class CreateCardActivity : BaseCardActivity() {
             val imageBitmap = BitmapFactory.decodeFile(filePath)
             profile_image_view.setImageBitmap(imageBitmap)
         }
+        setOnClickListeners()
+    }
+
+    private fun setOnClickListeners() {
         camera.onClick {
             CustomCameraActivity.launch(this@CreateCardActivity, true, "")
             finish()
+        }
+        proceed_button.onClick {
+            if (!filePath.isNullOrEmpty()) {
+                pushFragment(CardPreviewFragment.newInstance(filePath!!))
+            }
         }
     }
 
