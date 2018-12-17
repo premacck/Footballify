@@ -9,6 +9,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import kotlinx.android.synthetic.main.fragment_league_info.*
 import kotlinx.android.synthetic.main.league_toolbar.*
 import life.plank.juna.zone.R
@@ -100,7 +101,7 @@ class LeagueInfoFragment : BaseCard() {
             }
         }
 
-        override fun getItemPosition(`object`: Any): Int = androidx.viewpager.widget.PagerAdapter.POSITION_NONE
+        override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE
 
         override fun getCount(): Int = 3
 

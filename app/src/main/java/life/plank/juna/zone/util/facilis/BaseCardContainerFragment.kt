@@ -7,6 +7,7 @@ import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.viewpager.widget.ViewPager
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import java.lang.ref.WeakReference
@@ -28,7 +29,7 @@ abstract class BaseCardContainerFragment : BaseCard() {
 
     abstract fun baseCardCount(): Int
 
-    abstract fun viewPager(): androidx.viewpager.widget.ViewPager
+    abstract fun viewPager(): ViewPager
 
     abstract fun baseCardToInflate(position: Int): BaseFragment
 
