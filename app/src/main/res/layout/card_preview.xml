@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
     style="@style/MatchParentSize"
     android:animateLayoutChanges="true">
@@ -32,18 +33,28 @@
                 android:layout_marginStart="60dp"
                 android:layout_marginEnd="60dp" />
 
-            <RelativeLayout
+            <android.support.v7.widget.CardView
                 android:id="@+id/card_bg"
                 android:layout_width="wrap_content"
-                android:layout_height="479dp"
-                android:layout_below="@id/drag_handle"
-                android:layout_marginTop="60dp">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/drag_area"
+                android:layout_centerInParent="true"
+                app:cardCornerRadius="8dp">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="340dp"
+                    android:layout_height="380dp"
+                    android:layout_marginTop="35dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/zone_thumb_image" />
 
-            </RelativeLayout>
+                <ImageView
+                    android:layout_width="340dp"
+                    android:layout_height="500dp"
+                    android:src="@drawable/img_photo_frame" />
+
+            </android.support.v7.widget.CardView>
+
 
             <TextView
                 android:id="@+id/text"
@@ -63,7 +74,7 @@
                 android:layout_height="50dp"
                 android:layout_below="@+id/text"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="47dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/white_bg_button"
                 android:fontFamily="@font/raleway_semibold"
