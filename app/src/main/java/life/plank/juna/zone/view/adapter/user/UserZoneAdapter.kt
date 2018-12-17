@@ -10,8 +10,10 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.DataUtil
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.zone.ZoneActivity
 import life.plank.juna.zone.view.fragment.onboarding.TeamSelectionFragment
@@ -30,7 +32,10 @@ class UserZoneAdapter(
         val (zone) = userPreferenceList[position]
         holder.itemView.football!!.text = zone?.name
 
-        holder.itemView.time_to_next_match.showNextMatchOnly(restApi)
+        if(!isNullOrEmpty(PreferenceManager.CurrentUser.getUserPreferences()[0].zonePreferences)){
+            holder.itemView.time_to_next_match.showNextMatchOnly(restApi)
+        }
+
         holder.itemView.onDebouncingClick {
             if (DataUtil.isNullOrEmpty(userPreferenceList[0].zonePreferences)) {
                 (activity as? BaseCardActivity)?.pushFragment(TeamSelectionFragment.newInstance(), true)
