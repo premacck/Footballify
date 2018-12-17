@@ -59,6 +59,7 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
+                            android:id="@+id/profile_image_view"
                             android:layout_width="340dp"
                             android:layout_height="380dp"
                             android:layout_marginTop="35dp"
@@ -80,6 +81,7 @@
                         android:src="@drawable/img_photo_frame" />
 
                     <ImageView
+                        android:id="@+id/camera"
                         android:layout_width="46dp"
                         android:layout_height="37dp"
                         android:layout_centerInParent="true"
