@@ -41,8 +41,8 @@ class CreateCardActivity : BaseCardActivity() {
         }
 
         if (!filePath.isNullOrEmpty()) {
-            val myBitmap = BitmapFactory.decodeFile(filePath)
-            profile_image_view.setImageBitmap(myBitmap)
+            val imageBitmap = BitmapFactory.decodeFile(filePath)
+            profile_image_view.setImageBitmap(imageBitmap)
         }
         camera.onClick {
             CustomCameraActivity.launch(this@CreateCardActivity, true, "")
