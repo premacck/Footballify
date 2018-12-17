@@ -63,8 +63,7 @@
                             android:layout_width="340dp"
                             android:layout_height="380dp"
                             android:layout_marginTop="35dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/zone_thumb_image" />
+                            android:scaleType="centerCrop" />
 
                         <ImageView
                             android:layout_width="340dp"
