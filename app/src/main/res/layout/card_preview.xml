@@ -32,7 +32,7 @@
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/toolbar"
+                android:layout_below="@+id/drag_area"
                 android:clipToPadding="false"
                 android:isScrollContainer="true">
 
@@ -50,7 +50,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/drag_handle"
-                        android:layout_centerInParent="true"
+                        android:layout_marginStart="17dp"
+                        android:layout_marginEnd="17dp"
+                        android:gravity="center_horizontal"
                         app:cardCornerRadius="8dp"
                         tools:ignore="NotSibling">
 
@@ -86,7 +88,7 @@
                         android:layout_height="50dp"
                         android:layout_below="@+id/text"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="60dp"
+                        android:layout_marginTop="30dp"
                         android:layout_marginBottom="10dp"
                         android:background="@drawable/white_bg_button"
                         android:fontFamily="@font/raleway_semibold"
