@@ -5,7 +5,7 @@ import android.text.SpannableStringBuilder
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.notification.buildNotificationMessage
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
@@ -15,19 +15,19 @@ data class InAppNotification(
         var message: @RawValue SpannableStringBuilder,
         var subMessage: String = findString(R.string.now),
         var imageUrl: String? = null,
-        var junaNotification: JunaNotification? = null,
-        var zoneLiveData: ZoneLiveData? = null
+        var socialNotification: SocialNotification? = null,
+        var footballLiveData: FootballLiveData? = null
 ) : Parcelable {
-    constructor(junaNotification: JunaNotification) : this(
-            junaNotification.buildNotificationMessage(),
-            if (!isNullOrEmpty(junaNotification.commentMessage)) junaNotification.commentMessage!! else findString(R.string.now),
-            junaNotification.boardIconUrl,
-            junaNotification
+    constructor(socialNotification: SocialNotification) : this(
+            socialNotification.buildNotificationMessage(),
+            if (!isNullOrEmpty(socialNotification.commentMessage)) socialNotification.commentMessage!! else findString(R.string.now),
+            socialNotification.boardIconUrl,
+            socialNotification
     )
 
-    constructor(zoneLiveData: ZoneLiveData) : this(
-            zoneLiveData.buildNotificationMessage(),
+    constructor(footballLiveData: FootballLiveData) : this(
+            footballLiveData.buildNotificationMessage(),
             findString(R.string.now),
-            zoneLiveData = zoneLiveData
+            footballLiveData = footballLiveData
     )
 }

@@ -14,9 +14,9 @@ import com.bumptech.glide.Glide
 import life.plank.juna.zone.R
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.data.model.notification.BaseInAppNotification
-import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.asciiToInt
@@ -31,7 +31,7 @@ private const val GROUP_LIVE_FOOTBALL_NOTIFICATION = "life.plank.juna.zone.LIVE_
 /**
  * Method to send social interaction notification in the notification drawer
  */
-fun JunaNotification.prepareDrawerNotification() {
+fun SocialNotification.prepareDrawerNotification() {
     val pendingIntent = PendingIntent.getActivity(
             ZoneApplication.getContext(),
             0,
@@ -54,7 +54,7 @@ fun JunaNotification.prepareDrawerNotification() {
 /**
  * Method to send live football data notification in the notification drawer
  */
-fun ZoneLiveData.prepareDrawerNotification() {
+fun FootballLiveData.prepareDrawerNotification() {
     sendCustomizedNotification {
         sendTextNotification(PendingIntent.getActivity(ZoneApplication.getContext(), 0, getLiveFootballNotificationIntent(), FLAG_ONE_SHOT))
     }
@@ -67,13 +67,13 @@ fun BaseInAppNotification.sendTextNotification(pendingIntent: PendingIntent) {
             .setNotificationChannel()
             .notify(toString().asciiToInt(),
                     getNotificationBuilder(notificationMessage, pendingIntent)
-                            .setGroup(if (this is JunaNotification) GROUP_SOCIAL_NOTIFICATION else GROUP_LIVE_FOOTBALL_NOTIFICATION)
+                            .setGroup(if (this is SocialNotification) GROUP_SOCIAL_NOTIFICATION else GROUP_LIVE_FOOTBALL_NOTIFICATION)
                             .setGroupSummary(true)
                             .setStyle(NotificationCompat.BigTextStyle().bigText(notificationMessage))
                             .build())
 }
 
-fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: Boolean) {
+fun SocialNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: Boolean) {
     val notificationManager = ZoneApplication.getContext().getNotificationManager().setNotificationChannel()
     val notificationBuilder = getNotificationBuilder(buildNotificationMessage(), pendingIntent)
     try {

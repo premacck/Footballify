@@ -5,8 +5,8 @@ import android.content.Context
 import com.google.gson.Gson
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.ZoneLiveData
-import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.data.model.FootballLiveData
+import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
@@ -26,7 +26,7 @@ fun dispatch(dataPayload: Map<String, String>) {
 
 fun dispatchSocialNotification(dataPayload: Map<String, String>) {
     ZoneApplication.getContext().doAsync {
-        val junaNotification = Gson().fromJson<JunaNotification>(JSONObject(dataPayload).toString(), JunaNotification::class.java)
+        val junaNotification = Gson().fromJson<SocialNotification>(JSONObject(dataPayload).toString(), SocialNotification::class.java)
         if (!junaNotification.userHandles.contains(PreferenceManager.CurrentUser.getHandle())) {
             uiThread {
                 if (it.isForeground()) {
@@ -41,7 +41,7 @@ fun dispatchSocialNotification(dataPayload: Map<String, String>) {
 
 fun dispatchLiveFootballNotification(dataPayload: Map<String, String>) {
     ZoneApplication.getContext().doAsync {
-        val zoneLiveData = Gson().fromJson<ZoneLiveData>(JSONObject(dataPayload).toString(), ZoneLiveData::class.java)
+        val zoneLiveData = Gson().fromJson<FootballLiveData>(JSONObject(dataPayload).toString(), FootballLiveData::class.java)
         uiThread {
             if (it.isForeground()) {
                 zoneLiveData.sendInAppNotification()
@@ -64,7 +64,7 @@ private fun Context.isForeground(): Boolean {
     return false
 }
 
-fun ZoneLiveData.sendCustomizedNotification(action: () -> Unit) {
+fun FootballLiveData.sendCustomizedNotification(action: () -> Unit) {
     when (liveDataType) {
         LIVE_FOOTBALL_MATCH, MATCH_EVENTS, TIME_STATUS_DATA, LINEUPS_DATA, BOARD_ACTIVATED -> action()
     }

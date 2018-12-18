@@ -52,7 +52,7 @@ class InAppNotificationLayout @JvmOverloads constructor(
 
     private fun InAppNotification.updateImageViews() {
         when {
-            junaNotification != null -> {
+            socialNotification != null -> {
                 image_layout.visibility = View.INVISIBLE
 
                 if (isNullOrEmpty(imageUrl)) {
@@ -66,13 +66,13 @@ class InAppNotificationLayout @JvmOverloads constructor(
                             .into(notification_image)
                 }
             }
-            zoneLiveData != null -> {
+            footballLiveData != null -> {
                 notification_image.setImageDrawable(resources.getDrawable(R.drawable.ic_match_bg, null))
-                Glide.with(this@InAppNotificationLayout).load(zoneLiveData?.homeTeamLogo)
+                Glide.with(this@InAppNotificationLayout).load(footballLiveData?.homeTeamLogo)
                         .apply(RequestOptions.overrideOf(getDp(30f).toInt(), getDp(30f).toInt())
                                 .placeholder(R.drawable.shimmer_circle))
                         .into(home_team_logo)
-                Glide.with(this@InAppNotificationLayout).load(zoneLiveData?.visitingTeamLogo)
+                Glide.with(this@InAppNotificationLayout).load(footballLiveData?.visitingTeamLogo)
                         .apply(RequestOptions.overrideOf(getDp(30f).toInt(), getDp(30f).toInt())
                                 .placeholder(R.drawable.shimmer_circle))
                         .into(visiting_team_logo)

@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.popup_commentary.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Commentary
-import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.util.common.AppConstants.COMMENTARY_DATA
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
@@ -59,9 +59,9 @@ class CommentaryPopup : BaseBlurPopup() {
         }
     }
 
-    private fun updateLiveCommentary(zoneLiveData: ZoneLiveData) {
-        if (zoneLiveData.liveDataType == COMMENTARY_DATA) {
-            (zoneLiveData.getCommentaryList(gson) as? MutableList)?.run {
+    private fun updateLiveCommentary(footballLiveData: FootballLiveData) {
+        if (footballLiveData.liveDataType == COMMENTARY_DATA) {
+            (footballLiveData.getCommentaryList(gson) as? MutableList)?.run {
                 if (!isNullOrEmpty(this)) {
                     adapter?.updateNew(this)
                     commentary_recycler_view.smoothScrollToPosition(adapter!!.commentaries.size + size - 1)

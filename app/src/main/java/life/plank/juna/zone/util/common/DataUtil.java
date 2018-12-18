@@ -19,6 +19,7 @@ import androidx.annotation.StringRes;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.FootballLiveData;
 import life.plank.juna.zone.data.model.Formation;
 import life.plank.juna.zone.data.model.FormationList;
 import life.plank.juna.zone.data.model.League;
@@ -28,7 +29,6 @@ import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.data.model.MatchFixture;
-import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.util.football.ScoreBuilder;
 
 import static life.plank.juna.zone.util.common.AppConstants.DASH;
@@ -154,8 +154,8 @@ public class DataUtil {
         return teamNameSeparator;
     }
 
-    public static ZoneLiveData getZoneLiveData(Intent intent, String key, Gson gson) {
-        return gson.fromJson(intent.getStringExtra(key), new TypeToken<ZoneLiveData>() {
+    public static FootballLiveData getZoneLiveData(Intent intent, String key, Gson gson) {
+        return gson.fromJson(intent.getStringExtra(key), new TypeToken<FootballLiveData>() {
         }.getType());
     }
 
