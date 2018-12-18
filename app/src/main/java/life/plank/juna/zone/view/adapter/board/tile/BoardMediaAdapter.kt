@@ -5,6 +5,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.prembros.asymmetricrecyclerview.base.AsymmetricItem
@@ -97,5 +98,5 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRe
 
     override fun getItemCount(): Int = boardFeed.size
 
-    class BoardMediaViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view)
+    class BoardMediaViewHolder(view: View) : RecyclerView.ViewHolder(view)
 }

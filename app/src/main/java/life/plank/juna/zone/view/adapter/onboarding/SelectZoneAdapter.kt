@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.adapter.onboarding
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import kotlinx.android.synthetic.main.item_zone_grid.view.*
 import life.plank.juna.zone.R
@@ -17,7 +18,7 @@ import java.util.*
 class SelectZoneAdapter(
         private val zonesList: ArrayList<Zones>,
         private val glide: RequestManager
-) : androidx.recyclerview.widget.RecyclerView.Adapter<SelectZoneAdapter.ZoneViewHolder>() {
+) : RecyclerView.Adapter<SelectZoneAdapter.ZoneViewHolder>() {
 
     private var selectedZones: MutableSet<Zones> = HashSet()
     var selectedZoneNames: MutableSet<String> = HashSet()
@@ -74,5 +75,5 @@ class SelectZoneAdapter(
         return zonesList.size
     }
 
-    class ZoneViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
+    class ZoneViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.fragment.base
 
+import androidx.fragment.app.DialogFragment
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
 import org.jetbrains.anko.support.v4.runOnUiThread
@@ -8,7 +9,7 @@ import org.jetbrains.anko.support.v4.runOnUiThread
  * Base class for all the dialog fragments in the app
  * Contains the functionality parts common through all the fragments.
  */
-abstract class BaseDialogFragment : androidx.fragment.app.DialogFragment() {
+abstract class BaseDialogFragment : DialogFragment() {
 
     @Suppress("DeferredResultUnused")
     fun smartDismiss(afterDismissAction: () -> Unit) {

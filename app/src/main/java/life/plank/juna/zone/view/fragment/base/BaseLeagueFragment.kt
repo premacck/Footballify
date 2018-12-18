@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.fragment.base
 import android.os.Bundle
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.MatchFixture
@@ -30,9 +31,9 @@ abstract class BaseLeagueFragment : FlatFragment(), LeagueContainer {
         setOnScrollChangeListener { _, _, scrollY, _, oldScrollY -> (parentFragment as? LeagueInfoFragment)?.hideOrShowBoomMenu(scrollY, oldScrollY) }
     }
 
-    protected fun androidx.recyclerview.widget.RecyclerView.setupWithParentFragmentBoomMenu() {
-        addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
+    protected fun RecyclerView.setupWithParentFragmentBoomMenu() {
+        addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 (parentFragment as? LeagueInfoFragment)?.hideOrShowBoomMenu(dy)
             }
         })

@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.adapter.board.match.binder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ahamed.multiviewadapter.ItemBinder
 import com.ahamed.multiviewadapter.ItemViewHolder
 import kotlinx.android.synthetic.main.item_live_commentary_small.view.*
@@ -28,7 +29,7 @@ class CommentaryBinder(private val listener: MatchStatsListener) : ItemBinder<Co
                 return
             }
 
-            (commentary_list.layoutManager as androidx.recyclerview.widget.LinearLayoutManager).reverseLayout = true
+            (commentary_list.layoutManager as LinearLayoutManager).reverseLayout = true
             commentary_list.scrollToPosition(item.commentaryList!!.size - 1)
             commentary_list.visibility = View.VISIBLE
             see_all.visibility = View.VISIBLE

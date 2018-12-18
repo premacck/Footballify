@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_forum.*
 import life.plank.juna.zone.R
@@ -166,7 +167,7 @@ class ForumFragment : BaseCommentContainerFragment() {
         }
     }
 
-    override fun commentsRecyclerView(): androidx.recyclerview.widget.RecyclerView = post_comments_list
+    override fun commentsRecyclerView(): RecyclerView = post_comments_list
 
     override fun getTheRestApi(): RestApi = restApi
 

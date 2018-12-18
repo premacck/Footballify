@@ -1,12 +1,13 @@
 package life.plank.juna.zone.view.fragment.base
 
+import androidx.fragment.app.Fragment
 import rx.Subscription
 
 /**
  * Base class for all the fragments in the app
  * Contains the functionality parts common through all the fragments.
  */
-abstract class BaseFragment : androidx.fragment.app.Fragment() {
+abstract class BaseFragment : Fragment() {
 
     val subscriptionList: MutableList<Subscription> = ArrayList()
 

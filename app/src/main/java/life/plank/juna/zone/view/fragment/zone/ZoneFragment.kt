@@ -88,7 +88,6 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
     }
 
     private fun initBottomSheetRecyclerView() {
-        onboarding_recycler_view.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 3)
         leagueSelectionAdapter = LeagueSelectionAdapter(activity!!, leagueList)
         onboarding_recycler_view.adapter = leagueSelectionAdapter
     }

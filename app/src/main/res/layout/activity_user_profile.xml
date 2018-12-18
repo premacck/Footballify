@@ -248,7 +248,8 @@
                         android:clipToPadding="false"
                         android:paddingStart="9dp"
                         android:paddingEnd="9dp"
-                        app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="5"
                         tools:listitem="@layout/item_image_and_title" />
 
                 </RelativeLayout>

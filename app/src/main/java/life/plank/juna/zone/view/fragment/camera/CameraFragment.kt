@@ -8,6 +8,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.Fragment
 import com.wonderkiln.camerakit.CameraKit.Constants.*
 import kotlinx.android.synthetic.main.fragment_camera.*
 import life.plank.juna.zone.R
@@ -24,7 +25,7 @@ import org.jetbrains.anko.support.v4.runOnUiThread
 import java.io.File
 import java.io.IOException
 
-class CameraFragment : androidx.fragment.app.Fragment() {
+class CameraFragment : Fragment() {
 
     private var boardId: String? = null
     private var pendingVideoCapture: Boolean = false
@@ -84,7 +85,7 @@ class CameraFragment : androidx.fragment.app.Fragment() {
     private fun onTouchCapture(view: View, motionEvent: MotionEvent): Boolean {
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
-                if(!boardId.isNullOrEmpty()) {
+                if (!boardId.isNullOrEmpty()) {
                     tap_hold_hint.visibility = View.GONE
                     touchFeedBackAnimation(view, true)
                     pendingVideoCapture = true
@@ -123,9 +124,9 @@ class CameraFragment : androidx.fragment.app.Fragment() {
                         try {
                             runOnUiThread {
                                 layout_busy_progress_bar.visibility = View.GONE
-                                if(!boardId.isNullOrEmpty()) {
+                                if (!boardId.isNullOrEmpty()) {
                                     UploadActivity.launch(activity, IMAGE, boardId, FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap))
-                                }else{
+                                } else {
                                     CreateCardActivity.launch(activity!!, FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap))
                                 }
                                 activity?.finish()

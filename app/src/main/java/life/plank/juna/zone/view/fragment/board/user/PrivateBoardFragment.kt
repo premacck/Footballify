@@ -6,6 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import kotlinx.android.synthetic.main.fragment_private_board.*
 import kotlinx.android.synthetic.main.layout_board_engagement.*
 import life.plank.juna.zone.R
@@ -95,7 +99,7 @@ class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = root_blur_layout
 
-    override fun getRootView(): androidx.cardview.widget.CardView? = root_card
+    override fun getRootView(): CardView? = root_card
 
     override fun getDragView(): View? = drag_area
 
@@ -144,11 +148,11 @@ class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
         }, this)
     }
 
-    class PrivateBoardPagerAdapter(fm: androidx.fragment.app.FragmentManager, private val board: Board) : androidx.fragment.app.FragmentPagerAdapter(fm) {
+    class PrivateBoardPagerAdapter(fm: FragmentManager, private val board: Board) : FragmentPagerAdapter(fm) {
 
-        var currentFragment: androidx.fragment.app.Fragment? = null
+        var currentFragment: Fragment? = null
 
-        override fun getItem(position: Int): androidx.fragment.app.Fragment? {
+        override fun getItem(position: Int): Fragment? {
             return when (position) {
                 0 -> PrivateBoardInfoFragment.newInstance(board.description!!, board.id, board.owner.displayName, board.name!!)
                 1 -> ForumFragment.newInstance(board.id)
@@ -179,7 +183,7 @@ class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
 
         override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
             if (currentFragment !== `object`) {
-                currentFragment = `object` as androidx.fragment.app.Fragment
+                currentFragment = `object` as Fragment
             }
             super.setPrimaryItem(container, position, `object`)
         }

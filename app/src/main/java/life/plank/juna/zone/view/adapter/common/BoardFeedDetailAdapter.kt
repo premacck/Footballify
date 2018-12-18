@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -55,7 +56,7 @@ class BoardFeedDetailAdapter(private val restApi: RestApi,
                              private val emojiBottomSheetBehavior: BottomSheetBehavior<*>?,
                              private val emojiAdapter: EmojiAdapter?,
                              private val target: String?,
-                             private val glide: RequestManager) : androidx.recyclerview.widget.RecyclerView.Adapter<BoardFeedDetailAdapter.FootballFeedDetailViewHolder>() {
+                             private val glide: RequestManager) : RecyclerView.Adapter<BoardFeedDetailAdapter.FootballFeedDetailViewHolder>() {
 
     private val mediaPlayer = MediaPlayer()
     private val TAG = BoardFeedDetailAdapter::class.java.canonicalName
@@ -283,7 +284,7 @@ class BoardFeedDetailAdapter(private val restApi: RestApi,
                 })
     }
 
-    class FootballFeedDetailViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+    class FootballFeedDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun setVisibilities(imageViewVisibility: Int, videoViewVisibility: Int, textViewVisibility: Int) {
             itemView.feed_image_view.visibility = imageViewVisibility

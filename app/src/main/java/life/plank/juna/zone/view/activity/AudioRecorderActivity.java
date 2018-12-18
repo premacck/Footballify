@@ -17,6 +17,7 @@ import java.io.IOException;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.common.AppConstants;
@@ -131,7 +132,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
         }
     }
 
-    class RecordButton extends androidx.appcompat.widget.AppCompatButton {
+    class RecordButton extends AppCompatButton {
         boolean startRecording = true;
         View.OnClickListener clicker = new View.OnClickListener() {
             public void onClick(View v) {
@@ -152,7 +153,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
         }
     }
 
-    class PlayButton extends androidx.appcompat.widget.AppCompatButton {
+    class PlayButton extends AppCompatButton {
         boolean startPlaying = true;
         OnClickListener clicker = new OnClickListener() {
             public void onClick(View v) {

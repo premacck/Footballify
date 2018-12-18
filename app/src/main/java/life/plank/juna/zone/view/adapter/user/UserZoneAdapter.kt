@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_zone_user_feed.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.UserPreference
@@ -21,7 +22,7 @@ class UserZoneAdapter(
         private val activity: Activity,
         private val restApi: RestApi,
         private val userPreferenceList: MutableList<UserPreference>
-) : androidx.recyclerview.widget.RecyclerView.Adapter<UserZoneAdapter.UserZoneViewHolder>() {
+) : RecyclerView.Adapter<UserZoneAdapter.UserZoneViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserZoneViewHolder {
         return UserZoneViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_zone_user_feed, parent, false))
@@ -47,5 +48,5 @@ class UserZoneAdapter(
 
     override fun getItemCount(): Int = userPreferenceList.size
 
-    class UserZoneViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView)
+    class UserZoneViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

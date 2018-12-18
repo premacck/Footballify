@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.tabs.TabLayout
@@ -67,7 +69,7 @@ class GenericToolbar @JvmOverloads constructor(
         }
     }
 
-    override fun initListeners(fragment: androidx.fragment.app.Fragment) {
+    override fun initListeners(fragment: Fragment) {
         if (fragment is BoardHeaderListener) {
             listener = fragment
         } else
@@ -128,7 +130,7 @@ class GenericToolbar @JvmOverloads constructor(
         return info_tiles_tab_layout
     }
 
-    override fun setupWithViewPager(viewPager: androidx.viewpager.widget.ViewPager, defaultSelection: Int) {
+    override fun setupWithViewPager(viewPager: ViewPager, defaultSelection: Int) {
         info_tiles_tab_layout.setupWithViewPager(viewPager)
         viewPager.setCurrentItem(defaultSelection, true)
     }
