@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FeedEntry;
@@ -184,6 +185,7 @@ public class PreferenceManager {
             return getUserPrefs().getString(findString(R.string.pref_city), null);
         }
 
+        @Nullable
         public static List<UserPreference> getUserPreferences() {
             String userPrefString = getUserPrefs().getString(findString(R.string.pref_user_preferences), null);
             if (!isNullOrEmpty(userPrefString)) {
