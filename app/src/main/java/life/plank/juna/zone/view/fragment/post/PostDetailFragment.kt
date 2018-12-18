@@ -1,22 +1,16 @@
 package life.plank.juna.zone.view.fragment.post
 
 import android.app.Dialog
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.media.AudioAttributes
-import android.media.MediaPlayer
+import android.graphics.*
+import android.graphics.drawable.*
+import android.media.*
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.view.ViewGroup
+import android.view.*
+import android.view.View.*
 import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -25,23 +19,17 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_post_detail.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.ZoneApplication.getApplication
-import life.plank.juna.zone.data.model.Emoji
-import life.plank.juna.zone.data.model.FeedEntry
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.EmojiContainer
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.facilis.setRootCommentPost
-import life.plank.juna.zone.util.facilis.showFor
+import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.time.DateUtil.getCommentDateAndTimeFormat
-import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
-import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
-import life.plank.juna.zone.util.view.UIDisplayUtil.getScreenSize
+import life.plank.juna.zone.util.time.DateUtil.*
+import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import net.openid.appauth.AuthorizationService
@@ -151,18 +139,23 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
         }
 
         creation_date.text = getCommentDateAndTimeFormat(feedEntry.feedItem.dateCreated)
-        reaction_count.text = feedEntry.feedItem.interactions!!.emojiReacts.toString()
+        reaction_count.text = feedEntry.feedItem.interactions.emojiReacts.toString()
         feed_title_text_view.text = if (feedEntry.feedItem.contentType != ROOT_COMMENT) feedEntry.feedItem.title else null
         if (feedEntry.feedItem.contentType == NEWS) {
-            user_name_text_view.setText(R.string.juna_user_topic)
+            if (feedEntry.feedItem.user != null) {
+                user_name_text_view.text = feedEntry.feedItem.user?.displayName
+            } else {
+                user_name_text_view.setText(R.string.juna_user_topic)
+            }
             description_text_view.visibility = VISIBLE
             description_text_view.movementMethod = LinkMovementMethod.getInstance()
             val stringBuilder = SpannableStringBuilder()
                     .append(feedEntry.feedItem.source?.bold())
-                    .append("\n\n")
+                    .append(NEW_LINE, NEW_LINE)
                     .append(feedEntry.feedItem.summary)
-                    .append("\n\n")
-                    .append(feedEntry.feedItem.url?.toClickableWebLink(activity))
+                    .append(NEW_LINE, NEW_LINE)
+                    .append(feedEntry.feedItem.description?.formatLinks(activity)
+                            ?: feedEntry.feedItem.url?.toClickableWebLink(activity))
             description_text_view.text = stringBuilder
         } else {
             if (feedEntry.feedItem.user != null) {
