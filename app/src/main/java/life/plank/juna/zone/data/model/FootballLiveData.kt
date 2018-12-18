@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 import life.plank.juna.zone.data.model.notification.BaseInAppNotification
 
 @Parcelize
-data class ZoneLiveData(
+data class FootballLiveData(
         @SerializedName("foreignId") @Expose var matchId: Long,
         var boardTopic: String,
         var liveDataType: String,

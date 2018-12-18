@@ -3,9 +3,9 @@ package life.plank.juna.zone.notification
 import android.content.Intent
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.data.model.notification.InAppNotification
-import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.facilis.findFragment
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
@@ -15,7 +15,7 @@ import life.plank.juna.zone.view.fragment.base.CardTileFragment
 /**
  * Method to send in-app social interaction notification
  */
-fun JunaNotification.sendInAppNotification() {
+fun SocialNotification.sendInAppNotification() {
     ZoneApplication.getContext().sendBroadcast(
             Intent(findString(intent_in_app_notification)).putExtra(findString(intent_juna_notification), this)
     )
@@ -24,36 +24,36 @@ fun JunaNotification.sendInAppNotification() {
 /**
  * Method to send in-app live football data notification
  */
-fun ZoneLiveData.sendInAppNotification() {
+fun FootballLiveData.sendInAppNotification() {
     ZoneApplication.getContext().sendBroadcast(
             Intent(findString(intent_in_app_notification)).putExtra(findString(intent_zone_live_data), this)
     )
 }
 
-fun BaseCardActivity.handleInAppNotification(junaNotification: JunaNotification) {
-    when (junaNotification.action) {
-        findString(intent_invite) -> showInAppNotification(InAppNotification(junaNotification))
+fun BaseCardActivity.handleInAppNotification(socialNotification: SocialNotification) {
+    when (socialNotification.action) {
+        findString(intent_invite) -> showInAppNotification(InAppNotification(socialNotification))
         else -> {
             (supportFragmentManager.findFragment<CardTileFragment>() as? CardTileFragment)?.run {
                 if (isInForeGround) {
-                    onSocialNotificationReceive(junaNotification)
+                    onSocialNotificationReceive(socialNotification)
                 } else {
-                    showInAppNotification(InAppNotification(junaNotification))
+                    showInAppNotification(InAppNotification(socialNotification))
                 }
-            } ?: showInAppNotification(InAppNotification(junaNotification))
+            } ?: showInAppNotification(InAppNotification(socialNotification))
         }
     }
 
 }
 
-fun BaseCardActivity.handleInAppNotification(zoneLiveData: ZoneLiveData) {
+fun BaseCardActivity.handleInAppNotification(footballLiveData: FootballLiveData) {
     (supportFragmentManager.findFragment<BaseMatchFragment>() as? BaseMatchFragment)?.run {
         if (isInForeGround) {
-            onZoneLiveDataReceived(zoneLiveData)
+            onZoneLiveDataReceived(footballLiveData)
         } else {
-            zoneLiveData.sendCustomizedNotification { showInAppNotification(InAppNotification(zoneLiveData)) }
+            footballLiveData.sendCustomizedNotification { showInAppNotification(InAppNotification(footballLiveData)) }
         }
-    } ?: zoneLiveData.sendCustomizedNotification {
-        showInAppNotification(InAppNotification(zoneLiveData))
+    } ?: footballLiveData.sendCustomizedNotification {
+        showInAppNotification(InAppNotification(footballLiveData))
     }
 }

@@ -5,9 +5,9 @@ import android.content.Intent
 import life.plank.juna.zone.R
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.data.model.notification.InAppNotification
-import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.findAndLaunchBoardById
 import life.plank.juna.zone.util.common.launchMatchBoard
@@ -19,7 +19,7 @@ import org.jetbrains.anko.clearTop
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 
-fun JunaNotification.getSocialNotificationIntent(): Intent {
+fun SocialNotification.getSocialNotificationIntent(): Intent {
     return ZoneApplication.getContext().run {
         when (action) {
             findString(intent_invite) -> {
@@ -48,7 +48,7 @@ fun JunaNotification.getSocialNotificationIntent(): Intent {
     }
 }
 
-fun ZoneLiveData.getLiveFootballNotificationIntent(): Intent {
+fun FootballLiveData.getLiveFootballNotificationIntent(): Intent {
     return ZoneApplication.getContext().run {
         intentFor<HomeActivity>(
                 findString(match_id_string) to matchId,
@@ -117,8 +117,8 @@ fun BaseCardActivity.handleFootballLiveDataNotificationIntentIfAny() {
 
 fun InAppNotification.triggerNotificationAction(baseCardActivity: BaseCardActivity?) {
     when {
-        junaNotification != null -> baseCardActivity?.triggerNotificationIntent(junaNotification?.getSocialNotificationIntent()!!)
-        zoneLiveData != null -> baseCardActivity?.triggerNotificationIntent(zoneLiveData?.getLiveFootballNotificationIntent()!!)
+        socialNotification != null -> baseCardActivity?.triggerNotificationIntent(socialNotification?.getSocialNotificationIntent()!!)
+        footballLiveData != null -> baseCardActivity?.triggerNotificationIntent(footballLiveData?.getLiveFootballNotificationIntent()!!)
     }
 }
 

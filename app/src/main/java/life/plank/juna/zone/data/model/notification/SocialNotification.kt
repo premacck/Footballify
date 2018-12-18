@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 @Parcelize
-data class JunaNotification(
+data class SocialNotification(
 //        Notification related fields
         var id: String = "",
         var time: Date = Date(),

@@ -16,7 +16,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.BoardHeaderListener
 import life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_OWNER_POPUP
@@ -111,8 +111,8 @@ class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
 
     override fun getTheBoardId(): String? = boardId
 
-    override fun onSocialNotificationReceive(junaNotification: JunaNotification) {
-        junaNotification.run {
+    override fun onSocialNotificationReceive(socialNotification: SocialNotification) {
+        socialNotification.run {
             when (action) {
                 findString(R.string.intent_post) -> getFeedEntryDetails(restApi, this)
                 findString(R.string.intent_comment) -> updateForumComments()

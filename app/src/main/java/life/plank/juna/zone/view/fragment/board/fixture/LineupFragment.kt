@@ -65,7 +65,7 @@ class LineupFragment : BaseFragment() {
     }
 
     /**
-     * Method for fetching lineups live. invoked by receiving the ZoneLiveData's lineup broadcast
+     * Method for fetching lineups live. invoked by receiving the FootballLiveData's lineup broadcast
      */
     fun getLineupFormation(isRefreshing: Boolean) {
         if (!isAdded) return

@@ -2,9 +2,9 @@ package life.plank.juna.zone.notification
 
 import android.text.SpannableStringBuilder
 import life.plank.juna.zone.R.string.*
-import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.data.model.notification.BaseInAppNotification
-import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.data.network.dagger.module.NetworkModule.GSON
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.*
@@ -14,8 +14,8 @@ import life.plank.juna.zone.util.common.semiBold
 
 fun BaseInAppNotification.getNotificationMessage(): SpannableStringBuilder {
     return when {
-        this is JunaNotification -> buildNotificationMessage()
-        this is ZoneLiveData -> buildNotificationMessage()
+        this is SocialNotification -> buildNotificationMessage()
+        this is FootballLiveData -> buildNotificationMessage()
         else -> SpannableStringBuilder()
     }
 }
@@ -23,7 +23,7 @@ fun BaseInAppNotification.getNotificationMessage(): SpannableStringBuilder {
 /**
  * Method to get suitable text for the social interaction notification message
  */
-fun JunaNotification.buildNotificationMessage(): SpannableStringBuilder {
+fun SocialNotification.buildNotificationMessage(): SpannableStringBuilder {
     val leadingString = (if (!isNullOrEmpty(userHandles)) userHandles[0] else findString(someone)).bold()
     val spannableStringBuilder = SpannableStringBuilder(leadingString).append(SINGLE_SPACE)
     when (action) {
@@ -64,7 +64,7 @@ private fun SpannableStringBuilder.appendBoard(name: String?): SpannableStringBu
 /**
  * Method to get suitable text for the social live football data message
  */
-fun ZoneLiveData.buildNotificationMessage(): SpannableStringBuilder {
+fun FootballLiveData.buildNotificationMessage(): SpannableStringBuilder {
     val header = "$homeTeamName ${findString(vs)} $visitingTeamName:"
     val spannableStringBuilder = SpannableStringBuilder(header.bold()).append(NEW_LINE)
     when (liveDataType) {
