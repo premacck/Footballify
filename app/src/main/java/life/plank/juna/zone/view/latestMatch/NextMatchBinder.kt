@@ -10,7 +10,7 @@ import life.plank.juna.zone.data.model.NextMatch
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.DataUtil.getSpecifiedLeague
 import life.plank.juna.zone.util.common.launchMatchBoard
-import life.plank.juna.zone.util.facilis.onFancyClick
+import life.plank.juna.zone.util.facilis.onElevatingClick
 import life.plank.juna.zone.util.time.DateUtil
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 
@@ -29,7 +29,7 @@ class NextMatchBinder(private val activity: Activity, private val restApi: RestA
         Glide.with(activity).load(item.homeTeamLogo).into(holder.itemView.home_team_logo)
         Glide.with(activity).load(item.awayTeamLogo).into(holder.itemView.visiting_team_logo)
 
-        holder.itemView.onFancyClick(0) {
+        holder.itemView.onElevatingClick(0) {
             (activity as? BaseCardActivity)?.launchMatchBoard(restApi, item.matchId)
         }
     }

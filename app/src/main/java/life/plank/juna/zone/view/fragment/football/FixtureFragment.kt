@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.fragment.football
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_fixture.*
@@ -125,14 +126,18 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
                 }
             }
             uiThread {
-                progress_bar.visibility = View.GONE
-                fixtureMatchdayAdapter?.updateFixtures()
-                if (!isFixtureListReady) {
-                    fixtureByMatchDayList.run {
-                        (parentFragment as? LeagueInfoFragment)?.setMatchday(this[recyclerViewScrollIndex].matchDay)
+                try {
+                    progress_bar.visibility = View.GONE
+                    fixtureMatchdayAdapter?.updateFixtures()
+                    if (!isFixtureListReady) {
+                        fixtureByMatchDayList.run {
+                            (parentFragment as? LeagueInfoFragment)?.setMatchday(this[recyclerViewScrollIndex].matchDay)
+                        }
+                        fixtures_section_list.scrollToPosition(recyclerViewScrollIndex)
+                        isFixtureListReady = true
                     }
-                    fixtures_section_list.scrollToPosition(recyclerViewScrollIndex)
-                    isFixtureListReady = true
+                } catch (e: Exception) {
+                    Log.e(TAG, e.message, e)
                 }
             }
         }
