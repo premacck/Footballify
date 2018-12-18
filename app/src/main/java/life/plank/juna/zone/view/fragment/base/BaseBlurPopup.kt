@@ -1,12 +1,8 @@
 package life.plank.juna.zone.view.fragment.base
 
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.AnimRes
-import androidx.annotation.CallSuper
+import android.view.*
+import androidx.annotation.*
 import io.alterac.blurkit.BlurLayout
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.delay
 import life.plank.juna.zone.R
 import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.hideSoftKeyboard
@@ -19,8 +15,7 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
     override fun onStart() {
         super.onStart()
         getRootView()?.visibility = View.INVISIBLE
-        async {
-            delay(10)
+        doAfterDelay(10) {
             activity?.runOnUiThread {
                 getBlurLayout()?.beginBlur()
                 getRootView()?.run {
