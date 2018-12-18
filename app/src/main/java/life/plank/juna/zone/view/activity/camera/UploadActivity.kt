@@ -53,15 +53,6 @@ class UploadActivity : AppCompatActivity() {
     @Inject
     lateinit var restApi: RestApi
 
-    //    private var capturedImageView: ImageView? = null
-//    private var profilePicture: ImageView? = null
-//    private var titleEditText: TextInputEditText? = null
-//    private var capturedVideoView: VideoView? = null
-//    private var playBtn: ImageButton? = null
-//    private var postBtn: Button? = null
-//    private var progressBar: ProgressBar? = null
-//    private var scrollView: ScrollView? = null
-
     private var openFrom: String? = null
     private var userId: String? = null
     private var boardId: String? = null
