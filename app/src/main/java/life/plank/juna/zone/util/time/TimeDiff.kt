@@ -51,3 +51,10 @@ fun getTimeInHourMinuteFormat(timeStamp: Long): String {
     val minuteDiff = ((floatHourDiff - intHourDiff) * 60).toInt()
     return "$intHourDiff hrs $minuteDiff mins"
 }
+
+fun getFootballTimeElapsed(timeStamp: Long): String {
+    val floatMinuteDiff = timeStamp.toFloat() / MINUTE_MILLIS
+    val intMinuteDiff = floatMinuteDiff.toInt()
+    val secondDiff = ((floatMinuteDiff - intMinuteDiff) * 60).toInt()
+    return "$intMinuteDiff : $secondDiff"
+}

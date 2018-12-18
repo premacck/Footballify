@@ -3,36 +3,24 @@ package life.plank.juna.zone.view.fragment.board.fixture
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
+import android.view.*
+import androidx.fragment.app.*
 import androidx.viewpager.widget.PagerAdapter
 import com.github.mikephil.charting.charts.LineChart
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_match_board.*
 import kotlinx.android.synthetic.main.layout_board_engagement.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.Board
-import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.data.model.League
-import life.plank.juna.zone.data.model.MatchDetails
+import life.plank.juna.zone.*
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.BoardHeaderListener
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.LIVE
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.DataUtil.*
 import life.plank.juna.zone.util.customview.PublicBoardToolbar
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.sharedpreference.PreferenceManager
-import life.plank.juna.zone.util.sharedpreference.isSubscribed
-import life.plank.juna.zone.util.sharedpreference.subscribeTo
-import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
-import life.plank.juna.zone.util.view.UIDisplayUtil.showBoardExpirationDialog
+import life.plank.juna.zone.util.sharedpreference.*
+import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.fragment.base.BaseMatchFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import java.lang.ref.WeakReference
@@ -83,7 +71,7 @@ class MatchBoardFragment : BaseMatchFragment(), BoardHeaderListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        board_toolbar.setUpPopUp(activity, currentMatchId)
+        board_toolbar.setUpPopUp(activity!!, currentMatchId)
         updateUi()
         val topic = getString(R.string.pref_football_match_sub) + currentMatchId
         if (!isSubscribed(topic)) subscribeTo(topic)
