@@ -1,18 +1,15 @@
 package life.plank.juna.zone.util.customview
 
 import android.content.Context
-import android.util.AttributeSet
-import android.util.Log
+import android.util.*
 import android.view.View
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.next_match_row.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.DataUtil.getSpecifiedLeague
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.onTerminate
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.time.DateUtil.getTimeToNextMatch
@@ -31,7 +28,9 @@ class NextMatchLayout @JvmOverloads constructor(
 
     fun showNextMatchOnly(restApi: RestApi) {
         time_to_next_match_shimmer.startShimmerAnimation()
-        restApi.getNextMatches(PreferenceManager.CurrentUser.getUserPreferences()[0].zonePreferences?.leagues, getToken())
+        val userPreferences = PreferenceManager.CurrentUser.getUserPreferences() ?: return
+
+        restApi.getNextMatches(userPreferences[0].zonePreferences?.leagues, getToken())
                 .onTerminate {
                     time_to_next_match_shimmer.stopShimmerAnimation()
                     match_status.background = null

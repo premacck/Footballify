@@ -2,30 +2,22 @@ package life.plank.juna.zone.view.fragment.zone
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.follow_league_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_team_selection.*
 import kotlinx.android.synthetic.main.fragment_zone.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.OnItemClickListener
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
-import life.plank.juna.zone.util.common.DataUtil
-import life.plank.juna.zone.util.common.customToast
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.network.NetworkStatus
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.sharedpreference.PreferenceManager.CurrentUser.getUserPreferences
-import life.plank.juna.zone.util.view.boomMenu
-import life.plank.juna.zone.util.view.setupBoomMenu
-import life.plank.juna.zone.util.view.setupWith
+import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.view.adapter.LeagueSelectionAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import life.plank.juna.zone.view.latestMatch.FootballZoneAdapter
@@ -93,7 +85,9 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
     }
 
     private fun getUpcomingMatches() {
-        restApi.getNextMatches(getUserPreferences()[0].zonePreferences?.leagues, getToken()).setObserverThreadsAndSmartSubscribe({
+        val userPreferences = PreferenceManager.CurrentUser.getUserPreferences() ?: return
+
+        restApi.getNextMatches(userPreferences[0].zonePreferences?.leagues, getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "getUpcomingMatches() : onError: ", it)
         }, {
             when (it.code()) {

@@ -16,7 +16,7 @@ class LeagueBinder(private val onItemClickListener: OnItemClickListener, private
     override fun create(inflater: LayoutInflater, parent: ViewGroup): LeagueViewHolder = LeagueViewHolder(inflater.inflate(R.layout.item_league, parent, false))
 
     override fun bind(holder: LeagueViewHolder, item: LeagueModel) {
-        holder.itemView.all_leagues_card.onFancyClick {
+        holder.itemView.all_leagues_card.onFancyClick(0) {
             onItemClickListener.onItemClicked()
         }
 

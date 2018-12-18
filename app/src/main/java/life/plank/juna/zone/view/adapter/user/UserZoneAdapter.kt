@@ -29,8 +29,8 @@ class UserZoneAdapter(
         val (zone) = userPreferenceList[position]
         holder.itemView.football!!.text = zone?.name
 
-        val userPreferences = PreferenceManager.CurrentUser.getUserPreferences()
-        if (userPreferences.isNotEmpty() && !isNullOrEmpty(userPreferences[0].zonePreferences)) {
+        val userPreferences: MutableList<UserPreference>? = PreferenceManager.CurrentUser.getUserPreferences()
+        if (userPreferences != null && userPreferences.isNotEmpty() && !isNullOrEmpty(userPreferences[0].zonePreferences)) {
             holder.itemView.time_to_next_match.showNextMatchOnly(restApi)
         }
 
