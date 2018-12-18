@@ -220,7 +220,7 @@ fun View.onFancyClick(launchDelay: Long = 100, action: () -> Unit) {
 fun View.onElevatingClick(launchDelay: Long = 100, action: () -> Unit) {
     lateinit var originPoint: FloatArray
     val originalElevation = elevation
-    val finalElevation = elevation + getDp(8f)
+    val finalElevation = elevation + getDp(4f)
     val elevateUpAnimation = ValueAnimator.ofFloat(originalElevation, finalElevation).setDuration(80)
     elevateUpAnimation.interpolator = DecelerateInterpolator()
     elevateUpAnimation.addUpdateListener { elevation = it.animatedValue as Float }
