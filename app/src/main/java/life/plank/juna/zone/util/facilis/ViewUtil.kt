@@ -5,10 +5,12 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Point
 import android.os.*
+import android.util.Log
 import android.view.*
+import android.view.MotionEvent.*
 import android.view.animation.*
 import android.widget.*
-import androidx.annotation.AnimRes
+import androidx.annotation.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.ahamed.multiviewadapter.*
@@ -24,7 +26,7 @@ import life.plank.juna.zone.util.common.DataUtil.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import org.jetbrains.anko.runOnUiThread
-import org.jetbrains.anko.sdk27.coroutines.textChangedListener
+import org.jetbrains.anko.sdk27.coroutines.*
 
 fun Display.getScreenSize(): IntArray {
     val size = Point()
@@ -135,6 +137,14 @@ fun View.sinkDown() = animate(R.anim.sink_down).then { visibility = View.INVISIB
 
 fun View.sinkUp() = animate(R.anim.sink_up).then { visibility = View.INVISIBLE }
 
+fun Context.animatorOf(@AnimatorRes animatorRes: Int): Animator = AnimatorInflater.loadAnimator(this, animatorRes)
+
+fun View.animatorOf(@AnimatorRes animatorRes: Int): Animator {
+    val animator = context.animatorOf(animatorRes)
+    animator.setTarget(this)
+    return animator
+}
+
 fun BlurLayout.beginBlur() {
     postDelayed({
         startBlur()
@@ -185,6 +195,30 @@ fun View.onDebouncingClick(action: () -> Unit) {
             postDelayed({ isEnabled = true }, 100)
         }
     }
+}
+
+fun View.onFancyClick(launchDelay: Long = 100, action: () -> Unit) {
+    lateinit var originPoint: FloatArray
+    onTouch { _, event ->
+        when (event.action) {
+            ACTION_DOWN -> {
+                originPoint = floatArrayOf(event.rawX, event.rawY)
+                animatorOf(R.animator.reduce_size).start()
+            }
+            ACTION_UP -> animatorOf(R.animator.original_size).start()
+            ACTION_MOVE -> {
+                val deltaX = Math.abs(originPoint[0] - event.rawX)
+                val deltaY = Math.abs(originPoint[1] - event.rawY)
+                if (deltaX > 1 && deltaY > 1) {
+                    animatorOf(R.animator.original_size).start()
+                }
+            }
+            else -> {
+                Log.d("action", event.action.toString())
+            }
+        }
+    }
+    onDebouncingClick { this.context.doAfterDelay(launchDelay) { action() } }
 }
 
 fun View.clearOnClickListener() = setOnClickListener(null)
