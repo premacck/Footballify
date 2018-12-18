@@ -61,6 +61,7 @@ class UploadActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_upload)
         (application as ZoneApplication).uiComponent.inject(this)
         userId = PreferenceManager.CurrentUser.getUserId()
 
@@ -116,7 +117,6 @@ class UploadActivity : AppCompatActivity() {
     }
 
     private fun updateUI(type: String) {
-        setContentView(R.layout.activity_upload)
         captured_video_view.visibility = if (type == VIDEO) View.VISIBLE else View.GONE
         captured_image_view.visibility = if (type == VIDEO) View.GONE else View.VISIBLE
 
