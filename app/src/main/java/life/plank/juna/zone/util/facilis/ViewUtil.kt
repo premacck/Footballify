@@ -1,39 +1,26 @@
 package life.plank.juna.zone.util.facilis
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
+import android.animation.*
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
-import android.os.Build
-import android.os.SystemClock
-import android.os.VibrationEffect
-import android.os.Vibrator
+import android.os.*
 import android.view.*
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.view.animation.DecelerateInterpolator
+import android.view.animation.*
 import android.widget.*
 import androidx.annotation.AnimRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.Fragment
 import com.ahamed.multiviewadapter.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.leocardz.link.preview.library.LinkPreviewCallback
-import com.leocardz.link.preview.library.SourceContent
-import com.leocardz.link.preview.library.TextCrawler
+import com.leocardz.link.preview.library.*
 import io.alterac.blurkit.BlurLayout
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.*
+import life.plank.juna.zone.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedItem
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.URL_PATTERN
-import life.plank.juna.zone.util.common.formatLinks
-import life.plank.juna.zone.util.common.formatMentions
+import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.util.common.DataUtil.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import org.jetbrains.anko.runOnUiThread
@@ -264,9 +251,11 @@ inline fun <reified T : View> Array<T>.onTextChanged(crossinline action: () -> U
     }
 }
 
+fun Fragment.doAfterDelay(delayMillis: Long, action: () -> Unit) = context?.doAfterDelay(delayMillis, action)
+
 @Suppress("DeferredResultUnused")
-fun Context?.doAfterDelay(delayMillis: Int, action: () -> Unit) {
-    async {
+fun Context?.doAfterDelay(delayMillis: Long, action: () -> Unit) {
+    GlobalScope.async {
         delay(delayMillis)
         this@doAfterDelay?.run { runOnUiThread { action() } }
     }
