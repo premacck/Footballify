@@ -1,18 +1,15 @@
 package life.plank.juna.zone.view.adapter.user
 
 import android.app.Activity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_zone_user_feed.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.DataUtil
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.launch
-import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.facilis.onFancyClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.zone.ZoneActivity
@@ -37,7 +34,7 @@ class UserZoneAdapter(
             holder.itemView.time_to_next_match.showNextMatchOnly(restApi)
         }
 
-        holder.itemView.onDebouncingClick {
+        holder.itemView.onFancyClick {
             if (DataUtil.isNullOrEmpty(userPreferenceList[0].zonePreferences)) {
                 (activity as? BaseCardActivity)?.pushFragment(TeamSelectionFragment.newInstance(), true)
             } else {
