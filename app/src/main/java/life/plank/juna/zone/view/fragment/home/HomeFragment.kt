@@ -5,9 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,10 +14,8 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.shimmer_user_boards.*
 import kotlinx.android.synthetic.main.shimmer_user_feed.*
 import kotlinx.android.synthetic.main.shimmer_user_zones.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.data.model.UserPreference
+import life.plank.juna.zone.*
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
 import life.plank.juna.zone.util.common.*
@@ -27,19 +23,14 @@ import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_BASI
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout
 import life.plank.juna.zone.util.facilis.doAfterDelay
-import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.sharedpreference.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.sharedpreference.isSubscribed
-import life.plank.juna.zone.util.sharedpreference.subscribeTo
-import life.plank.juna.zone.util.view.boomMenu
-import life.plank.juna.zone.util.view.setupBoomMenu
-import life.plank.juna.zone.util.view.setupWith
+import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
 import life.plank.juna.zone.view.adapter.board.user.UserBoardsAdapter
-import life.plank.juna.zone.view.adapter.user.UserFeedAdapter
-import life.plank.juna.zone.view.adapter.user.UserZoneAdapter
+import life.plank.juna.zone.view.adapter.user.*
 import life.plank.juna.zone.view.fragment.base.FlatTileFragment
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import net.openid.appauth.AuthorizationService
@@ -85,7 +76,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         initFeedRecyclerView()
         initZoneRecyclerView()
 
-        context?.doAfterDelay(1000) {
+        doAfterDelay(1000) {
             getUserZones()
             getUserFeed(false)
             swipe_refresh_layout?.setOnRefreshListener { getUserFeed(true) }

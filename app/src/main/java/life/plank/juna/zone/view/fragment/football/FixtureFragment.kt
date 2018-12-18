@@ -1,28 +1,21 @@
 package life.plank.juna.zone.view.fragment.football
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_fixture.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.local.model.LeagueInfo
-import life.plank.juna.zone.data.model.FixtureByMatchDay
-import life.plank.juna.zone.data.model.League
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.LeagueContainer
-import life.plank.juna.zone.util.common.AppConstants.PAST_MATCHES
-import life.plank.juna.zone.util.common.AppConstants.TODAY_MATCHES
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.common.DataUtil.*
 import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.view.adapter.fixture.FixtureMatchdayAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.Companion.fixtureByMatchDayList
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 import javax.inject.Inject
 
 class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
@@ -55,7 +48,7 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context?.doAfterDelay(300) {
+        doAfterDelay(300) {
             fixtureMatchdayAdapter = FixtureMatchdayAdapter(this)
             fixtures_section_list.adapter = fixtureMatchdayAdapter
             if (!isNullOrEmpty(fixtureByMatchDayList)) {
