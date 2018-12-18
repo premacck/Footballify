@@ -98,7 +98,7 @@ class CameraFragment : Fragment() {
                             camera_view.captureVideo { cameraKitVideo ->
                                 runOnUiThread {
                                     layout_busy_progress_bar.visibility = View.GONE
-                                    UploadActivity.launch(activity, VIDEO, boardId, cameraKitVideo.videoFile.absolutePath)
+                                    UploadActivity.launch(activity!!, VIDEO, boardId, cameraKitVideo.videoFile.absolutePath)
                                     activity?.finish()
                                 }
                             }
@@ -125,7 +125,7 @@ class CameraFragment : Fragment() {
                             runOnUiThread {
                                 layout_busy_progress_bar.visibility = View.GONE
                                 if (!boardId.isNullOrEmpty()) {
-                                    UploadActivity.launch(activity, IMAGE, boardId, FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap))
+                                    UploadActivity.launch(activity!!, IMAGE, boardId, FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap))
                                 } else {
                                     CreateCardActivity.launch(activity!!, FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap))
                                 }
