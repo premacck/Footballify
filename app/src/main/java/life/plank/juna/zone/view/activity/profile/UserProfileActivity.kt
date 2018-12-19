@@ -13,7 +13,6 @@ import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.util.common.AppConstants.SINGLE_SPACE
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
@@ -30,6 +29,8 @@ import org.jetbrains.anko.sdk27.coroutines.*
 import java.io.File
 import java.net.HttpURLConnection
 import java.text.DateFormatSymbols
+import java.util.*
+import java.util.Calendar.*
 import javax.inject.Inject
 
 
@@ -143,7 +144,9 @@ class UserProfileActivity : BaseCardActivity() {
                 username_text_view.text = handle
 
                 val date = getIsoFormattedDate(dateOfBirth)
-                val dob = date.date.toString() + SINGLE_SPACE + DateFormatSymbols().shortMonths[date.month] + ", " + (date.year + 1900)
+                val calendar = Calendar.getInstance()
+                calendar.time = date
+                val dob = "${calendar.get(DAY_OF_MONTH)}$ ${DateFormatSymbols().shortMonths[calendar.get(MONTH)]}, ${calendar.get(YEAR) + 1900}"
                 dob_text_view.text = dob
                 if (profilePictureUrl != null) {
                     Glide.with(this@UserProfileActivity).load(profilePictureUrl).into(profile_picture_image_view)
