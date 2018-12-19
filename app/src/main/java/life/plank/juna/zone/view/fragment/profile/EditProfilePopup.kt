@@ -86,7 +86,7 @@ class EditProfilePopup : BaseBlurPopup() {
         val date = getIsoFormattedDate(PreferenceManager.CurrentUser.getDob())
         val calendar = Calendar.getInstance()
         calendar.time = date
-        val dob = "${calendar.get(DAY_OF_MONTH)} ${DateFormatSymbols().shortMonths[calendar.get(MONTH)]}, ${calendar.get(YEAR) + 1900}"
+        val dob = "${calendar.get(DAY_OF_MONTH)} ${DateFormatSymbols().shortMonths[calendar.get(MONTH)]}, ${calendar.get(YEAR)}"
         dob_edit_text.setText(dob)
     }
 
