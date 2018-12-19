@@ -12,10 +12,10 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.SINGLE_SPACE
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.time.DateUtil.getIsoFormattedDate
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
-import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.net.HttpURLConnection.HTTP_NO_CONTENT
 import java.text.DateFormatSymbols
 import java.util.*
@@ -55,8 +55,8 @@ class EditProfilePopup : BaseBlurPopup() {
     override fun getBackgroundLayout(): ViewGroup? = root_blur_layout
 
     private fun setOnClickListeners() {
-        dob_edit_text.onClick { showCalendar() }
-        save_button.onClick {
+        dob_click_layout.onDebouncingClick { showCalendar() }
+        save_button.onDebouncingClick {
             updateUserDetails(User(displayName = name_edit_text.text.toString(),
                     dateOfBirth = if (isNullOrEmpty(dateOfBirth)) PreferenceManager.CurrentUser.getDob() else dateOfBirth))
         }
