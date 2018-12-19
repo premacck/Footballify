@@ -71,7 +71,7 @@ public class DataUtil {
     }
 
     public static boolean isNullOrEmpty(CharSequence s) {
-        return s == null;
+        return s == null || s.length() == 0;
     }
 
     public static String formatInt(int i) {
@@ -79,7 +79,7 @@ public class DataUtil {
     }
 
     public static <T> boolean isNullOrEmpty(Collection<T> c) {
-        return (c == null) || c.isEmpty();
+        return c == null || c.isEmpty();
     }
 
     public static boolean equalsNullString(String s) {
