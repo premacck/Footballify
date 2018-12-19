@@ -146,7 +146,7 @@ class UserProfileActivity : BaseCardActivity() {
                 val date = getIsoFormattedDate(dateOfBirth)
                 val calendar = Calendar.getInstance()
                 calendar.time = date
-                val dob = "${calendar.get(DAY_OF_MONTH)}$ ${DateFormatSymbols().shortMonths[calendar.get(MONTH)]}, ${calendar.get(YEAR) + 1900}"
+                val dob = "${calendar.get(DAY_OF_MONTH)} ${DateFormatSymbols().shortMonths[calendar.get(MONTH)]}, ${calendar.get(YEAR) + 1900}"
                 dob_text_view.text = dob
                 if (profilePictureUrl != null) {
                     Glide.with(this@UserProfileActivity).load(profilePictureUrl).into(profile_picture_image_view)
