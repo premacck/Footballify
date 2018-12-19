@@ -50,7 +50,7 @@ class CreateCardActivity : BaseCardActivity() {
 
     private fun setOnClickListeners() {
         camera.onClick {
-            CustomCameraActivity.launch(this@CreateCardActivity, true, "")
+            CustomCameraActivity.launch(this@CreateCardActivity, true, "", false)
             finish()
         }
         proceed_button.onClick {

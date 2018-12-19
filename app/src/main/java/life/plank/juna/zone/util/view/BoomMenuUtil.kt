@@ -217,7 +217,7 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
                     }
                     4 -> {
                         if (boardId != null) {
-                            CustomCameraActivity.launch(activity, false, boardId)
+                            CustomCameraActivity.launch(activity, false, boardId, true)
                         }
                     }
                     5 -> {
@@ -237,19 +237,16 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
             View.OnClickListener {
                 when (position) {
                     0 -> {
-                        if (boardId != null) {
-                            UploadActivity.launch(activity, GALLERY, boardId)
-                        }
+                        UploadActivity.launch(activity, GALLERY, "")
                     }
                     1 -> {
-                        if (boardId != null) {
-                            CustomCameraActivity.launch(activity, false, boardId)
-                        }
+                        CustomCameraActivity.launch(activity, true, "", true)
                     }
                     2 -> {
-                        if (boardId != null) {
-                            UploadActivity.launch(activity, AUDIO, boardId)
-                        }
+                        UploadActivity.launch(activity, AUDIO, "")
+                    }
+                    3 ->{
+                        PostCommentActivity.launch(activity, "")
                     }
                 }
             }

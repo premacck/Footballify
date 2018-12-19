@@ -27,7 +27,7 @@ class CustomGalleryFragment : Fragment() {
 
         private val TAG = CustomGalleryFragment::class.java.simpleName
 
-        fun newInstance(isForImage: Boolean): CustomGalleryFragment {
+        fun newInstance(isForImage: Boolean, isBoard: Boolean): CustomGalleryFragment {
             val fragment = CustomGalleryFragment()
             val args = Bundle()
             args.putBoolean(ZoneApplication.getContext().getString(R.string.intent_is_camera_for_image), isForImage)
