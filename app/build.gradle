@@ -22,6 +22,10 @@ androidExtensions {
     experimental = true
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 ext {
     archLifecycleVersion = '1.1.1'
     archPersistenceVersion = '1.1.1'
