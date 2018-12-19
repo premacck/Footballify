@@ -197,7 +197,6 @@ class UploadActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, R.string.failed_to_process_image, Toast.LENGTH_LONG).show()
             finish()
         }
-
     }
 
     private fun setImagePreview(bitmap: Bitmap) {
@@ -221,7 +220,7 @@ class UploadActivity : AppCompatActivity() {
         requestBody = RequestBody.create(MediaType.parse(mediaType), file)
         val body = MultipartBody.Part.createFormData("", file.name, requestBody)
 
-        restApi!!.postMediaContentToServer(body, boardId, contentType, userId,
+        restApi.postMediaContentToServer(body, boardId, contentType, userId,
                 dateCreated, AppConstants.BOARD, title_text.text!!.toString(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

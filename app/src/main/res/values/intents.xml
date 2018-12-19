@@ -30,4 +30,5 @@
     <string name="intent_comment">comment</string>
     <string name="intent_react">emoji-reacts</string>
     <string name="intent_kick">kick</string>
+    <string name="intent_is_board">is_board</string>
 </resources>
