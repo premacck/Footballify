@@ -124,8 +124,7 @@ fun getBoomMenuFabImages(@BoomMenuPage page: Int): IntArray? {
                     R.drawable.ic_emoji_white,
                     R.drawable.ic_camera_white,
                     R.drawable.ic_text_white,
-                    R.drawable.ic_mic_white,
-                    R.drawable.ic_link_white
+                    R.drawable.ic_mic_white
             )
         }
         BOOM_MENU_BASIC_INTERACTION -> {
@@ -157,7 +156,6 @@ fun getBoomMenuBackgroundColors(@BoomMenuPage page: Int): IntArray? {
             intArrayOf(
                     R.drawable.fab_circle_background_grey,
                     R.drawable.fab_circle_background_white,
-                    R.drawable.fab_circle_background_pink,
                     R.drawable.fab_circle_background_pink,
                     R.drawable.fab_circle_background_pink,
                     R.drawable.fab_circle_background_pink,
