@@ -197,19 +197,23 @@ fun View.onDebouncingClick(action: () -> Unit) {
 }
 
 fun View.onFancyClick(launchDelay: Long = 100, action: () -> Unit) {
-    lateinit var originPoint: FloatArray
+    lateinit var originPoint: ArrayList<Float>
     onTouch { _, event ->
         when (event.action) {
             ACTION_DOWN -> {
-                originPoint = floatArrayOf(event.rawX, event.rawY)
+                originPoint = arrayListOf(event.rawX, event.rawY)
                 animatorOf(R.animator.reduce_size).start()
             }
             ACTION_CANCEL, ACTION_UP -> animatorOf(R.animator.original_size).start()
             ACTION_MOVE -> {
-                val deltaX = Math.abs(originPoint[0] - event.rawX)
-                val deltaY = Math.abs(originPoint[1] - event.rawY)
-                if (deltaX > 1 && deltaY > 1) {
-                    animatorOf(R.animator.original_size).start()
+                if (isNullOrEmpty(originPoint)) originPoint = arrayListOf(event.rawX, event.rawY)
+
+                if (!isNullOrEmpty(originPoint)) {
+                    val deltaX = Math.abs(originPoint[0] - event.rawX)
+                    val deltaY = Math.abs(originPoint[1] - event.rawY)
+                    if (deltaX > 1 && deltaY > 1) {
+                        animatorOf(R.animator.original_size).start()
+                    }
                 }
             }
         }
@@ -218,7 +222,7 @@ fun View.onFancyClick(launchDelay: Long = 100, action: () -> Unit) {
 }
 
 fun View.onElevatingClick(launchDelay: Long = 100, action: () -> Unit) {
-    lateinit var originPoint: FloatArray
+    lateinit var originPoint: ArrayList<Float>
     val originalElevation = elevation
     val finalElevation = elevation + getDp(4f)
     val elevateUpAnimation = ValueAnimator.ofFloat(originalElevation, finalElevation).setDuration(80)
@@ -232,15 +236,19 @@ fun View.onElevatingClick(launchDelay: Long = 100, action: () -> Unit) {
     onTouch { _, event ->
         when (event.action) {
             ACTION_DOWN -> {
-                originPoint = floatArrayOf(event.rawX, event.rawY)
+                originPoint = arrayListOf(event.rawX, event.rawY)
                 elevateUpAnimation.start()
             }
             ACTION_CANCEL, ACTION_UP -> elevateDownAnimation.start()
             ACTION_MOVE -> {
-                val deltaX = Math.abs(originPoint[0] - event.rawX)
-                val deltaY = Math.abs(originPoint[1] - event.rawY)
-                if (deltaX > 1 && deltaY > 1) {
-                    elevateDownAnimation.start()
+                if (isNullOrEmpty(originPoint)) originPoint = arrayListOf(event.rawX, event.rawY)
+
+                if (!isNullOrEmpty(originPoint)) {
+                    val deltaX = Math.abs(originPoint[0] - event.rawX)
+                    val deltaY = Math.abs(originPoint[1] - event.rawY)
+                    if (deltaX > 1 && deltaY > 1) {
+                        elevateDownAnimation.start()
+                    }
                 }
             }
         }
