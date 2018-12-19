@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.shimmer_user_boards.*
 import kotlinx.android.synthetic.main.shimmer_user_feed.*
 import kotlinx.android.synthetic.main.shimmer_user_zones.*
 import life.plank.juna.zone.*
-import life.plank.juna.zone.data.model.*
+import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
 import life.plank.juna.zone.util.common.*
@@ -29,8 +29,8 @@ import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
-import life.plank.juna.zone.view.adapter.board.user.UserBoardsAdapter
-import life.plank.juna.zone.view.adapter.user.*
+import life.plank.juna.zone.view.adapter.user.UserFeedAdapter
+import life.plank.juna.zone.view.controller.*
 import life.plank.juna.zone.view.fragment.base.FlatTileFragment
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import net.openid.appauth.AuthorizationService
@@ -46,9 +46,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
     private var authService: AuthorizationService? = null
     private var userFeedAdapter: UserFeedAdapter? = null
-    private var userZoneAdapter: UserZoneAdapter? = null
-    private var userBoardsAdapter: UserBoardsAdapter? = null
-    private val userPreferences = ArrayList<UserPreference>()
+    private var zoneController: ZoneController? = null
+    private var boardController: BoardController? = null
     private var feedEntries = ArrayList<FeedEntry>()
 
     companion object {
@@ -115,21 +114,15 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     private fun initZoneRecyclerView() {
-        userZoneAdapter = UserZoneAdapter(activity!!, restApi, userPreferences)
-        user_zone_recycler_view?.adapter = userZoneAdapter
+        zoneController = ZoneController(activity as BaseCardActivity, restApi)
+        user_zone_recycler_view.setController(zoneController!!)
     }
 
     private fun initBoardsRecyclerView() {
         if (activity is BaseCardActivity) {
-            userBoardsAdapter = UserBoardsAdapter(activity as BaseCardActivity, restApi, Glide.with(this), false)
-            user_boards_recycler_view?.adapter = userBoardsAdapter
+            boardController = BoardController(activity as BaseCardActivity, restApi, false)
+            user_boards_recycler_view.setController(boardController!!)
         }
-    }
-
-    private fun setUpUserZoneAdapter(userPreferenceList: List<UserPreference>?) {
-        userPreferences.clear()
-        userPreferences.addAll(userPreferenceList!!)
-        userZoneAdapter?.notifyDataSetChanged()
     }
 
     private fun getUserZones() {
@@ -147,9 +140,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
                         HttpURLConnection.HTTP_OK -> {
                             val user = it.body()
                             if (user != null) {
-                                setUpUserZoneAdapter(user.userPreferences)
+                                zoneController?.setData(user.userPreferences)
                                 onRecyclerViewContentsLoaded(user_zone_recycler_view, shimmer_user_zones)
-
                             } else {
                                 onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
                             }
@@ -203,21 +195,24 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
         restApi.getFollowingBoards(getString(R.string.football), getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "getUserBoards(): onError(): ", it)
+            onRecyclerViewContentsFailedToLoad(null, shimmer_user_boards)
+            boardController?.setData(emptyList(), true, R.string.failed_to_retrieve_board)
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
                     if (!isNullOrEmpty(it.body())) {
-                        userBoardsAdapter?.setUserBoards(it.body()!!)
+                        boardController?.setData(it.body(), false, null)
                         onRecyclerViewContentsLoaded(user_boards_recycler_view, shimmer_user_boards)
                     } else onRecyclerViewContentsFailedToLoad(user_boards_recycler_view, shimmer_user_boards)
                 }
                 HttpURLConnection.HTTP_NOT_FOUND -> {
                     shimmer_user_boards.visibility = View.GONE
-                    user_boards_recycler_view.visibility = View.GONE
+                    boardController?.setData(emptyList(), false, R.string.cannot_find_user_boards)
                 }
                 else -> {
                     errorToast(R.string.failed_to_retrieve_board, it)
-                    onRecyclerViewContentsFailedToLoad(user_boards_recycler_view, shimmer_user_boards)
+                    onRecyclerViewContentsFailedToLoad(null, shimmer_user_boards)
+                    boardController?.setData(emptyList(), true, R.string.failed_to_retrieve_board)
                 }
             }
         }, this)
@@ -262,11 +257,12 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     private fun onRecyclerViewContentsLoaded(recyclerView: RecyclerView, shimmerRelativeLayout: ShimmerRelativeLayout, isLoading: Boolean = false) {
         recyclerView.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
         if (isLoading) shimmerRelativeLayout.startShimmerAnimation() else shimmerRelativeLayout.stopShimmerAnimation()
+        if (isLoading) shimmerRelativeLayout.alpha = 1f
         shimmerRelativeLayout.visibility = if (isLoading) View.VISIBLE else View.INVISIBLE
     }
 
-    private fun onRecyclerViewContentsFailedToLoad(recyclerView: RecyclerView, shimmerRelativeLayout: ShimmerRelativeLayout) {
-        recyclerView.visibility = View.INVISIBLE
+    private fun onRecyclerViewContentsFailedToLoad(recyclerView: RecyclerView?, shimmerRelativeLayout: ShimmerRelativeLayout) {
+        recyclerView?.visibility = View.INVISIBLE
         shimmerRelativeLayout.stopShimmerAnimation()
         (shimmerRelativeLayout as? ShimmerRelativeLayout)?.alpha = 0.2f
     }
@@ -277,9 +273,9 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
     override fun onDestroy() {
         authService?.dispose()
-        userBoardsAdapter = null
+        boardController = null
         userFeedAdapter = null
-        userZoneAdapter = null
+        zoneController = null
         super.onDestroy()
     }
 }

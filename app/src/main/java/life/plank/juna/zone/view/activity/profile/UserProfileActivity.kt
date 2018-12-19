@@ -9,8 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import kotlinx.android.synthetic.main.zone_tool_bar.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.*
@@ -22,21 +21,17 @@ import life.plank.juna.zone.util.time.DateUtil.getIsoFormattedDate
 import life.plank.juna.zone.util.view.UIDisplayUtil
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
-import life.plank.juna.zone.view.adapter.board.user.UserBoardsAdapter
-import life.plank.juna.zone.view.adapter.user.GetCoinsAdapter
-import life.plank.juna.zone.view.adapter.user.LastTransactionsAdapter
-import life.plank.juna.zone.view.fragment.profile.EditProfilePopup
-import life.plank.juna.zone.view.fragment.profile.ProfileCardFragment
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.sdk27.coroutines.onCheckedChange
-import org.jetbrains.anko.sdk27.coroutines.onClick
+import life.plank.juna.zone.view.adapter.user.*
+import life.plank.juna.zone.view.controller.BoardController
+import life.plank.juna.zone.view.fragment.profile.*
+import okhttp3.*
+import org.jetbrains.anko.*
+import org.jetbrains.anko.sdk27.coroutines.*
 import java.io.File
 import java.net.HttpURLConnection
 import java.text.DateFormatSymbols
 import javax.inject.Inject
+
 
 class UserProfileActivity : BaseCardActivity() {
 
@@ -47,7 +42,7 @@ class UserProfileActivity : BaseCardActivity() {
     @Inject
     lateinit var getCoinsAdapter: GetCoinsAdapter
 
-    private var userBoardsAdapter: UserBoardsAdapter? = null
+    private var boardController: BoardController? = null
     private var filePath: String? = null
 
     companion object {
@@ -114,8 +109,8 @@ class UserProfileActivity : BaseCardActivity() {
     override fun restApi(): RestApi? = restApi
 
     private fun initRecyclerView() {
-        userBoardsAdapter = UserBoardsAdapter(this, restApi, Glide.with(this), true)
-        my_boards_list.adapter = userBoardsAdapter
+        boardController = BoardController(this, restApi, true)
+        my_boards_list.setController(boardController!!)
         get_coins_list.adapter = getCoinsAdapter
         last_transactions_list.adapter = lastTransactionsAdapter
     }
@@ -124,10 +119,13 @@ class UserProfileActivity : BaseCardActivity() {
         restApi.getUserBoards(getToken()).setObserverThreadsAndSmartSubscribe({ Log.e(TAG, "getUserBoards(): ", it) }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
-                    val boards = it.body() as MutableList<Board>
-                    val board = Board(getString(R.string.new_))
-                    boards.add(board)
-                    userBoardsAdapter?.setUserBoards(boards)
+                    doAsync {
+                        val boards = it.body() as MutableList<Board>
+                        if (!boards.any { board -> board.name == getString(R.string.new_) }) {
+                            boards.add(Board(getString(R.string.new_)))
+                        }
+                        uiThread { boardController?.setData(boards, false, null) }
+                    }
                 }
                 HttpURLConnection.HTTP_NOT_FOUND -> errorToast(R.string.cannot_find_user_boards, it)
                 else -> errorToast(R.string.something_went_wrong, it)
