@@ -6,8 +6,7 @@ import android.graphics.Point
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import androidx.annotation.*
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
@@ -17,9 +16,7 @@ import kotlinx.android.synthetic.main.generic_toolbar.view.*
 import kotlinx.android.synthetic.main.layout_board_engagement.view.*
 import kotlinx.android.synthetic.main.layout_private_board_tabs.view.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.interfaces.BoardHeaderListener
-import life.plank.juna.zone.interfaces.CustomViewListener
-import life.plank.juna.zone.interfaces.EngagementInfoTilesToolbar
+import life.plank.juna.zone.interfaces.*
 import life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup
 import life.plank.juna.zone.util.facilis.dragHandle
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
@@ -40,7 +37,7 @@ class GenericToolbar @JvmOverloads constructor(
     }
 
     private fun init(context: Context, attrs: AttributeSet?) {
-        val rootView = View.inflate(context, R.layout.generic_toolbar, this)
+        View.inflate(context, R.layout.generic_toolbar, this)
 
         val array = context.obtainStyledAttributes(attrs, R.styleable.GenericToolbar)
         setBackgroundColor(array.getColor(R.styleable.GenericToolbar_backgroundColor, resources.getColor(R.color.transparent, null)))

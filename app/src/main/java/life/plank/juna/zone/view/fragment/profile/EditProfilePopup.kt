@@ -3,20 +3,15 @@ package life.plank.juna.zone.view.fragment.profile
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_edit_profile.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.SINGLE_SPACE
-import life.plank.juna.zone.util.common.DataUtil
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.time.DateUtil.getIsoFormattedDate
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
@@ -24,6 +19,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.net.HttpURLConnection.HTTP_NO_CONTENT
 import java.text.DateFormatSymbols
 import java.util.*
+import java.util.Calendar.*
 import javax.inject.Inject
 
 class EditProfilePopup : BaseBlurPopup() {
@@ -88,13 +84,16 @@ class EditProfilePopup : BaseBlurPopup() {
         email_edit_text.setText(PreferenceManager.CurrentUser.getUserEmail())
         location_edit_text.setText(PreferenceManager.CurrentUser.getLocation())
         val date = getIsoFormattedDate(PreferenceManager.CurrentUser.getDob())
-        val dob = date.date.toString() + SINGLE_SPACE + DateFormatSymbols().shortMonths[date.month] + ", " + (date.year + 1900)
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        val dob = "${calendar.get(DAY_OF_MONTH)} ${DateFormatSymbols().shortMonths[calendar.get(MONTH)]}, ${calendar.get(YEAR) + 1900}"
         dob_edit_text.setText(dob)
     }
 
     private fun showCalendar() {
-        val date = getIsoFormattedDate(PreferenceManager.CurrentUser.getDob())
+        val date: Date? = getIsoFormattedDate(PreferenceManager.CurrentUser.getDob())
         val calendar = Calendar.getInstance()
+        calendar.time = (date ?: Date())
         val datePickerDialog = DatePickerDialog(context!!, R.style.DatePickerDialogTheme,
                 { _, year, monthOfYear, dayOfMonth ->
                     val dob = dayOfMonth.toString() + SINGLE_SPACE + DateFormatSymbols().months[monthOfYear] + ", " + year
@@ -103,7 +102,7 @@ class EditProfilePopup : BaseBlurPopup() {
                 },
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
 
-        datePickerDialog.updateDate(date.year + 1900, date.month, date.date)
+        datePickerDialog.updateDate(calendar.get(YEAR), calendar.get(MONTH), calendar.get(DATE))
         datePickerDialog.show()
     }
 }

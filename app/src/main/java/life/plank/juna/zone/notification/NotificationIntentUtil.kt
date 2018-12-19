@@ -2,22 +2,17 @@ package life.plank.juna.zone.notification
 
 import android.app.Activity
 import android.content.Intent
-import life.plank.juna.zone.R
+import life.plank.juna.zone.*
 import life.plank.juna.zone.R.string.*
-import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FootballLiveData
-import life.plank.juna.zone.data.model.notification.InAppNotification
-import life.plank.juna.zone.data.model.notification.SocialNotification
+import life.plank.juna.zone.data.model.notification.*
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.findAndLaunchBoardById
-import life.plank.juna.zone.util.common.launchMatchBoard
 import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.fragment.board.user.JoinBoardPopup
-import org.jetbrains.anko.clearTop
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 
 fun SocialNotification.getSocialNotificationIntent(): Intent {
     return ZoneApplication.getContext().run {
@@ -76,9 +71,9 @@ fun BaseCardActivity.handleSocialNotificationIntentIfAny() {
     intent?.run {
         if (!hasExtra(getString(intent_action)) || !hasExtra(getString(intent_board_id))) return
 
-        val action = getStringExtra(getString(intent_action))
         val boardId = getStringExtra(getString(intent_board_id))
 //        TODO: un-comment when required
+//        val action = getStringExtra(getString(intent_action))
 //        val commentId = getStringExtra(getString(intent_comment_id))
 //        val feedItemId = getStringExtra(getString(intent_feed_item_id))
 //        val parentCommentId = getStringExtra(getString(intent_parent_comment_id))
