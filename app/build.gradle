@@ -22,10 +22,15 @@ androidExtensions {
     experimental = true
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 ext {
     archLifecycleVersion = '1.1.1'
     archPersistenceVersion = '1.1.1'
     androidXVersion = '1.0.0'
+    epoxyVersion = '3.1.0'
 }
 
 android {
@@ -119,7 +124,7 @@ android {
 play{
     track = releaseTrack
 }
-''
+
 dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -156,6 +161,10 @@ dependencies {
 
     implementation 'org.jsoup:jsoup:1.8.3'
     implementation 'com.leocardz:link-preview:2.0.0@aar'
+
+    implementation "com.airbnb.android:epoxy:$epoxyVersion"
+    annotationProcessor "com.airbnb.android:epoxy-processor:$epoxyVersion"
+    kapt "com.airbnb.android:epoxy-processor:$epoxyVersion"
 }
 
 repositories {
