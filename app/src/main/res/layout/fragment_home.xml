@@ -88,7 +88,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/user_feed_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:clipToPadding="false"
             android:layoutAnimation="@anim/layout_anim_float_up"
             android:padding="5dp"

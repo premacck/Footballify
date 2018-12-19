@@ -111,7 +111,7 @@ class UserProfileActivity : BaseCardActivity() {
 
     private fun initRecyclerView() {
         boardController = BoardController(this, restApi, true)
-        my_boards_list.setController(boardController!!)
+        my_boards_list.adapter = boardController?.adapter
         get_coins_list.adapter = getCoinsAdapter
         last_transactions_list.adapter = lastTransactionsAdapter
     }
