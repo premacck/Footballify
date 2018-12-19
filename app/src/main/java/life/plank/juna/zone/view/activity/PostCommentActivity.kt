@@ -180,7 +180,6 @@ class PostCommentActivity : BaseCardActivity() {
         if (comment_edit_text.text.toString().isEmpty() || comment_edit_text.text.toString() == getString(R.string.what_s_on_your_mind)) {
             customToast(R.string.please_enter_comment)
         } else {
-            hideSoftKeyboard(comment_edit_text)
             postCommentOnBoardFeed()
         }
     }
@@ -226,10 +225,14 @@ class PostCommentActivity : BaseCardActivity() {
             if (isNullOrEmpty(boardId)) {
                 if (isLink) {
                     postFeedItem()
-                } else return
+                } else {
+                    customToast(R.string.enter_valid_link)
+                    return
+                }
             } else {
                 postFeedItem()
             }
+            hideSoftKeyboard(comment_edit_text)
         }
     }
 
