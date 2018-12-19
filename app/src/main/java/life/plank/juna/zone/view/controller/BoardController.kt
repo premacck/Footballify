@@ -32,7 +32,7 @@ class BoardController(
                 errorMessage?.run { textView.withText(this).addTo(this@BoardController) }
             } else {
                 boardList?.forEach {
-                    BoardPreviewModel_()
+                    BoardViewModel_()
                             .id(boardList.indexOf(it))
                             .prepare(it)
                             .name(if (isTitleShown) it.name else null)
