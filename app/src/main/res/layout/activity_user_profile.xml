@@ -240,7 +240,7 @@
                         android:textColor="@color/grey"
                         android:textSize="12sp" />
 
-                    <androidx.recyclerview.widget.RecyclerView
+                    <life.plank.juna.zone.util.epoxy.EpoxyRecycler
                         android:id="@+id/my_boards_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -248,7 +248,7 @@
                         android:clipToPadding="false"
                         android:paddingStart="9dp"
                         android:paddingEnd="9dp"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layoutManager="life.plank.juna.zone.util.view.HorizontalGridLayoutManager"
                         app:spanCount="5"
                         tools:listitem="@layout/item_image_and_title" />
 
