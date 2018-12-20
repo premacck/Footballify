@@ -1,44 +1,36 @@
+@file:Suppress("DEPRECATION")
+
 package life.plank.juna.zone.view.activity.camera
 
-import android.app.Activity
-import android.app.ProgressDialog
+import android.app.*
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.AsyncTask
-import android.os.Bundle
-import android.os.Handler
+import android.os.*
 import android.provider.MediaStore.Images.Media
 import android.util.Log
 import android.view.View
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.JsonObject
 import com.iceteck.silicompressorr.SiliCompressor
 import kotlinx.android.synthetic.main.activity_upload.*
+import life.plank.juna.zone.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.camera.PermissionHandler.*
-import life.plank.juna.zone.util.common.AppConstants
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.customToast
-import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
-import life.plank.juna.zone.util.view.Image
-import life.plank.juna.zone.util.view.UIDisplayUtil
+import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.fragment.camera.CameraFragment
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.*
 import org.apache.commons.lang3.ArrayUtils
-import pub.devrel.easypermissions.AfterPermissionGranted
-import pub.devrel.easypermissions.EasyPermissions
+import pub.devrel.easypermissions.*
 import retrofit2.Response
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
@@ -332,7 +324,7 @@ class UploadActivity : AppCompatActivity() {
                 val intent = Intent(from, UploadActivity::class.java)
                 intent.putExtra(from.getString(R.string.intent_open_from), openFrom)
                 intent.putExtra(from.getString(R.string.intent_board_id), boardId)
-                if (mediaFilePath != null && mediaFilePath.size > 0) {
+                if (mediaFilePath.isNotEmpty()) {
                     intent.putExtra(from.getString(R.string.intent_file_path), mediaFilePath[0])
                 }
                 from.startActivity(intent)

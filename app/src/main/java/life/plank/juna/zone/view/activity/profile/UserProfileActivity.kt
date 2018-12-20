@@ -111,7 +111,7 @@ class UserProfileActivity : BaseCardActivity() {
 
     private fun initRecyclerView() {
         boardController = BoardController(this, restApi, true)
-        my_boards_list.setController(boardController!!)
+        my_boards_list.adapter = boardController?.adapter
         get_coins_list.adapter = getCoinsAdapter
         last_transactions_list.adapter = lastTransactionsAdapter
     }
@@ -146,7 +146,7 @@ class UserProfileActivity : BaseCardActivity() {
                 val date = getIsoFormattedDate(dateOfBirth)
                 val calendar = Calendar.getInstance()
                 calendar.time = date
-                val dob = "${calendar.get(DAY_OF_MONTH)} ${DateFormatSymbols().shortMonths[calendar.get(MONTH)]}, ${calendar.get(YEAR) + 1900}"
+                val dob = "${calendar.get(DAY_OF_MONTH)} ${DateFormatSymbols().shortMonths[calendar.get(MONTH)]}, ${calendar.get(YEAR)}"
                 dob_text_view.text = dob
                 if (profilePictureUrl != null) {
                     Glide.with(this@UserProfileActivity).load(profilePictureUrl).into(profile_picture_image_view)

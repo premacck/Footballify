@@ -108,6 +108,7 @@
                     android:fontFamily="@font/rajdhani_medium"
                     android:hint="@string/date_of_birth"
                     android:lineSpacingExtra="16sp"
+                    android:paddingStart="4dp"
                     android:paddingEnd="10dp"
                     android:textColor="@color/grey"
                     android:textSize="16sp" />
@@ -125,8 +126,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/grey"
-                    android:fontFamily="@font/rajdhani_medium"
                     android:enabled="false"
+                    android:fontFamily="@font/rajdhani_medium"
                     android:hint="@string/location"
                     android:lineSpacingExtra="16sp"
                     android:textColor="@color/grey"
@@ -147,6 +148,15 @@
                 android:textAllCaps="false"
                 android:textColor="@color/grey"
                 android:textSize="20sp" />
+
+            <View
+                android:id="@+id/dob_click_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignStart="@+id/dob_text_input_layout"
+                android:layout_alignTop="@+id/dob_text_input_layout"
+                android:layout_alignEnd="@+id/dob_text_input_layout"
+                android:layout_alignBottom="@+id/dob_text_input_layout" />
 
         </RelativeLayout>
 
