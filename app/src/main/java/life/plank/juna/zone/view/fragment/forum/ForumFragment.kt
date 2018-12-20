@@ -45,8 +45,8 @@ class ForumFragment : BaseCommentContainerFragment() {
         super.onCreate(savedInstanceState)
         getApplication().uiComponent.inject(this)
         arguments?.run { boardId = getString(getString(R.string.intent_board_id)) }
-        commentId = activity?.getCommentIdFromIntent()
-        parentCommentId = activity?.getParentCommentIdFromIntent()
+        commentId = activity?.getChildIdFromIntent()
+        parentCommentId = activity?.getSiblingIdFromIntent()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_forum, container, false)
