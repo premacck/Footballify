@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_zone_user_feed.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.DataUtil
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.onFancyClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 
@@ -28,8 +28,8 @@ class ZoneView @JvmOverloads constructor(
     fun withZone(zonePair: Pair<UserPreference, RestApi>) {
         football.text = zonePair.first.zone?.name
 
-        val userPreferences: MutableList<UserPreference>? = PreferenceManager.CurrentUser.getUserPreferences()
-        if (userPreferences != null && userPreferences.isNotEmpty() && !DataUtil.isNullOrEmpty(userPreferences[0].zonePreferences)) {
+        val userPreferences = PreferenceManager.CurrentUser.getUserPreferences() ?: return
+        if (!isNullOrEmpty(userPreferences[0].zonePreferences)) {
             time_to_next_match.showNextMatchOnly(zonePair.second)
         }
     }
