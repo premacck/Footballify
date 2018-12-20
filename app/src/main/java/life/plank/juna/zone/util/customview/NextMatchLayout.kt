@@ -64,6 +64,6 @@ class NextMatchLayout @JvmOverloads constructor(
                             errorToast(R.string.something_went_wrong, it)
                         }
                     }
-                }, this)
+                })
     }
 }

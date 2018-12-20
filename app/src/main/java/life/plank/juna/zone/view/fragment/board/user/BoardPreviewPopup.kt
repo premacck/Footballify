@@ -4,27 +4,19 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_board_preview.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.customToast
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.launchWithBoard
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.*
 import java.io.File
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -63,7 +55,7 @@ class BoardPreviewPopup : BaseBlurPopup() {
         preview_title.setText(R.string.preview_your_board)
         create_board_button.visibility = View.VISIBLE
         board_invite_action_button_layout.visibility = View.GONE
-        preview_toolbar.setTitle(board.name)
+        preview_toolbar.setTitle(board.displayName)
         board_parent_layout.setCardBackgroundColor(Color.parseColor(board.color))
         description.text = board.description
         preview_toolbar.setLeagueLogo(Uri.fromFile(File(filePath)).toString())
@@ -86,7 +78,7 @@ class BoardPreviewPopup : BaseBlurPopup() {
         val requestBody = RequestBody.create(MediaType.parse(getString(R.string.media_type_image)), fileToUpload)
         val image = MultipartBody.Part.createFormData("", fileToUpload.name, requestBody)
 
-        val name = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.name!!)
+        val name = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.displayName!!)
         val zone = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.zone!!)
         val description = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.description!!)
         val color = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.color!!)

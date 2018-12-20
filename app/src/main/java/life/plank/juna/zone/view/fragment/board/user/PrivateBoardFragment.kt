@@ -3,31 +3,20 @@ package life.plank.juna.zone.view.fragment.board.user
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.cardview.widget.CardView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.*
 import kotlinx.android.synthetic.main.fragment_private_board.*
 import kotlinx.android.synthetic.main.layout_board_engagement.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.Board
-import life.plank.juna.zone.data.model.FeedEntry
+import life.plank.juna.zone.*
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.BoardHeaderListener
-import life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_OWNER_POPUP
-import life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_USER_POPUP
+import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.customToast
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.getPositionFromIntentIfAny
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.facilis.BaseCard
-import life.plank.juna.zone.util.facilis.floatUp
+import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
@@ -79,7 +68,7 @@ class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
             post_count.text = posts.toString()
             interaction_count.text = (followers + posts + emojiReacts).toString()
         }
-        private_board_toolbar.setTitle(board.name)
+        private_board_toolbar.setTitle(board.displayName)
         private_board_toolbar.setBoardTitle(if (board.boardType == getString(R.string.public_lowercase)) R.string.public_board else R.string.private_board)
         private_board_toolbar.setLeagueLogo(board.boardIconUrl!!)
         val color = Color.parseColor(board.color)
@@ -154,7 +143,7 @@ class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
 
         override fun getItem(position: Int): Fragment? {
             return when (position) {
-                0 -> PrivateBoardInfoFragment.newInstance(board.description!!, board.id, board.owner.displayName, board.name!!)
+                0 -> PrivateBoardInfoFragment.newInstance(board.description!!, board.id, board.owner.displayName, board.displayName!!)
                 1 -> ForumFragment.newInstance(board.id)
                 2 -> BoardTilesFragment.newInstance(board.id, true)
                 else -> null

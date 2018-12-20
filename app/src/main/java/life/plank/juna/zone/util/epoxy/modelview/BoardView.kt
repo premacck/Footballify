@@ -42,7 +42,7 @@ class BoardView @JvmOverloads constructor(
 
     @ModelProp
     fun prepare(board: Board) {
-        if (board.name == findString(R.string.new_)) {
+        if (board.displayName == findString(R.string.new_)) {
             image.setImageDrawable(findDrawable(R.drawable.new_board_circle))
             image.borderColor = findColor(R.color.white)
         } else {
