@@ -189,8 +189,8 @@ public class PreferenceManager {
         public static List<UserPreference> getUserPreferences() {
             String userPrefString = getUserPrefs().getString(findString(R.string.pref_user_preferences), null);
             if (!isNullOrEmpty(userPrefString)) {
-                return GSON.fromJson(userPrefString, new TypeToken<List<UserPreference>>() {
-                }.getType());
+                List<UserPreference> userPreferences = GSON.fromJson(userPrefString, new TypeToken<List<UserPreference>>() {}.getType());
+                return isNullOrEmpty(userPreferences) ? null : userPreferences;
             }
             return null;
         }
