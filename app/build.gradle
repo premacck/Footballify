@@ -135,6 +135,7 @@ dependencies {
     implementation 'com.microsoft.azure:notification-hubs-android-sdk:0.4@aar'
     implementation 'com.iceteck.silicompressorr:silicompressor:2.1'
     implementation 'com.google.android.material:material:1.1.0-alpha02'
+    implementation 'com.google.android.gms:play-services-vision:17.0.2'
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.annotation:annotation:1.0.1'
