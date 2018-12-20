@@ -31,4 +31,5 @@
     <string name="intent_react">emoji-reacts</string>
     <string name="intent_kick">kick</string>
     <string name="intent_is_board">is_board</string>
+    <string name="voice_search">Voice Search</string>
 </resources>

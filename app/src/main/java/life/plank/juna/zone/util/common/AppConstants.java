@@ -154,6 +154,7 @@ public class AppConstants {
     public static final String PRIVATE_BOARD_USER_POPUP = "PrivateBoardUserPopUp";
     public static final String PRIVATE_BOARD_OWNER_POPUP = "PrivateBoardOwnerPopUp";
     public static final String DRAW_STRING = "Draw";
+    public static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
 
     @Retention(RetentionPolicy.RUNTIME)
     @IntDef({HOME, DRAW, AWAY})
