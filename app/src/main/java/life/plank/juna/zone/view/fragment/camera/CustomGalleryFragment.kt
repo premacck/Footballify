@@ -3,11 +3,11 @@ package life.plank.juna.zone.view.fragment.camera
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.MediaStore
-import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_custom_gallery.*
 import life.plank.juna.zone.R
@@ -27,7 +27,7 @@ class CustomGalleryFragment : Fragment() {
 
         private val TAG = CustomGalleryFragment::class.java.simpleName
 
-        fun newInstance(isForImage: Boolean): CustomGalleryFragment {
+        fun newInstance(isForImage: Boolean, isBoard: Boolean): CustomGalleryFragment {
             val fragment = CustomGalleryFragment()
             val args = Bundle()
             args.putBoolean(ZoneApplication.getContext().getString(R.string.intent_is_camera_for_image), isForImage)
@@ -53,7 +53,7 @@ class CustomGalleryFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = GalleryAdapter(activity as CustomCameraActivity?, Glide.with(activity!!))
+        adapter = GalleryAdapter(activity as CustomCameraActivity, Glide.with(activity!!))
         gallery_recycler_view.adapter = adapter
     }
 

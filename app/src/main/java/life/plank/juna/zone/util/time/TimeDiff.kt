@@ -17,16 +17,17 @@ private const val YESTERDAY = "Yesterday"
 private const val DAYS_AGO = "days ago"
 
 fun getTimeAgo(date: Date): String {
-    var time = date.time
+    val time = date.time
     try {
-        if (time < 1000000000000L) {
-            // if timestamp given in seconds, convert to millis
-            time *= 1000
-        }
+//        TODO: un-comment/remove after checking values returned from backend
+//        if (time < 1000000000000L) {
+//            // if timestamp given in seconds, convert to millis
+//            time *= 1000
+//        }
 
         val now = System.currentTimeMillis()
         if (time > now || time <= 0) {
-            return ""
+            return getCommentDateAndTimeFormat(date)
         }
 
         val diff = now - time
@@ -50,4 +51,11 @@ fun getTimeInHourMinuteFormat(timeStamp: Long): String {
     val intHourDiff = floatHourDiff.toInt()
     val minuteDiff = ((floatHourDiff - intHourDiff) * 60).toInt()
     return "$intHourDiff hrs $minuteDiff mins"
+}
+
+fun getFootballTimeElapsed(timeStamp: Long): String {
+    val floatMinuteDiff = timeStamp.toFloat() / MINUTE_MILLIS
+    val intMinuteDiff = floatMinuteDiff.toInt()
+    val secondDiff = ((floatMinuteDiff - intMinuteDiff) * 60).toInt()
+    return "$intMinuteDiff : $secondDiff"
 }

@@ -1,7 +1,7 @@
 package life.plank.juna.zone.data.model.binder
 
 import android.os.Parcelable
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import kotlinx.android.parcel.Parcelize
 
 import life.plank.juna.zone.R

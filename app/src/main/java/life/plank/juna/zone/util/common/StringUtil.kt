@@ -1,17 +1,12 @@
 package life.plank.juna.zone.util.common
 
 import android.app.Activity
-import android.support.annotation.ColorRes
-import android.text.SpannableString
-import android.text.SpannableStringBuilder
-import android.text.Spanned
+import android.text.*
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-import android.text.TextPaint
-import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.UnderlineSpan
+import android.text.style.*
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.ColorRes
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Commentary
 import life.plank.juna.zone.util.common.AppConstants.*
@@ -22,6 +17,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.regex.Pattern
 import java.util.regex.Pattern.*
+import kotlin.text.append
 
 const val URL_REGEX = ("(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)")
 val URL_PATTERN: Pattern = Pattern.compile(URL_REGEX, CASE_INSENSITIVE or MULTILINE or DOTALL)
@@ -54,21 +50,26 @@ fun SpannableString.underline(start: Int = 0, end: Int = length): SpannableStrin
     return this
 }
 
-fun String.toClickableWebLink(activity: Activity?): SpannableString {
-    val spannableString = SpannableString(this)
-    spannableString.setSpan(object : ClickableSpan() {
+fun CharSequence.toClickableWebLink(activity: Activity?, start: Int = 0, end: Int = length): SpannableString {
+    val spannableString: SpannableString = if (this is SpannableString) this else SpannableString(this)
+    spannableString.clickAction(start, end) {
+        (activity as? BaseCardActivity)?.pushFragment(WebCard.newInstance(this@toClickableWebLink.toString()), true)
+    }.color(R.color.dark_sky_blue, start, end)
+    return spannableString
+}
 
+fun SpannableString.clickAction(start: Int = 0, end: Int = length, action: () -> Unit): SpannableString {
+    setSpan(object : ClickableSpan() {
         override fun onClick(widget: View) {
-            (activity as? BaseCardActivity)?.pushFragment(WebCard.newInstance(this@toClickableWebLink), true)
+            action()
         }
 
         override fun updateDrawState(ds: TextPaint) {
             super.updateDrawState(ds)
             ds.isUnderlineText = true
         }
-    }, 0, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-    spannableString.color(R.color.dark_sky_blue, 0, length)
-    return spannableString
+    }, start, end, SPAN_EXCLUSIVE_EXCLUSIVE)
+    return this
 }
 
 fun CharSequence.formatMentions(): SpannableString {
@@ -202,11 +203,11 @@ fun getDesignedCommentaryString(rawCommentaryText: String): SpannableStringBuild
 
 fun CharSequence.containsLink(): Boolean = URL_PATTERN.matcher(this).find()
 
-fun CharSequence.formatLinks(): SpannableString {
+fun CharSequence.formatLinks(activity: Activity? = null): SpannableString {
     val formattedString = SpannableString(this)
     val matcher = URL_PATTERN.matcher(this)
     while (matcher.find()) {
-        formattedString.color(R.color.colorPrimary, matcher.start(), matcher.end()).underline(matcher.start(), matcher.end())
+        formattedString.toClickableWebLink(activity, matcher.start(), matcher.end())
     }
     return formattedString
 }

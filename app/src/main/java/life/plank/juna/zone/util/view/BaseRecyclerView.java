@@ -1,11 +1,12 @@
 package life.plank.juna.zone.util.view;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * This is the base RecyclerView class for ease in creating Adapters with DiffUtil and Dagger injection.<br/><br/>

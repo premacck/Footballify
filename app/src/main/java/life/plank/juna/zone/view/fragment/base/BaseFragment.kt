@@ -1,6 +1,6 @@
 package life.plank.juna.zone.view.fragment.base
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import rx.Subscription
 
 /**

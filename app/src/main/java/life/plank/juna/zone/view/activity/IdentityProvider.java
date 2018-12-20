@@ -7,12 +7,6 @@ package life.plank.juna.zone.view.activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.support.annotation.BoolRes;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 
 import net.openid.appauth.AuthorizationServiceConfiguration;
 
@@ -20,6 +14,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.BoolRes;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import life.plank.juna.zone.R;
 
 /**

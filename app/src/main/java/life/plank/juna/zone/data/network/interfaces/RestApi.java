@@ -128,7 +128,7 @@ public interface RestApi {
     @Multipart
     @POST(ZONE_BACKEND_SUFFIX + "/boards")
     Observable<Response<String>> createPrivateBoard(@Query("boardType") String boardType,
-                                                    @Part("name") RequestBody name,
+                                                    @Part("displayName") RequestBody displayName,
                                                     @Part("zone") RequestBody zone,
                                                     @Part("description") RequestBody description,
                                                     @Part("color") RequestBody color,

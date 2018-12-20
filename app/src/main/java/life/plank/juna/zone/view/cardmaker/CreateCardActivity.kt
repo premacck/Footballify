@@ -5,8 +5,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_create_card.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.view.CardPreviewFragment
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
@@ -25,7 +24,7 @@ class CreateCardActivity : BaseCardActivity() {
         private val TAG = CreateCardActivity::class.java.simpleName
         fun launch(from: Activity, mediaFilePath: String) {
             val intent = Intent(from, CreateCardActivity::class.java)
-            if (mediaFilePath != null && mediaFilePath.isNotEmpty()) {
+            if (mediaFilePath.isNotEmpty()) {
                 intent.putExtra(from.getString(R.string.intent_file_path), mediaFilePath)
             }
             from.startActivity(intent)
@@ -50,7 +49,7 @@ class CreateCardActivity : BaseCardActivity() {
 
     private fun setOnClickListeners() {
         camera.onClick {
-            CustomCameraActivity.launch(this@CreateCardActivity, true, "")
+            CustomCameraActivity.launch(this@CreateCardActivity, true, "", false)
             finish()
         }
         proceed_button.onClick {

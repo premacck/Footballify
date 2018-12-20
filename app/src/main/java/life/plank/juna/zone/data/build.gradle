@@ -28,7 +28,6 @@ dependencies {
     implementation dataDependencies.gson
     implementation dataDependencies.rxJavaAdapter
     implementation dataDependencies.rxAndroid
-    implementation dataDependencies.androidAnnotations
     implementation dataDependencies.retrofit
     implementation dataDependencies.dagger
     annotationProcessor dataDependencies.daggerCompiler

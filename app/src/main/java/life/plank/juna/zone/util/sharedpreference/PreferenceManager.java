@@ -2,7 +2,6 @@ package life.plank.juna.zone.util.sharedpreference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.StringRes;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
@@ -15,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItem;
@@ -184,11 +185,12 @@ public class PreferenceManager {
             return getUserPrefs().getString(findString(R.string.pref_city), null);
         }
 
+        @Nullable
         public static List<UserPreference> getUserPreferences() {
             String userPrefString = getUserPrefs().getString(findString(R.string.pref_user_preferences), null);
             if (!isNullOrEmpty(userPrefString)) {
-                return GSON.fromJson(userPrefString, new TypeToken<List<UserPreference>>() {
-                }.getType());
+                List<UserPreference> userPreferences = GSON.fromJson(userPrefString, new TypeToken<List<UserPreference>>() {}.getType());
+                return isNullOrEmpty(userPreferences) ? null : userPreferences;
             }
             return null;
         }

@@ -4,22 +4,17 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.shimmer_user_boards.*
 import kotlinx.android.synthetic.main.shimmer_user_feed.*
 import kotlinx.android.synthetic.main.shimmer_user_zones.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
 import life.plank.juna.zone.util.common.*
@@ -27,19 +22,13 @@ import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_BASI
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout
 import life.plank.juna.zone.util.facilis.doAfterDelay
-import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.sharedpreference.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.sharedpreference.isSubscribed
-import life.plank.juna.zone.util.sharedpreference.subscribeTo
-import life.plank.juna.zone.util.view.boomMenu
-import life.plank.juna.zone.util.view.setupBoomMenu
-import life.plank.juna.zone.util.view.setupWith
+import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
-import life.plank.juna.zone.view.adapter.board.user.UserBoardsAdapter
-import life.plank.juna.zone.view.adapter.user.UserFeedAdapter
-import life.plank.juna.zone.view.adapter.user.UserZoneAdapter
+import life.plank.juna.zone.view.controller.*
 import life.plank.juna.zone.view.fragment.base.FlatTileFragment
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import net.openid.appauth.AuthorizationService
@@ -54,10 +43,9 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     lateinit var restApi: RestApi
 
     private var authService: AuthorizationService? = null
-    private var userFeedAdapter: UserFeedAdapter? = null
-    private var userZoneAdapter: UserZoneAdapter? = null
-    private var userBoardsAdapter: UserBoardsAdapter? = null
-    private val userPreferences = ArrayList<UserPreference>()
+    private var feedEntryGridController: FeedEntryGridController? = null
+    private var zoneController: ZoneController? = null
+    private var boardController: BoardController? = null
     private var feedEntries = ArrayList<FeedEntry>()
 
     companion object {
@@ -85,9 +73,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         initFeedRecyclerView()
         initZoneRecyclerView()
 
-        context?.doAfterDelay(1000) {
+        doAfterDelay(1000) {
             getUserZones()
-            getUserFeed(false)
             swipe_refresh_layout?.setOnRefreshListener { getUserFeed(true) }
         }
 
@@ -103,6 +90,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     override fun onResume() {
         super.onResume()
         getUserBoards()
+        getUserFeed(false)
     }
 
     private fun setUpToolbarAndBoomMenu() {
@@ -119,26 +107,20 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     private fun initFeedRecyclerView() {
-        userFeedAdapter = UserFeedAdapter(this, Glide.with(this))
-        user_feed_recycler_view.adapter = userFeedAdapter
+        feedEntryGridController = FeedEntryGridController(this)
+        user_feed_recycler_view.adapter = feedEntryGridController?.adapter
     }
 
     private fun initZoneRecyclerView() {
-        userZoneAdapter = UserZoneAdapter(activity!!, restApi, userPreferences)
-        user_zone_recycler_view?.adapter = userZoneAdapter
+        zoneController = ZoneController(activity as BaseCardActivity, restApi)
+        user_zone_recycler_view.setController(zoneController!!)
     }
 
     private fun initBoardsRecyclerView() {
         if (activity is BaseCardActivity) {
-            userBoardsAdapter = UserBoardsAdapter(activity as BaseCardActivity, restApi, Glide.with(this), false)
-            user_boards_recycler_view?.adapter = userBoardsAdapter
+            boardController = BoardController(activity as BaseCardActivity, restApi, false)
+            user_boards_recycler_view.setController(boardController!!)
         }
-    }
-
-    private fun setUpUserZoneAdapter(userPreferenceList: List<UserPreference>?) {
-        userPreferences.clear()
-        userPreferences.addAll(userPreferenceList!!)
-        userZoneAdapter?.notifyDataSetChanged()
     }
 
     private fun getUserZones() {
@@ -156,9 +138,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
                         HttpURLConnection.HTTP_OK -> {
                             val user = it.body()
                             if (user != null) {
-                                setUpUserZoneAdapter(user.userPreferences)
+                                zoneController?.setData(user.userPreferences)
                                 onRecyclerViewContentsLoaded(user_zone_recycler_view, shimmer_user_zones)
-
                             } else {
                                 onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
                             }
@@ -179,25 +160,29 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         userFeedApiCall
                 .onTerminate { if (isRefreshing) swipe_refresh_layout.isRefreshing = false }
                 .setObserverThreadsAndSmartSubscribe({
+                    feedEntryGridController?.setData(ArrayList(), true, R.string.failed_to_retrieve_feed)
                     Log.e(TAG, "getUserFeed(): onError(): ", it)
                 }, {
                     when (it.code()) {
                         HttpURLConnection.HTTP_OK -> {
                             feedEntries = it.body() as ArrayList<FeedEntry>
                             if (!isNullOrEmpty(feedEntries)) {
-                                userFeedAdapter?.setUserFeed(feedEntries)
+                                feedEntryGridController?.setData(feedEntries, false, null)
                                 onRecyclerViewContentsLoaded(user_feed_recycler_view, shimmer_user_feed)
                             } else {
                                 errorToast(R.string.failed_to_retrieve_feed, it)
-                                onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
+                                onRecyclerViewContentsFailedToLoad(null, shimmer_user_feed)
+                                feedEntryGridController?.setData(ArrayList(), false, R.string.no_feed_entries_found)
                             }
                         }
                         HttpURLConnection.HTTP_NOT_FOUND -> {
-                            onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
+                            onRecyclerViewContentsFailedToLoad(null, shimmer_user_feed)
+                            feedEntryGridController?.setData(ArrayList(), false, R.string.no_feed_entries_found)
                         }
                         else -> {
                             errorToast(R.string.failed_to_retrieve_feed, it)
                             onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
+                            feedEntryGridController?.setData(ArrayList(), false, R.string.failed_to_retrieve_feed)
                         }
                     }
                 }, this)
@@ -212,21 +197,24 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
         restApi.getFollowingBoards(getString(R.string.football), getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "getUserBoards(): onError(): ", it)
+            onRecyclerViewContentsFailedToLoad(null, shimmer_user_boards)
+            boardController?.setData(emptyList(), true, R.string.failed_to_retrieve_board)
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
                     if (!isNullOrEmpty(it.body())) {
-                        userBoardsAdapter?.setUserBoards(it.body()!!)
+                        boardController?.setData(it.body(), false, null)
                         onRecyclerViewContentsLoaded(user_boards_recycler_view, shimmer_user_boards)
                     } else onRecyclerViewContentsFailedToLoad(user_boards_recycler_view, shimmer_user_boards)
                 }
                 HttpURLConnection.HTTP_NOT_FOUND -> {
                     shimmer_user_boards.visibility = View.GONE
-                    user_boards_recycler_view.visibility = View.GONE
+                    boardController?.setData(emptyList(), false, R.string.cannot_find_user_boards)
                 }
                 else -> {
                     errorToast(R.string.failed_to_retrieve_board, it)
-                    onRecyclerViewContentsFailedToLoad(user_boards_recycler_view, shimmer_user_boards)
+                    onRecyclerViewContentsFailedToLoad(null, shimmer_user_boards)
+                    boardController?.setData(emptyList(), true, R.string.failed_to_retrieve_board)
                 }
             }
         }, this)
@@ -271,11 +259,12 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     private fun onRecyclerViewContentsLoaded(recyclerView: RecyclerView, shimmerRelativeLayout: ShimmerRelativeLayout, isLoading: Boolean = false) {
         recyclerView.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
         if (isLoading) shimmerRelativeLayout.startShimmerAnimation() else shimmerRelativeLayout.stopShimmerAnimation()
+        if (isLoading) shimmerRelativeLayout.alpha = 1f
         shimmerRelativeLayout.visibility = if (isLoading) View.VISIBLE else View.INVISIBLE
     }
 
-    private fun onRecyclerViewContentsFailedToLoad(recyclerView: RecyclerView, shimmerRelativeLayout: ShimmerRelativeLayout) {
-        recyclerView.visibility = View.INVISIBLE
+    private fun onRecyclerViewContentsFailedToLoad(recyclerView: RecyclerView?, shimmerRelativeLayout: ShimmerRelativeLayout) {
+        recyclerView?.visibility = View.INVISIBLE
         shimmerRelativeLayout.stopShimmerAnimation()
         (shimmerRelativeLayout as? ShimmerRelativeLayout)?.alpha = 0.2f
     }
@@ -286,9 +275,9 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
     override fun onDestroy() {
         authService?.dispose()
-        userBoardsAdapter = null
-        userFeedAdapter = null
-        userZoneAdapter = null
+        boardController = null
+        feedEntryGridController = null
+        zoneController = null
         super.onDestroy()
     }
 }

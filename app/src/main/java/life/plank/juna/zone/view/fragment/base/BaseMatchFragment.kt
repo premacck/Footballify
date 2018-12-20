@@ -1,11 +1,11 @@
 package life.plank.juna.zone.view.fragment.base
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import life.plank.juna.zone.R
+import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.data.model.MatchDetails
-import life.plank.juna.zone.data.model.ZoneLiveData
-import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.*
@@ -19,8 +19,8 @@ import life.plank.juna.zone.view.fragment.board.fixture.MatchStatsFragment
 
 abstract class BaseMatchFragment : CardTileFragment() {
 
-    override fun onSocialNotificationReceive(junaNotification: JunaNotification) {
-        junaNotification.run {
+    override fun onSocialNotificationReceive(socialNotification: SocialNotification) {
+        socialNotification.run {
             when (action) {
                 findString(R.string.intent_post) -> getFeedEntryDetails(restApi(), this)
                 findString(R.string.intent_comment) -> updateForumComments()
@@ -30,20 +30,20 @@ abstract class BaseMatchFragment : CardTileFragment() {
         }
     }
 
-    fun onZoneLiveDataReceived(zoneLiveData: ZoneLiveData) {
-        when (zoneLiveData.liveDataType) {
-            SCORE_DATA -> zoneLiveData.getScoreData(gson())?.run {
+    fun onZoneLiveDataReceived(footballLiveData: FootballLiveData) {
+        when (footballLiveData.liveDataType) {
+            SCORE_DATA -> footballLiveData.getScoreData(gson())?.run {
                 updateScoreLocally(matchDetails(), this)
                 publicBoardToolbar().setScore("$homeGoals$DASH$awayGoals")
                 FixtureListUpdateTask.update(matchDetails(), this, null, true)
             }
-            TIME_STATUS_DATA -> zoneLiveData.getLiveTimeStatus(gson())?.run {
+            TIME_STATUS_DATA -> footballLiveData.getLiveTimeStatus(gson())?.run {
                 updateTimeStatusLocally(matchDetails(), this)
                 FixtureListUpdateTask.update(matchDetails(), null, this, false)
                 publicBoardToolbar().setLiveTimeStatus(matchDetails().matchStartTime, timeStatus)
             }
             MATCH_EVENTS -> {
-                zoneLiveData.getMatchEventList(gson())?.run {
+                footballLiveData.getMatchEventList(gson())?.run {
                     if (isNullOrEmpty(matchDetails().matchEvents)) {
                         matchDetails().matchEvents = ArrayList()
                     }
@@ -52,7 +52,7 @@ abstract class BaseMatchFragment : CardTileFragment() {
                 }
             }
             COMMENTARY_DATA -> {
-                zoneLiveData.getCommentaryList(gson())?.run {
+                footballLiveData.getCommentaryList(gson())?.run {
                     if (isNullOrEmpty(matchDetails().commentary)) {
                         matchDetails().commentary = ArrayList()
                         (this@BaseMatchFragment as? MatchBoardFragment)?.updateCommentaryMarquee()
@@ -62,9 +62,9 @@ abstract class BaseMatchFragment : CardTileFragment() {
                 }
             }
             MATCH_STATS_DATA ->
-                zoneLiveData.getMatchStats(gson())?.run { (currentChildFragment() as? MatchStatsFragment)?.updateMatchStats(this) }
+                footballLiveData.getMatchStats(gson())?.run { (currentChildFragment() as? MatchStatsFragment)?.updateMatchStats(this) }
             HIGHLIGHTS_DATA ->
-                zoneLiveData.getHighlightsList(gson())?.run { (currentChildFragment() as? MatchMediaFragment)?.updateHighlights(this) }
+                footballLiveData.getHighlightsList(gson())?.run { (currentChildFragment() as? MatchMediaFragment)?.updateHighlights(this) }
             BOARD_ACTIVATED -> onBoardStateChange(true)
             BOARD_DEACTIVATED -> onBoardStateChange(false)
             LINEUPS_DATA -> (currentChildFragment() as? LineupFragment)?.getLineupFormation(false)

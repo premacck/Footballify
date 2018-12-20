@@ -1,7 +1,7 @@
 package life.plank.juna.zone.data.model
 
-import android.arch.persistence.room.Entity
 import android.os.Parcelable
+import androidx.room.Entity
 import kotlinx.android.parcel.Parcelize
 
 @Entity

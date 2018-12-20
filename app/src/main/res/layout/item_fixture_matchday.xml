@@ -20,11 +20,11 @@
         android:textColor="@color/grey"
         android:fontFamily="@font/rajdhani_semibold" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fixtures_matchday_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_fixture_date"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 </LinearLayout>

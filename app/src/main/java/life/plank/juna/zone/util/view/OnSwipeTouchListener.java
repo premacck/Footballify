@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
@@ -15,6 +14,8 @@ import android.view.animation.OvershootInterpolator;
 
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 
 import static life.plank.juna.zone.util.view.UIDisplayUtil.getDp;
 

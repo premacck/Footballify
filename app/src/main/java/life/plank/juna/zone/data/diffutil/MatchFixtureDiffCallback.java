@@ -1,8 +1,6 @@
 package life.plank.juna.zone.data.diffutil;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.util.DiffUtil;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -12,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DiffUtil;
 import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.data.model.Stadium;
 

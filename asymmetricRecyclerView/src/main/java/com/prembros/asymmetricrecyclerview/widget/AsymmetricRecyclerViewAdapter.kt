@@ -1,17 +1,18 @@
 package com.prembros.asymmetricrecyclerview.widget
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.prembros.asymmetricrecyclerview.base.AsymmetricBaseAdapter
 import com.prembros.asymmetricrecyclerview.base.AsymmetricItem
 import com.prembros.asymmetricrecyclerview.implementation.AdapterImpl
+import com.prembros.asymmetricrecyclerview.implementation.AdapterImpl.ViewHolder
 
 class AsymmetricRecyclerViewAdapter<T : RecyclerView.ViewHolder>(
         context: Context,
         private val recyclerView: AsymmetricRecyclerView,
         private val wrappedAdapter: WrappedAsymmetricRecyclerAdapter<T>
-) : RecyclerView.Adapter<AdapterImpl.ViewHolder>(), AsymmetricBaseAdapter<T> {
+) : RecyclerView.Adapter<ViewHolder>(), AsymmetricBaseAdapter<T> {
     private val adapterImpl: AdapterImpl<T> = AdapterImpl(context, this, recyclerView)
 
     override val actualItemCount: Int
@@ -25,11 +26,11 @@ class AsymmetricRecyclerViewAdapter<T : RecyclerView.ViewHolder>(
         })
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterImpl.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return adapterImpl.onCreateViewHolder()
     }
 
-    override fun onBindViewHolder(holder: AdapterImpl.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         adapterImpl.onBindViewHolder(holder, position, recyclerView)
     }
 

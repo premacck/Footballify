@@ -1,11 +1,11 @@
 package com.prembros.asymmetricrecyclerview.widget
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewTreeObserver
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.prembros.asymmetricrecyclerview.base.AsymmetricRecyclerViewListener
 import com.prembros.asymmetricrecyclerview.base.AsymmetricView
 import com.prembros.asymmetricrecyclerview.implementation.AsymmetricViewImpl
@@ -44,7 +44,7 @@ class AsymmetricRecyclerView(context: Context, attrs: AttributeSet) : RecyclerVi
         }
 
     init {
-        layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        layoutManager = LinearLayoutManager(context, VERTICAL, false)
 
         val vto = viewTreeObserver
         vto?.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -71,7 +71,7 @@ class AsymmetricRecyclerView(context: Context, attrs: AttributeSet) : RecyclerVi
             this.adapter = adapter
             super.setAdapter(adapter)
 
-            this.adapter!!.recalculateItemsPerRow()
+            this.adapter?.recalculateItemsPerRow()
         } else
             super.setAdapter(null)
     }

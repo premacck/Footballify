@@ -2,14 +2,14 @@ package life.plank.juna.zone.view.fragment.football
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.view.PagerAdapter
-import android.support.v7.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import kotlinx.android.synthetic.main.fragment_league_info.*
 import kotlinx.android.synthetic.main.league_toolbar.*
 import life.plank.juna.zone.R

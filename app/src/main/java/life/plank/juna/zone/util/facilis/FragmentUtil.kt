@@ -1,9 +1,9 @@
 package life.plank.juna.zone.util.facilis
 
-import android.support.annotation.AnimRes
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
 import android.util.Log
+import androidx.annotation.AnimRes
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import life.plank.juna.zone.R
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup

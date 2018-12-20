@@ -7,9 +7,9 @@ import android.content.IntentFilter
 import android.util.Log
 import android.view.ViewGroup
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.ZoneLiveData
+import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.data.model.notification.InAppNotification
-import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.notification.handleInAppNotification
 import life.plank.juna.zone.util.customview.InAppNotificationLayout
@@ -22,9 +22,9 @@ abstract class BaseCardActivity : BaseNavigationHelperActivity() {
     private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.hasExtra(getString(R.string.intent_zone_live_data))) {
-                handleInAppNotification(intent.getParcelableExtra<ZoneLiveData>(getString(R.string.intent_zone_live_data)))
+                handleInAppNotification(intent.getParcelableExtra<FootballLiveData>(getString(R.string.intent_zone_live_data)))
             } else if (intent.hasExtra(getString(R.string.intent_juna_notification))) {
-                handleInAppNotification(intent.getParcelableExtra<JunaNotification>(getString(R.string.intent_juna_notification)))
+                handleInAppNotification(intent.getParcelableExtra<SocialNotification>(getString(R.string.intent_juna_notification)))
             }
         }
     }

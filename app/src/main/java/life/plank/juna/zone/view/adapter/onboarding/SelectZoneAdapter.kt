@@ -1,9 +1,9 @@
 package life.plank.juna.zone.view.adapter.onboarding
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import kotlinx.android.synthetic.main.item_zone_grid.view.*
 import life.plank.juna.zone.R

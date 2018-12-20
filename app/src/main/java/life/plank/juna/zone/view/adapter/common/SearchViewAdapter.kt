@@ -3,10 +3,10 @@ package life.plank.juna.zone.view.adapter.common
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_image_and_title.view.*

@@ -1,10 +1,10 @@
 package life.plank.juna.zone.view.fragment.post
 
 import android.os.Bundle
-import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.fragment_post_detail_container.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry

@@ -1,11 +1,11 @@
 package life.plank.juna.zone.view.adapter.board.tile
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.prembros.asymmetricrecyclerview.base.AsymmetricItem

@@ -1,21 +1,27 @@
 package life.plank.juna.zone.view.fragment.onboarding
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.CardView
-import android.support.v7.widget.RecyclerView
+import android.speech.RecognizerIntent
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_team_selection.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FootballTeam
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.common.AppConstants.VOICE_RECOGNITION_REQUEST_CODE
 import life.plank.juna.zone.util.common.DataUtil
+import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
@@ -36,6 +42,7 @@ class TeamSelectionFragment : SearchableCard() {
     private var teamList = ArrayList<FootballTeam>()
     private var searchSubscription: Subscription? = null
 
+
     companion object {
         private val TAG = TeamSelectionFragment::class.java.simpleName
         fun newInstance(): TeamSelectionFragment = TeamSelectionFragment()
@@ -51,7 +58,42 @@ class TeamSelectionFragment : SearchableCard() {
         initBottomSheetRecyclerView()
         next.onDebouncingClick { postTeamPref(getString(R.string.football)) }
         getPopularTeams()
+        onClickVoiceSearch()
     }
+
+    private fun onClickVoiceSearch() {
+        search_view.setOnTouchListener(View.OnTouchListener { _, event ->
+            val drawableRight = 2
+            if (event.action == MotionEvent.ACTION_UP) {
+                if (event.rawX >= search_view.right - search_view.compoundDrawables[drawableRight].bounds.width()) {
+                    startVoiceRecognitionActivity()
+                    return@OnTouchListener true
+                }
+            }
+            false
+        })
+    }
+
+    private fun startVoiceRecognitionActivity() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.voice_search))
+        startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
+            var matches: ArrayList<String>? = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            if (!isNullOrEmpty(matches)) {
+                var query = matches?.get(0)
+                search_view.setText(query)
+            }
+        }
+    }
+
 
     override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 

@@ -1,9 +1,9 @@
 package life.plank.juna.zone.view.fragment.base
 
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.widget.NestedScrollView
-import android.support.v7.widget.RecyclerView
+import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.MatchFixture

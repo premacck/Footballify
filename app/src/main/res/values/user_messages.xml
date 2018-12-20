@@ -39,6 +39,7 @@
     <string name="select_image_to_upload">Select an image to upload</string>
     <string name="board_not_active">This board is not active</string>
     <string name="failed_to_find_feed">Failed to find the feed, please try again later</string>
+    <string name="no_feed_entries_found">No feed entries found, swipe down to retry</string>
     <string name="failed_to_pin_feed">Failed to pin this feed, please try again later</string>
     <string name="failed_to_unpin_feed">Failed to unpin this feed, please try again later</string>
     <string name="already_pinned_feed">You have already pinned this feed</string>
@@ -69,4 +70,5 @@
     <string name="more_events_will_be_displayed">Events for the match will be displayed here as they happen</string>
     <string name="user_pref_not_found">User preference not found</string>
     <string name="next_match_not_found">Next match not found</string>
+    <string name="enter_valid_link">Please enter a valid link</string>
 </resources>

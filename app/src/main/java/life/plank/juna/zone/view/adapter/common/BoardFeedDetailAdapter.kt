@@ -3,40 +3,32 @@ package life.plank.juna.zone.view.adapter.common
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.media.AudioManager
-import android.media.MediaPlayer
+import android.media.*
 import android.net.Uri
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.RelativeLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.football_feed_detail_row.view.*
 import kotlinx.android.synthetic.main.layout_interaction_component.view.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.*
 import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.facilis.setRootCommentPost
-import life.plank.juna.zone.util.facilis.showFor
+import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.sharedpreference.PreferenceManager.PinManager.isFeedItemPinned
-import life.plank.juna.zone.util.sharedpreference.PreferenceManager.PinManager.toggleFeedItemPin
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.PinManager.*
 import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
 import life.plank.juna.zone.util.view.EmojiHashMap
-import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
-import life.plank.juna.zone.util.view.UIDisplayUtil.getScreenSize
+import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import org.jetbrains.anko.windowManager
 import retrofit2.Response
 import rx.Subscriber
@@ -99,7 +91,7 @@ class BoardFeedDetailAdapter(private val restApi: RestApi,
         holder.itemView.feed_title_text_view.text = feedItem.title
 
         if (!isNullOrEmpty(feedItem.interactions)) {
-            holder.itemView.reaction_count.text = feedItem.interactions!!.emojiReacts!!.toString()
+            holder.itemView.reaction_count.text = feedItem.interactions.emojiReacts.toString()
         }
 
         holder.itemView.pin_image_view.setImageResource(
@@ -109,91 +101,89 @@ class BoardFeedDetailAdapter(private val restApi: RestApi,
                     R.drawable.ic_pin_inactive
         )
 
-        if (feedItem.contentType != null) {
-            when (feedItem.contentType) {
-                NEWS, IMAGE -> {
+        when (feedItem.contentType) {
+            NEWS, IMAGE -> {
 
-                    mediaPlayer.stop()
-                    holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE)
-                    try {
-                        glide.load(feedItem.thumbnail!!.imageUrl)
-                                .apply(RequestOptions.errorOf(R.drawable.ic_place_holder).placeholder(R.drawable.ic_place_holder))
-                                .into(holder.itemView.feed_image_view)
-                    } catch (e: Exception) {
-                        holder.itemView.feed_image_view.setImageResource(R.drawable.ic_place_holder)
-                    }
-
-                    mediaPlayer.stop()
-                    holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE)
-                    try {
-                        val urlToLoad = if (feedItem.contentType == NEWS)
-                            feedItem.thumbnail!!.imageUrl
-                        else
-                            feedItem.url
-
-                        glide.asBitmap().load(urlToLoad)
-                                .apply(RequestOptions.errorOf(R.drawable.ic_place_holder).placeholder(R.drawable.ic_place_holder))
-                                .into<SimpleTarget<Bitmap>>(object : SimpleTarget<Bitmap>() {
-                                    override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
-
-                                        val width = (getScreenSize(ZoneApplication.getContext().windowManager.defaultDisplay)[0] - getDp(8f)).toInt()
-                                        val params = holder.itemView.feed_image_view.layoutParams as RelativeLayout.LayoutParams
-                                        params.height = width * bitmap.height / bitmap.width
-                                        holder.itemView.feed_image_view.layoutParams = params
-                                        holder.itemView.feed_image_view.setImageBitmap(bitmap)
-                                    }
-
-                                    override fun onLoadFailed(errorDrawable: Drawable?) {
-                                        holder.itemView.feed_image_view.setImageDrawable(errorDrawable)
-                                    }
-                                })
-                    } catch (e: Exception) {
-                        holder.itemView.feed_image_view.setImageResource(R.drawable.ic_place_holder)
-                    }
-
-
+                mediaPlayer.stop()
+                holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE)
+                try {
+                    glide.load(feedItem.thumbnail!!.imageUrl)
+                            .apply(RequestOptions.errorOf(R.drawable.ic_place_holder).placeholder(R.drawable.ic_place_holder))
+                            .into(holder.itemView.feed_image_view)
+                } catch (e: Exception) {
+                    holder.itemView.feed_image_view.setImageResource(R.drawable.ic_place_holder)
                 }
-                AUDIO -> {
-                    mediaPlayer.stop()
-                    holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE)
-                    holder.itemView.feed_image_view.setImageResource(R.drawable.ic_mic_white)
 
-                    val uri = feedItem.url
-                    val videoUri = Uri.parse(uri)
+                mediaPlayer.stop()
+                holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE)
+                try {
+                    val urlToLoad = if (feedItem.contentType == NEWS)
+                        feedItem.thumbnail!!.imageUrl
+                    else
+                        feedItem.url
 
-                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
-                    try {
-                        mediaPlayer.setDataSource(ZoneApplication.getContext(), videoUri)
-                        mediaPlayer.prepare()
-                    } catch (e: IOException) {
-                        mediaPlayer.stop()
-                    }
+                    glide.asBitmap().load(urlToLoad)
+                            .apply(RequestOptions.errorOf(R.drawable.ic_place_holder).placeholder(R.drawable.ic_place_holder))
+                            .into<SimpleTarget<Bitmap>>(object : SimpleTarget<Bitmap>() {
+                                override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
 
-                    mediaPlayer.start()
+                                    val width = (getScreenSize(ZoneApplication.getContext().windowManager.defaultDisplay)[0] - getDp(8f)).toInt()
+                                    val params = holder.itemView.feed_image_view.layoutParams as RelativeLayout.LayoutParams
+                                    params.height = width * bitmap.height / bitmap.width
+                                    holder.itemView.feed_image_view.layoutParams = params
+                                    holder.itemView.feed_image_view.setImageBitmap(bitmap)
+                                }
 
-                    try {
-                        glide.load(feedItem.url)
-                                .apply(RequestOptions.errorOf(R.drawable.ic_place_holder).placeholder(R.drawable.ic_place_holder))
-                                .into(holder.itemView.feed_image_view)
-
-                    } catch (e: Exception) {
-                        holder.itemView.feed_image_view.setImageResource(R.drawable.ic_place_holder)
-                    }
-
+                                override fun onLoadFailed(errorDrawable: Drawable?) {
+                                    holder.itemView.feed_image_view.setImageDrawable(errorDrawable)
+                                }
+                            })
+                } catch (e: Exception) {
+                    holder.itemView.feed_image_view.setImageResource(R.drawable.ic_place_holder)
                 }
-                VIDEO -> {
+
+
+            }
+            AUDIO -> {
+                mediaPlayer.stop()
+                holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE)
+                holder.itemView.feed_image_view.setImageResource(R.drawable.ic_mic_white)
+
+                val uri = feedItem.url
+                val videoUri = Uri.parse(uri)
+
+                mediaPlayer.setAudioAttributes(AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
+                try {
+                    mediaPlayer.setDataSource(ZoneApplication.getContext(), videoUri)
+                    mediaPlayer.prepare()
+                } catch (e: IOException) {
                     mediaPlayer.stop()
-                    holder.setVisibilities(View.GONE, View.VISIBLE, View.GONE)
-                    val uri = feedItem.url
-                    val videoUri = Uri.parse(uri)
-                    holder.itemView.captured_video_view.setVideoURI(videoUri)
-                    holder.itemView.captured_video_view.start()
                 }
-                ROOT_COMMENT -> {
-                    mediaPlayer.stop()
-                    holder.setVisibilities(View.GONE, View.GONE, View.VISIBLE)
-                    holder.itemView.feed_text_view.setRootCommentPost(feedItem)
+
+                mediaPlayer.start()
+
+                try {
+                    glide.load(feedItem.url)
+                            .apply(RequestOptions.errorOf(R.drawable.ic_place_holder).placeholder(R.drawable.ic_place_holder))
+                            .into(holder.itemView.feed_image_view)
+
+                } catch (e: Exception) {
+                    holder.itemView.feed_image_view.setImageResource(R.drawable.ic_place_holder)
                 }
+
+            }
+            VIDEO -> {
+                mediaPlayer.stop()
+                holder.setVisibilities(View.GONE, View.VISIBLE, View.GONE)
+                val uri = feedItem.url
+                val videoUri = Uri.parse(uri)
+                holder.itemView.captured_video_view.setVideoURI(videoUri)
+                holder.itemView.captured_video_view.start()
+            }
+            ROOT_COMMENT -> {
+                mediaPlayer.stop()
+                holder.setVisibilities(View.GONE, View.GONE, View.VISIBLE)
+                holder.itemView.feed_text_view.setRootCommentPost(feedItem)
             }
         }
 

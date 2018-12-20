@@ -6,9 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import life.plank.juna.zone.R;
 
-public class ObliqueStrikeTextView extends android.support.v7.widget.AppCompatTextView {
+public class ObliqueStrikeTextView extends AppCompatTextView {
 
     private Paint paint;
 

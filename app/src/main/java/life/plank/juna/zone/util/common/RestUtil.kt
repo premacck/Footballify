@@ -1,10 +1,10 @@
 package life.plank.juna.zone.util.common
 
 import android.annotation.SuppressLint
-import android.support.annotation.StringRes
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.StringRes
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.common.DataUtil.findString

@@ -2,11 +2,11 @@ package life.plank.juna.zone.view.fragment.football
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_league_stats.*
 import life.plank.juna.zone.R
@@ -77,7 +77,7 @@ class LeagueStatsFragment : BaseLeagueFragment() {
                 }, this)
     }
 
-    private fun setTeamStats(teamStatsList: List<TeamStats>?) {
+    private fun setTeamStats(teamStatsList: MutableList<TeamStats>?) {
         if (isNullOrEmpty(teamStatsList)) {
             updateUI(false, team_stats_recycler_view, see_more_team_stats, no_team_stats)
         } else {
@@ -90,7 +90,7 @@ class LeagueStatsFragment : BaseLeagueFragment() {
         }
     }
 
-    private fun setPlayerStats(playerStatsList: List<PlayerStats>?) {
+    private fun setPlayerStats(playerStatsList: MutableList<PlayerStats>?) {
         if (isNullOrEmpty(playerStatsList)) {
             updateUI(false, player_stats_recycler_view, see_more_player_stats, no_player_stats)
         } else {

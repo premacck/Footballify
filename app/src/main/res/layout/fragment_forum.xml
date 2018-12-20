@@ -18,20 +18,20 @@
         android:textSize="16sp"
         android:visibility="gone" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/forum_swipe_refresh_layout"
         style="@style/MatchParentSize">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/post_comments_list"
             style="@style/MatchParentSize"
             android:clipToPadding="false"
             android:paddingTop="6dp"
             android:paddingBottom="40dp"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_post_comment" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <View
         android:layout_width="match_parent"

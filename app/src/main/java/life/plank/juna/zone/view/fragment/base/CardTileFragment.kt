@@ -3,11 +3,10 @@ package life.plank.juna.zone.view.fragment.base
 import android.util.Log
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.FeedEntryContainer
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
@@ -25,8 +24,8 @@ abstract class CardTileFragment : BaseCard(), FeedEntryContainer {
     override fun showFeedItemPeekPopup(position: Int) =
             pushPopup(FeedItemPeekPopup.newInstance(getFeedEntries(), getTheBoardId(), true, null, position))
 
-    protected fun getFeedEntryDetails(restApi: RestApi, junaNotification: JunaNotification) {
-        restApi.getFeedEntry(junaNotification.feedItemId, getToken()).setObserverThreadsAndSmartSubscribe({
+    protected fun getFeedEntryDetails(restApi: RestApi, socialNotification: SocialNotification) {
+        restApi.getFeedEntry(socialNotification.childId, getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e("getFeedEntry()", "ERROR: ", it)
         }, {
             when (it.code()) {
@@ -44,5 +43,5 @@ abstract class CardTileFragment : BaseCard(), FeedEntryContainer {
 
     abstract fun onNewFeedEntry(feedEntry: FeedEntry)
 
-    abstract fun onSocialNotificationReceive(junaNotification: JunaNotification)
+    abstract fun onSocialNotificationReceive(socialNotification: SocialNotification)
 }

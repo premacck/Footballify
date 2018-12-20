@@ -1,6 +1,6 @@
 package life.plank.juna.zone.data.local.repository
 
-import android.support.annotation.WorkerThread
+import androidx.annotation.WorkerThread
 import life.plank.juna.zone.data.local.dao.LeagueDao
 import life.plank.juna.zone.data.local.model.LeagueInfo
 import life.plank.juna.zone.data.model.FixtureByMatchDay

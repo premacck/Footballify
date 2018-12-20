@@ -1,11 +1,10 @@
 package life.plank.juna.zone.view.fragment.base
 
-import android.os.Bundle
-import android.os.Handler
-import android.support.v7.widget.RecyclerView
+import android.os.*
 import android.view.View
 import android.widget.EditText
-import kotlinx.coroutines.experimental.Runnable
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Runnable
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import rx.Subscription
 

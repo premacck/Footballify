@@ -8,7 +8,7 @@
         android:id="@+id/blur_layout"
         style="@style/BlurLayoutFullScreen" />
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/post_detail_view_pager"
         style="@style/MatchParentSize"
         android:clipToPadding="false"

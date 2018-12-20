@@ -1,12 +1,12 @@
 package life.plank.juna.zone.view.adapter.common
 
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.item_emoji.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Emoji

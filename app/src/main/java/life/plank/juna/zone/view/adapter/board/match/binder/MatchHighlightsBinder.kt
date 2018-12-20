@@ -30,7 +30,7 @@ class MatchHighlightsBinder(private val screenWidth: Int) : ItemBinder<Highlight
             val adapter = HighlightsAdapter(highlightsHeight)
             list_highlights.adapter = adapter
             overflow_pager_indicator.attachToRecyclerView(list_highlights)
-            adapter.update(item.highlightsList)
+            adapter.update(item.highlightsList!!)
         }
     }
 

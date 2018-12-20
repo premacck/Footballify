@@ -1,8 +1,7 @@
 package life.plank.juna.zone.view.fragment.base
 
-import android.support.v4.app.DialogFragment
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.delay
+import androidx.fragment.app.DialogFragment
+import life.plank.juna.zone.util.facilis.doAfterDelay
 import org.jetbrains.anko.support.v4.runOnUiThread
 
 /**
@@ -14,10 +13,7 @@ abstract class BaseDialogFragment : DialogFragment() {
     @Suppress("DeferredResultUnused")
     fun smartDismiss(afterDismissAction: () -> Unit) {
         dismiss()
-        async {
-            delay(280)
-            runOnUiThread { afterDismissAction() }
-        }
+        doAfterDelay(280) { runOnUiThread { afterDismissAction() } }
     }
 
     /**

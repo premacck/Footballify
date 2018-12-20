@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import net.openid.appauth.AuthState;
@@ -19,6 +18,7 @@ import net.openid.appauth.ResponseTypeValues;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager;
 import life.plank.juna.zone.view.activity.IdentityProvider;

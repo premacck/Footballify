@@ -1,12 +1,11 @@
 package life.plank.juna.zone.util.common
 
 import android.app.Activity
-import android.support.annotation.StringRes
 import android.util.Log
+import androidx.annotation.StringRes
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.RestApiAggregator
-import life.plank.juna.zone.data.model.Board
-import life.plank.juna.zone.data.model.MatchDetails
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.notification.getBoardIdFromIntent
 import life.plank.juna.zone.util.common.DataUtil.findString

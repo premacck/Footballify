@@ -2,13 +2,13 @@ package life.plank.juna.zone.view.fragment.camera
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.Fragment
 import com.wonderkiln.camerakit.CameraKit.Constants.*
 import kotlinx.android.synthetic.main.fragment_camera.*
 import life.plank.juna.zone.R
@@ -28,6 +28,7 @@ import java.io.IOException
 class CameraFragment : Fragment() {
 
     private var boardId: String? = null
+    private var isBoard: Boolean = true
     private var pendingVideoCapture: Boolean = false
     private var capturingVideo: Boolean = false
 
@@ -35,8 +36,11 @@ class CameraFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val args = arguments ?: return
-        boardId = args.getString(getString(R.string.intent_board_id))
+        arguments?.run {
+            boardId = getString(getString(R.string.intent_board_id))
+            isBoard = getBoolean(getString(R.string.intent_is_board))
+        }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -85,7 +89,7 @@ class CameraFragment : Fragment() {
     private fun onTouchCapture(view: View, motionEvent: MotionEvent): Boolean {
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
-                if(!boardId.isNullOrEmpty()) {
+                if (isBoard) {
                     tap_hold_hint.visibility = View.GONE
                     touchFeedBackAnimation(view, true)
                     pendingVideoCapture = true
@@ -98,7 +102,7 @@ class CameraFragment : Fragment() {
                             camera_view.captureVideo { cameraKitVideo ->
                                 runOnUiThread {
                                     layout_busy_progress_bar.visibility = View.GONE
-                                    UploadActivity.launch(activity, VIDEO, boardId, cameraKitVideo.videoFile.absolutePath)
+                                    UploadActivity.launch(activity!!, VIDEO, boardId, cameraKitVideo.videoFile.absolutePath)
                                     activity?.finish()
                                 }
                             }
@@ -124,9 +128,9 @@ class CameraFragment : Fragment() {
                         try {
                             runOnUiThread {
                                 layout_busy_progress_bar.visibility = View.GONE
-                                if(!boardId.isNullOrEmpty()) {
-                                    UploadActivity.launch(activity, IMAGE, boardId, FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap))
-                                }else{
+                                if (isBoard) {
+                                    UploadActivity.launch(activity!!, IMAGE, boardId, FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap))
+                                } else {
                                     CreateCardActivity.launch(activity!!, FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap))
                                 }
                                 activity?.finish()
@@ -154,16 +158,18 @@ class CameraFragment : Fragment() {
         camera_flash_toggle.visibility = visibility
         camera_flip.visibility = visibility
         swipe_up_message.visibility = visibility
+
     }
 
     companion object {
 
         private val TAG = CameraFragment::class.java.simpleName
 
-        fun newInstance(boardId: String): CameraFragment {
+        fun newInstance(boardId: String, isBoard: Boolean): CameraFragment {
             val fragment = CameraFragment()
             val args = Bundle()
             args.putString(ZoneApplication.getContext().getString(R.string.intent_board_id), boardId)
+            args.putBoolean(ZoneApplication.getContext().getString(R.string.intent_is_board), isBoard)
             fragment.arguments = args
             return fragment
         }

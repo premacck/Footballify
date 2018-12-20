@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <android.support.v7.widget.CardView style="@style/CardView.Default">
+            <androidx.cardview.widget.CardView style="@style/CardView.Default">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -216,9 +216,9 @@
                         android:singleLine="true"
                         android:textColor="@color/grey" />
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView style="@style/CardView.Default">
+            <androidx.cardview.widget.CardView style="@style/CardView.Default">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -240,7 +240,7 @@
                         android:textColor="@color/grey"
                         android:textSize="12sp" />
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/my_boards_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -248,14 +248,15 @@
                         android:clipToPadding="false"
                         android:paddingStart="9dp"
                         android:paddingEnd="9dp"
-                        app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="5"
                         tools:listitem="@layout/item_image_and_title" />
 
                 </RelativeLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView style="@style/CardView.Default">
+            <androidx.cardview.widget.CardView style="@style/CardView.Default">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -302,9 +303,9 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardView.Default"
                 android:visibility="gone">
 
@@ -349,7 +350,7 @@
                         android:text="@string/last_transactions"
                         android:textColor="@color/black_50" />
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/last_transactions_list"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
@@ -359,7 +360,7 @@
                         android:clipToPadding="false"
                         android:nestedScrollingEnabled="false"
                         android:paddingTop="7dp"
-                        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_user_transactions_header" />
 
                     <TextView
@@ -374,7 +375,7 @@
                         android:text="@string/get_coins"
                         android:textColor="@color/black_50" />
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/get_coins_list"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
@@ -384,9 +385,9 @@
 
                 </RelativeLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 style="@style/CardView.Default"
                 android:visibility="gone">
 
@@ -425,7 +426,7 @@
 
                 </RelativeLayout>
 
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <Button
                 android:id="@+id/logout_button"
@@ -449,9 +450,9 @@
                 android:text="@string/looking_for_something_else" />
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/home_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

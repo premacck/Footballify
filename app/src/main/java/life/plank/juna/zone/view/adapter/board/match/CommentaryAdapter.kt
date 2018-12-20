@@ -1,9 +1,9 @@
 package life.plank.juna.zone.view.adapter.board.match
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_commentary.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Commentary

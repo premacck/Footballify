@@ -1,9 +1,9 @@
 package life.plank.juna.zone.view.adapter.board.match.binder
 
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ahamed.multiviewadapter.ItemBinder
 import com.ahamed.multiviewadapter.ItemViewHolder
 import kotlinx.android.synthetic.main.item_live_commentary_small.view.*

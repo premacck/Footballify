@@ -1,10 +1,10 @@
 package life.plank.juna.zone.util.common;
 
 
-import android.support.annotation.IntDef;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
 
 import static life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_BASIC_INTERACTION;
 import static life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
@@ -154,6 +154,7 @@ public class AppConstants {
     public static final String PRIVATE_BOARD_USER_POPUP = "PrivateBoardUserPopUp";
     public static final String PRIVATE_BOARD_OWNER_POPUP = "PrivateBoardOwnerPopUp";
     public static final String DRAW_STRING = "Draw";
+    public static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
 
     @Retention(RetentionPolicy.RUNTIME)
     @IntDef({HOME, DRAW, AWAY})

@@ -5,8 +5,6 @@ import android.database.CursorIndexOutOfBoundsException
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.AsyncTask
-import android.support.v4.util.ArrayMap
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.util.SparseArray
 import android.view.View
@@ -15,6 +13,8 @@ import android.widget.AbsListView.LayoutParams
 import android.widget.AbsListView.LayoutParams.MATCH_PARENT
 import android.widget.AbsListView.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
+import androidx.collection.ArrayMap
+import androidx.recyclerview.widget.RecyclerView
 import com.prembros.asymmetricrecyclerview.R
 import com.prembros.asymmetricrecyclerview.base.AsymmetricBaseAdapter
 import com.prembros.asymmetricrecyclerview.base.AsymmetricItem
@@ -78,15 +78,13 @@ class AdapterImpl<T : RecyclerView.ViewHolder>(
     }
 
     fun recalculateItemsPerRow() {
-        if (asyncTask != null) {
-            asyncTask!!.cancel(true)
-        }
+        asyncTask?.cancel(true)
 
         linearLayoutPool.clear()
         itemsPerRow.clear()
 
         asyncTask = ProcessRowsTask(this)
-        asyncTask!!.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR)
+        asyncTask?.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR)
     }
 
     override fun onClick(v: View) {

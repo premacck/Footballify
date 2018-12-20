@@ -34,6 +34,7 @@ import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
+import rx.Subscription
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
@@ -179,7 +180,6 @@ class PostCommentActivity : BaseCardActivity() {
         if (comment_edit_text.text.toString().isEmpty() || comment_edit_text.text.toString() == getString(R.string.what_s_on_your_mind)) {
             customToast(R.string.please_enter_comment)
         } else {
-            hideSoftKeyboard(comment_edit_text)
             postCommentOnBoardFeed()
         }
     }
@@ -222,20 +222,34 @@ class PostCommentActivity : BaseCardActivity() {
             FeedItem(comment_edit_text.text.toString(), arrayListOf(commentBg))
         }
         feedItem?.run {
-            restApi.postFeedItemOnBoard(this, boardId, contentType, getToken())
-                    .setObserverThreadsAndSmartSubscribe({
-                        Log.e(TAG, "Post Text: ", it)
-                    }, {
-                        when (it.code()) {
-                            HttpURLConnection.HTTP_OK -> {
-                                customToast(R.string.comment_posted_successfully)
-                                finish()
-                            }
-                            HttpURLConnection.HTTP_BAD_REQUEST -> errorToast(R.string.enter_text_to_be_posted, it)
-                            else -> errorToast(R.string.could_not_post_comment, it)
-                        }
-                    })
+            if (isNullOrEmpty(boardId)) {
+                if (isLink) {
+                    postFeedItem()
+                } else {
+                    customToast(R.string.enter_valid_link)
+                    return
+                }
+            } else {
+                postFeedItem()
+            }
+            hideSoftKeyboard(comment_edit_text)
         }
+    }
+
+    private fun FeedItem.postFeedItem(): Subscription {
+        return restApi.postFeedItemOnBoard(this, boardId, contentType, getToken())
+                .setObserverThreadsAndSmartSubscribe({
+                    Log.e(TAG, "Post Text: ", it)
+                }, {
+                    when (it.code()) {
+                        HttpURLConnection.HTTP_OK -> {
+                            customToast(R.string.comment_posted_successfully)
+                            finish()
+                        }
+                        HttpURLConnection.HTTP_BAD_REQUEST -> errorToast(R.string.enter_text_to_be_posted, it)
+                        else -> errorToast(R.string.could_not_post_comment, it)
+                    }
+                })
     }
 
     override fun getFragmentContainer(): Int = R.id.main_fragment_container

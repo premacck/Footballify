@@ -5,7 +5,7 @@
     android:id="@+id/root_layout">
 
     <RelativeLayout
-        android:id="@+id/timeline_toolbar"
+        android:id="@+id/live_timeline_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/background_color"
@@ -14,12 +14,12 @@
         android:paddingTop="4dp">
 
         <TextView
-            android:id="@+id/home_team_name"
+            android:id="@+id/live_home_team_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/score"
+            android:layout_toStartOf="@+id/live_score"
             android:gravity="end|center_vertical"
             android:drawablePadding="7dp"
             android:paddingStart="12dp"
@@ -32,7 +32,7 @@
             android:textColor="@color/grey" />
 
         <TextView
-            android:id="@+id/score"
+            android:id="@+id/live_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -42,7 +42,7 @@
             android:textColor="@color/grey" />
 
         <ImageView
-            android:id="@+id/win_pointer"
+            android:id="@+id/live_win_pointer"
             android:layout_width="4dp"
             android:layout_height="4dp"
             android:layout_centerInParent="true"
@@ -50,12 +50,12 @@
             android:contentDescription="@string/win" />
 
         <TextView
-            android:id="@+id/visiting_team_name"
+            android:id="@+id/live_visiting_team_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/score"
-            android:layout_toStartOf="@+id/time_status"
+            android:layout_toStartOf="@+id/live_time_status"
+            android:layout_toEndOf="@+id/live_score"
             android:gravity="start|center_vertical"
             android:drawablePadding="7dp"
             android:paddingStart="12dp"
@@ -68,7 +68,7 @@
             android:textColor="@color/grey" />
 
         <TextView
-            android:id="@+id/time_status"
+            android:id="@+id/live_time_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -87,10 +87,10 @@
     </RelativeLayout>
 
     <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/scrubber"
+        android:id="@+id/live_scrubber"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:transitionName="@string/timeline_activity"
-        android:layout_below="@+id/timeline_toolbar" />
+        android:layout_below="@+id/live_timeline_toolbar" />
 
 </RelativeLayout>

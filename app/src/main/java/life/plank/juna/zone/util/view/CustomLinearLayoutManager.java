@@ -1,7 +1,8 @@
 package life.plank.juna.zone.util.view;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 /**
  * Created by plank-hasan on 2/14/2018.

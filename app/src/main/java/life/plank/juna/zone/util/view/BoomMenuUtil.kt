@@ -4,15 +4,15 @@ package life.plank.juna.zone.util.view
 
 import android.app.Activity
 import android.content.res.Resources
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.NestedScrollView
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.common.AppConstants.*
@@ -124,8 +124,7 @@ fun getBoomMenuFabImages(@BoomMenuPage page: Int): IntArray? {
                     R.drawable.ic_emoji_white,
                     R.drawable.ic_camera_white,
                     R.drawable.ic_text_white,
-                    R.drawable.ic_mic_white,
-                    R.drawable.ic_link_white
+                    R.drawable.ic_mic_white
             )
         }
         BOOM_MENU_BASIC_INTERACTION -> {
@@ -157,7 +156,6 @@ fun getBoomMenuBackgroundColors(@BoomMenuPage page: Int): IntArray? {
             intArrayOf(
                     R.drawable.fab_circle_background_grey,
                     R.drawable.fab_circle_background_white,
-                    R.drawable.fab_circle_background_pink,
                     R.drawable.fab_circle_background_pink,
                     R.drawable.fab_circle_background_pink,
                     R.drawable.fab_circle_background_pink,
@@ -217,7 +215,7 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
                     }
                     4 -> {
                         if (boardId != null) {
-                            CustomCameraActivity.launch(activity, false, boardId)
+                            CustomCameraActivity.launch(activity, false, boardId, true)
                         }
                     }
                     5 -> {
@@ -237,19 +235,16 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
             View.OnClickListener {
                 when (position) {
                     0 -> {
-                        if (boardId != null) {
-                            UploadActivity.launch(activity, GALLERY, boardId)
-                        }
+                        UploadActivity.launch(activity, GALLERY, "")
                     }
                     1 -> {
-                        if (boardId != null) {
-                            CustomCameraActivity.launch(activity, false, boardId)
-                        }
+                        CustomCameraActivity.launch(activity, true, "", true)
                     }
                     2 -> {
-                        if (boardId != null) {
-                            UploadActivity.launch(activity, AUDIO, boardId)
-                        }
+                        UploadActivity.launch(activity, AUDIO, "")
+                    }
+                    3 ->{
+                        PostCommentActivity.launch(activity, "")
                     }
                 }
             }

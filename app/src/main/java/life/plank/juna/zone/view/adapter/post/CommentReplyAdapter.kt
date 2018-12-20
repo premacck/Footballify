@@ -1,10 +1,10 @@
 package life.plank.juna.zone.view.adapter.post
 
-import android.support.v7.widget.RecyclerView
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_base_comment.view.*

@@ -1,43 +1,31 @@
 package life.plank.juna.zone.util.facilis
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
+import android.animation.*
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
-import android.os.Build
-import android.os.SystemClock
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.support.annotation.AnimRes
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.CoordinatorLayout
+import android.os.*
 import android.view.*
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.view.animation.DecelerateInterpolator
+import android.view.MotionEvent.*
+import android.view.animation.*
 import android.widget.*
+import androidx.annotation.*
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.Fragment
 import com.ahamed.multiviewadapter.*
-import com.leocardz.link.preview.library.LinkPreviewCallback
-import com.leocardz.link.preview.library.SourceContent
-import com.leocardz.link.preview.library.TextCrawler
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.leocardz.link.preview.library.*
 import io.alterac.blurkit.BlurLayout
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.*
+import life.plank.juna.zone.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedItem
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.URL_PATTERN
-import life.plank.juna.zone.util.common.formatLinks
-import life.plank.juna.zone.util.common.formatMentions
+import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.util.common.DataUtil.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import org.jetbrains.anko.runOnUiThread
-import org.jetbrains.anko.sdk27.coroutines.textChangedListener
+import org.jetbrains.anko.sdk27.coroutines.*
 
 fun Display.getScreenSize(): IntArray {
     val size = Point()
@@ -148,6 +136,14 @@ fun View.sinkDown() = animate(R.anim.sink_down).then { visibility = View.INVISIB
 
 fun View.sinkUp() = animate(R.anim.sink_up).then { visibility = View.INVISIBLE }
 
+fun Context.animatorOf(@AnimatorRes animatorRes: Int): Animator = AnimatorInflater.loadAnimator(this, animatorRes)
+
+fun View.animatorOf(@AnimatorRes animatorRes: Int): Animator {
+    val animator = context.animatorOf(animatorRes)
+    animator.setTarget(this)
+    return animator
+}
+
 fun BlurLayout.beginBlur() {
     postDelayed({
         startBlur()
@@ -198,6 +194,66 @@ fun View.onDebouncingClick(action: () -> Unit) {
             postDelayed({ isEnabled = true }, 100)
         }
     }
+}
+
+fun View.onFancyClick(launchDelay: Long = 100, action: () -> Unit) {
+    lateinit var originPoint: ArrayList<Float>
+    onTouch { _, event ->
+        when (event.action) {
+            ACTION_DOWN -> {
+                originPoint = arrayListOf(event.rawX, event.rawY)
+                animatorOf(R.animator.reduce_size).start()
+            }
+            ACTION_CANCEL, ACTION_UP -> animatorOf(R.animator.original_size).start()
+            ACTION_MOVE -> {
+                if (isNullOrEmpty(originPoint)) originPoint = arrayListOf(event.rawX, event.rawY)
+
+                if (!isNullOrEmpty(originPoint)) {
+                    val deltaX = Math.abs(originPoint[0] - event.rawX)
+                    val deltaY = Math.abs(originPoint[1] - event.rawY)
+                    if (deltaX > 1 && deltaY > 1) {
+                        animatorOf(R.animator.original_size).start()
+                    }
+                }
+            }
+        }
+    }
+    onDebouncingClick { this.context.doAfterDelay(launchDelay) { action() } }
+}
+
+fun View.onElevatingClick(launchDelay: Long = 100, action: () -> Unit) {
+    lateinit var originPoint: ArrayList<Float>
+    val originalElevation = elevation
+    val finalElevation = elevation + getDp(4f)
+    val elevateUpAnimation = ValueAnimator.ofFloat(originalElevation, finalElevation).setDuration(80)
+    elevateUpAnimation.interpolator = DecelerateInterpolator()
+    elevateUpAnimation.addUpdateListener { elevation = it.animatedValue as Float }
+
+    val elevateDownAnimation = ValueAnimator.ofFloat(finalElevation, originalElevation).setDuration(100)
+    elevateDownAnimation.addUpdateListener { elevation = it.animatedValue as Float }
+    elevateDownAnimation.interpolator = DecelerateInterpolator()
+    elevateDownAnimation.startDelay = 80
+    onTouch { _, event ->
+        when (event.action) {
+            ACTION_DOWN -> {
+                originPoint = arrayListOf(event.rawX, event.rawY)
+                elevateUpAnimation.start()
+            }
+            ACTION_CANCEL, ACTION_UP -> elevateDownAnimation.start()
+            ACTION_MOVE -> {
+                if (isNullOrEmpty(originPoint)) originPoint = arrayListOf(event.rawX, event.rawY)
+
+                if (!isNullOrEmpty(originPoint)) {
+                    val deltaX = Math.abs(originPoint[0] - event.rawX)
+                    val deltaY = Math.abs(originPoint[1] - event.rawY)
+                    if (deltaX > 1 && deltaY > 1) {
+                        elevateDownAnimation.start()
+                    }
+                }
+            }
+        }
+    }
+    onDebouncingClick { this.context.doAfterDelay(launchDelay) { action() } }
 }
 
 fun View.clearOnClickListener() = setOnClickListener(null)
@@ -264,16 +320,18 @@ inline fun <reified T : View> Array<T>.onTextChanged(crossinline action: () -> U
     }
 }
 
+fun Fragment.doAfterDelay(delayMillis: Long, action: () -> Unit) = context?.doAfterDelay(delayMillis, action)
+
 @Suppress("DeferredResultUnused")
-fun Context?.doAfterDelay(delayMillis: Int, action: () -> Unit) {
-    async {
+fun Context?.doAfterDelay(delayMillis: Long, action: () -> Unit) {
+    GlobalScope.async {
         delay(delayMillis)
         this@doAfterDelay?.run { runOnUiThread { action() } }
     }
 }
 
 fun BottomSheetBehavior<*>.show(peekHeight: Int = 850) {
-    state = BottomSheetBehavior.STATE_EXPANDED
+    state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
     this.peekHeight = peekHeight
 }
 
@@ -283,12 +341,12 @@ fun BottomSheetBehavior<*>.showFor(emojiAdapter: EmojiAdapter?, id: String?, pee
 }
 
 fun BottomSheetBehavior<*>.hide() {
-    state = BottomSheetBehavior.STATE_HIDDEN
+    state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
     peekHeight = 0
 }
 
 fun BottomSheetBehavior<*>.hideIfShown(): Boolean {
-    if (peekHeight == 0 || state == BottomSheetBehavior.STATE_HIDDEN || state == BottomSheetBehavior.STATE_COLLAPSED) {
+    if (peekHeight == 0 || state == com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN || state == com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED) {
         return true
     }
     hide()

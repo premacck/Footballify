@@ -1,11 +1,11 @@
 package life.plank.juna.zone.view.fragment.board.fixture
 
 import android.os.Bundle
-import android.support.annotation.StringRes
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_board_info.*
@@ -65,7 +65,7 @@ class LineupFragment : BaseFragment() {
     }
 
     /**
-     * Method for fetching lineups live. invoked by receiving the ZoneLiveData's lineup broadcast
+     * Method for fetching lineups live. invoked by receiving the FootballLiveData's lineup broadcast
      */
     fun getLineupFormation(isRefreshing: Boolean) {
         if (!isAdded) return

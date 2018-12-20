@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.design.widget.Snackbar;
 import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import life.plank.juna.zone.R;
 

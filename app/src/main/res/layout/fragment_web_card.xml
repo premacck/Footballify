@@ -9,7 +9,7 @@
         android:id="@+id/root_blur_layout"
         style="@style/BlurLayoutFullScreen" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/root_card"
         style="@style/CardView.Root">
 
@@ -40,6 +40,6 @@
             android:id="@+id/drag_area"
             style="@style/DragArea" />
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

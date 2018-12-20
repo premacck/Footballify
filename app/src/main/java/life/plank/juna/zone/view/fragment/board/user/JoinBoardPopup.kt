@@ -3,20 +3,14 @@ package life.plank.juna.zone.view.fragment.board.user
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_board_preview.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.customToast
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.launchWithBoard
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
@@ -70,7 +64,7 @@ class JoinBoardPopup : BaseBlurPopup() {
     }
 
     private fun updateUi() {
-        preview_toolbar.setTitle(board.name)
+        preview_toolbar.setTitle(board.displayName)
         preview_toolbar.setBoardTitle(if (board.boardType == getString(R.string.public_lowercase)) R.string.public_board else R.string.private_board)
         preview_toolbar.setLeagueLogo(board.boardIconUrl!!)
         preview_toolbar.setBackgroundColor(Color.parseColor(board.color))

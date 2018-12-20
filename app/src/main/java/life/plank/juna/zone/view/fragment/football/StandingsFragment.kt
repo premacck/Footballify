@@ -1,23 +1,17 @@
 package life.plank.juna.zone.view.fragment.football
 
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_standings.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.League
-import life.plank.juna.zone.data.model.Standings
+import life.plank.juna.zone.*
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.DataUtil
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.onTerminate
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.view.adapter.league.StandingTableAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
@@ -47,7 +41,7 @@ class StandingsFragment : BaseLeagueFragment() {
             inflater.inflate(R.layout.fragment_standings, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        context?.doAfterDelay(300) {
+        doAfterDelay(300) {
             standingTableAdapter = StandingTableAdapter(Glide.with(this), false)
             standing_recycler_view.adapter = standingTableAdapter
 
@@ -77,8 +71,8 @@ class StandingsFragment : BaseLeagueFragment() {
             updateUI(false, standing_recycler_view, no_standings)
         } else {
             updateUI(true, standing_recycler_view, no_standings)
-            standingTableAdapter!!.update(standingsList)
-            leagueViewModel.updateStandings(league.id, standingsList!!)
+            standingTableAdapter!!.update(standingsList!!)
+            leagueViewModel.updateStandings(league.id, standingsList)
         }
     }
 

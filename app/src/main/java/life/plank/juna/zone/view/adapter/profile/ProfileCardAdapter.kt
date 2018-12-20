@@ -1,9 +1,9 @@
 package life.plank.juna.zone.view.adapter.profile
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import life.plank.juna.zone.R
 
 class ProfileCardAdapter : RecyclerView.Adapter<ProfileCardAdapter.ProfileCardViewHolder>() {

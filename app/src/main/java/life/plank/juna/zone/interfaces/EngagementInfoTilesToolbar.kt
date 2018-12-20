@@ -1,8 +1,8 @@
 package life.plank.juna.zone.interfaces
 
-import android.support.annotation.DrawableRes
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
+import androidx.annotation.DrawableRes
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 
 interface EngagementInfoTilesToolbar {
 

@@ -1,8 +1,6 @@
 package life.plank.juna.zone.util.common;
 
 import android.content.Intent;
-import android.support.annotation.IntegerRes;
-import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
@@ -16,9 +14,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.IntegerRes;
+import androidx.annotation.StringRes;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.FootballLiveData;
 import life.plank.juna.zone.data.model.Formation;
 import life.plank.juna.zone.data.model.FormationList;
 import life.plank.juna.zone.data.model.League;
@@ -28,7 +29,6 @@ import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.data.model.MatchFixture;
-import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.util.football.ScoreBuilder;
 
 import static life.plank.juna.zone.util.common.AppConstants.DASH;
@@ -71,7 +71,7 @@ public class DataUtil {
     }
 
     public static boolean isNullOrEmpty(CharSequence s) {
-        return s == null;
+        return s == null || s.length() == 0;
     }
 
     public static String formatInt(int i) {
@@ -79,7 +79,7 @@ public class DataUtil {
     }
 
     public static <T> boolean isNullOrEmpty(Collection<T> c) {
-        return (c == null) || c.isEmpty();
+        return c == null || c.isEmpty();
     }
 
     public static boolean equalsNullString(String s) {
@@ -154,8 +154,8 @@ public class DataUtil {
         return teamNameSeparator;
     }
 
-    public static ZoneLiveData getZoneLiveData(Intent intent, String key, Gson gson) {
-        return gson.fromJson(intent.getStringExtra(key), new TypeToken<ZoneLiveData>() {
+    public static FootballLiveData getZoneLiveData(Intent intent, String key, Gson gson) {
+        return gson.fromJson(intent.getStringExtra(key), new TypeToken<FootballLiveData>() {
         }.getType());
     }
 

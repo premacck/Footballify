@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/standings_layout"
@@ -33,13 +33,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/standings_title" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/standing_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_below="@+id/standing_header_layout"
             android:nestedScrollingEnabled="false"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/standing_row" />
 
         <TextView
@@ -74,4 +74,4 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

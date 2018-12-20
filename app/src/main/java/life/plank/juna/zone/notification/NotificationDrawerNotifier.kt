@@ -1,27 +1,22 @@
 package life.plank.juna.zone.notification
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
 import android.graphics.Color
 import android.media.RingtoneManager
-import android.support.v4.app.NotificationCompat
 import android.text.SpannableStringBuilder
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import com.bumptech.glide.Glide
-import life.plank.juna.zone.R
+import life.plank.juna.zone.*
 import life.plank.juna.zone.R.string.*
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.ZoneLiveData
-import life.plank.juna.zone.data.model.notification.BaseInAppNotification
-import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.data.model.FootballLiveData
+import life.plank.juna.zone.data.model.notification.*
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.asciiToInt
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 
 private const val CHANNEL_ID = "juna_notification_channel"
 private const val TAG = "DrawerNotifier"
@@ -31,7 +26,7 @@ private const val GROUP_LIVE_FOOTBALL_NOTIFICATION = "life.plank.juna.zone.LIVE_
 /**
  * Method to send social interaction notification in the notification drawer
  */
-fun JunaNotification.prepareDrawerNotification() {
+fun SocialNotification.prepareDrawerNotification() {
     val pendingIntent = PendingIntent.getActivity(
             ZoneApplication.getContext(),
             0,
@@ -42,11 +37,11 @@ fun JunaNotification.prepareDrawerNotification() {
         findString(intent_comment), findString(intent_react), findString(intent_kick) ->
             sendTextNotification(pendingIntent)
         findString(intent_invite) ->
-            sendNotification(pendingIntent, false)
+            sendImageNotification(pendingIntent, false)
         findString(intent_post) ->
-            when (feedItemType) {
-                IMAGE, VIDEO -> sendNotification(pendingIntent, true)
-                AUDIO, ROOT_COMMENT -> sendNotification(pendingIntent, false)
+            when (contentType) {
+                NEWS, IMAGE, VIDEO -> sendImageNotification(pendingIntent, true)
+                AUDIO, ROOT_COMMENT -> sendImageNotification(pendingIntent, false)
             }
     }
 }
@@ -54,7 +49,7 @@ fun JunaNotification.prepareDrawerNotification() {
 /**
  * Method to send live football data notification in the notification drawer
  */
-fun ZoneLiveData.prepareDrawerNotification() {
+fun FootballLiveData.prepareDrawerNotification() {
     sendCustomizedNotification {
         sendTextNotification(PendingIntent.getActivity(ZoneApplication.getContext(), 0, getLiveFootballNotificationIntent(), FLAG_ONE_SHOT))
     }
@@ -67,25 +62,28 @@ fun BaseInAppNotification.sendTextNotification(pendingIntent: PendingIntent) {
             .setNotificationChannel()
             .notify(toString().asciiToInt(),
                     getNotificationBuilder(notificationMessage, pendingIntent)
-                            .setGroup(if (this is JunaNotification) GROUP_SOCIAL_NOTIFICATION else GROUP_LIVE_FOOTBALL_NOTIFICATION)
-                            .setGroupSummary(true)
                             .setStyle(NotificationCompat.BigTextStyle().bigText(notificationMessage))
+                            .setGroup(if (this is SocialNotification) GROUP_SOCIAL_NOTIFICATION else GROUP_LIVE_FOOTBALL_NOTIFICATION)
+                            .setGroupSummary(true)
                             .build())
 }
 
-fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: Boolean) {
+fun SocialNotification.sendImageNotification(pendingIntent: PendingIntent, isBigImage: Boolean) {
     val notificationManager = ZoneApplication.getContext().getNotificationManager().setNotificationChannel()
-    val notificationBuilder = getNotificationBuilder(buildNotificationMessage(), pendingIntent)
+    val notificationBuilder = getNotificationBuilder(SpannableStringBuilder(notificationMessage), pendingIntent)
     try {
         ZoneApplication.getContext().doAsync {
-            val boardIconBitmap = Glide.with(ZoneApplication.getContext()).asBitmap().load(boardIconUrl).submit().get()
-            uiThread {
-                if (isBigImage) {
-                    notificationBuilder.setLargeIcon(boardIconBitmap)
-                    val feedItemThumbnail = Glide.with(ZoneApplication.getContext()).asBitmap().load(feedItemThumbnailUrl).submit().get()
-                    notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(feedItemThumbnail).bigLargeIcon(null))
-                } else {
-                    notificationBuilder.setLargeIcon(boardIconBitmap)
+            iconUrl?.run {
+                if (!isEmpty()) {
+                    val boardIconBitmap = Glide.with(ZoneApplication.getContext()).asBitmap().load(get(0)).submit().get()
+                    uiThread {
+                        if (isBigImage) {
+                            notificationBuilder.setLargeIcon(boardIconBitmap)
+                            notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(boardIconBitmap).bigLargeIcon(null))
+                        } else {
+                            notificationBuilder.setLargeIcon(boardIconBitmap)
+                        }
+                    }
                 }
                 notificationManager.notify(toString().asciiToInt(), notificationBuilder.build())
             }

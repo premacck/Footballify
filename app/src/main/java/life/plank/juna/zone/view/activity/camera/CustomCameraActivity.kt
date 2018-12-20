@@ -3,10 +3,10 @@ package life.plank.juna.zone.view.activity.camera
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import kotlinx.android.synthetic.main.activity_custom_camera.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -19,14 +19,16 @@ import life.plank.juna.zone.view.fragment.camera.CustomGalleryFragment
 class CustomCameraActivity : BaseCardActivity() {
 
     var isForImage: Boolean = false
+    var isBoard: Boolean = true
     lateinit var boardId: String
     private lateinit var pagerAdapter: CameraPagerAdapter
 
     companion object {
-        fun launch(from: Activity, isForImage: Boolean, boardId: String) {
+        fun launch(from: Activity, isForImage: Boolean, boardId: String, isBoard: Boolean) {
             val intent = Intent(from, CustomCameraActivity::class.java)
             intent.putExtra(ZoneApplication.getContext().getString(R.string.intent_is_camera_for_image), isForImage)
             intent.putExtra(from.getString(R.string.intent_board_id), boardId)
+            intent.putExtra(from.getString(R.string.intent_is_board), isBoard)
             from.startActivity(intent)
             from.overridePendingTransition(R.anim.float_up, R.anim.sink_up)
         }
@@ -38,24 +40,24 @@ class CustomCameraActivity : BaseCardActivity() {
         val intent = intent ?: return
         isForImage = intent.getBooleanExtra(getString(R.string.intent_is_camera_for_image), true)
         boardId = intent.getStringExtra(getString(R.string.intent_board_id))
-
+        isBoard = intent.getBooleanExtra(getString(R.string.intent_is_board), true)
         setupSwipeGesture(this, drag_area, root_card, null)
         setupViewPager()
     }
 
     private fun setupViewPager() {
-        pagerAdapter = CameraPagerAdapter(supportFragmentManager, boardId, isForImage)
+        pagerAdapter = CameraPagerAdapter(supportFragmentManager, boardId, isForImage, isBoard)
         camera_view_pager.adapter = pagerAdapter
     }
 
-    class CameraPagerAdapter(fm: FragmentManager, val boardId: String, private val isForImage: Boolean) : FragmentPagerAdapter(fm) {
+    class CameraPagerAdapter(fm: FragmentManager, val boardId: String, private val isForImage: Boolean, private val isBoard: Boolean) : FragmentPagerAdapter(fm) {
 
         var currentFragment: Fragment? = null
 
         override fun getItem(position: Int): Fragment {
             return when (position) {
-                0 -> CameraFragment.newInstance(boardId)
-                else -> CustomGalleryFragment.newInstance(isForImage)
+                0 -> CameraFragment.newInstance(boardId, isBoard)
+                else -> CustomGalleryFragment.newInstance(isForImage, isBoard)
             }
         }
 
