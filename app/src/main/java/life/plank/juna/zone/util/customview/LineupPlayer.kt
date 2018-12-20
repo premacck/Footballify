@@ -41,7 +41,7 @@ class LineupPlayer(
     }
 
     private fun init(context: Context, @ColorRes labelColor: Int) {
-        val rootView = View.inflate(context, R.layout.item_player_in_lineup, this)
+        View.inflate(context, R.layout.item_player_in_lineup, this)
         update(labelColor)
     }
 
