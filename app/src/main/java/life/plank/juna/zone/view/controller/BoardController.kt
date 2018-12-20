@@ -35,7 +35,7 @@ class BoardController(
                     BoardViewModel_()
                             .id(boardList.indexOf(it))
                             .prepare(it)
-                            .name(if (isTitleShown) it.name else null)
+                            .name(if (isTitleShown) it.displayName else null)
                             .onClick { navigateToBoard(it) }
                             .addTo(this)
                 }
@@ -44,7 +44,7 @@ class BoardController(
     }
 
     private fun navigateToBoard(board: Board) {
-        if (board.name != null && board.name == DataUtil.findString(R.string.new_)) {
+        if (board.displayName != null && board.displayName == DataUtil.findString(R.string.new_)) {
             PreferenceManager.CurrentUser.getDisplayName()?.run { CreateBoardActivity.launch(activity, this) }
         } else {
             activity.launchPrivateOrMatchBoard(restApi, board)

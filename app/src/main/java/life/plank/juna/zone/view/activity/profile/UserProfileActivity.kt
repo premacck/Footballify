@@ -122,7 +122,7 @@ class UserProfileActivity : BaseCardActivity() {
                 HttpURLConnection.HTTP_OK -> {
                     doAsync {
                         val boards = it.body() as MutableList<Board>
-                        if (!boards.any { board -> board.name == getString(R.string.new_) }) {
+                        if (!boards.any { board -> board.displayName == getString(R.string.new_) }) {
                             boards.add(Board(getString(R.string.new_)))
                         }
                         uiThread { boardController?.setData(boards, false, null) }

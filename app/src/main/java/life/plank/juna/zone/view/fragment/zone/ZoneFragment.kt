@@ -98,7 +98,7 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
                 else -> errorToast(R.string.next_match_not_found, it)
 
             }
-        })
+        }, this)
     }
 
     override fun onItemClicked() {
