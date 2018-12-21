@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.activity
 
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,20 +8,16 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.shimmer_notification.*
 import kotlinx.android.synthetic.main.user_notification.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.execute
-import life.plank.juna.zone.util.common.onTerminate
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.adapter.common.NotificationAdapter
 import retrofit2.Response
-import java.net.HttpURLConnection.HTTP_NOT_FOUND
-import java.net.HttpURLConnection.HTTP_OK
+import java.net.HttpURLConnection.*
 import javax.inject.Inject
 
 
@@ -84,7 +79,7 @@ class UserNotificationActivity : AppCompatActivity() {
     private fun clearAllNotifications() {
         if (!isNullOrEmpty(adapter.notificationList)) {
             onContentLoaded(false)
-            restApi.setAllNotificationsAsRead(adapter.notificationList[0].notificationId, getToken()).execute(this)
+            restApi.setAllNotificationsAsRead(adapter.notificationList[0].id, getToken()).execute(this)
             adapter.clear()
         }
     }
