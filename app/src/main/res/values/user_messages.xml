@@ -71,4 +71,6 @@
     <string name="user_pref_not_found">User preference not found</string>
     <string name="next_match_not_found">Next match not found</string>
     <string name="enter_valid_link">Please enter a valid link</string>
+    <string name="no_face_detected">No faces detected</string>
+    <string name="failed_to_recognise_face">Failed to recognise face!</string>
 </resources>
