@@ -67,15 +67,23 @@ class ForumFragment : BaseCommentContainerFragment() {
             if (!isNullOrEmpty(commentId)) {
                 commentList?.run {
                     if (isNullOrEmpty(parentCommentId)) {
-//                      Scroll to comment
-                        var positionToScroll = indexOf(find { comment -> comment.id == commentId })
-                        if (positionToScroll == -1) positionToScroll = 0
-                        post_comments_list.scrollToPosition(positionToScroll)
+//                        Scroll to comment
+                        var commentIndex = indexOf(find { comment -> comment.id == commentId })
+                        if (commentIndex == -1) commentIndex = 0
+                        scrollToComment(commentIndex)
                     } else {
 //                        Scroll to reply
-                        var parentCommentIndex = indexOf(find { comment -> comment.id == parentCommentId })
+                        val comment = find { comment -> comment.id == parentCommentId }
+                        var parentCommentIndex = indexOf(comment)
                         if (parentCommentIndex == -1) parentCommentIndex = 0
-                        post_comments_list.scrollToPosition(parentCommentIndex)
+
+                        val replyIndex = comment?.replies?.indexOf(comment.replies?.find { reply -> reply.id == commentId })
+                                ?: -1
+                        if (replyIndex == -1) {
+                            scrollToComment(parentCommentIndex)
+                        } else {
+                            scrollToReply(parentCommentIndex, replyIndex)
+                        }
                         parentCommentId = null
                         activity?.removeIntentExtra(R.string.intent_sibling_id)
                     }
@@ -198,6 +206,7 @@ class ForumFragment : BaseCommentContainerFragment() {
                 replies = ArrayList()
             }
             (replies as ArrayList).add(responseReply)
+            replyCount++
         }
 //        TODO: pass previousPageToken and nextPageToken when implemented
         forumCommentController?.setData(commentList, null, null)
