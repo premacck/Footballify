@@ -3,10 +3,13 @@ package life.plank.juna.zone.view.adapter.common
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.media.*
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
@@ -17,18 +20,23 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.football_feed_detail_row.view.*
 import kotlinx.android.synthetic.main.layout_interaction_component.view.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.DataUtil.*
 import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.facilis.*
+import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.facilis.setRootCommentPost
+import life.plank.juna.zone.util.facilis.showFor
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.sharedpreference.PreferenceManager.PinManager.*
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.PinManager.isFeedItemPinned
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.PinManager.toggleFeedItemPin
 import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
 import life.plank.juna.zone.util.view.EmojiHashMap
-import life.plank.juna.zone.util.view.UIDisplayUtil.*
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.view.UIDisplayUtil.getScreenSize
 import org.jetbrains.anko.windowManager
 import retrofit2.Response
 import rx.Subscriber
@@ -76,11 +84,11 @@ class BoardFeedDetailAdapter(private val restApi: RestApi,
         if (feedItem.user != null) {
 
             glide.load(feedItem.user!!.profilePictureUrl)
-                    .apply(RequestOptions.centerInsideTransform().override(getDp(20f).toInt(), getDp(20f).toInt()))
+                    .apply(RequestOptions.centerInsideTransform().override(getDp(20f).toInt(), getDp(20f).toInt())
+                            .error(R.drawable.ic_football))
                     .into(holder.itemView.profile_pic)
-        } else {
+        } else
             holder.itemView.profile_pic.setImageResource(R.drawable.ic_football)
-        }
 
         if (feedItem.user != null) {
             holder.itemView.user_name_text_view.text = feedItem.user!!.displayName
