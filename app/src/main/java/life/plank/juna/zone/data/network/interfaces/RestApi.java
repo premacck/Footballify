@@ -24,7 +24,7 @@ import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.model.Zones;
-import life.plank.juna.zone.data.model.notification.PseudoNotification;
+import life.plank.juna.zone.data.model.notification.SocialNotification;
 import life.plank.juna.zone.data.model.poll.Poll;
 import life.plank.juna.zone.data.model.poll.PollAnswerRequest;
 import life.plank.juna.zone.data.model.poll.PollAnswerResponse;
@@ -299,15 +299,14 @@ public interface RestApi {
     Observable<Response<FeedEntry>> getFeedEntry(@Path("id") String feedItemId, @Header("Authorization") String authHeader);
 
     @GET(ZONE_BACKEND_SUFFIX + "/notifications/unread")
-    Observable<Response<List<PseudoNotification>>> getNotifications(@Header("Authorization") String authHeader);
+    Observable<Response<List<SocialNotification>>> getNotifications(@Header("Authorization") String authHeader);
 
     @POST(ZONE_BACKEND_SUFFIX + "/notifications/{id}/setIsRead")
-    Observable<Response<List<PseudoNotification>>> setNotificationAsRead(@Path("id") String notificationId, @Header("Authorization") String authHeader);
+    Observable<Response<List<SocialNotification>>> setNotificationAsRead(@Path("id") String notificationId, @Header("Authorization") String authHeader);
 
     @POST(ZONE_BACKEND_SUFFIX + "/notifications/{id}/setIsReadAfter")
-    Observable<Response<List<PseudoNotification>>> setAllNotificationsAsRead(@Path("id") String firstNotificationId, @Header("Authorization") String authHeader);
+    Observable<Response<List<SocialNotification>>> setAllNotificationsAsRead(@Path("id") String firstNotificationId, @Header("Authorization") String authHeader);
 
     @GET(FOOTBALL_SUFFIX + "/matches/nextMatches")
     Observable<Response<List<NextMatch>>> getNextMatches(@Query("leagues") List<String> userSelectedLeagues, @Header("Authorization") String authHeader);
-
 }
