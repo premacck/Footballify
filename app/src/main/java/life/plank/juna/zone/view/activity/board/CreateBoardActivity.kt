@@ -120,7 +120,7 @@ class CreateBoardActivity : BaseCardActivity() {
                 boardColorThemeAdapter.selectedColor!!
         )
 
-        boardIconAdapter.selectedPath?.run { createBoard(board, this) }
+        boardIconAdapter.selectedPath?.run { createBoard(board, filePath!!) }
     }
 
     private fun onUploadButtonClicked() {
