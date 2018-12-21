@@ -32,16 +32,6 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class TeamSelectionFragment : SearchableCard(), View.OnTouchListener {
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        val drawableRight = 2
-        if (event?.action == MotionEvent.ACTION_UP) {
-            if (event.rawX >= search_view.right - search_view.compoundDrawables[drawableRight].bounds.width()) {
-                startVoiceRecognitionActivity(this)
-                return true
-            }
-        }
-        return false
-    }
 
     @Inject
     lateinit var restApi: RestApi
@@ -66,6 +56,17 @@ class TeamSelectionFragment : SearchableCard(), View.OnTouchListener {
         next.onDebouncingClick { postTeamPref(getString(R.string.football)) }
         getPopularTeams()
         search_view.setOnTouchListener(this)
+    }
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        val drawableRight = 2
+        if (event?.action == MotionEvent.ACTION_UP) {
+            if (event.rawX >= search_view.right - search_view.compoundDrawables[drawableRight].bounds.width()) {
+                startVoiceRecognitionActivity(this)
+                return true
+            }
+        }
+        return false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
