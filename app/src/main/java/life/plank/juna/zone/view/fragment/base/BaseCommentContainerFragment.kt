@@ -2,23 +2,18 @@ package life.plank.juna.zone.view.fragment.base
 
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import android.widget.*
+import androidx.recyclerview.widget.*
 import kotlinx.android.synthetic.main.fragment_forum.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.CommentEvent
-import life.plank.juna.zone.data.model.FeedItemComment
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.semiBold
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
-import life.plank.juna.zone.util.view.UIDisplayUtil.hideSoftKeyboard
-import life.plank.juna.zone.util.view.UIDisplayUtil.showSoftKeyboard
+import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import java.net.HttpURLConnection
 
@@ -104,7 +99,11 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
             this.parentCommentPosition = parentCommentPosition
             this.replyPosition = replyPosition + 1
 
-            commentsRecyclerView().postDelayed({ commentsRecyclerView().smoothScrollToPosition(parentCommentPosition) }, 500)
+            if (replyPosition == -1) {
+                scrollToComment(parentCommentPosition)
+            } else {
+                scrollToReply(parentCommentPosition, replyPosition)
+            }
         } else {
             selectedReplyTextView = null
             itemView.background = null
@@ -115,6 +114,16 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
             hideSoftKeyboard(getCommentEditText())
             resetReplyProperties()
         }
+    }
+
+    protected fun scrollToComment(position: Int) {
+        commentsRecyclerView().postDelayed({ commentsRecyclerView().scrollToPosition(position) }, 500)
+    }
+
+    protected fun scrollToReply(parentCommentPosition: Int, replyPosition: Int) {
+        commentsRecyclerView().postDelayed({
+            (commentsRecyclerView().layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(parentCommentPosition, -((replyPosition + 1) * getDp(54f).toInt()))
+        }, 1000)
     }
 
     private fun setTextViewState(clickableState: Boolean, alpha: Float) {
