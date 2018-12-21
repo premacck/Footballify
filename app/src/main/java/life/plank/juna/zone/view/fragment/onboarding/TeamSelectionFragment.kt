@@ -19,12 +19,9 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FootballTeam
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.VOICE_RECOGNITION_REQUEST_CODE
-import life.plank.juna.zone.util.common.DataUtil
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.launch
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.view.activity.zone.ZoneActivity
@@ -34,7 +31,7 @@ import rx.Subscription
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
-class TeamSelectionFragment : SearchableCard() {
+class TeamSelectionFragment : SearchableCard(), View.OnTouchListener {
 
     @Inject
     lateinit var restApi: RestApi
@@ -58,29 +55,18 @@ class TeamSelectionFragment : SearchableCard() {
         initBottomSheetRecyclerView()
         next.onDebouncingClick { postTeamPref(getString(R.string.football)) }
         getPopularTeams()
-        onClickVoiceSearch()
+        search_view.setOnTouchListener(this)
     }
 
-    private fun onClickVoiceSearch() {
-        search_view.setOnTouchListener(View.OnTouchListener { _, event ->
-            val drawableRight = 2
-            if (event.action == MotionEvent.ACTION_UP) {
-                if (event.rawX >= search_view.right - search_view.compoundDrawables[drawableRight].bounds.width()) {
-                    startVoiceRecognitionActivity()
-                    return@OnTouchListener true
-                }
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        val drawableRight = 2
+        if (event?.action == MotionEvent.ACTION_UP) {
+            if (event.rawX >= search_view.right - search_view.compoundDrawables[drawableRight].bounds.width()) {
+                startVoiceRecognitionActivity(this)
+                return true
             }
-            false
-        })
-    }
-
-    private fun startVoiceRecognitionActivity() {
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                getString(R.string.voice_search))
-        startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE)
+        }
+        return false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -93,7 +79,6 @@ class TeamSelectionFragment : SearchableCard() {
             }
         }
     }
-
 
     override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 

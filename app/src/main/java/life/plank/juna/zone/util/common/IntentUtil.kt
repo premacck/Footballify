@@ -1,11 +1,16 @@
 package life.plank.juna.zone.util.common
 
 import android.app.Activity
+import android.content.Intent
+import android.speech.RecognizerIntent
 import android.util.Log
 import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.RestApiAggregator
-import life.plank.juna.zone.data.model.*
+import life.plank.juna.zone.data.model.Board
+import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.notification.getBoardIdFromIntent
 import life.plank.juna.zone.util.common.DataUtil.findString
@@ -146,3 +151,11 @@ fun BaseCardActivity.launchMatchBoard(restApi: RestApi, matchId: Long) {
 }
 
 fun Activity.removeIntentExtra(@StringRes vararg extraKeys: Int) = extraKeys.forEach { intent?.removeExtra(getString(it)) }
+
+fun startVoiceRecognitionActivity(fragment: Fragment) {
+    val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, ZoneApplication.getApplication().getString(R.string.voice_search))
+    fragment.startActivityForResult(intent, AppConstants.VOICE_RECOGNITION_REQUEST_CODE)
+}
