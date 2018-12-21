@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.shimmer_notification.*
 import kotlinx.android.synthetic.main.user_notification.*
 import life.plank.juna.zone.*
@@ -15,13 +14,14 @@ import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.adapter.common.NotificationAdapter
 import retrofit2.Response
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
 
 
-class UserNotificationActivity : AppCompatActivity() {
+class UserNotificationActivity : BaseCardActivity() {
 
     @Inject
     lateinit var restApi: RestApi
@@ -53,7 +53,7 @@ class UserNotificationActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        adapter = NotificationAdapter(restApi)
+        adapter = NotificationAdapter(this)
         notification_recycler_view.adapter = adapter
     }
 
@@ -104,4 +104,8 @@ class UserNotificationActivity : AppCompatActivity() {
                 }
         if (!isSuccessful) no_notification.text = noNotificationMessage
     }
+
+    override fun restApi(): RestApi? = restApi
+
+    override fun getFragmentContainer(): Int = R.id.notification_fragment_container
 }
