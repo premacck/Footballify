@@ -1,7 +1,11 @@
 package life.plank.juna.zone.view.fragment.onboarding
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -13,10 +17,12 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.common.AppConstants
 import life.plank.juna.zone.util.common.DataUtil.findString
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.startVoiceRecognitionActivity
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.adapter.common.SearchViewAdapter
@@ -24,7 +30,7 @@ import life.plank.juna.zone.view.fragment.base.SearchablePopup
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
-class SearchUserPopup : SearchablePopup() {
+class SearchUserPopup : SearchablePopup(), View.OnTouchListener {
 
     @Inject
     lateinit var restApi: RestApi
@@ -59,6 +65,29 @@ class SearchUserPopup : SearchablePopup() {
         title.text = getString(R.string.invite_people_to_x_board, boardName)
         initRecyclerView()
         invite_user.onDebouncingClick { inviteUserToJoinBoard() }
+        search_view.setOnTouchListener(this)
+    }
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        val drawableRight = 2
+        if (event?.action == MotionEvent.ACTION_UP) {
+            if (event.rawX >= search_view.right - search_view.compoundDrawables[drawableRight].bounds.width()) {
+                startVoiceRecognitionActivity(this)
+                return true
+            }
+        }
+        return false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AppConstants.VOICE_RECOGNITION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            var matches: ArrayList<String>? = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            if (!isNullOrEmpty(matches)) {
+                var query = matches?.get(0)
+                search_view.setText(query)
+            }
+        }
     }
 
     private fun initRecyclerView() {
