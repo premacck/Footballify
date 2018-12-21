@@ -3,8 +3,7 @@ package life.plank.juna.zone.util.customview
 import android.content.Context
 import android.os.Handler
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.Animation
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
@@ -14,10 +13,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.notification.InAppNotification
 import life.plank.juna.zone.notification.triggerNotificationAction
 import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.facilis.floatUp
-import life.plank.juna.zone.util.facilis.onSwipeDown
-import life.plank.juna.zone.util.facilis.sinkDown
-import life.plank.juna.zone.util.facilis.then
+import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 
@@ -61,7 +57,7 @@ class InAppNotificationLayout @JvmOverloads constructor(
                 }
 
                 imageUrl?.run {
-                    Glide.with(this@InAppNotificationLayout).load(this)
+                    Glide.with(this@InAppNotificationLayout).load(get(0))
                             .apply(RequestOptions.overrideOf(getDp(85f).toInt(), getDp(85f).toInt()))
                             .into(notification_image)
                 }

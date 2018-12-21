@@ -3,9 +3,7 @@ package life.plank.juna.zone.view.fragment.forum
 import android.os.Bundle
 import android.text.InputType.*
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
@@ -15,16 +13,11 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication.getApplication
 import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.notification.getCommentIdFromIntent
-import life.plank.juna.zone.notification.getParentCommentIdFromIntent
+import life.plank.juna.zone.notification.*
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.NEW_LINE
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.onTerminate
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.facilis.clearOnClickListener
-import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.common.DataUtil.*
+import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter
@@ -52,8 +45,8 @@ class ForumFragment : BaseCommentContainerFragment() {
         super.onCreate(savedInstanceState)
         getApplication().uiComponent.inject(this)
         arguments?.run { boardId = getString(getString(R.string.intent_board_id)) }
-        commentId = activity?.getCommentIdFromIntent()
-        parentCommentId = activity?.getParentCommentIdFromIntent()
+        commentId = activity?.getChildIdFromIntent()
+        parentCommentId = activity?.getSiblingIdFromIntent()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_forum, container, false)
@@ -129,6 +122,7 @@ class ForumFragment : BaseCommentContainerFragment() {
                     when (it.code()) {
                         HTTP_OK -> {
                             val commentList = it.body()
+                            adapter?.setComments(commentList)
                             commentId?.run {
                                 if (isNullOrEmpty(parentCommentId)) {
 //                                    Scroll to comment
@@ -144,7 +138,6 @@ class ForumFragment : BaseCommentContainerFragment() {
                                     post_comments_list.scrollToPosition(parentCommentIndex)
                                 }
                             }
-                            adapter?.setComments(commentList)
                         }
                         HTTP_NOT_FOUND, HTTP_NO_CONTENT -> {
                             no_comment_text_view.setText(R.string.be_the_first_to_comment_on_this_forum)

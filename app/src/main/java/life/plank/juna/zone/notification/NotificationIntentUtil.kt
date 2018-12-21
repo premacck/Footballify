@@ -20,22 +20,22 @@ fun SocialNotification.getSocialNotificationIntent(): Intent {
             findString(intent_invite) -> {
                 intentFor<HomeActivity>(
                         findString(intent_action) to action,
-                        findString(intent_board_id) to boardId
+                        findString(intent_board_id) to parentId
                 ).clearTop()
             }
             findString(intent_post), findString(intent_react) -> {
                 intentFor<HomeActivity>(
                         findString(intent_action) to action,
-                        findString(intent_board_id) to boardId,
-                        findString(intent_feed_item_id) to feedItemId
+                        findString(intent_board_id) to parentId,
+                        findString(intent_child_id) to childId
                 ).clearTop()
             }
             findString(intent_comment) -> {
                 intentFor<HomeActivity>(
                         findString(intent_action) to action,
-                        findString(intent_board_id) to boardId,
-                        findString(intent_comment_id) to commentId,
-                        findString(intent_parent_comment_id) to parentCommentId
+                        findString(intent_board_id) to parentId,
+                        findString(intent_child_id) to childId,
+                        findString(intent_sibling_id) to siblingId
                 ).clearTop()
             }
             else -> intentFor<HomeActivity>(findString(intent_action) to action).clearTop()
@@ -58,36 +58,28 @@ fun BaseCardActivity.triggerNotificationIntent(intent: Intent) {
         when {
             intent.hasExtra(findString(intent_action)) -> {
                 when (getActionFromIntent()) {
-                    findString(intent_invite) -> pushPopup(JoinBoardPopup.newInstance(intent.getStringExtra(findString(intent_board_id))))
+                    findString(intent_invite) -> pushPopup(JoinBoardPopup.newInstance(getBoardIdFromIntent()!!))
                     else -> findAndLaunchBoardById(this)
                 }
             }
             intent.hasExtra(findString(match_id_string)) -> launchMatchBoard(this, intent.getLongExtra(getString(R.string.match_id_string), 0))
         }
-    } ?: toast(R.string.rest_api_is_null)
+    } ?: customToast(R.string.rest_api_is_null)
 }
 
 fun BaseCardActivity.handleSocialNotificationIntentIfAny() {
     intent?.run {
         if (!hasExtra(getString(intent_action)) || !hasExtra(getString(intent_board_id))) return
-
-        val boardId = getStringExtra(getString(intent_board_id))
-//        TODO: un-comment when required
-//        val action = getStringExtra(getString(intent_action))
-//        val commentId = getStringExtra(getString(intent_comment_id))
-//        val feedItemId = getStringExtra(getString(intent_feed_item_id))
-//        val parentCommentId = getStringExtra(getString(intent_parent_comment_id))
-
-        restApi()?.run {
-            when (getActionFromIntent()) {
-                findString(intent_invite) -> pushPopup(JoinBoardPopup.newInstance(boardId))
+    } ?: return
+    restApi()?.run {
+        when (getActionFromIntent()) {
+            findString(intent_invite) -> pushPopup(JoinBoardPopup.newInstance(getBoardIdFromIntent()!!))
 //            TODO: open board -> switch to tiles -> open feedItem
-                findString(intent_post) -> findAndLaunchBoardById(this)
+            findString(intent_post) -> findAndLaunchBoardById(this)
 //            TODO: open board -> switch to forum -> if(parentCommentId == null) { scroll to commentId } else { scroll to a combination of commentId and parentCommentId }
-                findString(intent_react) -> findAndLaunchBoardById(this)
+            findString(intent_react) -> findAndLaunchBoardById(this)
 //            TODO: open board -> switch to tiles -> if(feedItemId != null) { open feedItem }
-                findString(intent_comment) -> findAndLaunchBoardById(this)
-            }
+            findString(intent_comment) -> findAndLaunchBoardById(this)
         }
     }
 }
@@ -98,11 +90,9 @@ fun Activity.getActionFromIntent(): String? = intent?.getStringExtra(getString(i
 
 fun Activity.getBoardIdFromIntent(): String? = intent?.getStringExtra(getString(intent_board_id))
 
-fun Activity.getFeedItemIdFromIntent(): String? = intent?.getStringExtra(getString(intent_feed_item_id))
+fun Activity.getChildIdFromIntent(): String? = intent?.getStringExtra(getString(intent_child_id))
 
-fun Activity.getCommentIdFromIntent(): String? = intent?.getStringExtra(getString(intent_comment_id))
-
-fun Activity.getParentCommentIdFromIntent(): String? = intent?.getStringExtra(getString(intent_parent_comment_id))
+fun Activity.getSiblingIdFromIntent(): String? = intent?.getStringExtra(getString(intent_sibling_id))
 
 fun BaseCardActivity.handleFootballLiveDataNotificationIntentIfAny() {
     if (!intent.hasExtra(getString(match_id_string))) return
