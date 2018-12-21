@@ -9,7 +9,7 @@ import java.util.*
 data class SocialNotification(
 //        Notification related fields
         var id: String = "",
-        var dateTime: Date,
+        var date: Date,
         var action: String,
         var isRead: Boolean,
         var isSeen: Boolean,

@@ -19,7 +19,7 @@ data class InAppNotification(
 ) : Parcelable {
     constructor(socialNotification: SocialNotification) : this(
             SpannableStringBuilder(socialNotification.notificationMessage),
-            getTimeAgo(socialNotification.dateTime),
+            getTimeAgo(socialNotification.date),
             socialNotification.iconUrl,
             socialNotification
     )
