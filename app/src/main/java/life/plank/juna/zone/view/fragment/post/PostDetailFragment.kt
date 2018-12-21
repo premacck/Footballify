@@ -1,16 +1,22 @@
 package life.plank.juna.zone.view.fragment.post
 
 import android.app.Dialog
-import android.graphics.*
-import android.graphics.drawable.*
-import android.media.*
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.util.Log
-import android.view.*
-import android.view.View.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.view.ViewGroup
 import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -19,17 +25,23 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_post_detail.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.ZoneApplication.getApplication
-import life.plank.juna.zone.data.model.*
+import life.plank.juna.zone.data.model.Emoji
+import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.EmojiContainer
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.facilis.*
+import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.facilis.setRootCommentPost
+import life.plank.juna.zone.util.facilis.showFor
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.time.DateUtil.*
-import life.plank.juna.zone.util.view.UIDisplayUtil.*
+import life.plank.juna.zone.util.time.DateUtil.getCommentDateAndTimeFormat
+import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.view.UIDisplayUtil.getScreenSize
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import net.openid.appauth.AuthorizationService
@@ -134,9 +146,11 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
         if (feedEntry.feedItem.user != null) {
             Glide.with(this)
                     .load(feedEntry.feedItem.user!!.profilePictureUrl)
-                    .apply(RequestOptions.centerInsideTransform().override(getDp(20f).toInt(), getDp(20f).toInt()))
+                    .apply(RequestOptions.centerInsideTransform().override(getDp(20f).toInt(), getDp(20f).toInt())
+                            .error(R.drawable.ic_football))
                     .into(profile_pic)
-        }
+        } else
+            profile_pic.setImageResource(R.drawable.ic_football)
 
         creation_date.text = getCommentDateAndTimeFormat(feedEntry.feedItem.dateCreated)
         reaction_count.text = feedEntry.feedItem.interactions.emojiReacts.toString()
@@ -208,7 +222,6 @@ class PostDetailFragment : BaseFragment(), EmojiContainer {
                 } catch (e: Exception) {
                     feed_image_view.setImageResource(R.drawable.ic_place_holder)
                 }
-
             }
             AUDIO -> {
                 mediaPlayer.stop()
