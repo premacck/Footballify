@@ -20,8 +20,7 @@ class BoardIconAdapter : RecyclerView.Adapter<BoardIconAdapter.BoardIconViewHold
     var selectedIndex = -1
     var boardIconList: MutableList<String> = ArrayList()
 
-    val selectedPath: String?
-        get() = if (selectedIndex >= 0) boardIconList[selectedIndex] else null
+    var selectedPath: String? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardIconViewHolder =
             BoardIconViewHolder(from(parent.context).inflate(R.layout.item_board_icon, parent, false))
@@ -45,6 +44,7 @@ class BoardIconAdapter : RecyclerView.Adapter<BoardIconAdapter.BoardIconViewHold
             val previousSelection = selectedIndex
             holder.itemView.image_selection_marker.visibility = if (selectedIndex == position) View.INVISIBLE else View.VISIBLE
             selectedIndex = position
+            selectedPath = boardIconList[selectedIndex]
             notifyItemChanged(previousSelection)
             notifyItemChanged(selectedIndex)
         }
