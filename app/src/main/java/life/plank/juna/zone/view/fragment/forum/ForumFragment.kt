@@ -20,11 +20,10 @@ import life.plank.juna.zone.util.common.DataUtil.*
 import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.view.adapter.post.PostCommentAdapter
+import life.plank.juna.zone.view.controller.ForumCommentController
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
-
 
 class ForumFragment : BaseCommentContainerFragment() {
 
@@ -32,7 +31,8 @@ class ForumFragment : BaseCommentContainerFragment() {
     lateinit var restApi: RestApi
 
     private var boardId: String? = null
-    private var adapter: PostCommentAdapter? = null
+    private var commentList: MutableList<FeedItemComment>? = null
+    private var forumCommentController: ForumCommentController? = null
     private var commentId: String? = null
     private var parentCommentId: String? = null
 
@@ -54,12 +54,36 @@ class ForumFragment : BaseCommentContainerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (boardId == null) return
 
-        adapter = PostCommentAdapter(Glide.with(this), this, getString(R.string.forum))
-        post_comments_list.adapter = adapter
-
+        prepareList()
         prepareViews()
-
         setListeners()
+    }
+
+    private fun prepareList() {
+        forumCommentController = ForumCommentController(this)
+        post_comments_list.adapter = forumCommentController?.adapter
+
+        forumCommentController?.addModelBuildListener {
+            if (!isNullOrEmpty(commentId)) {
+                commentList?.run {
+                    if (isNullOrEmpty(parentCommentId)) {
+//                      Scroll to comment
+                        var positionToScroll = indexOf(find { comment -> comment.id == commentId })
+                        if (positionToScroll == -1) positionToScroll = 0
+                        post_comments_list.scrollToPosition(positionToScroll)
+                    } else {
+//                        Scroll to reply
+                        var parentCommentIndex = indexOf(find { comment -> comment.id == parentCommentId })
+                        if (parentCommentIndex == -1) parentCommentIndex = 0
+                        post_comments_list.scrollToPosition(parentCommentIndex)
+                        parentCommentId = null
+                        activity?.removeIntentExtra(R.string.intent_sibling_id)
+                    }
+                }
+                commentId = null
+                activity?.removeIntentExtra(R.string.intent_child_id)
+            }
+        }
     }
 
     private fun prepareViews() {
@@ -121,23 +145,9 @@ class ForumFragment : BaseCommentContainerFragment() {
                 }, {
                     when (it.code()) {
                         HTTP_OK -> {
-                            val commentList = it.body()
-                            adapter?.setComments(commentList)
-                            commentId?.run {
-                                if (isNullOrEmpty(parentCommentId)) {
-//                                    Scroll to comment
-                                    var positionToScroll = commentList?.indexOf(commentList.find { comment -> comment.id == commentId })
-                                            ?: 0
-                                    if (positionToScroll == -1) positionToScroll = 0
-                                    post_comments_list.scrollToPosition(positionToScroll)
-                                } else {
-//                                    Scroll to reply
-                                    var parentCommentIndex = commentList?.indexOf(commentList.find { comment -> comment.id == parentCommentId })
-                                            ?: 0
-                                    if (parentCommentIndex == -1) parentCommentIndex = 0
-                                    post_comments_list.scrollToPosition(parentCommentIndex)
-                                }
-                            }
+                            commentList = it.body()
+//                            TODO: pass previousPageToken and nextPageToken when implemented
+                            forumCommentController?.setData(commentList, null, null)
                         }
                         HTTP_NOT_FOUND, HTTP_NO_CONTENT -> {
                             no_comment_text_view.setText(R.string.be_the_first_to_comment_on_this_forum)
@@ -175,18 +185,22 @@ class ForumFragment : BaseCommentContainerFragment() {
     override fun onCommentSuccessful(responseComment: FeedItemComment) {
         comment_edit_text.text = null
         no_comment_text_view.visibility = View.GONE
-        adapter?.addComment(responseComment)
-        post_comments_list.smoothScrollToPosition(0)
+        commentList?.add(0, responseComment)
+//        TODO: pass previousPageToken and nextPageToken when implemented
+        forumCommentController?.setData(commentList, null, null)
+        scrollToComment(0)
     }
 
     override fun onReplySuccessful(responseReply: FeedItemComment, parentComment: FeedItemComment?, parentCommentPosition: Int, replyPosition: Int) {
         comment_edit_text.text = null
-        parentComment?.run {
-            if (isNullOrEmpty(replies)) {
+        commentList?.get(parentCommentPosition)?.run {
+            if (replies == null) {
                 replies = ArrayList()
             }
-            (replies as ArrayList).add(replyPosition, responseReply)
-            adapter?.onReplyPostedOnComment(parentCommentPosition, this)
+            (replies as ArrayList).add(responseReply)
         }
+//        TODO: pass previousPageToken and nextPageToken when implemented
+        forumCommentController?.setData(commentList, null, null)
+        scrollToReply(parentCommentPosition, replyPosition)
     }
 }
