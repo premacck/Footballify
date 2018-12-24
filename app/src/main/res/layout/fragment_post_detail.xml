@@ -5,6 +5,7 @@
     style="@style/MatchParentSize">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/root_card"
         style="@style/CardView.Root"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
@@ -185,6 +186,11 @@
             </RelativeLayout>
 
         </androidx.core.widget.NestedScrollView>
+
+        <View
+            android:id="@+id/drag_area"
+            style="@style/DragArea"
+            android:layout_height="60dp" />
 
         <ImageView
             style="@style/DragHandleLightImageView"

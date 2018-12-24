@@ -1,18 +1,15 @@
 package life.plank.juna.zone.util.facilis
 
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.annotation.CallSuper
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.fragment.app.*
 import androidx.viewpager.widget.ViewPager
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import java.lang.ref.WeakReference
 
-abstract class BaseCardContainerFragment : BaseCard() {
+abstract class BaseCardContainerFragment : BaseFragment() {
 
     private lateinit var pagerAdapter: BaseCardContainerPagerAdapter
 
@@ -29,6 +26,8 @@ abstract class BaseCardContainerFragment : BaseCard() {
 
     abstract fun baseCardCount(): Int
 
+    abstract fun backgroundBlurLayout(): ViewGroup?
+
     abstract fun viewPager(): ViewPager
 
     abstract fun baseCardToInflate(position: Int): BaseFragment
@@ -36,7 +35,7 @@ abstract class BaseCardContainerFragment : BaseCard() {
     class BaseCardContainerPagerAdapter(fm: FragmentManager, baseCardContainerFragment: BaseCardContainerFragment) : FragmentStatePagerAdapter(fm) {
 
         private val ref: WeakReference<BaseCardContainerFragment> = WeakReference(baseCardContainerFragment)
-        private var currentCard: BaseFragment? = null
+        var currentCard: BaseFragment? = null
 
         override fun getItem(position: Int): Fragment? = ref.get()?.baseCardToInflate(position)
 
@@ -49,6 +48,4 @@ abstract class BaseCardContainerFragment : BaseCard() {
             super.setPrimaryItem(container, position, `object`)
         }
     }
-
-    override fun getRootView(): ViewGroup? = viewPager()
 }

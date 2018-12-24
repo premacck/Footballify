@@ -6,7 +6,9 @@
     style="@style/MatchParentSize"
     android:animateLayoutChanges="true">
 
-    <androidx.cardview.widget.CardView style="@style/CardView.Root">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/zone_root_card"
+        style="@style/CardView.Root">
 
         <RelativeLayout
             android:id="@+id/parent_layout"
@@ -65,6 +67,13 @@
                 android:visibility="gone" />
 
         </RelativeLayout>
+
+        <View
+            android:id="@+id/zone_drag_area"
+            style="@style/DragArea"
+            android:layout_height="80dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp" />
 
         <ImageView
             style="@style/DragHandleLightImageView"

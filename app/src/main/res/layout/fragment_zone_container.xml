@@ -8,11 +8,4 @@
         android:id="@+id/zone_view_pager"
         style="@style/MatchParentSize" />
 
-    <View
-        android:id="@+id/drag_area"
-        style="@style/DragArea"
-        android:layout_height="140dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="60dp" />
-
 </RelativeLayout>
