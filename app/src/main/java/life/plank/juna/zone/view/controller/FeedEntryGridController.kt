@@ -25,7 +25,7 @@ class FeedEntryGridController(private val feedEntryContainer: FeedEntryContainer
                     FeedEntryGridViewModel_()
                             .id(feedEntryList.indexOf(it))
                             .withFeedItem(it.feedItem)
-                            .onClick { feedEntryContainer.openFeedEntry(feedEntryList, "", feedEntryList.indexOf(it)) }
+                            .onClick { feedEntryContainer.openFeedEntry(feedEntryList.indexOf(it)) }
                             .onLongClick { feedEntryContainer.showFeedItemPeekPopup(feedEntryList.indexOf(it)) }
                             .addTo(this)
                 }

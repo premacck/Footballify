@@ -31,6 +31,7 @@ import life.plank.juna.zone.view.activity.profile.UserProfileActivity
 import life.plank.juna.zone.view.controller.*
 import life.plank.juna.zone.view.fragment.base.FlatTileFragment
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
+import life.plank.juna.zone.view.fragment.post.PostDetailContainerFragment
 import net.openid.appauth.AuthorizationService
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -272,6 +273,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {}
 
     override fun showFeedItemPeekPopup(position: Int) = pushPopup(FeedItemPeekPopup.newInstance(feedEntries, null, true, null, position))
+
+    override fun openFeedEntry(position: Int) = pushFragment(PostDetailContainerFragment.newInstance(feedEntries, "", position))
 
     override fun onDestroy() {
         authService?.dispose()

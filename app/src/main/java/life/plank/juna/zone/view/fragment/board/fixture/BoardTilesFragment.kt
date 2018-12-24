@@ -2,9 +2,7 @@ package life.plank.juna.zone.view.fragment.board.fixture
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.annotation.StringRes
 import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
@@ -14,41 +12,24 @@ import com.prembros.asymmetricrecyclerview.widget.AsymmetricRecyclerViewAdapter
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_board_tiles.*
 import kotlinx.android.synthetic.main.item_react.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.RestApiAggregator
-import life.plank.juna.zone.data.model.Emoji
-import life.plank.juna.zone.data.model.FeedEntry
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.model.binder.PollBindingModel
-import life.plank.juna.zone.data.model.poll.Poll
-import life.plank.juna.zone.data.model.poll.PollAnswerRequest
+import life.plank.juna.zone.data.model.poll.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.interfaces.EmojiContainer
-import life.plank.juna.zone.interfaces.FeedEntryContainer
-import life.plank.juna.zone.interfaces.PollContainer
+import life.plank.juna.zone.interfaces.*
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_FULL
-import life.plank.juna.zone.util.common.AppConstants.NEWS
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.onSubscribe
-import life.plank.juna.zone.util.common.onTerminate
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.facilis.setEmoji
-import life.plank.juna.zone.util.facilis.showFor
-import life.plank.juna.zone.util.facilis.vibrate
+import life.plank.juna.zone.util.common.DataUtil.*
+import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.view.UIDisplayUtil.addDefaultEmojis
-import life.plank.juna.zone.util.view.UIDisplayUtil.setupFeedEntryByMasonryLayout
-import life.plank.juna.zone.util.view.boomMenu
-import life.plank.juna.zone.util.view.setupBoomMenu
-import life.plank.juna.zone.util.view.setupWith
+import life.plank.juna.zone.util.view.*
+import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.adapter.board.tile.BoardMediaAdapter
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
-import life.plank.juna.zone.view.fragment.base.BaseFragment
-import life.plank.juna.zone.view.fragment.base.CardTileFragment
-import life.plank.juna.zone.view.fragment.board.fixture.extra.DartBoardPopup
-import life.plank.juna.zone.view.fragment.board.fixture.extra.KeyBoardPopup
+import life.plank.juna.zone.view.fragment.base.*
+import life.plank.juna.zone.view.fragment.board.fixture.extra.*
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
 import org.jetbrains.anko.support.v4.toast
 import java.net.HttpURLConnection
@@ -246,10 +227,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
 
     override fun fireOnItemClick(index: Int, v: View) {
         adapter?.boardFeed?.get(index)?.run {
-            when (feedItem.contentType) {
-                NEWS -> (parentFragment as? FeedEntryContainer)?.openFeedEntry(adapter?.boardFeed!!, boardId, index)
-                else -> (parentFragment as? FeedEntryContainer)?.showFeedItemPeekPopup(index)
-            }
+            (parentFragment as? FeedEntryContainer)?.openFeedEntry(adapter?.boardFeed!!, boardId, index)
         }
     }
 

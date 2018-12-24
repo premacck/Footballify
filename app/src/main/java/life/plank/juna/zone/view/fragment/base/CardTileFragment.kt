@@ -21,6 +21,13 @@ abstract class CardTileFragment : BaseCard(), FeedEntryContainer {
     override fun openFeedEntry(feedEntryList: MutableList<FeedEntry>, boardId: String, position: Int) =
             pushFragment(PostDetailContainerFragment.newInstance(feedEntryList, boardId, position), true)
 
+    override fun openFeedEntry(position: Int) {
+        val boardId = getTheBoardId()
+        if (boardId != null) {
+            pushFragment(PostDetailContainerFragment.newInstance(getFeedEntries(), boardId, position), true)
+        }
+    }
+
     override fun showFeedItemPeekPopup(position: Int) =
             pushPopup(FeedItemPeekPopup.newInstance(getFeedEntries(), getTheBoardId(), true, null, position))
 
