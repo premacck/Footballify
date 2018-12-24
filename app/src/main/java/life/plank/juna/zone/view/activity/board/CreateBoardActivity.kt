@@ -139,6 +139,7 @@ class CreateBoardActivity : BaseCardActivity() {
                     if (filePath != null) {
                         boardIconAdapter.boardIconList.add(0, filePath!!)
                         boardIconAdapter.selectedIndex = 0
+                        boardIconAdapter.selectedPath = filePath
                         boardIconAdapter.notifyDataSetChanged()
                         isIconSelected = true
                         validateCreateBoardContent()
