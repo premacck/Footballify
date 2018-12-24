@@ -1,11 +1,10 @@
 package life.plank.juna.zone.view.fragment.base
 
-import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 
 abstract class FlatFragment : BaseFragment() {
 
-    protected fun pushFragment(fragment: BaseCard) = getParentActivity().pushFragment(fragment, true)
+    protected fun pushFragment(fragment: BaseFragment) = getParentActivity().pushFragment(fragment, true)
 
     protected fun pushPopup(dialogFragment: BaseDialogFragment) = getParentActivity().pushPopup(dialogFragment)
 

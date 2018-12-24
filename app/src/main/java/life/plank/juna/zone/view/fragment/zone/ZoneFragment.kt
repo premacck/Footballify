@@ -14,17 +14,17 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.OnItemClickListener
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
+import life.plank.juna.zone.util.facilis.BaseCardChildFragment
 import life.plank.juna.zone.util.network.NetworkStatus
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.view.adapter.LeagueSelectionAdapter
-import life.plank.juna.zone.view.fragment.base.BaseFragment
 import life.plank.juna.zone.view.latestMatch.FootballZoneAdapter
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
-class ZoneFragment : BaseFragment(), OnItemClickListener {
+class ZoneFragment : BaseCardChildFragment(), OnItemClickListener {
 
     @Inject
     lateinit var gson: Gson
@@ -49,6 +49,7 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
             inflater.inflate(R.layout.fragment_zone, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         setUpData()
         setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, null)
@@ -63,6 +64,10 @@ class ZoneFragment : BaseFragment(), OnItemClickListener {
 
         boomMenu().setupWith(football_feed_recycler_view)
     }
+
+    override fun getRootView(): ViewGroup? = zone_root_card
+
+    override fun getDragView(): View? = zone_drag_area
 
     private fun setUpData() {
         if (NetworkStatus.isNetworkAvailable(parent_layout, context)) {

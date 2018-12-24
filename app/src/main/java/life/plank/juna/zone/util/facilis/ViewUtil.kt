@@ -85,7 +85,7 @@ fun ObjectAnimator.prepare(): ObjectAnimator {
     return this
 }
 
-fun View.setSwipeDownListener(activity: Activity, rootView: View, backgroundLayout: ViewGroup? = null) {
+fun View.setSwipeDownListener(activity: Activity, rootView: View?, backgroundLayout: ViewGroup? = null) {
     onSwipeDown(activity, rootView, backgroundLayout, { activity.onBackPressed() })
 }
 

@@ -2,18 +2,14 @@ package life.plank.juna.zone.util.facilis
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.CallSuper
-import androidx.annotation.IdRes
+import android.view.*
+import androidx.annotation.*
 import io.alterac.blurkit.BlurLayout
 import life.plank.juna.zone.R
-import life.plank.juna.zone.util.view.UIDisplayUtil
+import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.hideSoftKeyboard
-import life.plank.juna.zone.util.view.dismissBoomMenuIfOpen
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
-import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.view.fragment.base.*
 
 abstract class BaseCard : BaseFragment() {
 
@@ -30,7 +26,7 @@ abstract class BaseCard : BaseFragment() {
         isInForeGround = true
     }
 
-    private fun setupSwipeDownGesture(activity: Activity) = getDragView()?.setSwipeDownListener(activity, getRootView()!!, getBackgroundBlurLayout())
+    private fun setupSwipeDownGesture(activity: Activity) = getDragView()?.setSwipeDownListener(activity, getRootView(), getBackgroundBlurLayout())
 
     fun moveToBackGround() {
         getRootView()?.moveToBackGround(getParentActivity().index)

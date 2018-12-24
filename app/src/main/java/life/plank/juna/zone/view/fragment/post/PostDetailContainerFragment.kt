@@ -1,9 +1,7 @@
 package life.plank.juna.zone.view.fragment.post
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.fragment_post_detail_container.*
 import life.plank.juna.zone.R
@@ -42,9 +40,7 @@ class PostDetailContainerFragment : BaseCardContainerFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_post_detail_container, container, false)
 
-    override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
-
-    override fun getDragView(): View? = drag_area
+    override fun backgroundBlurLayout(): ViewGroup? = blur_layout
 
     override fun initialPosition(): Int = position
 
