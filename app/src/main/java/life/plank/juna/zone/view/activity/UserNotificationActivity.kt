@@ -66,7 +66,7 @@ class UserNotificationActivity : BaseJunaCardActivity() {
                 }, {
                     when (it.code()) {
                         HTTP_OK -> it.body()?.run {
-                            onContentLoaded(true)
+                            onContentLoaded(isNotEmpty())
                             adapter.update(this)
                         }
                         HTTP_NOT_FOUND -> onContentLoaded(false)

@@ -89,7 +89,10 @@ class BoardPreviewPopup : BaseBlurPopup() {
             errorToast(R.string.could_not_create_board, it)
                 }, {
                     when (it.code()) {
-                        HttpURLConnection.HTTP_OK -> it.body()?.run { navigateToBoard(this) }
+                        HttpURLConnection.HTTP_OK -> it.body()?.run {
+                            restApi.followBoard(getToken(), this).execute()
+                            navigateToBoard(this)
+                        }
                         HttpURLConnection.HTTP_CONFLICT -> customToast(R.string.board_name_already_exists)
                         else -> errorToast(R.string.could_not_create_board, it)
                     }

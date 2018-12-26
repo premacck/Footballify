@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.item_in_app_notification.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.notification.InAppNotification
 import life.plank.juna.zone.notification.triggerNotificationAction
+import life.plank.juna.zone.util.common.AppConstants.NotificationIcon.PRIVATE_BOARD_ICON
 import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 
 class InAppNotificationLayout @JvmOverloads constructor(
@@ -49,13 +50,13 @@ class InAppNotificationLayout @JvmOverloads constructor(
             socialNotification != null -> {
                 image_layout.visibility = View.INVISIBLE
 
-                if (isNullOrEmpty(imageUrl)) {
+                if (isNullOrEmpty(socialNotification?.iconUrls)) {
                     notification_image.visibility = View.GONE
                     (notification_message_layout.layoutParams as FrameLayout.LayoutParams).marginStart = 0
                 }
 
-                imageUrl?.run {
-                    Glide.with(this@InAppNotificationLayout).load(get(0))
+                socialNotification?.iconUrls?.run {
+                    Glide.with(this@InAppNotificationLayout).load(get(PRIVATE_BOARD_ICON))
                             .apply(RequestOptions.overrideOf(getDp(85f).toInt(), getDp(85f).toInt()))
                             .into(notification_image)
                 }

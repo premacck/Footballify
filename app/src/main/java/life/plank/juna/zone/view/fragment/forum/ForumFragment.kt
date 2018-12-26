@@ -34,7 +34,7 @@ class ForumFragment : BaseCommentContainerFragment() {
     private var commentList: MutableList<FeedItemComment>? = null
     private var forumCommentController: ForumCommentController? = null
     private var commentId: String? = null
-    private var parentCommentId: String? = null
+    private var replyId: String? = null
 
     companion object {
         private val TAG = ForumFragment::class.java.simpleName
@@ -46,7 +46,7 @@ class ForumFragment : BaseCommentContainerFragment() {
         getApplication().uiComponent.inject(this)
         arguments?.run { boardId = getString(getString(R.string.intent_board_id)) }
         commentId = activity?.getChildIdFromIntent()
-        parentCommentId = activity?.getSiblingIdFromIntent()
+        replyId = activity?.getSiblingIdFromIntent()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_forum, container, false)
@@ -66,25 +66,25 @@ class ForumFragment : BaseCommentContainerFragment() {
         forumCommentController?.addModelBuildListener {
             if (!isNullOrEmpty(commentId)) {
                 commentList?.run {
-                    if (isNullOrEmpty(parentCommentId)) {
+                    if (isNullOrEmpty(replyId)) {
 //                        Scroll to comment
                         var commentIndex = indexOf(find { comment -> comment.id == commentId })
                         if (commentIndex == -1) commentIndex = 0
                         scrollToComment(commentIndex)
                     } else {
 //                        Scroll to reply
-                        val comment = find { comment -> comment.id == parentCommentId }
+                        val comment = find { comment -> comment.id == commentId }
                         var parentCommentIndex = indexOf(comment)
                         if (parentCommentIndex == -1) parentCommentIndex = 0
 
-                        val replyIndex = comment?.replies?.indexOf(comment.replies?.find { reply -> reply.id == commentId })
+                        val replyIndex = comment?.replies?.indexOf(comment.replies?.find { reply -> reply.id == replyId })
                                 ?: -1
                         if (replyIndex == -1) {
                             scrollToComment(parentCommentIndex)
                         } else {
                             scrollToReply(parentCommentIndex, replyIndex)
                         }
-                        parentCommentId = null
+                        replyId = null
                         activity?.removeIntentExtra(R.string.intent_sibling_id)
                     }
                 }
