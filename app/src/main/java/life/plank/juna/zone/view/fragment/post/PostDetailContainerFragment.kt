@@ -3,15 +3,14 @@ package life.plank.juna.zone.view.fragment.post
 import android.os.Bundle
 import android.view.*
 import androidx.viewpager.widget.ViewPager
+import com.prembros.facilis.fragment.*
 import kotlinx.android.synthetic.main.fragment_post_detail_container.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.facilis.BaseCardContainerFragment
-import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import java.util.*
 
-class PostDetailContainerFragment : BaseCardContainerFragment() {
+class PostDetailContainerFragment : BaseCardListContainerFragment() {
 
     private lateinit var feedList: List<FeedEntry>
     private lateinit var boardId: String
@@ -48,5 +47,5 @@ class PostDetailContainerFragment : BaseCardContainerFragment() {
 
     override fun viewPager(): ViewPager = post_detail_view_pager
 
-    override fun baseCardToInflate(position: Int): BaseFragment = PostDetailFragment.newInstance(feedList[position], boardId)
+    override fun baseCardToInflate(position: Int): BaseCardFragment = PostDetailFragment.newInstance(feedList[position], boardId)
 }

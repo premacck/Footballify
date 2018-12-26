@@ -8,11 +8,11 @@ import android.widget.FrameLayout
 import com.airbnb.epoxy.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.item_base_comment.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.time.DateUtil
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment

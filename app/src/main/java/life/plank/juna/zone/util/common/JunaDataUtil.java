@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,6 +30,7 @@ import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.util.football.ScoreBuilder;
 
+import static com.prembros.facilis.util.DataUtilKt.isNullOrEmpty;
 import static life.plank.juna.zone.util.common.AppConstants.DASH;
 import static life.plank.juna.zone.util.common.AppConstants.FT;
 import static life.plank.juna.zone.util.common.AppConstants.FULL_TIME_LOWERCASE;
@@ -48,7 +48,7 @@ import static life.plank.juna.zone.util.time.DateUtil.getDateDiffFromToday;
 import static life.plank.juna.zone.util.time.DateUtil.getFutureMatchTime;
 import static life.plank.juna.zone.util.time.DateUtil.getTimeDiffFromNow;
 
-public class DataUtil {
+public class JunaDataUtil {
 
     public static String findString(@StringRes int stringRes) {
         return ZoneApplication.getContext().getString(stringRes);
@@ -60,30 +60,6 @@ public class DataUtil {
 
     public static Integer findInt(@IntegerRes int integerRes) {
         return ZoneApplication.getContext().getResources().getInteger(integerRes);
-    }
-
-    public static boolean isNullOrEmpty(String s) {
-        return s == null || s.isEmpty();
-    }
-
-    public static boolean isNullOrEmpty(Object s) {
-        return s == null;
-    }
-
-    public static boolean isNullOrEmpty(CharSequence s) {
-        return s == null || s.length() == 0;
-    }
-
-    public static String formatInt(int i) {
-        return String.valueOf(i > 9 ? i : "0" + i);
-    }
-
-    public static <T> boolean isNullOrEmpty(Collection<T> c) {
-        return c == null || c.isEmpty();
-    }
-
-    public static boolean equalsNullString(String s) {
-        return Objects.equals(s, "null");
     }
 
     public static boolean isValidEmail(CharSequence target) {

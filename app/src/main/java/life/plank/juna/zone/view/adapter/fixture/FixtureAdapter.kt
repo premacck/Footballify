@@ -1,21 +1,19 @@
 package life.plank.juna.zone.view.adapter.fixture
 
 import android.graphics.drawable.Drawable
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.item_fixture.view.*
 import kotlinx.android.synthetic.main.item_fixture_league.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.MatchFixture
 import life.plank.juna.zone.interfaces.LeagueContainer
 import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_LIVE
-import life.plank.juna.zone.util.common.DataUtil.getSeparator
+import life.plank.juna.zone.util.common.JunaDataUtil.getSeparator
 import life.plank.juna.zone.util.common.loadScrubber
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.time.DateUtil.getMatchTimeValue
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import java.util.*

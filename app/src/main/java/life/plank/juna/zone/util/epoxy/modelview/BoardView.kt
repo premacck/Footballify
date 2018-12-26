@@ -8,12 +8,12 @@ import android.widget.FrameLayout
 import com.airbnb.epoxy.*
 import com.bumptech.glide.*
 import com.bumptech.glide.request.RequestOptions
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.item_image_and_title.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.util.common.AppConstants
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.facilis.*
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.time.DateUtil
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 

@@ -1,19 +1,15 @@
 package life.plank.juna.zone.view.adapter.board.match
 
 import android.util.TypedValue
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
+import android.view.*
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.item_timeline.view.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.LiveTimeStatus
-import life.plank.juna.zone.data.model.MatchEvent
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.DataUtil.*
+import life.plank.juna.zone.util.common.JunaDataUtil.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import java.util.*
 

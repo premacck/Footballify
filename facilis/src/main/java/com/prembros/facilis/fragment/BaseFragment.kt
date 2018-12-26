@@ -1,7 +1,6 @@
-package life.plank.juna.zone.view.fragment.base
+package com.prembros.facilis.fragment
 
 import androidx.fragment.app.Fragment
-import rx.Subscription
 
 /**
  * Base class for all the fragments in the app
@@ -9,18 +8,9 @@ import rx.Subscription
  */
 abstract class BaseFragment : Fragment() {
 
-    val subscriptionList: MutableList<Subscription> = ArrayList()
-
-    override fun onDestroyView() {
-        subscriptionList.forEach { it.unsubscribe() }
-        super.onDestroyView()
-    }
-
     /**
      * Function for child fragment to notify the activity whether they are ready to exit or not
      * @return false when the fragment needs to do it's own actions when back is pressed, true otherwise
      */
-    open fun onBackPressed(): Boolean {
-        return true
-    }
+    open fun onBackPressed(): Boolean = true
 }

@@ -5,12 +5,11 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import com.airbnb.epoxy.*
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.item_zone_user_feed.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.facilis.onFancyClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)

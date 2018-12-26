@@ -1,17 +1,13 @@
 package life.plank.juna.zone.view.adapter.board.match.binder
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ahamed.multiviewadapter.ItemBinder
-import com.ahamed.multiviewadapter.ItemViewHolder
+import com.ahamed.multiviewadapter.*
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.item_live_commentary_small.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.binder.CommentaryBindingModel
 import life.plank.juna.zone.interfaces.MatchStatsListener
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.view.adapter.board.match.CommentaryAdapter
 
 class CommentaryBinder(private val listener: MatchStatsListener) : ItemBinder<CommentaryBindingModel, CommentaryBinder.CommentaryViewHolder>() {

@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import com.airbnb.epoxy.*
+import com.prembros.facilis.util.onDebouncingClick
 import life.plank.juna.zone.R
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class LoadMoreView @JvmOverloads constructor(

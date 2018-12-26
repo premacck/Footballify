@@ -4,15 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
-import com.airbnb.epoxy.ModelProp
-import com.airbnb.epoxy.ModelView
+import com.airbnb.epoxy.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.item_board_grid_row.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedItem
-import life.plank.juna.zone.util.facilis.longClickWithVibrate
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 
 @ModelView(autoLayout = ModelView.Size.WRAP_WIDTH_WRAP_HEIGHT)
 class FeedEntryGridView @JvmOverloads constructor(

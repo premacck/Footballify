@@ -2,20 +2,17 @@ package life.plank.juna.zone.view.fragment.base
 
 import androidx.fragment.app.Fragment
 import com.google.gson.Gson
+import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.FootballLiveData
-import life.plank.juna.zone.data.model.MatchDetails
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.DataUtil.*
+import life.plank.juna.zone.util.common.JunaDataUtil.*
 import life.plank.juna.zone.util.common.customToast
 import life.plank.juna.zone.util.customview.PublicBoardToolbar
 import life.plank.juna.zone.util.football.FixtureListUpdateTask
-import life.plank.juna.zone.view.fragment.board.fixture.LineupFragment
-import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
-import life.plank.juna.zone.view.fragment.board.fixture.MatchMediaFragment
-import life.plank.juna.zone.view.fragment.board.fixture.MatchStatsFragment
+import life.plank.juna.zone.view.fragment.board.fixture.*
 
 abstract class BaseMatchFragment : CardTileFragment() {
 

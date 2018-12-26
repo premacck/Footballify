@@ -2,21 +2,16 @@ package life.plank.juna.zone.view.activity.home
 
 import android.app.Activity
 import android.os.Bundle
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.notification.handleFootballLiveDataNotificationIntentIfAny
-import life.plank.juna.zone.notification.handleSocialNotificationIntentIfAny
-import life.plank.juna.zone.util.common.handleBoardIntentIfAny
-import life.plank.juna.zone.util.common.handleDeepLinkIntentIfAny
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.notification.*
+import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.fragment.home.HomeFragment
-import org.jetbrains.anko.clearTop
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.*
 import javax.inject.Inject
 
-class HomeActivity : BaseCardActivity() {
+class HomeActivity : BaseJunaCardActivity() {
 
     @Inject
     lateinit var restApi: RestApi

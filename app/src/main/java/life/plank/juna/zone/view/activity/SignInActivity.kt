@@ -4,13 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.util.common.AuthUtil
-import life.plank.juna.zone.util.common.DataUtil.isValidEmail
-import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.facilis.onTextChanged
+import life.plank.juna.zone.util.common.JunaDataUtil.isValidEmail
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import net.openid.appauth.AuthorizationService

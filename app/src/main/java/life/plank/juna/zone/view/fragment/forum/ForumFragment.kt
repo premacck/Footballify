@@ -8,6 +8,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.fragment_forum.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication.getApplication
@@ -16,8 +17,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.notification.*
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.NEW_LINE
-import life.plank.juna.zone.util.common.DataUtil.*
-import life.plank.juna.zone.util.facilis.*
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.controller.ForumCommentController

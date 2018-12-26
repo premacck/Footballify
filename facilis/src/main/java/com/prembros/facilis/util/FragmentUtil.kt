@@ -1,22 +1,16 @@
-package life.plank.juna.zone.util.facilis
+package com.prembros.facilis.util
 
 import android.util.Log
 import androidx.annotation.AnimRes
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import life.plank.juna.zone.R
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
-import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
-import life.plank.juna.zone.view.fragment.base.BaseFragment
+import androidx.fragment.app.*
+import com.prembros.facilis.R
+import com.prembros.facilis.activity.BaseCardActivity
+import com.prembros.facilis.dialog.*
+import com.prembros.facilis.fragment.*
 
-fun FragmentManager.findCard(tag: String): BaseCard? {
-    return this.findFragmentByTag(tag) as? BaseCard
-}
+fun FragmentManager.findCard(tag: String): BaseCardFragment? = this.findFragmentByTag(tag) as? BaseCardFragment
 
-fun FragmentManager.findLastCard(): BaseCard? {
-    return fragments[fragments.size - 1] as? BaseCard
-}
+fun FragmentManager.findLastCard(): BaseCardFragment? = fragments[fragments.size - 1] as? BaseCardFragment
 
 inline fun <reified T : Any> FragmentManager.findFragment(): BaseFragment? {
     for (fragment in fragments.reversed()) {
@@ -66,7 +60,7 @@ fun FragmentManager.removeActivePopupsIfAny(): Boolean {
 
 fun FragmentManager.removeActiveCardsIfAny(): Boolean {
     for (card in fragments.reversed()) {
-        if (card is BaseCard && card.isAdded) {
+        if (card is BaseCardFragment && card.isAdded) {
             return if (card.onBackPressed()) {
                 popBackStack()
                 false
@@ -76,12 +70,11 @@ fun FragmentManager.removeActiveCardsIfAny(): Boolean {
     return true
 }
 
+@Suppress("DEPRECATION")
 fun FragmentManager.moveCurrentCardToBackground() {
     val lastFragment = findLastFragment()
     lastFragment?.run {
-        if (lastFragment is BaseCard) {
-            lastFragment.moveToBackGround()
-        }
+        (this as? CardContainer)?.moveToBackGround()
         onPause()
     }
 }
@@ -89,9 +82,7 @@ fun FragmentManager.moveCurrentCardToBackground() {
 fun FragmentManager.movePreviousCardToForeground() {
     val lastFragment = findLastFragment()
     lastFragment?.run {
-        if (lastFragment is BaseCard) {
-            lastFragment.moveToForeGround()
-        }
+        (this as? CardContainer)?.moveToForeGround()
         onResume()
     }
 }

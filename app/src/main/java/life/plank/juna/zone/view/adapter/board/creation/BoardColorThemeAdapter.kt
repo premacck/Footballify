@@ -2,13 +2,11 @@ package life.plank.juna.zone.view.adapter.board.creation
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.item_board_color_theme.view.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.view.BoardColorFactory
 
 class BoardColorThemeAdapter : RecyclerView.Adapter<BoardColorThemeAdapter.BoardColorThemeViewHolder>() {

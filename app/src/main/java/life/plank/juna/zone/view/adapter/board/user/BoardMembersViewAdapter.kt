@@ -1,19 +1,16 @@
 package life.plank.juna.zone.view.adapter.board.user
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_user.view.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.User
-import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.customview.CustomPopup
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
+import life.plank.juna.zone.view.fragment.base.BaseJunaFragment
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment
 import life.plank.juna.zone.view.fragment.onboarding.SearchUserPopup
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -21,7 +18,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 class BoardMembersViewAdapter(
         private var userList: MutableList<User>,
         private val boardId: String,
-        private val fragment: BaseFragment,
+        private val fragment: BaseJunaFragment,
         private val displayName: String,
         private val boardName: String
 ) : RecyclerView.Adapter<BoardMembersViewAdapter.BoardMembersViewHolder>() {
@@ -50,7 +47,7 @@ class BoardMembersViewAdapter(
     }
 
     private fun showInviteToBoardPopup() {
-        (fragment.activity as? BaseCardActivity)?.pushPopup(SearchUserPopup.newInstance(boardId, boardName))
+        (fragment.activity as? BaseJunaCardActivity)?.pushPopup(SearchUserPopup.newInstance(boardId, boardName))
     }
 
     private fun showOptionsPopup(holder: BoardMembersViewHolder, position: Int) {

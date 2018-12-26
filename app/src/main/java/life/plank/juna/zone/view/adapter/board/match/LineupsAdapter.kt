@@ -1,18 +1,13 @@
 package life.plank.juna.zone.view.adapter.board.match
 
-import com.ahamed.multiviewadapter.DataItemManager
-import com.ahamed.multiviewadapter.RecyclerAdapter
+import com.ahamed.multiviewadapter.*
 import com.bumptech.glide.RequestManager
-import life.plank.juna.zone.data.model.Lineups
-import life.plank.juna.zone.data.model.MatchDetails
-import life.plank.juna.zone.data.model.MatchEvent
-import life.plank.juna.zone.data.model.binder.LineupsBindingModel
-import life.plank.juna.zone.data.model.binder.SubstitutionBindingModel
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.DataUtil.validateAndUpdateList
-import life.plank.juna.zone.util.facilis.addDataManagerAndRegisterBinder
-import life.plank.juna.zone.view.adapter.board.match.binder.BenchDataBinder
-import life.plank.juna.zone.view.adapter.board.match.binder.LineupsBinder
+import com.prembros.facilis.util.isNullOrEmpty
+import life.plank.juna.zone.data.model.*
+import life.plank.juna.zone.data.model.binder.*
+import life.plank.juna.zone.util.common.JunaDataUtil.validateAndUpdateList
+import life.plank.juna.zone.util.view.addDataManagerAndRegisterBinder
+import life.plank.juna.zone.view.adapter.board.match.binder.*
 
 class LineupsAdapter(private val matchDetails: MatchDetails, private val glide: RequestManager) : RecyclerAdapter() {
 

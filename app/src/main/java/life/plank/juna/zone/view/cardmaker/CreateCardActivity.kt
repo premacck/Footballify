@@ -1,11 +1,8 @@
 package life.plank.juna.zone.view.cardmaker
 
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
+import android.content.*
+import android.graphics.*
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -13,20 +10,18 @@ import android.view.View
 import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.face.FaceDetector
 import kotlinx.android.synthetic.main.activity_create_card.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.customToast
 import life.plank.juna.zone.view.CardPreviewFragment
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.activity.camera.CustomCameraActivity
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import java.io.File
-import java.io.FileNotFoundException
+import java.io.*
 import javax.inject.Inject
 
 
-class CreateCardActivity : BaseCardActivity() {
+class CreateCardActivity : BaseJunaCardActivity() {
 
     @Inject
     lateinit var restApi: RestApi

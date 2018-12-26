@@ -1,23 +1,19 @@
 package life.plank.juna.zone.view.activity.base
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.util.Log
 import android.view.ViewGroup
+import com.prembros.facilis.activity.BaseCardActivity
+import com.prembros.facilis.util.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FootballLiveData
-import life.plank.juna.zone.data.model.notification.InAppNotification
-import life.plank.juna.zone.data.model.notification.SocialNotification
+import life.plank.juna.zone.data.model.notification.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.notification.handleInAppNotification
 import life.plank.juna.zone.util.customview.InAppNotificationLayout
-import life.plank.juna.zone.util.facilis.BaseNavigationHelperActivity
-import life.plank.juna.zone.util.facilis.getIfPresent
-import life.plank.juna.zone.util.facilis.then
+import life.plank.juna.zone.util.view.dismissBoomMenuIfOpen
 
-abstract class BaseCardActivity : BaseNavigationHelperActivity() {
+abstract class BaseJunaCardActivity : BaseCardActivity() {
 
     private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -64,4 +60,10 @@ abstract class BaseCardActivity : BaseNavigationHelperActivity() {
     }
 
     abstract fun restApi(): RestApi?
+
+    override fun onBackPressed() {
+        if (dismissBoomMenuIfOpen()) {
+            super.onBackPressed()
+        }
+    }
 }

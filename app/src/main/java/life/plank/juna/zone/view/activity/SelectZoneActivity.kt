@@ -7,14 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.bumptech.glide.Glide
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.activity_select_zone.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.Zones
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.adapter.onboarding.SelectZoneAdapter

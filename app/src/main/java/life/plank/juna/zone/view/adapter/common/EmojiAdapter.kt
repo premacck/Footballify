@@ -1,26 +1,20 @@
 package life.plank.juna.zone.view.adapter.common
 
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import android.view.*
+import androidx.recyclerview.widget.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.item_emoji.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Emoji
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.EmojiContainer
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.facilis.hide
-import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.facilis.setEmoji
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
-import life.plank.juna.zone.util.view.UIDisplayUtil.addDefaultEmojis
-import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.view.*
+import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import java.net.HttpURLConnection.*
 
 class EmojiAdapter(

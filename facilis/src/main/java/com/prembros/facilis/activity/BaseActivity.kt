@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.activity.base
+package com.prembros.facilis.activity
 
 import androidx.appcompat.app.AppCompatActivity
 

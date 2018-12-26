@@ -7,18 +7,18 @@ import android.os.Bundle
 import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import kotlinx.android.synthetic.main.zone_tool_bar.*
 import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.time.DateUtil.getIsoFormattedDate
 import life.plank.juna.zone.util.view.UIDisplayUtil
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.adapter.user.*
 import life.plank.juna.zone.view.controller.BoardController
@@ -33,8 +33,7 @@ import java.util.*
 import java.util.Calendar.*
 import javax.inject.Inject
 
-
-class UserProfileActivity : BaseCardActivity() {
+class UserProfileActivity : BaseJunaCardActivity() {
 
     @Inject
     lateinit var restApi: RestApi
@@ -152,7 +151,7 @@ class UserProfileActivity : BaseCardActivity() {
                     Glide.with(this@UserProfileActivity).load(profilePictureUrl).into(profile_picture_image_view)
                     settings_toolbar.setProfilePic(profilePictureUrl!!)
                 }
-                val location: String? = if (!DataUtil.isNullOrEmpty(city) && !DataUtil.equalsNullString(city)) {
+                val location: String? = if (!isNullOrEmpty(city) && !equalsNullString(city)) {
                     "$city, $country"
                 } else {
                     country

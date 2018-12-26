@@ -1,21 +1,18 @@
 package life.plank.juna.zone.view.adapter.board.tile
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.view.ViewGroup
+import android.view.*
+import android.view.View.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.prembros.asymmetricrecyclerview.base.AsymmetricItem
 import com.prembros.asymmetricrecyclerview.widget.WrappedAsymmetricRecyclerAdapter
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.item_board_tile.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.facilis.setRootCommentPost
+import life.plank.juna.zone.util.view.setRootCommentPost
 
 /**
  * Created by plank-prachi on 4/10/2018.

@@ -1,16 +1,14 @@
 package life.plank.juna.zone.notification
 
 import android.content.Intent
+import com.prembros.facilis.util.findFragment
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FootballLiveData
-import life.plank.juna.zone.data.model.notification.InAppNotification
-import life.plank.juna.zone.data.model.notification.SocialNotification
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.facilis.findFragment
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import life.plank.juna.zone.view.fragment.base.BaseMatchFragment
-import life.plank.juna.zone.view.fragment.base.CardTileFragment
+import life.plank.juna.zone.data.model.notification.*
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
+import life.plank.juna.zone.view.fragment.base.*
 
 /**
  * Method to send in-app social interaction notification
@@ -30,7 +28,7 @@ fun FootballLiveData.sendInAppNotification() {
     )
 }
 
-fun BaseCardActivity.handleInAppNotification(socialNotification: SocialNotification) {
+fun BaseJunaCardActivity.handleInAppNotification(socialNotification: SocialNotification) {
     when (socialNotification.action) {
         findString(intent_invite) -> showInAppNotification(InAppNotification(socialNotification))
         else -> {
@@ -46,7 +44,7 @@ fun BaseCardActivity.handleInAppNotification(socialNotification: SocialNotificat
 
 }
 
-fun BaseCardActivity.handleInAppNotification(footballLiveData: FootballLiveData) {
+fun BaseJunaCardActivity.handleInAppNotification(footballLiveData: FootballLiveData) {
     (supportFragmentManager.findFragment<BaseMatchFragment>() as? BaseMatchFragment)?.run {
         if (isInForeGround) {
             onZoneLiveDataReceived(footballLiveData)

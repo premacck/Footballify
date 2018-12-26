@@ -1,13 +1,14 @@
 package life.plank.juna.zone.notification
 
 import android.text.SpannableStringBuilder
+import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
 import life.plank.juna.zone.data.network.dagger.module.NetworkModule.GSON
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.DataUtil.*
+import life.plank.juna.zone.util.common.JunaDataUtil.*
 
 fun BaseInAppNotification.getNotificationMessage(): SpannableStringBuilder {
     return when {

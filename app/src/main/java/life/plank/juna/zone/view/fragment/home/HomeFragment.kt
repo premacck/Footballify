@@ -9,6 +9,7 @@ import android.view.*
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.shimmer_user_boards.*
 import kotlinx.android.synthetic.main.shimmer_user_feed.*
@@ -19,14 +20,12 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_BASIC_INTERACTION
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout
-import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.util.sharedpreference.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.view.activity.UserNotificationActivity
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
 import life.plank.juna.zone.view.controller.*
 import life.plank.juna.zone.view.fragment.base.FlatTileFragment
@@ -113,13 +112,13 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     private fun initZoneRecyclerView() {
-        zoneController = ZoneController(activity as BaseCardActivity, restApi)
+        zoneController = ZoneController(activity as BaseJunaCardActivity, restApi)
         user_zone_recycler_view.setController(zoneController!!)
     }
 
     private fun initBoardsRecyclerView() {
-        if (activity is BaseCardActivity) {
-            boardController = BoardController(activity as BaseCardActivity, restApi, false)
+        if (activity is BaseJunaCardActivity) {
+            boardController = BoardController(activity as BaseJunaCardActivity, restApi, false)
             user_boards_recycler_view.setController(boardController!!)
         }
     }

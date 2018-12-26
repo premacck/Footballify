@@ -22,10 +22,10 @@ import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.model.UserPreference;
 
+import static com.prembros.facilis.util.DataUtilKt.isNullOrEmpty;
 import static life.plank.juna.zone.ZoneApplication.getContext;
 import static life.plank.juna.zone.data.network.dagger.module.NetworkModule.GSON;
-import static life.plank.juna.zone.util.common.DataUtil.findString;
-import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.common.JunaDataUtil.findString;
 
 /**
  * Created by plank-sobia on 10/4/2017.

@@ -8,14 +8,12 @@ import android.view.animation.Animation
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.item_in_app_notification.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.notification.InAppNotification
 import life.plank.juna.zone.notification.triggerNotificationAction
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.facilis.*
-import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 
 class InAppNotificationLayout @JvmOverloads constructor(
         context: Context,
@@ -27,14 +25,14 @@ class InAppNotificationLayout @JvmOverloads constructor(
     private var isShowing: Boolean = false
     private val animHandler: Handler = Handler()
     private val animRunnable = Runnable { detach() }
-    private var parentActivity: BaseCardActivity? = null
+    private var parentActivity: BaseJunaCardActivity? = null
 
     init {
         View.inflate(context, R.layout.item_in_app_notification, this)
         visibility = View.INVISIBLE
     }
 
-    fun load(inAppNotification: InAppNotification, activity: BaseCardActivity? = null, dismissDelay: Long = 10000) {
+    fun load(inAppNotification: InAppNotification, activity: BaseJunaCardActivity? = null, dismissDelay: Long = 10000) {
         notification_message.text = inAppNotification.message
         notification_sub_message.text = inAppNotification.subMessage
         notification_sub_message.isSelected = true

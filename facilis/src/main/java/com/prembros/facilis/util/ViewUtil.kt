@@ -1,31 +1,34 @@
-package life.plank.juna.zone.util.facilis
+package com.prembros.facilis.util
 
-import android.animation.*
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
 import android.os.*
+import android.util.TypedValue
 import android.view.*
 import android.view.MotionEvent.*
-import android.view.animation.*
-import android.widget.*
-import androidx.annotation.*
-import androidx.coordinatorlayout.widget.CoordinatorLayout
+import android.view.animation.DecelerateInterpolator
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.annotation.ColorRes
 import androidx.fragment.app.Fragment
-import com.ahamed.multiviewadapter.*
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.leocardz.link.preview.library.*
-import io.alterac.blurkit.BlurLayout
+import com.prembros.facilis.R
+import com.prembros.facilis.swiper.SwipeListener
 import kotlinx.coroutines.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.FeedItem
-import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.util.common.DataUtil.*
-import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.sdk27.coroutines.*
+
+fun Context.getDp(dp: Float): Float = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics)
+
+fun View.getDp(dp: Float): Float = context.getDp(dp)
+
+@Suppress("DEPRECATION")
+fun Context.colorOf(@ColorRes color: Int): Int = resources.getColor(color)
+
+fun Fragment.colorOf(@ColorRes color: Int) = context?.colorOf(color)!!
+
+fun View.colorOf(@ColorRes color: Int) = context?.colorOf(color)!!
 
 fun Display.getScreenSize(): IntArray {
     val size = Point()
@@ -56,118 +59,47 @@ fun View.toggleInteraction(isEnabled: Boolean) {
     this.isClickable = isEnabled
 }
 
-fun View.moveToBackGround(index: Int) {
-    translateScaleAnimation(-getDp(if (index > 0) 44f else 24f), 0.92f).prepare().start()
-    elevation = 0f
-    toggleInteraction(false)
-    toggleInteraction(false)
-}
+fun View.setSwipeDownListener(activity: Activity, rootView: View?, backgroundLayout: ViewGroup? = null) =
+        onSwipeDown(activity, rootView, backgroundLayout, { activity.onBackPressed() })
 
-fun View.moveToForeGround() {
-    translateScaleAnimation(0f, 1f).prepare().start()
-    elevation = getDp(8f)
-    toggleInteraction(true)
-    toggleInteraction(true)
-}
+fun View.onSwipeDown(activity: Activity, rootView: View? = null, backgroundLayout: ViewGroup? = null, swipeDownAction: () -> Unit, singleTapAction: () -> Boolean = { false }) =
+        setSwipeListener(activity, rootView, backgroundLayout, swipeDownAction, singleTapAction, {}, {}, {})
 
-fun View.translateScaleAnimation(translateValue: Float, scaleValue: Float): ObjectAnimator {
-    return ObjectAnimator.ofPropertyValuesHolder(
-            this,
-            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, translateValue),
-            PropertyValuesHolder.ofFloat(View.SCALE_X, scaleValue),
-            PropertyValuesHolder.ofFloat(View.SCALE_Y, scaleValue)
-    )
-}
-
-fun ObjectAnimator.prepare(): ObjectAnimator {
-    this.duration = 200
-    this.interpolator = DecelerateInterpolator()
-    return this
-}
-
-fun View.setSwipeDownListener(activity: Activity, rootView: View?, backgroundLayout: ViewGroup? = null) {
-    onSwipeDown(activity, rootView, backgroundLayout, { activity.onBackPressed() })
-}
-
-fun View.onSwipeDown(activity: Activity, rootView: View? = null, backgroundLayout: ViewGroup? = null, swipeDownAction: () -> Unit, singleTapAction: () -> Boolean = { false }) {
-    setOnTouchListener(object : SwipeDownToDismissListener(
+fun View.setSwipeListener(
+        activity: Activity,
+        rootView: View? = null,
+        backgroundLayout: ViewGroup? = null,
+        swipeDownAction: () -> Unit,
+        singleTapAction: () -> Boolean,
+        swipeUpAction: () -> Unit,
+        swipeLeftAction: () -> Unit,
+        swipeRightAction: () -> Unit
+) {
+    setOnTouchListener(object : SwipeListener(
             activity,
-            this@onSwipeDown,
-            rootView ?: this@onSwipeDown,
+            this@setSwipeListener,
+            rootView ?: this@setSwipeListener,
             backgroundLayout
     ) {
         override fun onSwipeDown() = swipeDownAction()
         override fun onSingleTap(): Boolean = singleTapAction()
+        override fun onSwipeUp() = swipeUpAction()
+        override fun onSwipeLeft() = swipeLeftAction()
+        override fun onSwipeRight() = swipeRightAction()
     })
 }
 
-fun ViewPropertyAnimator.listener(onAnimationEnd: () -> Unit): ViewPropertyAnimator {
-    return this.setListener(object : AnimatorListenerAdapter() {
-        override fun onAnimationEnd(animation: Animator?) = onAnimationEnd()
-    })
-}
-
-fun View.animate(@AnimRes anim: Int, delayMillis: Long = 0): Animation {
-    val animation = AnimationUtils.loadAnimation(context, anim)
-    postDelayed({ startAnimation(animation) }, delayMillis)
-    return animation
-}
-
-fun Animation.then(action: (animation: Animation) -> Unit): Animation {
-    setAnimationListener(object : Animation.AnimationListener {
-        override fun onAnimationRepeat(animation: Animation) {}
-        override fun onAnimationStart(animation: Animation) {}
-        override fun onAnimationEnd(animation: Animation) {
-            action(animation)
-        }
-    })
-    return this
-}
-
-fun View.fadeIn() = animate().alpha(1f).setDuration(280).start()
-
-fun View.fadeOut() = animate().alpha(0f).setDuration(280).start()
-
-fun View.floatDown(delayMillis: Long = 50) = animate(R.anim.float_down, delayMillis).then { visibility = View.VISIBLE }
-
-fun View.floatUp(delayMillis: Long = 20) = animate(R.anim.float_up, delayMillis).then { visibility = View.VISIBLE }
-
-fun View.sinkDown() = animate(R.anim.sink_down).then { visibility = View.INVISIBLE }
-
-fun View.sinkUp() = animate(R.anim.sink_up).then { visibility = View.INVISIBLE }
-
-fun Context.animatorOf(@AnimatorRes animatorRes: Int): Animator = AnimatorInflater.loadAnimator(this, animatorRes)
-
-fun View.animatorOf(@AnimatorRes animatorRes: Int): Animator {
-    val animator = context.animatorOf(animatorRes)
-    animator.setTarget(this)
-    return animator
-}
-
-fun BlurLayout.beginBlur() {
-    postDelayed({
-        startBlur()
-        visibility = View.VISIBLE
-    }, 10)
-}
-
-fun View.zoomOut() = animate(R.anim.zoom_out)
-
-fun View.setTopMargin(topMargin: Int) {
-    val params = layoutParams
-    params?.run {
-        when (params) {
-            is RelativeLayout.LayoutParams -> params.topMargin = topMargin
-            is CoordinatorLayout.LayoutParams -> params.topMargin = topMargin
-            is FrameLayout.LayoutParams -> params.topMargin = topMargin
-            is LinearLayout.LayoutParams -> params.topMargin = topMargin
-        }
-        layoutParams = params
+fun View.setMargin(left: Int? = null, top: Int? = null, right: Int? = null, bottom: Int? = null) {
+    layoutParams = (layoutParams as? ViewGroup.MarginLayoutParams)?.apply {
+        left?.let { leftMargin = it; }
+        top?.let { topMargin = it }
+        right?.let { rightMargin = it }
+        bottom?.let { bottomMargin = it }
     }
 }
 
-fun vibrate(millis: Long) {
-    val vibrator = ZoneApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+fun Context.vibrate(millis: Long) {
+    val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         vibrator.vibrate(VibrationEffect.createOneShot(millis, VibrationEffect.DEFAULT_AMPLITUDE))
     } else {
@@ -175,6 +107,8 @@ fun vibrate(millis: Long) {
         vibrator.vibrate(millis)
     }
 }
+
+fun View.vibrate(millis: Long) = context.vibrate(millis)
 
 fun View.longClickWithVibrate(action: () -> Unit) {
     setOnLongClickListener {
@@ -330,33 +264,6 @@ fun Context?.doAfterDelay(delayMillis: Long, action: () -> Unit) {
     }
 }
 
-fun BottomSheetBehavior<*>.show(peekHeight: Int = 850) {
-    state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-    this.peekHeight = peekHeight
-}
-
-fun BottomSheetBehavior<*>.showFor(emojiAdapter: EmojiAdapter?, id: String?, peekHeight: Int = 850) {
-    emojiAdapter?.update(id!!)
-    show(peekHeight)
-}
-
-fun BottomSheetBehavior<*>.hide() {
-    state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
-    peekHeight = 0
-}
-
-fun BottomSheetBehavior<*>.hideIfShown(): Boolean {
-    if (peekHeight == 0 || state == com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN || state == com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED) {
-        return true
-    }
-    hide()
-    return false
-}
-
-fun TextView.setEmoji(emoji: Int) {
-    text = StringBuilder().appendCodePoint(emoji).toString()
-}
-
 inline fun <reified T : View> ViewGroup.getIfPresent(): T? {
     if (childCount <= 0) {
         return null
@@ -370,51 +277,6 @@ inline fun <reified T : View> ViewGroup.getIfPresent(): T? {
     return null
 }
 
-fun <BM> RecyclerAdapter.addDataManagerAndRegisterBinder(dataManager: DataItemManager<BM>, binderToRegister: ItemBinder<BM, out ItemViewHolder<BM>>) {
-    addDataManager(dataManager)
-    registerBinder(binderToRegister)
-}
+fun View.hideSoftKeyboard() = (context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)?.hideSoftInputFromWindow(windowToken, 0)
 
-fun <BM> RecyclerAdapter.addDataManagerAndRegisterBinder(dataManager: DataListManager<BM>, binderToRegister: ItemBinder<BM, out ItemViewHolder<BM>>) {
-    addDataManager(dataManager)
-    registerBinder(binderToRegister)
-}
-
-fun View.dragHandle(): ImageView? = findViewById(R.id.drag_handle_image)
-
-fun BaseCard.dragHandle(): ImageView? = getRootView()?.dragHandle()
-
-fun TextCrawler.beginPreview(url: String, onPostAction: (sourceContent: SourceContent?, isNull: Boolean) -> Unit, onPreAction: () -> Unit = {}) {
-    val matcher = URL_PATTERN.matcher(url)
-    var isFirstLinkRecognized = false
-    while (matcher.find()) {
-        if (!isFirstLinkRecognized) {
-            isFirstLinkRecognized = true
-            makePreview(object : LinkPreviewCallback {
-                override fun onPre() = onPreAction()
-                override fun onPos(sourceContent: SourceContent?, isNull: Boolean) = onPostAction(sourceContent, isNull)
-            }, url)
-        }
-    }
-}
-
-fun View.setGradientBackground(drawableText: String) {
-    when (drawableText) {
-        findString(R.string.blue_color) -> background = findDrawable(R.drawable.blue_gradient)
-        findString(R.string.purple_color) -> background = findDrawable(R.drawable.purple_gradient)
-        findString(R.string.green_color) -> background = findDrawable(R.drawable.green_gradient)
-        findString(R.string.orange_color) -> background = findDrawable(R.drawable.orange_gradient)
-    }
-}
-
-fun TextView.setRootCommentPost(feedItem: FeedItem) {
-    if (!isNullOrEmpty(feedItem.backgroundColor)) {
-        feedItem.backgroundColor?.run { setGradientBackground(get(0)) }
-        text = feedItem.title.formatLinks().formatMentions()
-    } else {
-//        TODO: remove comment $ prepend usage
-        val comment: String = feedItem.title.replace("^\"|\"$".toRegex(), "")
-        background = getCommentColor(comment)
-        text = getCommentText(comment)?.toString()?.formatLinks()?.formatMentions()
-    }
-}
+fun View.showSoftKeyboard() = (context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)

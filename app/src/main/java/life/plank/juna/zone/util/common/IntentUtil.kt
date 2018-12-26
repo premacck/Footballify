@@ -6,17 +6,15 @@ import android.speech.RecognizerIntent
 import android.util.Log
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import com.prembros.facilis.util.removeFragmentIfExists
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.RestApiAggregator
-import life.plank.juna.zone.data.model.Board
-import life.plank.juna.zone.data.model.MatchDetails
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.notification.getBoardIdFromIntent
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.facilis.removeFragmentIfExists
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
@@ -27,9 +25,9 @@ import java.net.HttpURLConnection
 inline fun <reified T : Activity> Activity.launch() = startActivity(intentFor<T>())
 
 /**
- * Function Launch any [BaseCardActivity] with [PrivateBoardFragment] or [MatchBoardFragment] from any [Activity] with the [Board] object
+ * Function Launch any [BaseJunaCardActivity] with [PrivateBoardFragment] or [MatchBoardFragment] from any [Activity] with the [Board] object
  */
-inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(board: Board) {
+inline fun <reified T : BaseJunaCardActivity> Activity.launchWithBoard(board: Board) {
     if (this is T) {
         restApi()?.run { launchPrivateOrMatchBoard(this, board) }
                 ?: toast(R.string.rest_api_is_null)
@@ -40,9 +38,9 @@ inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(board: Board)
 }
 
 /**
- * Function Launch [BaseCardActivity] with [PrivateBoardFragment] or [MatchBoardFragment] from any [Activity] with the Private Board's ID
+ * Function Launch [BaseJunaCardActivity] with [PrivateBoardFragment] or [MatchBoardFragment] from any [Activity] with the Private Board's ID
  */
-inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(boardId: String) {
+inline fun <reified T : BaseJunaCardActivity> Activity.launchWithBoard(boardId: String) {
     if (this is T) {
         restApi()?.run { findAndLaunchBoardById(this, boardId) }
     } else {
@@ -51,7 +49,7 @@ inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(boardId: Stri
     }
 }
 
-fun BaseCardActivity.handleDeepLinkIntentIfAny() {
+fun BaseJunaCardActivity.handleDeepLinkIntentIfAny() {
     intent?.data?.pathSegments?.run {
         if (isNotEmpty() && size >= 2) {
             get(1).run { launchWithBoard<HomeActivity>(this) }
@@ -60,9 +58,9 @@ fun BaseCardActivity.handleDeepLinkIntentIfAny() {
 }
 
 /**
- * Function to handle the board/boardId intent (if any) passed to the [BaseCardActivity] and launch [PrivateBoardFragment] or [MatchBoardFragment]
+ * Function to handle the board/boardId intent (if any) passed to the [BaseJunaCardActivity] and launch [PrivateBoardFragment] or [MatchBoardFragment]
  */
-fun BaseCardActivity.handleBoardIntentIfAny() {
+fun BaseJunaCardActivity.handleBoardIntentIfAny() {
     if (intent.hasExtra(getString(R.string.intent_action))) return
     restApi()?.run {
         when {
@@ -72,14 +70,14 @@ fun BaseCardActivity.handleBoardIntentIfAny() {
     }
 }
 
-fun BaseCardActivity.findAndLaunchBoardById(restApi: RestApi, boardId: String? = null) {
+fun BaseJunaCardActivity.findAndLaunchBoardById(restApi: RestApi, boardId: String? = null) {
     restApi.getBoardById(boardId ?: getBoardIdFromIntent(), getToken())
             .setObserverThreadsAndSmartSubscribe({}, {
                 it.body()?.run { launchPrivateOrMatchBoard(restApi, this) }
             })
 }
 
-fun BaseCardActivity.launchPrivateOrMatchBoard(restApi: RestApi, board: Board) {
+fun BaseJunaCardActivity.launchPrivateOrMatchBoard(restApi: RestApi, board: Board) {
     when (board.boardType) {
         findString(R.string.board_type_football_match) -> {
             board.boardEvent?.apply {
@@ -95,12 +93,12 @@ fun BaseCardActivity.launchPrivateOrMatchBoard(restApi: RestApi, board: Board) {
     }
 }
 
-fun BaseCardActivity.launchPrivateBoard(board: Board) {
+fun BaseJunaCardActivity.launchPrivateBoard(board: Board) {
     removeFragmentIfExists<PrivateBoardFragment>()
     pushFragment(PrivateBoardFragment.newInstance(board), true)
 }
 
-fun BaseCardActivity.launchPrivateBoard(restApi: RestApi, boardId: String) {
+fun BaseJunaCardActivity.launchPrivateBoard(restApi: RestApi, boardId: String) {
     RestApiAggregator.getPrivateBoardToOpen(boardId, restApi).setObserverThreadsAndSmartSubscribe({
         Log.e("launchPrivateBoard", "onError(): ", it)
         customToast(R.string.could_not_navigate_to_board)
@@ -109,12 +107,12 @@ fun BaseCardActivity.launchPrivateBoard(restApi: RestApi, boardId: String) {
     })
 }
 
-fun BaseCardActivity.launchMatchBoard(board: Board, matchDetails: MatchDetails) {
+fun BaseJunaCardActivity.launchMatchBoard(board: Board, matchDetails: MatchDetails) {
     removeFragmentIfExists<MatchBoardFragment>()
     pushFragment(MatchBoardFragment.newInstance(board, matchDetails), true)
 }
 
-fun BaseCardActivity.launchMatchBoard(restApi: RestApi, boardId: String) {
+fun BaseJunaCardActivity.launchMatchBoard(restApi: RestApi, boardId: String) {
     restApi.getBoardById(boardId, getToken()).flatMap<Response<MatchDetails>, Unit>({
         when (it.code()) {
             HttpURLConnection.HTTP_OK -> it.body()?.boardEvent?.run { restApi.getMatchDetails(this.foreignId) }
@@ -128,7 +126,7 @@ fun BaseCardActivity.launchMatchBoard(restApi: RestApi, boardId: String) {
         val matchDetails = matchDetailsResponse.body()
         if (board != null && matchDetails != null) {
             doAsync {
-                matchDetails.league = DataUtil.getSpecifiedLeague(board.boardEvent?.leagueName)
+                matchDetails.league = JunaDataUtil.getSpecifiedLeague(board.boardEvent?.leagueName)
                 uiThread {
                     it.launchMatchBoard(board, matchDetails)
                 }
@@ -142,7 +140,7 @@ fun BaseCardActivity.launchMatchBoard(restApi: RestApi, boardId: String) {
     })
 }
 
-fun BaseCardActivity.launchMatchBoard(restApi: RestApi, matchId: Long) {
+fun BaseJunaCardActivity.launchMatchBoard(restApi: RestApi, matchId: Long) {
     RestApiAggregator.getBoardAndMatchDetails(restApi, matchId).setObserverThreadsAndSmartSubscribe({
         errorToast(R.string.could_not_navigate_to_board, it)
     }, {

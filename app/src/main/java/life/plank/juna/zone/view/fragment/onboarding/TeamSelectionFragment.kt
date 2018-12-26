@@ -5,24 +5,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.Toast
+import android.view.*
+import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.fragment_team_selection.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.FootballTeam
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.VOICE_RECOGNITION_REQUEST_CODE
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.view.activity.zone.ZoneActivity
 import life.plank.juna.zone.view.adapter.onboarding.TeamSelectionAdapter
@@ -104,7 +98,7 @@ class TeamSelectionFragment : SearchableCard(), View.OnTouchListener {
     }
 
     private fun getPopularTeams() {
-        if (DataUtil.isNullOrEmpty(PreferenceManager.Auth.getToken()))
+        if (isNullOrEmpty(PreferenceManager.Auth.getToken()))
             return
         restApi.getPopularTeams(PreferenceManager.Auth.getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "Popular Team details: ", it)

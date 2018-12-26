@@ -3,15 +3,13 @@ package life.plank.juna.zone.notification
 import android.app.ActivityManager
 import android.content.Context
 import com.google.gson.Gson
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 import org.json.JSONObject
 
 fun dispatch(dataPayload: Map<String, String>) {

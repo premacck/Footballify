@@ -4,6 +4,8 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import com.prembros.facilis.dialog.BaseBlurPopup
+import com.prembros.facilis.util.*
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_edit_profile.*
 import life.plank.juna.zone.*
@@ -11,11 +13,8 @@ import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.SINGLE_SPACE
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.time.DateUtil.getIsoFormattedDate
-import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import java.net.HttpURLConnection.HTTP_NO_CONTENT
 import java.text.DateFormatSymbols
 import java.util.*

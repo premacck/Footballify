@@ -2,27 +2,22 @@ package life.plank.juna.zone.view.fragment.board.user
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import kotlinx.android.synthetic.main.fragment_private_board_info.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.customToast
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.adapter.board.user.BoardMembersViewAdapter
-import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.view.fragment.base.BaseJunaFragment
 import java.net.HttpURLConnection
 import java.util.*
 import javax.inject.Inject
 
-class PrivateBoardInfoFragment : BaseFragment() {
+class PrivateBoardInfoFragment : BaseJunaFragment() {
 
     @Inject
     lateinit var restApi: RestApi

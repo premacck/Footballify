@@ -2,19 +2,16 @@ package life.plank.juna.zone.util.customview
 
 import android.app.Activity
 import android.content.Context
-import android.util.AttributeSet
-import android.util.Log
+import android.util.*
 import android.view.View
 import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.zone_tool_bar.view.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.interfaces.CustomViewListener
-import life.plank.juna.zone.interfaces.ZoneToolbarListener
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.interfaces.*
 
 class ZoneToolBar @JvmOverloads constructor(context: Context,
                                             attrs: AttributeSet? = null,

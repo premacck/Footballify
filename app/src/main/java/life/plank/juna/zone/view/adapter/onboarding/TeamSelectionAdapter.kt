@@ -1,16 +1,14 @@
 package life.plank.juna.zone.view.adapter.onboarding
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.item_onboarding.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FootballTeam
-import life.plank.juna.zone.util.common.DataUtil.findInt
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.JunaDataUtil.findInt
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 
 class TeamSelectionAdapter(

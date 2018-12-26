@@ -2,16 +2,14 @@ package life.plank.juna.zone.view
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.card_preview.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.util.common.DataUtil
-import life.plank.juna.zone.util.facilis.BaseCard
+import life.plank.juna.zone.util.common.JunaDataUtil
+import life.plank.juna.zone.view.fragment.base.BaseJunaCard
 
-class CardPreviewFragment : BaseCard() {
+class CardPreviewFragment : BaseJunaCard() {
 
     private var filePath: String? = null
 
@@ -19,7 +17,7 @@ class CardPreviewFragment : BaseCard() {
 
         fun newInstance(mediaFilePath: String) = CardPreviewFragment().apply {
             arguments = Bundle().apply {
-                putString(DataUtil.findString(R.string.intent_file_path), mediaFilePath)
+                putString(JunaDataUtil.findString(R.string.intent_file_path), mediaFilePath)
             }
         }
     }

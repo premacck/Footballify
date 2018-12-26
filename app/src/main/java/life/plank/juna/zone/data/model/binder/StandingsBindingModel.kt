@@ -2,13 +2,10 @@ package life.plank.juna.zone.data.model.binder
 
 import android.os.Parcelable
 import androidx.annotation.StringRes
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.parcel.Parcelize
-
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.MatchDetails
-import life.plank.juna.zone.data.model.Standings
-
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.data.model.*
 
 @Parcelize
 data class StandingsBindingModel(var standingsList: List<Standings>? = null, @field:StringRes var errorMessage: Int? = null) : Parcelable {

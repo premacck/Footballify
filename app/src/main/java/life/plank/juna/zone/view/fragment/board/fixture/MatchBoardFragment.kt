@@ -8,6 +8,7 @@ import androidx.fragment.app.*
 import androidx.viewpager.widget.PagerAdapter
 import com.github.mikephil.charting.charts.LineChart
 import com.google.gson.Gson
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.fragment_match_board.*
 import kotlinx.android.synthetic.main.layout_board_engagement.*
 import life.plank.juna.zone.*
@@ -16,9 +17,8 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.BoardHeaderListener
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.LIVE
-import life.plank.juna.zone.util.common.DataUtil.*
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.customview.PublicBoardToolbar
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.sharedpreference.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.fragment.base.BaseMatchFragment
@@ -58,7 +58,7 @@ class MatchBoardFragment : BaseMatchFragment(), BoardHeaderListener {
         arguments?.run {
             board = getParcelable(getString(R.string.intent_board))!!
             matchDetails = getParcelable(getString(R.string.intent_match_fixture))!!
-            league = DataUtil.getSpecifiedLeague(board.boardEvent?.leagueName)
+            league = JunaDataUtil.getSpecifiedLeague(board.boardEvent?.leagueName)
             if (matchDetails.league == null) {
                 matchDetails.league = league
             }

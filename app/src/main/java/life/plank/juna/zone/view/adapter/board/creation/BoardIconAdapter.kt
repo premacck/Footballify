@@ -2,15 +2,13 @@ package life.plank.juna.zone.view.adapter.board.creation
 
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log
+import android.view.*
 import android.view.LayoutInflater.from
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.item_board_icon.view.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.*
 import life.plank.juna.zone.util.view.Image
 import java.io.File
 import java.util.*

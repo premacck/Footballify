@@ -2,35 +2,29 @@ package life.plank.juna.zone.view.fragment.football
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.cardview.widget.CardView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.fragment.app.*
 import androidx.viewpager.widget.PagerAdapter
 import kotlinx.android.synthetic.main.fragment_league_info.*
 import kotlinx.android.synthetic.main.league_toolbar.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.FixtureByMatchDay
-import life.plank.juna.zone.data.model.League
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage
-import life.plank.juna.zone.util.common.DataUtil
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.facilis.BaseCard
+import life.plank.juna.zone.util.common.JunaDataUtil
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
+import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
-import life.plank.juna.zone.util.view.boomMenu
-import life.plank.juna.zone.util.view.setupBoomMenu
+import life.plank.juna.zone.view.fragment.base.BaseJunaCard
 
-class LeagueInfoFragment : BaseCard() {
+class LeagueInfoFragment : BaseJunaCard() {
 
     private lateinit var league: League
     private var leagueInfoPagerAdapter: LeagueInfoFragment.LeagueInfoPagerAdapter? = null
 
     companion object {
         var fixtureByMatchDayList: MutableList<FixtureByMatchDay> = ArrayList()
-        fun newInstance(league: League) = LeagueInfoFragment().apply { arguments = Bundle().apply { putParcelable(DataUtil.findString(R.string.intent_league), league) } }
+        fun newInstance(league: League) = LeagueInfoFragment().apply { arguments = Bundle().apply { putParcelable(JunaDataUtil.findString(R.string.intent_league), league) } }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

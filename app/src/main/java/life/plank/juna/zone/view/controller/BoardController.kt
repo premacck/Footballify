@@ -2,19 +2,19 @@ package life.plank.juna.zone.view.controller
 
 import androidx.annotation.StringRes
 import com.airbnb.epoxy.AutoModel
+import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.epoxy.EpoxyController3
 import life.plank.juna.zone.util.epoxy.modelview.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.activity.board.CreateBoardActivity
 
 class BoardController(
-        private val activity: BaseCardActivity,
+        private val activity: BaseJunaCardActivity,
         private val restApi: RestApi,
         private val isTitleShown: Boolean
 ) : EpoxyController3<List<Board>, Boolean, Int>() {
@@ -44,7 +44,7 @@ class BoardController(
     }
 
     private fun navigateToBoard(board: Board) {
-        if (board.displayName != null && board.displayName == DataUtil.findString(R.string.new_)) {
+        if (board.displayName != null && board.displayName == JunaDataUtil.findString(R.string.new_)) {
             PreferenceManager.CurrentUser.getDisplayName()?.run { CreateBoardActivity.launch(activity, this) }
         } else {
             activity.launchPrivateOrMatchBoard(restApi, board)

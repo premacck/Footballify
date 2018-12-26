@@ -1,7 +1,7 @@
-package life.plank.juna.zone.view.fragment.base
+package com.prembros.facilis.dialog
 
 import androidx.fragment.app.DialogFragment
-import life.plank.juna.zone.util.facilis.doAfterDelay
+import com.prembros.facilis.util.doAfterDelay
 import org.jetbrains.anko.support.v4.runOnUiThread
 
 /**

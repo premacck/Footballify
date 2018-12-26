@@ -7,7 +7,6 @@ import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.FeedEntryContainer
 import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import life.plank.juna.zone.view.fragment.post.PostDetailContainerFragment
@@ -16,7 +15,7 @@ import java.net.HttpURLConnection.HTTP_OK
 /**
  * Parent class for fragments that contain tiles as well as the card layout
  */
-abstract class CardTileFragment : BaseCard(), FeedEntryContainer {
+abstract class CardTileFragment : BaseJunaCard(), FeedEntryContainer {
 
     override fun openFeedEntry(feedEntryList: MutableList<FeedEntry>, boardId: String, position: Int) =
             pushFragment(PostDetailContainerFragment.newInstance(feedEntryList, boardId, position), true)

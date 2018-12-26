@@ -4,21 +4,17 @@ import android.database.Cursor
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_custom_gallery.*
+import life.plank.juna.zone.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.camera.PermissionHandler.*
 import life.plank.juna.zone.view.activity.camera.CustomCameraActivity
 import life.plank.juna.zone.view.adapter.gallery.GalleryAdapter
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
-import pub.devrel.easypermissions.AfterPermissionGranted
-import pub.devrel.easypermissions.EasyPermissions
+import org.jetbrains.anko.*
+import pub.devrel.easypermissions.*
 import java.util.*
 
 class CustomGalleryFragment : Fragment() {
@@ -27,7 +23,7 @@ class CustomGalleryFragment : Fragment() {
 
         private val TAG = CustomGalleryFragment::class.java.simpleName
 
-        fun newInstance(isForImage: Boolean, isBoard: Boolean): CustomGalleryFragment {
+        fun newInstance(isForImage: Boolean): CustomGalleryFragment {
             val fragment = CustomGalleryFragment()
             val args = Bundle()
             args.putBoolean(ZoneApplication.getContext().getString(R.string.intent_is_camera_for_image), isForImage)

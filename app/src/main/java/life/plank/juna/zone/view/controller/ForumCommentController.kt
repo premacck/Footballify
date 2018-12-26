@@ -1,8 +1,8 @@
 package life.plank.juna.zone.view.controller
 
 import com.airbnb.epoxy.Typed3EpoxyController
+import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.data.model.FeedItemComment
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.epoxy.modelview.*
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
 

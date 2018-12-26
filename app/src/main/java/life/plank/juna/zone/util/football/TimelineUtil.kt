@@ -1,10 +1,8 @@
 package life.plank.juna.zone.util.football
 
-import life.plank.juna.zone.data.model.Commentary
-import life.plank.juna.zone.data.model.LiveTimeStatus
-import life.plank.juna.zone.data.model.MatchEvent
+import com.prembros.facilis.util.isNullOrEmpty
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import java.util.*
 
 fun getAllTimelineEvents(commentaries: List<Commentary>, matchEventList: MutableList<MatchEvent>): List<MatchEvent>? {
