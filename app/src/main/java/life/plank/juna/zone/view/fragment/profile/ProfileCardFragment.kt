@@ -2,16 +2,14 @@ package life.plank.juna.zone.view.fragment.profile
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import com.prembros.facilis.util.onDebouncingClick
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.user_profile_card.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.util.facilis.BaseCard
-import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.view.fragment.base.BaseJunaCard
 
-class ProfileCardFragment : BaseCard() {
+class ProfileCardFragment : BaseJunaCard() {
 
     companion object {
         val TAG: String = ProfileCardFragment::class.java.simpleName

@@ -1,14 +1,12 @@
 package life.plank.juna.zone.view.adapter.onboarding
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import kotlinx.android.synthetic.main.item_zone_grid.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Zones
-import life.plank.juna.zone.util.common.DataUtil.findInt
+import life.plank.juna.zone.util.common.JunaDataUtil.findInt
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import java.util.*
 

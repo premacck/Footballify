@@ -18,7 +18,7 @@ import static life.plank.juna.zone.util.common.AppConstants.BOARD_POPUP;
 import static life.plank.juna.zone.util.common.AppConstants.HOME_POPUP;
 import static life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_OWNER_POPUP;
 import static life.plank.juna.zone.util.common.AppConstants.PRIVATE_BOARD_USER_POPUP;
-import static life.plank.juna.zone.util.common.DataUtil.findString;
+import static life.plank.juna.zone.util.common.JunaDataUtil.findString;
 import static life.plank.juna.zone.util.sharedpreference.SubscriptionPreferenceKt.isSubscribed;
 import static life.plank.juna.zone.util.sharedpreference.SubscriptionPreferenceKt.subscribeTo;
 import static life.plank.juna.zone.util.sharedpreference.SubscriptionPreferenceKt.unsubscribeFrom;

@@ -4,12 +4,12 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.*
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.fragment_forum.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.time.DateUtil.getRequestDateStringOfNow
@@ -17,7 +17,7 @@ import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import java.net.HttpURLConnection
 
-abstract class BaseCommentContainerFragment : BaseFragment() {
+abstract class BaseCommentContainerFragment : BaseJunaFragment() {
 
     protected lateinit var commentEvent: CommentEvent
     private var isReply: Boolean = false

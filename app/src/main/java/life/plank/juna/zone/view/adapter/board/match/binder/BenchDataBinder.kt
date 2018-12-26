@@ -1,17 +1,14 @@
 package life.plank.juna.zone.view.adapter.board.match.binder
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
-import com.ahamed.multiviewadapter.ItemBinder
-import com.ahamed.multiviewadapter.ItemViewHolder
+import com.ahamed.multiviewadapter.*
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.item_bench_data_layout.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.binder.SubstitutionBindingModel
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.adapter.board.match.BenchDataAdapter
 

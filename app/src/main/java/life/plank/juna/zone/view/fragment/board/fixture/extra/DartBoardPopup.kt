@@ -2,20 +2,17 @@ package life.plank.juna.zone.view.fragment.board.fixture.extra
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
+import com.prembros.facilis.dialog.BaseBlurPopup
+import com.prembros.facilis.util.onDebouncingClick
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_dart_board.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.view.throwDart
-import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import javax.inject.Inject
 
 class DartBoardPopup : BaseBlurPopup() {

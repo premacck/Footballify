@@ -1,16 +1,13 @@
 package life.plank.juna.zone.view.adapter.board.match.binder
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.ahamed.multiviewadapter.ItemBinder
-import com.ahamed.multiviewadapter.ItemViewHolder
+import android.view.*
+import com.ahamed.multiviewadapter.*
 import com.bumptech.glide.Glide
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.item_standings.view.*
+import life.plank.juna.zone.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.binder.StandingsBindingModel
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.adapter.league.StandingTableAdapter
 

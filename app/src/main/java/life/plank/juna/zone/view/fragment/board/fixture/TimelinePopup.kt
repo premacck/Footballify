@@ -2,27 +2,23 @@ package life.plank.juna.zone.view.fragment.board.fixture
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
+import com.prembros.facilis.dialog.BaseBlurPopup
+import com.prembros.facilis.util.isNullOrEmpty
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_timeline.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.DataUtil.*
-import life.plank.juna.zone.util.football.FixtureListUpdateTask
-import life.plank.juna.zone.util.football.getAllTimelineEvents
+import life.plank.juna.zone.util.common.JunaDataUtil.*
+import life.plank.juna.zone.util.football.*
 import life.plank.juna.zone.util.time.DateUtil.getTimelineDateHeader
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.adapter.board.match.TimelineAdapter
-import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 import java.util.*
 import javax.inject.Inject
 

@@ -27,8 +27,8 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.prembros.facilis.util.DataUtilKt.isNullOrEmpty;
 import static java.net.HttpURLConnection.HTTP_OK;
-import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.common.RestUtilKt.errorLog;
 import static life.plank.juna.zone.util.common.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken;

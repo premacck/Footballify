@@ -1,12 +1,12 @@
-package life.plank.juna.zone.view.fragment.base
+package com.prembros.facilis.dialog
 
 import android.view.*
 import androidx.annotation.*
+import com.prembros.facilis.R
+import com.prembros.facilis.activity.BaseCardActivity
+import com.prembros.facilis.fragment.BaseFragment
+import com.prembros.facilis.util.*
 import io.alterac.blurkit.BlurLayout
-import life.plank.juna.zone.R
-import life.plank.juna.zone.util.facilis.*
-import life.plank.juna.zone.util.view.UIDisplayUtil.hideSoftKeyboard
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 @Suppress("DeferredResultUnused")
@@ -40,14 +40,15 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
     private fun setupSwipeDownToCloseGesture() = getDragHandle()?.setSwipeDownListener(activity!!, getRootView()!!, getBlurLayout())
 
     fun pushFragment(baseFragment: BaseFragment, isAddToBackStack: Boolean = true) {
-        getParentActivity()?.pushFragment(baseFragment, isAddToBackStack)
+        getParentActivity().pushFragment(baseFragment, isAddToBackStack)
     }
 
-    protected fun getParentActivity(): BaseCardActivity? = activity as? BaseCardActivity
+    protected fun getParentActivity(): BaseCardActivity = activity as? BaseCardActivity
+            ?: throw IllegalStateException("parent activity of this popup must be a BaseCardActivity")
 
     @CallSuper
     override fun dismiss() {
-        hideSoftKeyboard(getRootView())
+        getRootView()?.hideSoftKeyboard()
         getBlurLayout()?.fadeOut()
         getRootView()?.animation?.run {}
                 ?: getRootView()?.animate(dismissAnimation())?.then { super.dismiss() }

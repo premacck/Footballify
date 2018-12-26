@@ -1,16 +1,12 @@
 package life.plank.juna.zone.view.latestMatch
 
 import android.app.Activity
-
-import com.ahamed.multiviewadapter.DataItemManager
-import com.ahamed.multiviewadapter.DataListManager
-import com.ahamed.multiviewadapter.RecyclerAdapter
-
+import com.ahamed.multiviewadapter.*
+import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.data.model.NextMatch
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.OnItemClickListener
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.facilis.addDataManagerAndRegisterBinder
+import life.plank.juna.zone.util.view.addDataManagerAndRegisterBinder
 
 class FootballZoneAdapter(activity: Activity, restApi: RestApi, onItemClickListener: OnItemClickListener) : RecyclerAdapter() {
 

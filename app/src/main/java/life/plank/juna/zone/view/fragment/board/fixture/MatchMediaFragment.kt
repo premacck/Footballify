@@ -1,23 +1,19 @@
 package life.plank.juna.zone.view.fragment.board.fixture
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_board_info.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.Highlights
-import life.plank.juna.zone.data.model.MatchDetails
+import life.plank.juna.zone.*
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.view.UIDisplayUtil.getScreenSize
 import life.plank.juna.zone.view.adapter.board.match.BoardMediaAdapter
-import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.view.fragment.base.BaseJunaFragment
 import javax.inject.Inject
 
-class MatchMediaFragment : BaseFragment() {
+class MatchMediaFragment : BaseJunaFragment() {
 
     @Inject
     lateinit var restApi: RestApi

@@ -2,28 +2,22 @@ package life.plank.juna.zone.view.fragment.board.fixture
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.annotation.StringRes
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_board_info.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.MatchDetails
-import life.plank.juna.zone.data.model.MatchEvent
+import life.plank.juna.zone.*
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.onTerminate
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.view.adapter.board.match.LineupsAdapter
-import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.view.fragment.base.BaseJunaFragment
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
-class LineupFragment : BaseFragment() {
+class LineupFragment : BaseJunaFragment() {
 
     @Inject
     lateinit var restApi: RestApi

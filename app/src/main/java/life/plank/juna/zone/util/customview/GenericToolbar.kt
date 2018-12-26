@@ -18,8 +18,8 @@ import kotlinx.android.synthetic.main.layout_private_board_tabs.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.interfaces.*
 import life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup
-import life.plank.juna.zone.util.facilis.dragHandle
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
+import org.jetbrains.anko.find
 
 class GenericToolbar @JvmOverloads constructor(
         context: Context,
@@ -47,7 +47,7 @@ class GenericToolbar @JvmOverloads constructor(
         share_btn?.visibility = if (array.getInt(R.styleable.GenericToolbar_shareButtonVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
         options_menu?.visibility = if (array.getInt(R.styleable.GenericToolbar_optionsMenuVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
         info_tiles_tab_layout?.visibility = if (array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
-        dragHandle()?.visibility = if (array.getInt(R.styleable.GenericToolbar_dragHandleVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
+        find<View>(R.id.drag_handle_image).visibility = if (array.getInt(R.styleable.GenericToolbar_dragHandleVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
         showLock(array.getBoolean(R.styleable.GenericToolbar_isLockVisible, false))
         array.recycle()
     }

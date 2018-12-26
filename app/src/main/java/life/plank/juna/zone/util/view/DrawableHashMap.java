@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import life.plank.juna.zone.R;
 
-import static life.plank.juna.zone.util.common.DataUtil.findString;
+import static life.plank.juna.zone.util.common.JunaDataUtil.findString;
 import static life.plank.juna.zone.util.view.UIDisplayUtil.findDrawable;
 
 public class DrawableHashMap {

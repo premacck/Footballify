@@ -1,15 +1,14 @@
 package life.plank.juna.zone.view.activity.zone
 
 import android.os.Bundle
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.handleBoardIntentIfAny
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.fragment.zone.ZoneContainerFragment
 import javax.inject.Inject
 
-class ZoneActivity : BaseCardActivity() {
+class ZoneActivity : BaseJunaCardActivity() {
 
     @Inject
     lateinit var restApi: RestApi

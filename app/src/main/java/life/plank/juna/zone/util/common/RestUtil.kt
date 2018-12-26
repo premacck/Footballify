@@ -2,19 +2,14 @@ package life.plank.juna.zone.util.common
 
 import android.annotation.SuppressLint
 import android.util.Log
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.StringRes
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.view.fragment.base.BaseFragment
-import org.jetbrains.anko.layoutInflater
-import org.jetbrains.anko.runOnUiThread
+import life.plank.juna.zone.*
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
+import life.plank.juna.zone.view.fragment.base.BaseJunaFragment
+import org.jetbrains.anko.*
 import retrofit2.Response
-import rx.Observable
-import rx.Subscriber
-import rx.Subscription
+import rx.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
@@ -45,18 +40,18 @@ fun <T> Observable<T>.smartSubscribe(fragmentToAttach: Any? = null, onError: (e:
 
         override fun onError(e: Throwable) {
             errorToast(R.string.something_went_wrong, e)
-            (fragmentToAttach as? BaseFragment)?.run {
+            (fragmentToAttach as? BaseJunaFragment)?.run {
                 if (isAdded) onError(e)
             } ?: onError(e)
         }
 
         override fun onNext(t: T) {
-            (fragmentToAttach as? BaseFragment)?.run {
+            (fragmentToAttach as? BaseJunaFragment)?.run {
                 if (isAdded) onNext(t)
             } ?: onNext(t)
         }
     })
-    (fragmentToAttach as? BaseFragment)?.run {
+    (fragmentToAttach as? BaseJunaFragment)?.run {
         if (!subscriptionList.contains(subscription)) {
             subscriptionList.add(subscription)
         }

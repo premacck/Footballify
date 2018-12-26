@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.*
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.*
+import com.prembros.facilis.util.floatUp
 import kotlinx.android.synthetic.main.fragment_private_board.*
 import kotlinx.android.synthetic.main.layout_board_engagement.*
 import life.plank.juna.zone.*
@@ -15,12 +16,11 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.BoardHeaderListener
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.facilis.*
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import life.plank.juna.zone.view.fragment.base.CardTileFragment
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
+import life.plank.juna.zone.view.fragment.base.*
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import java.net.HttpURLConnection
@@ -126,10 +126,10 @@ class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
             when (it.code()) {
                 HttpURLConnection.HTTP_NO_CONTENT -> {
                     customToast(R.string.board_deletion)
-                    if (parentFragment != null && parentFragment is BaseCard) {
-                        (parentFragment as BaseCard).getParentActivity().popBackStack()
-                    } else if (activity is BaseCardActivity) {
-                        (activity as BaseCardActivity).popBackStack()
+                    if (parentFragment != null && parentFragment is BaseJunaCard) {
+                        (parentFragment as BaseJunaCard).parentActivity().popBackStack()
+                    } else if (activity is BaseJunaCardActivity) {
+                        (activity as BaseJunaCardActivity).popBackStack()
                     }
                 }
                 else -> errorToast(R.string.something_went_wrong, it)

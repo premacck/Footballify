@@ -1,21 +1,18 @@
 package life.plank.juna.zone.view.fragment.profile
 
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
+import android.text.*
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.fragment_profile_card_detail.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.view.adapter.profile.ProfileCardAdapter
+import life.plank.juna.zone.view.fragment.base.BaseJunaCard
 
 
-class ProfileCardDetailFragment : BaseCard() {
+class ProfileCardDetailFragment : BaseJunaCard() {
 
     private var profileCardAdapter: ProfileCardAdapter? = null
     private val maxLines = 2

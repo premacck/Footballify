@@ -3,7 +3,7 @@ package life.plank.juna.zone.util.sharedpreference
 import android.content.SharedPreferences
 import com.google.firebase.messaging.FirebaseMessaging
 import life.plank.juna.zone.R.string.pref_subscription
-import life.plank.juna.zone.util.common.DataUtil.findString
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.getSharedPrefs
 
 private fun getSubscriptionPrefs(): SharedPreferences = getSharedPrefs(findString(pref_subscription))

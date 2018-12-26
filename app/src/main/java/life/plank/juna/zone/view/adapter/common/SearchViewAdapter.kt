@@ -1,18 +1,14 @@
 package life.plank.juna.zone.view.adapter.common
 
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.graphics.*
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.item_image_and_title.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.User
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
 
 class SearchViewAdapter(private val userList: MutableList<User>, private val glide: RequestManager) : RecyclerView.Adapter<SearchViewAdapter.SearchViewHolder>() {

@@ -4,15 +4,15 @@ import android.app.Activity
 import android.view.*
 import com.ahamed.multiviewadapter.*
 import com.bumptech.glide.Glide
+import com.prembros.facilis.util.onElevatingClick
 import kotlinx.android.synthetic.main.next_match_row.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.NextMatch
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.DataUtil.getSpecifiedLeague
+import life.plank.juna.zone.util.common.JunaDataUtil.getSpecifiedLeague
 import life.plank.juna.zone.util.common.launchMatchBoard
-import life.plank.juna.zone.util.facilis.onElevatingClick
 import life.plank.juna.zone.util.time.DateUtil
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 
 class NextMatchBinder(private val activity: Activity, private val restApi: RestApi) : ItemBinder<NextMatch, NextMatchBinder.NextMatchViewHolder>() {
 
@@ -30,7 +30,7 @@ class NextMatchBinder(private val activity: Activity, private val restApi: RestA
         Glide.with(activity).load(item.awayTeamLogo).into(holder.itemView.visiting_team_logo)
 
         holder.itemView.onElevatingClick(0) {
-            (activity as? BaseCardActivity)?.launchMatchBoard(restApi, item.matchId)
+            (activity as? BaseJunaCardActivity)?.launchMatchBoard(restApi, item.matchId)
         }
     }
 

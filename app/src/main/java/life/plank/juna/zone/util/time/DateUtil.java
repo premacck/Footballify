@@ -22,6 +22,7 @@ import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal;
 import life.plank.juna.zone.util.common.StringUtilKt;
 
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
+import static com.prembros.facilis.util.DataUtilKt.formatInt;
 import static life.plank.juna.zone.util.common.AppConstants.FOUR_HOURS_MILLIS;
 import static life.plank.juna.zone.util.common.AppConstants.LIVE;
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
@@ -35,7 +36,6 @@ import static life.plank.juna.zone.util.common.AppConstants.NINETY_FIVE_MINUTES_
 import static life.plank.juna.zone.util.common.AppConstants.ONE_DAY_MILLIS;
 import static life.plank.juna.zone.util.common.AppConstants.ONE_HOUR_MILLIS;
 import static life.plank.juna.zone.util.common.AppConstants.TWO_HOURS_MILLIS;
-import static life.plank.juna.zone.util.common.DataUtil.formatInt;
 import static life.plank.juna.zone.util.time.TimeDiffKt.getTimeInHourMinuteFormat;
 
 @SuppressLint("ConstantLocale")

@@ -4,26 +4,18 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.prembros.facilis.util.*
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_user_search.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.AppConstants
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.common.startVoiceRecognitionActivity
-import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.adapter.common.SearchViewAdapter
 import life.plank.juna.zone.view.fragment.base.SearchablePopup
@@ -129,7 +121,7 @@ class SearchUserPopup : SearchablePopup(), View.OnTouchListener {
                 restApi.inviteUserToJoinBoard(selectedUsers, boardId, getToken()).setObserverThreadsAndSmartSubscribe({}, {
                     when (it.code()) {
                         HttpURLConnection.HTTP_CREATED -> {
-                            getParentActivity()?.onBackPressed() ?: dismiss()
+                            getParentActivity().onBackPressed()
                         }
                         else -> errorToast(R.string.invite_user_failed, it)
                     }

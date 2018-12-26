@@ -5,23 +5,20 @@ import android.content.res.ColorStateList
 import android.os.CountDownTimer
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Button
-import android.widget.FrameLayout
+import android.widget.*
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
+import com.prembros.facilis.util.toggleInteraction
 import kotlinx.android.synthetic.main.item_poll.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.binder.PollBindingModel
-import life.plank.juna.zone.data.model.poll.Poll
-import life.plank.juna.zone.data.model.poll.PollAnswerRequest
+import life.plank.juna.zone.data.model.poll.*
 import life.plank.juna.zone.interfaces.PollContainer
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.AppConstants.PollValue.*
-import life.plank.juna.zone.util.common.DataUtil
-import life.plank.juna.zone.util.facilis.toggleInteraction
+import life.plank.juna.zone.util.common.JunaDataUtil
 import life.plank.juna.zone.util.time.DateUtil
-import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
-import life.plank.juna.zone.util.view.UIDisplayUtil.getDrawableTopTarget
+import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 
@@ -79,7 +76,7 @@ class BoardPoll @JvmOverloads constructor(context: Context,
                 }
             }.start()
         } else {
-            time_to_kick_off.text = DataUtil.getDisplayTimeStatus(pollBindingModel.timeStatus)
+            time_to_kick_off.text = JunaDataUtil.getDisplayTimeStatus(pollBindingModel.timeStatus)
         }
 
         setPollProgress()

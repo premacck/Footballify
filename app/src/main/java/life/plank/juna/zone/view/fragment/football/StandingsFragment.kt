@@ -6,13 +6,12 @@ import android.view.*
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.fragment_standings.*
 import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.view.adapter.league.StandingTableAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import javax.inject.Inject
@@ -26,7 +25,7 @@ class StandingsFragment : BaseLeagueFragment() {
     private lateinit var league: League
 
     companion object {
-        fun newInstance(league: League) = StandingsFragment().apply { arguments = Bundle().apply { putParcelable(DataUtil.findString(R.string.intent_league), league) } }
+        fun newInstance(league: League) = StandingsFragment().apply { arguments = Bundle().apply { putParcelable(JunaDataUtil.findString(R.string.intent_league), league) } }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

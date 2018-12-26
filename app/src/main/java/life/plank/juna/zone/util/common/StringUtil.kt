@@ -11,7 +11,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Commentary
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.fragment.web.WebCard
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -53,7 +53,7 @@ fun SpannableString.underline(start: Int = 0, end: Int = length): SpannableStrin
 fun CharSequence.toClickableWebLink(activity: Activity?, start: Int = 0, end: Int = length): SpannableString {
     val spannableString: SpannableString = if (this is SpannableString) this else SpannableString(this)
     spannableString.clickAction(start, end) {
-        (activity as? BaseCardActivity)?.pushFragment(WebCard.newInstance(this@toClickableWebLink.toString()), true)
+        (activity as? BaseJunaCardActivity)?.pushFragment(WebCard.newInstance(this@toClickableWebLink.toString()), true)
     }.color(R.color.dark_sky_blue, start, end)
     return spannableString
 }

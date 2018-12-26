@@ -39,7 +39,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+import static com.prembros.facilis.util.DataUtilKt.isNullOrEmpty;
 import static life.plank.juna.zone.util.common.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken;
 import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.saveAuthState;

@@ -2,10 +2,10 @@ package life.plank.juna.zone.util.common
 
 import android.app.Activity
 import androidx.core.app.ShareCompat
+import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.R
 import life.plank.juna.zone.util.common.AppConstants.NEW_LINE
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 
 fun shareBoardExternally(activity: Activity?, homeTeamName: String?, visitingTeamName: String?, boardId: String) {
     activity?.run {

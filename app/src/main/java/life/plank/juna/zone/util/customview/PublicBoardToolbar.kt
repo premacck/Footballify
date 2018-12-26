@@ -15,6 +15,7 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.tabs.TabLayout
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.layout_board_engagement.view.*
 import kotlinx.android.synthetic.main.public_board_toolbar.view.*
 import life.plank.juna.zone.*
@@ -22,9 +23,8 @@ import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.interfaces.*
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.*
-import life.plank.juna.zone.util.common.DataUtil.*
+import life.plank.juna.zone.util.common.JunaDataUtil.*
 import life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.time.*
 import life.plank.juna.zone.util.time.DateUtil.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*

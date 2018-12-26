@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.lifecycle.Observer
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.fragment_fixture.*
 import life.plank.juna.zone.*
 import life.plank.juna.zone.data.local.model.LeagueInfo
@@ -11,8 +12,7 @@ import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.LeagueContainer
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.DataUtil.*
-import life.plank.juna.zone.util.facilis.doAfterDelay
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.view.adapter.fixture.FixtureMatchdayAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.Companion.fixtureByMatchDayList

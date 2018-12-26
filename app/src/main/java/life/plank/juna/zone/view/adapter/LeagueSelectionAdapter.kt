@@ -3,13 +3,13 @@ package life.plank.juna.zone.view.adapter
 import android.app.Activity
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.item_onboarding.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.League
-import life.plank.juna.zone.util.common.DataUtil.*
-import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.common.JunaDataUtil.getSpecifiedLeague
 import life.plank.juna.zone.util.view.UIDisplayUtil.findColor
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment
 
 class LeagueSelectionAdapter(private val activity: Activity,
@@ -26,7 +26,7 @@ class LeagueSelectionAdapter(private val activity: Activity,
 
         holder.itemView.card.setCardBackgroundColor(findColor(league.dominantColor!!))
         holder.itemView.card.onDebouncingClick {
-            (activity as? BaseCardActivity)?.pushFragment(LeagueInfoFragment.newInstance(getSpecifiedLeague(league.name)), true)
+            (activity as? BaseJunaCardActivity)?.pushFragment(LeagueInfoFragment.newInstance(getSpecifiedLeague(league.name)), true)
         }
     }
 

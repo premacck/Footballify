@@ -2,29 +2,22 @@ package life.plank.juna.zone.view.adapter.board.match.binder
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.*
+import android.view.ViewGroup.LayoutParams.*
 import android.widget.LinearLayout
-import com.ahamed.multiviewadapter.ItemBinder
-import com.ahamed.multiviewadapter.ItemViewHolder
+import com.ahamed.multiviewadapter.*
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.item_line_up.view.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.Formation
-import life.plank.juna.zone.data.model.FormationList
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.model.binder.LineupsBindingModel
-import life.plank.juna.zone.util.common.DataUtil.getIntegratedLineups
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.util.common.JunaDataUtil.getIntegratedLineups
 import life.plank.juna.zone.util.customview.LineupPlayer
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 
 class LineupsBinder(private val glide: RequestManager) : ItemBinder<LineupsBindingModel, LineupsBinder.LineupsViewHolder>() {
 

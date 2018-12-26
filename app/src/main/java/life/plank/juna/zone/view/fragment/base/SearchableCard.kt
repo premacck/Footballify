@@ -5,14 +5,13 @@ import android.view.View
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Runnable
-import life.plank.juna.zone.util.facilis.BaseCard
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import rx.Subscription
 
 /**
  * Class for handling searches efficiently - by using a specified delay in the search API call
  */
-abstract class SearchableCard : BaseCard() {
+abstract class SearchableCard : BaseJunaCard() {
 
     private var handler: Handler = Handler()
     private var searchRunnable: Runnable? = null

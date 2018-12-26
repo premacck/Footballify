@@ -2,10 +2,10 @@ package life.plank.juna.zone.view.controller
 
 import androidx.annotation.StringRes
 import com.airbnb.epoxy.AutoModel
+import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.interfaces.FeedEntryContainer
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.epoxy.EpoxyController3
 import life.plank.juna.zone.util.epoxy.modelview.*
 

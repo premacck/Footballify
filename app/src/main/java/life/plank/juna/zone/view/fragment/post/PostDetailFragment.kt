@@ -17,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_post_detail.*
 import life.plank.juna.zone.*
@@ -26,17 +27,18 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.EmojiContainer
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.time.DateUtil.*
+import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
+import life.plank.juna.zone.view.fragment.base.BaseJunaCardChild
 import net.openid.appauth.AuthorizationService
 import java.io.IOException
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
 
-class PostDetailFragment : BaseCardChildFragment(), EmojiContainer {
+class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
 
     @Inject
     lateinit var restApi: RestApi
@@ -103,7 +105,7 @@ class PostDetailFragment : BaseCardChildFragment(), EmojiContainer {
             }
         }
         reaction_view.onDebouncingClick {
-            if (DataUtil.isNullOrEmpty(getToken())) {
+            if (isNullOrEmpty(getToken())) {
                 showPopup()
             } else {
                 emojiBottomSheetBehavior?.showFor(emojiAdapter!!, feedEntry.feedItem.id)

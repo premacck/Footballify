@@ -2,15 +2,11 @@ package life.plank.juna.zone.data.model.binder
 
 import android.os.Parcelable
 import androidx.annotation.StringRes
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.parcel.Parcelize
-
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.FootballTeam
-import life.plank.juna.zone.data.model.MatchDetails
-import life.plank.juna.zone.data.model.MatchEvent
-
-import life.plank.juna.zone.util.common.DataUtil.extractSubstitutionEvents
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.data.model.*
+import life.plank.juna.zone.util.common.JunaDataUtil.extractSubstitutionEvents
 
 @Parcelize
 data class SubstitutionBindingModel(

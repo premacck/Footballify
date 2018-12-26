@@ -4,18 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.activity_splash_screen.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.AuthUtil
-import life.plank.juna.zone.util.common.DataUtil
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
-import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.checkTokenValidity
-import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.*
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import net.openid.appauth.AuthorizationService
 import java.net.HttpURLConnection
@@ -76,7 +72,7 @@ class SplashScreenActivity : AppCompatActivity() {
                     val user = it.body()
                     if (user != null) {
                         PreferenceManager.CurrentUser.saveUser(user)
-                        if (DataUtil.isNullOrEmpty<UserPreference>(user.userPreferences)) {
+                        if (isNullOrEmpty<UserPreference>(user.userPreferences)) {
                             startActivity(Intent(this@SplashScreenActivity, SelectZoneActivity::class.java))
                         } else {
                             startActivity(Intent(this@SplashScreenActivity, HomeActivity::class.java))

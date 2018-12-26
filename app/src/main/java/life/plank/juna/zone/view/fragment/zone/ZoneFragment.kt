@@ -14,17 +14,18 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.OnItemClickListener
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
-import life.plank.juna.zone.util.facilis.BaseCardChildFragment
+import life.plank.juna.zone.util.common.JunaDataUtil.getStaticLeagues
 import life.plank.juna.zone.util.network.NetworkStatus
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.view.adapter.LeagueSelectionAdapter
+import life.plank.juna.zone.view.fragment.base.BaseJunaCardChild
 import life.plank.juna.zone.view.latestMatch.FootballZoneAdapter
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
-class ZoneFragment : BaseCardChildFragment(), OnItemClickListener {
+class ZoneFragment : BaseJunaCardChild(), OnItemClickListener {
 
     @Inject
     lateinit var gson: Gson
@@ -54,7 +55,7 @@ class ZoneFragment : BaseCardChildFragment(), OnItemClickListener {
         setUpData()
         setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, null)
         initBottomSheetRecyclerView()
-        leagueSelectionAdapter?.setLeagueList(DataUtil.getStaticLeagues())
+        leagueSelectionAdapter?.setLeagueList(getStaticLeagues())
         search_view.visibility = View.GONE
         title.visibility = View.GONE
         next.visibility = View.GONE

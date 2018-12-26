@@ -1,14 +1,11 @@
 package life.plank.juna.zone.view.fragment.share
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import com.prembros.facilis.dialog.BaseBlurPopup
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_share_link.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
+import life.plank.juna.zone.*
 
 
 class ShareLinkPopup : BaseBlurPopup() {

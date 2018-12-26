@@ -4,19 +4,15 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.*
 import kotlinx.android.synthetic.main.activity_custom_camera.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.view.UIDisplayUtil.setupSwipeGesture
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import life.plank.juna.zone.view.fragment.camera.CameraFragment
-import life.plank.juna.zone.view.fragment.camera.CustomGalleryFragment
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
+import life.plank.juna.zone.view.fragment.camera.*
 
-class CustomCameraActivity : BaseCardActivity() {
+class CustomCameraActivity : BaseJunaCardActivity() {
 
     var isForImage: Boolean = false
     var isBoard: Boolean = true
@@ -57,7 +53,7 @@ class CustomCameraActivity : BaseCardActivity() {
         override fun getItem(position: Int): Fragment {
             return when (position) {
                 0 -> CameraFragment.newInstance(boardId, isBoard)
-                else -> CustomGalleryFragment.newInstance(isForImage, isBoard)
+                else -> CustomGalleryFragment.newInstance(isForImage)
             }
         }
 

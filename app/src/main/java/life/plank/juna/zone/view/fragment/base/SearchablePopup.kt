@@ -4,6 +4,7 @@ import android.os.*
 import android.view.View
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
+import com.prembros.facilis.dialog.BaseBlurPopup
 import kotlinx.coroutines.Runnable
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import rx.Subscription

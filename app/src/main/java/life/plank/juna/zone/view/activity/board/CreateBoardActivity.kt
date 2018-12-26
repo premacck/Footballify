@@ -1,34 +1,29 @@
 package life.plank.juna.zone.view.activity.board
 
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.os.Bundle
 import android.provider.MediaStore.Images.Media
 import android.view.View
 import android.widget.ToggleButton
 import com.facebook.internal.Utility.isNullOrEmpty
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.activity_create_board.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.AppConstants.GALLERY_IMAGE_RESULT
 import life.plank.juna.zone.util.common.customToast
-import life.plank.juna.zone.util.facilis.onClick
-import life.plank.juna.zone.util.facilis.onTextChanged
-import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.view.UIDisplayUtil
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import life.plank.juna.zone.view.adapter.board.creation.BoardColorThemeAdapter
-import life.plank.juna.zone.view.adapter.board.creation.BoardIconAdapter
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
+import life.plank.juna.zone.view.adapter.board.creation.*
 import life.plank.juna.zone.view.fragment.board.user.BoardPreviewPopup
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import javax.inject.Inject
 
-class CreateBoardActivity : BaseCardActivity() {
+class CreateBoardActivity : BaseJunaCardActivity() {
 
     @Inject
     lateinit var boardColorThemeAdapter: BoardColorThemeAdapter

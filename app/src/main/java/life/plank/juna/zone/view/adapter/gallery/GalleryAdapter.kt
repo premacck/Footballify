@@ -1,18 +1,14 @@
 package life.plank.juna.zone.view.adapter.gallery
 
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.item_gallery.view.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.util.common.AppConstants.IMAGE
-import life.plank.juna.zone.util.common.AppConstants.VIDEO
-import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.view.activity.camera.CustomCameraActivity
-import life.plank.juna.zone.view.activity.camera.UploadActivity
+import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.view.activity.camera.*
 import life.plank.juna.zone.view.cardmaker.CreateCardActivity
 import java.util.*
 

@@ -3,27 +3,21 @@ package life.plank.juna.zone.view.fragment.camera
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
+import com.prembros.facilis.util.onDebouncingClick
 import com.wonderkiln.camerakit.CameraKit.Constants.*
 import kotlinx.android.synthetic.main.fragment_camera.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.util.common.AppConstants.IMAGE
-import life.plank.juna.zone.util.common.AppConstants.VIDEO
+import life.plank.juna.zone.*
+import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.FileHandler
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.activity.camera.UploadActivity
 import life.plank.juna.zone.view.cardmaker.CreateCardActivity
 import org.jetbrains.anko.sdk27.coroutines.onTouch
 import org.jetbrains.anko.support.v4.runOnUiThread
-import java.io.File
-import java.io.IOException
+import java.io.*
 
 class CameraFragment : Fragment() {
 

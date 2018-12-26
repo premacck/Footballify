@@ -26,7 +26,7 @@ import life.plank.juna.zone.view.activity.SignInActivity;
 import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 
-import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
+import static com.prembros.facilis.util.DataUtilKt.isNullOrEmpty;
 import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getSavedAuthState;
 import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.saveAuthState;
 import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.saveTokens;

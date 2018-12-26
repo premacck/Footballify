@@ -1,14 +1,12 @@
 package life.plank.juna.zone.view.adapter.fixture
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.item_fixture_date.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FixtureByDate
 import life.plank.juna.zone.interfaces.LeagueContainer
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.time.DateUtil.getDateHeader
 
 class FixtureDateAdapter(

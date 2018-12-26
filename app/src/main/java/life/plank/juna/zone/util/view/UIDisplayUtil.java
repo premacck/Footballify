@@ -81,8 +81,8 @@ import life.plank.juna.zone.util.customview.TopGravityDrawable;
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 import static android.text.style.DynamicDrawableSpan.ALIGN_BASELINE;
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.prembros.facilis.util.DataUtilKt.isNullOrEmpty;
 import static life.plank.juna.zone.util.common.AppConstants.SPACE;
-import static life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty;
 
 /**
  * Created by plank-sobia on 11/8/2017.

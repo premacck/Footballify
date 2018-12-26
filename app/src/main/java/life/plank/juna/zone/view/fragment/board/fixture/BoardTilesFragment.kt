@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.prembros.asymmetricrecyclerview.base.AsymmetricRecyclerViewListener
 import com.prembros.asymmetricrecyclerview.widget.AsymmetricRecyclerViewAdapter
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_board_tiles.*
 import kotlinx.android.synthetic.main.item_react.*
@@ -21,8 +22,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.*
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_FULL
-import life.plank.juna.zone.util.common.DataUtil.*
-import life.plank.juna.zone.util.facilis.*
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
@@ -38,7 +38,7 @@ import java.util.Objects.requireNonNull
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollContainer, EmojiContainer {
+class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, PollContainer, EmojiContainer {
 
     @Inject
     lateinit var restApi: RestApi
@@ -233,7 +233,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
 
     override fun fireOnItemLongClick(index: Int, v: View): Boolean {
         if (parentFragment is FeedEntryContainer) {
-            vibrate(20)
+            context?.vibrate(20)
             (parentFragment as FeedEntryContainer).showFeedItemPeekPopup(index)
         }
         return true

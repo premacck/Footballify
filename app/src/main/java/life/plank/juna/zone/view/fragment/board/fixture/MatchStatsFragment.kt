@@ -2,27 +2,21 @@ package life.plank.juna.zone.view.fragment.board.fixture
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.fragment_board_info.*
-import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.*
 import life.plank.juna.zone.data.RestApiAggregator
 import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.MatchStatsListener
-import life.plank.juna.zone.util.common.DataUtil.findString
-import life.plank.juna.zone.util.common.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.common.onSubscribe
-import life.plank.juna.zone.util.common.onTerminate
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.facilis.BaseCard
+import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.time.DateUtil.getTimeDiffFromNow
 import life.plank.juna.zone.view.adapter.board.match.MatchStatsAdapter
-import life.plank.juna.zone.view.fragment.base.BaseBoardFragment
+import life.plank.juna.zone.view.fragment.base.*
 import java.util.*
 import javax.inject.Inject
 
@@ -78,8 +72,8 @@ class MatchStatsFragment : BaseBoardFragment(), MatchStatsListener {
     }
 
     override fun onCommentarySeeAllClick(fromView: View) {
-        if (parentFragment is BaseCard && !isNullOrEmpty(matchDetails.commentary)) {
-            (parentFragment as BaseCard).pushPopup(CommentaryPopup.newInstance((matchDetails.commentary as ArrayList<Commentary>?)!!))
+        if (parentFragment is BaseJunaCard && !isNullOrEmpty(matchDetails.commentary)) {
+            (parentFragment as BaseJunaCard).pushPopup(CommentaryPopup.newInstance((matchDetails.commentary as ArrayList<Commentary>?)!!))
         }
     }
 
