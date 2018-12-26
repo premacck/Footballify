@@ -10,7 +10,6 @@ import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
-import life.plank.juna.zone.view.fragment.base.BaseJunaCard
 import life.plank.juna.zone.view.fragment.board.user.JoinBoardPopup
 import org.jetbrains.anko.*
 
@@ -106,7 +105,3 @@ fun InAppNotification.triggerNotificationAction(baseCardActivity: BaseJunaCardAc
         footballLiveData != null -> baseCardActivity?.triggerNotificationIntent(footballLiveData?.getLiveFootballNotificationIntent()!!)
     }
 }
-
-fun BaseJunaCard.getSocialNotificationIntentActionFromActivity(): String? = activity?.getActionFromIntent()
-
-fun BaseJunaCard.getLiveFootballNotificationIntentActionFromActivity(): String? = activity?.getLiveDataTypeFromIntent()

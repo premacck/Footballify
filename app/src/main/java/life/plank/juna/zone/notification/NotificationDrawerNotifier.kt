@@ -14,6 +14,7 @@ import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
 import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.common.AppConstants.NotificationIcon.*
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.common.asciiToInt
 import org.jetbrains.anko.*
@@ -73,13 +74,14 @@ fun SocialNotification.sendImageNotification(pendingIntent: PendingIntent, isBig
     val notificationBuilder = getNotificationBuilder(SpannableStringBuilder(notificationMessage), pendingIntent)
     try {
         ZoneApplication.getContext().doAsync {
-            iconUrl?.run {
+            iconUrls?.run {
                 if (!isEmpty()) {
-                    val boardIconBitmap = Glide.with(ZoneApplication.getContext()).asBitmap().load(get(0)).submit().get()
+                    val boardIconBitmap = Glide.with(ZoneApplication.getContext()).asBitmap().load(get(PRIVATE_BOARD_ICON)).submit().get()
                     uiThread {
                         if (isBigImage) {
                             notificationBuilder.setLargeIcon(boardIconBitmap)
-                            notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(boardIconBitmap).bigLargeIcon(null))
+                            val feedItemIconBitmap = Glide.with(ZoneApplication.getContext()).asBitmap().load(get(FEED_ITEM_ICON)).submit().get()
+                            notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(feedItemIconBitmap).bigLargeIcon(null))
                         } else {
                             notificationBuilder.setLargeIcon(boardIconBitmap)
                         }
