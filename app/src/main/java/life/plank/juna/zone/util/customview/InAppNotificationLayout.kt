@@ -49,29 +49,41 @@ class InAppNotificationLayout @JvmOverloads constructor(
             socialNotification != null -> {
                 image_layout.visibility = View.INVISIBLE
 
-                if (isNullOrEmpty(socialNotification?.privateBoardIcon)) {
+                if (isNullOrEmpty(socialNotification?.privateBoardIcon) && isNullOrEmpty(socialNotification?.homeTeamIcon) && isNullOrEmpty(socialNotification?.awayTeamIcon)) {
                     notification_image.visibility = View.GONE
                     (notification_message_layout.layoutParams as FrameLayout.LayoutParams).marginStart = 0
                 }
 
                 socialNotification?.run {
-                    Glide.with(this@InAppNotificationLayout).load(privateBoardIcon)
-                            .apply(RequestOptions.overrideOf(getDp(85f).toInt(), getDp(85f).toInt()))
-                            .into(notification_image)
+                    if (!isNullOrEmpty(privateBoardIcon)) {
+                        loadSingleIcon(privateBoardIcon!!)
+                    } else if (!isNullOrEmpty(homeTeamIcon) && !isNullOrEmpty(awayTeamIcon)) {
+                        loadDoubleIcons(homeTeamIcon!!, awayTeamIcon!!)
+                    }
                 }
             }
             footballLiveData != null -> {
-                notification_image.setImageDrawable(resources.getDrawable(R.drawable.ic_match_bg, null))
-                Glide.with(this@InAppNotificationLayout).load(footballLiveData?.homeTeamLogo)
-                        .apply(RequestOptions.overrideOf(getDp(30f).toInt(), getDp(30f).toInt())
-                                .placeholder(R.drawable.shimmer_circle))
-                        .into(home_team_logo)
-                Glide.with(this@InAppNotificationLayout).load(footballLiveData?.visitingTeamLogo)
-                        .apply(RequestOptions.overrideOf(getDp(30f).toInt(), getDp(30f).toInt())
-                                .placeholder(R.drawable.shimmer_circle))
-                        .into(visiting_team_logo)
+                loadDoubleIcons(footballLiveData?.homeTeamLogo!!, footballLiveData?.visitingTeamLogo!!)
             }
         }
+    }
+
+    private fun loadSingleIcon(iconUrl: String) {
+        Glide.with(this).load(iconUrl)
+                .apply(RequestOptions.overrideOf(getDp(85f).toInt(), getDp(85f).toInt()))
+                .into(notification_image)
+    }
+
+    private fun loadDoubleIcons(homeTeamLogo: String, visitingTeamLogo: String) {
+        notification_image.setImageDrawable(resources.getDrawable(R.drawable.ic_match_bg, null))
+        Glide.with(this@InAppNotificationLayout).load(homeTeamLogo)
+                .apply(RequestOptions.overrideOf(getDp(30f).toInt(), getDp(30f).toInt())
+                        .placeholder(R.drawable.shimmer_circle))
+                .into(home_team_logo)
+        Glide.with(this@InAppNotificationLayout).load(visitingTeamLogo)
+                .apply(RequestOptions.overrideOf(getDp(30f).toInt(), getDp(30f).toInt())
+                        .placeholder(R.drawable.shimmer_circle))
+                .into(visiting_team_logo)
     }
 
     private fun setListeners(inAppNotification: InAppNotification) {
