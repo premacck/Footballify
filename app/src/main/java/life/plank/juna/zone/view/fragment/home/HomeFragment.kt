@@ -63,10 +63,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        PreferenceManager.CurrentUser.getUserId()?.run {
-            val topic = getString(R.string.juna_user_topic) + this
-            if (!isSubscribed(topic)) subscribeTo(topic)
-        }
+        PreferenceManager.CurrentUser.getUserId()?.run { subscribeTo(getString(R.string.juna_user_topic) + this) }
 
         startShimmers()
         initBoardsRecyclerView()

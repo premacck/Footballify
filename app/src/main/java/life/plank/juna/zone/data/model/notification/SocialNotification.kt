@@ -20,5 +20,9 @@ data class SocialNotification(
         var childId: String? = null,
         var siblingId: String? = null,
         var contentType: String? = null,
-        var iconUrls: Map<String, String>? = null
+        var privateBoardIcon: String? = null,
+        var homeTeamIcon: String? = null,
+        var awayTeamIcon: String? = null,
+        var feedItemIcon: String? = null,
+        var lastActorIcon: String? = null
 ) : Parcelable, BaseInAppNotification()
