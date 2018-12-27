@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.data.model.notification.SocialNotification
+import life.plank.juna.zone.data.network.dagger.module.NetworkModule.GSON
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import org.jetbrains.anko.*
@@ -23,7 +24,7 @@ fun dispatch(dataPayload: Map<String, String>) {
 
 fun dispatchSocialNotification(dataPayload: Map<String, String>) {
     ZoneApplication.getContext().doAsync {
-        val junaNotification = Gson().fromJson<SocialNotification>(JSONObject(dataPayload).toString(), SocialNotification::class.java)
+        val junaNotification = GSON.fromJson<SocialNotification>(GSON.toJsonTree(dataPayload.toMap()), SocialNotification::class.java)
         uiThread {
             if (it.isForeground()) {
                 junaNotification.sendInAppNotification()

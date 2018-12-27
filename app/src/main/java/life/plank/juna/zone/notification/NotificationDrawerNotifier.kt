@@ -9,6 +9,7 @@ import android.text.SpannableStringBuilder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import life.plank.juna.zone.*
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.data.model.FootballLiveData
@@ -73,10 +74,14 @@ fun SocialNotification.sendImageNotification(pendingIntent: PendingIntent, isBig
     val notificationBuilder = getNotificationBuilder(SpannableStringBuilder(notificationMessage), pendingIntent)
     try {
         ZoneApplication.getContext().doAsync {
-            val boardIconBitmap = Glide.with(ZoneApplication.getContext()).asBitmap().load(privateBoardIcon).submit().get()
+            val boardIconBitmap = Glide.with(ZoneApplication.getContext())
+                    .asBitmap()
+                    .apply(RequestOptions.circleCropTransform())
+                    .load(privateBoardIcon ?: lastActorIcon)
+                    .submit().get()
             uiThread {
+                notificationBuilder.setLargeIcon(boardIconBitmap).setGroup(GROUP_SOCIAL_NOTIFICATION)
                 if (isBigImage) {
-                    notificationBuilder.setLargeIcon(boardIconBitmap)
                     doAsync {
                         val feedItemIconBitmap = Glide.with(ZoneApplication.getContext()).asBitmap().load(feedItemIcon).submit().get()
                         uiThread {
@@ -84,10 +89,10 @@ fun SocialNotification.sendImageNotification(pendingIntent: PendingIntent, isBig
                         }
                     }
                 } else {
-                    notificationBuilder.setLargeIcon(boardIconBitmap)
+                    notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(notificationMessage))
                 }
+                notificationManager.notify(toString().asciiToInt(), notificationBuilder.build())
             }
-            notificationManager.notify(toString().asciiToInt(), notificationBuilder.build())
         }
     } catch (e: Exception) {
         Log.e(TAG, "prepareDrawerNotification(): ", e)
