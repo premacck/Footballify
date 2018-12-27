@@ -1,7 +1,6 @@
 package life.plank.juna.zone.data.model.notification
 
 import android.os.Parcelable
-import com.google.gson.annotations.*
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -15,7 +14,6 @@ data class SocialNotification(
         var isSeen: Boolean,
         var notificationMessage: String,
 //        User related fields
-        @SerializedName("actorIds") @Expose var userHandles: List<String> = emptyList(),
         var parentId: String,
         var childId: String? = null,
         var siblingId: String? = null,
