@@ -9,12 +9,12 @@ import android.text.SpannableStringBuilder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import life.plank.juna.zone.*
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.AppConstants.NotificationIcon.*
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.common.asciiToInt
 import org.jetbrains.anko.*
@@ -74,18 +74,22 @@ fun SocialNotification.sendImageNotification(pendingIntent: PendingIntent, isBig
     val notificationBuilder = getNotificationBuilder(SpannableStringBuilder(notificationMessage), pendingIntent)
     try {
         ZoneApplication.getContext().doAsync {
-            iconUrls?.run {
-                if (!isEmpty()) {
-                    val boardIconBitmap = Glide.with(ZoneApplication.getContext()).asBitmap().load(get(PRIVATE_BOARD_ICON)).submit().get()
-                    uiThread {
-                        if (isBigImage) {
-                            notificationBuilder.setLargeIcon(boardIconBitmap)
-                            val feedItemIconBitmap = Glide.with(ZoneApplication.getContext()).asBitmap().load(get(FEED_ITEM_ICON)).submit().get()
+            val boardIconBitmap = Glide.with(ZoneApplication.getContext())
+                    .asBitmap()
+                    .apply(RequestOptions.circleCropTransform())
+                    .load(privateBoardIcon ?: lastActorIcon)
+                    .submit().get()
+            uiThread {
+                notificationBuilder.setLargeIcon(boardIconBitmap).setGroup(GROUP_SOCIAL_NOTIFICATION)
+                if (isBigImage) {
+                    doAsync {
+                        val feedItemIconBitmap = Glide.with(ZoneApplication.getContext()).asBitmap().load(feedItemIcon).submit().get()
+                        uiThread {
                             notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(feedItemIconBitmap).bigLargeIcon(null))
-                        } else {
-                            notificationBuilder.setLargeIcon(boardIconBitmap)
                         }
                     }
+                } else {
+                    notificationBuilder.setStyle(NotificationCompat.BigTextStyle().bigText(notificationMessage))
                 }
                 notificationManager.notify(toString().asciiToInt(), notificationBuilder.build())
             }

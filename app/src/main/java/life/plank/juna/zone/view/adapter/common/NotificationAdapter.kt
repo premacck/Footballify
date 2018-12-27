@@ -11,7 +11,6 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.notification.*
 import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.util.common.AppConstants.NotificationIcon.LAST_ACTOR_ICON
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.time.getTimeAgo
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
@@ -27,10 +26,10 @@ class NotificationAdapter(private val activity: BaseJunaCardActivity) : Recycler
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         notificationList[position].run {
             holder.itemView.run {
-                notification_message.text = notificationMessage.formatAsNotificationMessage(userHandles)
+                notification_message.text = notificationMessage.formatMentions()
                 notification_time.text = getTimeAgo(date)
                 Glide.with(activity)
-                        .load(iconUrls?.get(LAST_ACTOR_ICON))
+                        .load(lastActorIcon)
                         .apply(RequestOptions.circleCropTransform().override(getDp(20f).toInt(), getDp(20f).toInt()))
                         .into(profile_pic)
             }

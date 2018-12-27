@@ -5,7 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import androidx.annotation.IntDef;
-import androidx.annotation.StringDef;
 
 import static life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_BASIC_INTERACTION;
 import static life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
@@ -18,11 +17,6 @@ import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_L
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_PAST;
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_SCHEDULED_LATER;
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_SCHEDULED_TODAY;
-import static life.plank.juna.zone.util.common.AppConstants.NotificationIcon.AWAY_TEAM_ICON;
-import static life.plank.juna.zone.util.common.AppConstants.NotificationIcon.FEED_ITEM_ICON;
-import static life.plank.juna.zone.util.common.AppConstants.NotificationIcon.HOME_TEAM_ICON;
-import static life.plank.juna.zone.util.common.AppConstants.NotificationIcon.LAST_ACTOR_ICON;
-import static life.plank.juna.zone.util.common.AppConstants.NotificationIcon.PRIVATE_BOARD_ICON;
 import static life.plank.juna.zone.util.common.AppConstants.PollValue.AWAY;
 import static life.plank.juna.zone.util.common.AppConstants.PollValue.DRAW;
 import static life.plank.juna.zone.util.common.AppConstants.PollValue.HOME;
@@ -189,15 +183,5 @@ public class AppConstants {
         int BOOM_MENU_SETTINGS_AND_HOME = 1;
         int BOOM_MENU_HOME = 2;
         int BOOM_MENU_BASIC_INTERACTION = 3;
-    }
-
-    @Retention(RetentionPolicy.SOURCE)
-    @StringDef({PRIVATE_BOARD_ICON, HOME_TEAM_ICON, AWAY_TEAM_ICON, FEED_ITEM_ICON, LAST_ACTOR_ICON})
-    public @interface NotificationIcon {
-        String PRIVATE_BOARD_ICON = "privateBoardIcon";
-        String HOME_TEAM_ICON = "homeTeamIcon";
-        String AWAY_TEAM_ICON = "awayTeamIcon";
-        String FEED_ITEM_ICON = "feedItemIcon";
-        String LAST_ACTOR_ICON = "lastActorIcon";
     }
 }
