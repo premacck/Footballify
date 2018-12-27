@@ -22,7 +22,7 @@ fun BaseInAppNotification.getNotificationMessage(): SpannableStringBuilder {
  * Method to get suitable text for the social interaction notification message
  */
 fun SocialNotification.buildNotificationMessage(): SpannableStringBuilder {
-    val leadingString = (if (!isNullOrEmpty(userHandles)) userHandles[0] else findString(someone)).bold()
+    val leadingString = findString(someone).bold()
     val spannableStringBuilder = SpannableStringBuilder(leadingString).append(SINGLE_SPACE)
     when (action) {
         findString(intent_invite) ->

@@ -8,7 +8,6 @@ import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
-import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import org.jetbrains.anko.*
 import org.json.JSONObject
 
@@ -25,13 +24,11 @@ fun dispatch(dataPayload: Map<String, String>) {
 fun dispatchSocialNotification(dataPayload: Map<String, String>) {
     ZoneApplication.getContext().doAsync {
         val junaNotification = Gson().fromJson<SocialNotification>(JSONObject(dataPayload).toString(), SocialNotification::class.java)
-        if (!junaNotification.userHandles.contains(PreferenceManager.CurrentUser.getHandle())) {
-            uiThread {
-                if (it.isForeground()) {
-                    junaNotification.sendInAppNotification()
-                } else {
-                    junaNotification.prepareDrawerNotification()
-                }
+        uiThread {
+            if (it.isForeground()) {
+                junaNotification.sendInAppNotification()
+            } else {
+                junaNotification.prepareDrawerNotification()
             }
         }
     }
