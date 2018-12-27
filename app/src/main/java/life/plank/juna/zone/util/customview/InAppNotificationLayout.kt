@@ -63,7 +63,7 @@ class InAppNotificationLayout @JvmOverloads constructor(
                 }
             }
             footballLiveData != null -> {
-
+                loadDoubleIcons(footballLiveData?.homeTeamLogo!!, footballLiveData?.visitingTeamLogo!!)
             }
         }
     }
