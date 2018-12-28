@@ -127,7 +127,7 @@ play{
 
 dependencies {
     implementation project(':asymmetricRecyclerView')
-    implementation project(':facilis')
+    implementation 'com.github.premacck:facilis:1.0.0'
 
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     implementation fileTree(include: ['*.jar'], dir: 'libs')

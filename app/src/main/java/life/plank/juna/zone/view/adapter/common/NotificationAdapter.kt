@@ -5,7 +5,7 @@ import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.prembros.facilis.util.onFancyClick
+import com.prembros.facilis.util.onReducingClick
 import kotlinx.android.synthetic.main.item_notification.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.notification.SocialNotification
@@ -33,7 +33,7 @@ class NotificationAdapter(private val activity: BaseJunaCardActivity) : Recycler
                         .apply(RequestOptions.circleCropTransform().override(getDp(20f).toInt(), getDp(20f).toInt()))
                         .into(profile_pic)
             }
-            holder.itemView.onFancyClick {
+            holder.itemView.onReducingClick {
                 activity.run {
                     restApi()?.setNotificationAsRead(id, getToken())?.execute()
                     triggerNotificationIntent(getSocialNotificationIntent())
