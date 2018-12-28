@@ -65,7 +65,7 @@ class CreateCardActivity : BaseJunaCardActivity() {
 
     private fun setOnClickListeners() {
         camera.onClick {
-            CustomCameraActivity.launch(this@CreateCardActivity, true, "", false)
+            CustomCameraActivity.launch(this@CreateCardActivity, "", false)
             finish()
         }
         proceed_button.onClick {

@@ -3,15 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.fragment.camera.CustomGalleryFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    style="@style/MatchParentSize">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gallery_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="4dp"
+        android:paddingStart="4dp"
+        android:paddingTop="80dp"
         android:clipToPadding="false"
+        android:paddingEnd="4dp"
+        android:paddingBottom="80dp"
         android:nestedScrollingEnabled="false"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="3"
@@ -21,13 +23,40 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:src="@drawable/bg_gradient_white_top"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/gallery_recycler_view"
         android:contentDescription="@string/thumbnail" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:src="@drawable/bg_gradient_white_bottom"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@+id/gallery_recycler_view"
         android:contentDescription="@string/thumbnail" />
+
+    <LinearLayout
+        android:id="@+id/gallery_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="6dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="3dp">
+
+        <ToggleButton
+            android:id="@+id/action_image"
+            style="@style/GallerySelection"
+            android:textOff="@string/images"
+            android:textOn="@string/images" />
+
+        <ToggleButton
+            android:id="@+id/action_video"
+            style="@style/GallerySelection"
+            android:textOff="@string/videos"
+            android:textOn="@string/videos" />
+
+    </LinearLayout>
+
 </RelativeLayout>
