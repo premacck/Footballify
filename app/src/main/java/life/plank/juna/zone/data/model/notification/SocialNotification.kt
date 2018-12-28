@@ -17,7 +17,6 @@ data class SocialNotification(
         var parentId: String,
         var childId: String? = null,
         var siblingId: String? = null,
-        var contentType: String? = null,
         var privateBoardIcon: String? = null,
         var homeTeamIcon: String? = null,
         var awayTeamIcon: String? = null,

@@ -10,11 +10,11 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.*
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.data.model.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
-import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.common.asciiToInt
 import org.jetbrains.anko.*
@@ -39,11 +39,15 @@ fun SocialNotification.prepareDrawerNotification() {
             sendTextNotification(pendingIntent)
         findString(intent_invite) ->
             sendImageNotification(pendingIntent, false)
-        findString(intent_post) ->
-            when (contentType) {
-                NEWS, IMAGE, VIDEO -> sendImageNotification(pendingIntent, true)
-                AUDIO, ROOT_COMMENT -> sendImageNotification(pendingIntent, false)
+        findString(intent_post) -> {
+            if (!isNullOrEmpty(feedItemIcon) && !isNullOrEmpty(privateBoardIcon ?: lastActorIcon)) {
+                sendImageNotification(pendingIntent, true)
+            } else if (!isNullOrEmpty(privateBoardIcon ?: lastActorIcon)) {
+                sendImageNotification(pendingIntent, false)
+            } else {
+                sendTextNotification(pendingIntent)
             }
+        }
     }
 }
 

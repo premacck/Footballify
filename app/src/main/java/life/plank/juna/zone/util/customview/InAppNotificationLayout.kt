@@ -47,7 +47,7 @@ class InAppNotificationLayout @JvmOverloads constructor(
     private fun InAppNotification.updateImageViews() {
         when {
             socialNotification != null -> {
-                image_layout.visibility = View.INVISIBLE
+                image_layout.makeInvisible()
 
                 if (isNullOrEmpty(socialNotification?.privateBoardIcon) && isNullOrEmpty(socialNotification?.homeTeamIcon) && isNullOrEmpty(socialNotification?.awayTeamIcon)) {
                     notification_image.visibility = View.GONE
@@ -75,6 +75,7 @@ class InAppNotificationLayout @JvmOverloads constructor(
     }
 
     private fun loadDoubleIcons(homeTeamLogo: String, visitingTeamLogo: String) {
+        image_layout.makeVisible()
         notification_image.setImageDrawable(resources.getDrawable(R.drawable.ic_match_bg, null))
         Glide.with(this@InAppNotificationLayout).load(homeTeamLogo)
                 .apply(RequestOptions.overrideOf(getDp(30f).toInt(), getDp(30f).toInt())
