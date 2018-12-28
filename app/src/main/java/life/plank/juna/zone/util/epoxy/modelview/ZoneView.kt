@@ -34,5 +34,5 @@ class ZoneView @JvmOverloads constructor(
     }
 
     @ModelProp(value = [ModelProp.Option.DoNotHash])
-    fun onClick(listener: () -> Unit) = onFancyClick { listener() }
+    fun onClick(listener: () -> Unit) = onReducingClick { listener() }
 }
