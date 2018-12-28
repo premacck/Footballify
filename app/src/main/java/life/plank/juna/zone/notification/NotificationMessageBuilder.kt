@@ -27,18 +27,8 @@ fun SocialNotification.buildNotificationMessage(): SpannableStringBuilder {
     when (action) {
         findString(intent_invite) ->
             spannableStringBuilder.append(findString(invited_you_to_board_x))
-        findString(intent_post) -> {
-            when (contentType) {
-                IMAGE ->
-                    spannableStringBuilder.append(findString(posted_image_on_board_x))
-                VIDEO ->
-                    spannableStringBuilder.append(findString(posted_video_on_board_x))
-                AUDIO ->
-                    spannableStringBuilder.append(findString(posted_audio_on_board_x))
-                ROOT_COMMENT ->
-                    spannableStringBuilder.append(findString(posted_on_board_x))
-            }
-        }
+        findString(intent_post) ->
+            spannableStringBuilder.append(findString(posted_on_board_x))
         findString(intent_comment) -> {
             if (isNullOrEmpty(siblingId)) {
                 spannableStringBuilder.append(findString(commented_on_board_x))
