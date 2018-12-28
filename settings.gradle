@@ -1,1 +1,1 @@
-include ':app', ':asymmetricRecyclerView', ':facilis'
+include ':app', ':asymmetricRecyclerView'
