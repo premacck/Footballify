@@ -262,4 +262,6 @@
     <string name="welcome_to_juna">Welcome to juna</string>
     <string name="fill_data">We’ve filled some data for you. You can edit by tapping on the same.</string>
     <string name="load_more_text">.\t\t.\t\t.</string>
+    <string name="videos">Videos</string>
+    <string name="images">Images</string>
 </resources>

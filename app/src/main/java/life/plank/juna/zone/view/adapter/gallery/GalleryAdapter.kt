@@ -3,8 +3,8 @@ package life.plank.juna.zone.view.adapter.gallery
 import android.util.Log
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.RequestManager
-import com.prembros.facilis.util.onDebouncingClick
+import com.bumptech.glide.Glide
+import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.item_gallery.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.util.common.AppConstants.*
@@ -12,9 +12,9 @@ import life.plank.juna.zone.view.activity.camera.*
 import life.plank.juna.zone.view.cardmaker.CreateCardActivity
 import java.util.*
 
-class GalleryAdapter(private val activity: CustomCameraActivity, private val glide: RequestManager) : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
+class GalleryAdapter(private val activity: CustomCameraActivity, private var isForImage: Boolean) : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
 
-    private var galleryItems: List<String> = ArrayList()
+    private var galleryItems: MutableList<String> = ArrayList()
 
     companion object {
         private val TAG = GalleryAdapter::class.java.simpleName
@@ -27,13 +27,15 @@ class GalleryAdapter(private val activity: CustomCameraActivity, private val gli
         try {
             holder.itemView.run {
                 val itemPath = galleryItems[position]
-                glide.load(itemPath).into(gallery_item_thumbnail)
+                Glide.with(activity).load(itemPath).into(gallery_item_thumbnail)
+
+                if (isForImage) video_play_icon.makeGone() else video_play_icon.makeVisible()
 
                 onDebouncingClick {
                     if (activity.boardId.isEmpty()) {
                         CreateCardActivity.launch(activity, itemPath)
                     } else {
-                        UploadActivity.launch(activity, if (activity.isForImage) IMAGE else VIDEO, activity.boardId, itemPath)
+                        UploadActivity.launch(activity, if (isForImage) IMAGE else VIDEO, activity.boardId, itemPath)
                     }
                 }
             }
@@ -44,8 +46,10 @@ class GalleryAdapter(private val activity: CustomCameraActivity, private val gli
 
     override fun getItemCount(): Int = galleryItems.size
 
-    fun update(galleryItems: List<String>) {
-        this.galleryItems = galleryItems
+    fun update(galleryItems: MutableList<String>, isForImage: Boolean) {
+        this.isForImage = isForImage
+        this.galleryItems.clear()
+        this.galleryItems.addAll(galleryItems)
         notifyDataSetChanged()
     }
 

@@ -211,7 +211,7 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
                     }
                     4 -> {
                         if (boardId != null) {
-                            CustomCameraActivity.launch(activity, false, boardId, true)
+                            CustomCameraActivity.launch(activity, boardId, true)
                         }
                     }
                     5 -> {
@@ -234,7 +234,7 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
                         UploadActivity.launch(activity, GALLERY, "")
                     }
                     1 -> {
-                        CustomCameraActivity.launch(activity, true, "", true)
+                        CustomCameraActivity.launch(activity, "", true)
                     }
                     2 -> {
                         UploadActivity.launch(activity, AUDIO, "")

@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.fragment_camera.*
 import life.plank.juna.zone.*
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.FileHandler
+import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.activity.camera.UploadActivity
 import life.plank.juna.zone.view.cardmaker.CreateCardActivity
@@ -28,13 +29,22 @@ class CameraFragment : Fragment() {
 
     private lateinit var imageFolder: File
 
+    companion object {
+        private val TAG = CameraFragment::class.java.simpleName
+        fun newInstance(boardId: String, isBoard: Boolean) = CameraFragment().apply {
+            arguments = Bundle().apply {
+                putString(findString(R.string.intent_board_id), boardId)
+                putBoolean(findString(R.string.intent_is_board), isBoard)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.run {
             boardId = getString(getString(R.string.intent_board_id))
             isBoard = getBoolean(getString(R.string.intent_is_board))
         }
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -153,19 +163,5 @@ class CameraFragment : Fragment() {
         camera_flip.visibility = visibility
         swipe_up_message.visibility = visibility
 
-    }
-
-    companion object {
-
-        private val TAG = CameraFragment::class.java.simpleName
-
-        fun newInstance(boardId: String, isBoard: Boolean): CameraFragment {
-            val fragment = CameraFragment()
-            val args = Bundle()
-            args.putString(ZoneApplication.getContext().getString(R.string.intent_board_id), boardId)
-            args.putBoolean(ZoneApplication.getContext().getString(R.string.intent_is_board), isBoard)
-            fragment.arguments = args
-            return fragment
-        }
     }
 }

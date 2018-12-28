@@ -4,7 +4,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.*
 import io.alterac.blurkit.BlurLayout
-import kotlinx.android.synthetic.main.card_preview.*
+import kotlinx.android.synthetic.main.fragment_card_preview.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.util.common.JunaDataUtil
 import life.plank.juna.zone.view.fragment.base.BaseJunaCard
@@ -30,7 +30,7 @@ class CardPreviewFragment : BaseJunaCard() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.card_preview, container, false)
+            inflater.inflate(R.layout.fragment_card_preview, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

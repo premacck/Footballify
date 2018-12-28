@@ -117,6 +117,11 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="GallerySelection" parent="ZoneSelection">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="InfoTilesTabLayout" parent="Base.Widget.Design.TabLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
