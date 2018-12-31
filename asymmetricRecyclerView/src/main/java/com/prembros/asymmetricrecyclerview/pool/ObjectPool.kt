@@ -1,8 +1,7 @@
 package com.prembros.asymmetricrecyclerview.pool
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
+import kotlinx.android.parcel.*
 import java.util.*
 
 @Parcelize
@@ -38,7 +37,7 @@ internal class ObjectPool<T>(
 
         stats.misses++
 
-        val `object` = if (factory != null) factory!!.createObject() else null
+        val `object` = factory?.createObject()
 
         if (`object` != null) {
             stats.created++
