@@ -5,27 +5,19 @@ import android.database.CursorIndexOutOfBoundsException
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.AsyncTask
-import android.util.Log
-import android.util.SparseArray
-import android.view.View
-import android.view.ViewGroup
+import android.util.*
+import android.view.*
 import android.widget.AbsListView.LayoutParams
-import android.widget.AbsListView.LayoutParams.MATCH_PARENT
-import android.widget.AbsListView.LayoutParams.WRAP_CONTENT
+import android.widget.AbsListView.LayoutParams.*
 import android.widget.LinearLayout
 import androidx.collection.ArrayMap
 import androidx.recyclerview.widget.RecyclerView
 import com.prembros.asymmetricrecyclerview.R
-import com.prembros.asymmetricrecyclerview.base.AsymmetricBaseAdapter
-import com.prembros.asymmetricrecyclerview.base.AsymmetricItem
-import com.prembros.asymmetricrecyclerview.base.AsymmetricView
-import com.prembros.asymmetricrecyclerview.base.MasonryUtils
+import com.prembros.asymmetricrecyclerview.base.*
 import com.prembros.asymmetricrecyclerview.base.MasonryUtils.findColor
 import com.prembros.asymmetricrecyclerview.base.MasonryUtils.getDp
-import com.prembros.asymmetricrecyclerview.model.RowInfo
-import com.prembros.asymmetricrecyclerview.model.RowItem
-import com.prembros.asymmetricrecyclerview.pool.LinearLayoutPoolObjectFactory
-import com.prembros.asymmetricrecyclerview.pool.ObjectPool
+import com.prembros.asymmetricrecyclerview.model.*
+import com.prembros.asymmetricrecyclerview.pool.*
 import com.prembros.asymmetricrecyclerview.widget.AsymmetricViewHolder
 import org.jetbrains.anko.collections.forEach
 import java.lang.ref.WeakReference
@@ -251,7 +243,7 @@ class AdapterImpl<T : RecyclerView.ViewHolder>(
         return childLayout
     }
 
-    internal class ProcessRowsTask<VH : RecyclerView.ViewHolder>(adapterImpl: AdapterImpl<VH>) : AsyncTask<Void, Void, List<RowInfo>>() {
+    class ProcessRowsTask<VH : RecyclerView.ViewHolder>(adapterImpl: AdapterImpl<VH>) : AsyncTask<Void, Void, List<RowInfo>>() {
 
         private val ref: WeakReference<AdapterImpl<VH>> = WeakReference(adapterImpl)
 

@@ -1,12 +1,12 @@
 package com.prembros.asymmetricrecyclerview.implementation
 
 import android.content.Context
-import android.os.Parcel
-import android.os.Parcelable
+import android.os.*
 import android.view.View
 import com.prembros.asymmetricrecyclerview.base.MasonryUtils.getDp
 
 open class AsymmetricViewImpl(context: Context) {
+
     var numColumns = DEFAULT_COLUMN_COUNT
         protected set
     var requestedHorizontalSpacing: Int = 0
@@ -14,6 +14,10 @@ open class AsymmetricViewImpl(context: Context) {
     var requestedColumnCount: Int = 0
     var isAllowReordering: Boolean = false
     var isDebugging: Boolean = false
+
+    companion object {
+        private const val DEFAULT_COLUMN_COUNT = 3
+    }
 
     init {
         requestedHorizontalSpacing = context.getDp(5f).toInt()
@@ -71,6 +75,19 @@ open class AsymmetricViewImpl(context: Context) {
         var adapterState: Parcelable? = null
         var loader: ClassLoader? = null
 
+        companion object {
+            @JvmField
+            val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
+                override fun createFromParcel(`in`: Parcel): SavedState {
+                    return SavedState(`in`)
+                }
+
+                override fun newArray(size: Int): Array<SavedState?> {
+                    return arrayOfNulls(size)
+                }
+            }
+        }
+
         constructor(superState: Parcelable) : super(superState) {}
 
         constructor(`in`: Parcel) : super(`in`) {
@@ -99,22 +116,5 @@ open class AsymmetricViewImpl(context: Context) {
             dest.writeByte((if (allowReordering) 1 else 0).toByte())
             dest.writeParcelable(adapterState, flags)
         }
-
-        companion object {
-            @JvmField
-            val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
-                override fun createFromParcel(`in`: Parcel): SavedState {
-                    return SavedState(`in`)
-                }
-
-                override fun newArray(size: Int): Array<SavedState?> {
-                    return arrayOfNulls(size)
-                }
-            }
-        }
-    }
-
-    companion object {
-        private const val DEFAULT_COLUMN_COUNT = 3
     }
 }

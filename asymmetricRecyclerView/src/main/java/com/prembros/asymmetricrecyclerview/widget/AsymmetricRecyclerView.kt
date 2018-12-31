@@ -2,12 +2,9 @@ package com.prembros.asymmetricrecyclerview.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewTreeObserver
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.prembros.asymmetricrecyclerview.base.AsymmetricRecyclerViewListener
-import com.prembros.asymmetricrecyclerview.base.AsymmetricView
+import android.view.*
+import androidx.recyclerview.widget.*
+import com.prembros.asymmetricrecyclerview.base.*
 import com.prembros.asymmetricrecyclerview.implementation.AsymmetricViewImpl
 
 class AsymmetricRecyclerView(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs, 0), AsymmetricView {
@@ -51,9 +48,7 @@ class AsymmetricRecyclerView(context: Context, attrs: AttributeSet) : RecyclerVi
             override fun onGlobalLayout() {
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
                 viewImpl.determineColumns(availableSpace)
-                if (adapter != null) {
-                    adapter!!.recalculateItemsPerRow()
-                }
+                adapter?.recalculateItemsPerRow()
             }
         })
     }
