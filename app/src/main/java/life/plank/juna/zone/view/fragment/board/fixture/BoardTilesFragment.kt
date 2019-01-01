@@ -25,7 +25,7 @@ import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_FULL
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.view.*
-import life.plank.juna.zone.util.view.UIDisplayUtil.*
+import life.plank.juna.zone.util.view.UIDisplayUtil.addDefaultEmojis
 import life.plank.juna.zone.view.adapter.board.tile.BoardMediaAdapter
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.*
@@ -97,6 +97,7 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
 //            getBoardPolls()
         }
 
+        getBoardFeed(false)
         setListeners()
     }
 
@@ -115,7 +116,6 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
             updateUi(false, R.string.login_signup_to_view_feed)
             return
         }
-        getBoardFeed(false)
         if (parentFragment is MatchBoardFragment) {
             getTopEmoji()
         }
@@ -188,10 +188,9 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
                             val feedItemList = it.body()
                             if (!isNullOrEmpty(feedItemList)) {
                                 updateUi(true, 0)
-                                setupFeedEntryByMasonryLayout(feedItemList!!)
-                                adapter?.update(feedItemList)
+                                adapter?.update(feedItemList!!)
                                 if (parentFragment is FeedEntryContainer) {
-                                    (parentFragment as FeedEntryContainer).updateFullScreenAdapter(feedItemList)
+                                    (parentFragment as FeedEntryContainer).updateFullScreenAdapter(feedItemList!!)
                                 }
                             } else updateUi(false, R.string.board_yet_to_be_populated)
                         }

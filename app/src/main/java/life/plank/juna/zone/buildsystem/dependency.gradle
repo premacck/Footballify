@@ -32,7 +32,6 @@ ext {
     nineoldandroidsVersion = '2.4.0'
     recyclerViewAnimatorVersion = '1.0.1@aar'
     glideVersion = '4.6.1'
-    videoPlayer = 'r2.5.1'
     lottie = '2.2.0'
     blurPopupWindow = '1.0.9'
     archMenu = '1.1.0.2'
@@ -69,7 +68,6 @@ ext {
             nineoldandroids       : "com.nineoldandroids:library:${nineoldandroidsVersion}",
             recyclerViewAnimator  : "com.mikepenz:itemanimators:${recyclerViewAnimatorVersion}",
             glide                 : "com.github.bumptech.glide:glide:${glideVersion}",
-            videoPlayer           : "com.google.android.exoplayer:exoplayer:${videoPlayer}",
             lottie                : "com.airbnb.android:lottie:${lottie}",
             blurPopupWindow       : "com.kyleduo.blurpopupwindow:blurpopupwindow:${blurPopupWindow}",
             archMenu              : "com.github.BrotherV:Floating-ArcMenu:${archMenu}",

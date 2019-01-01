@@ -46,7 +46,6 @@ dependencies {
     implementation viewDependencies.nineoldandroids
     implementation viewDependencies.recyclerViewAnimator
     implementation viewDependencies.glide
-    implementation viewDependencies.videoPlayer
     implementation viewDependencies.lottie
     implementation viewDependencies.blurPopupWindow
     implementation viewDependencies.archMenu
