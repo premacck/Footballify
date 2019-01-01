@@ -270,10 +270,9 @@ class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
                 exoPlayer = ExoBuilder
                         .with(this)
                         .withMediaSource(videoUri)
+                        .withContainer(video_player_container)
                         .applyTo(video_player)
                         .addPlayPauseListener(video_player, play_pause, video_loading_progress)
-
-                video_player_container.onDebouncingClick { exoPlayer?.toggle() }
             }
             ROOT_COMMENT -> {
                 setVisibilities(GONE, GONE, VISIBLE)
