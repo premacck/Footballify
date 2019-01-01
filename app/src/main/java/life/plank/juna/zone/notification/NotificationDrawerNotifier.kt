@@ -75,7 +75,7 @@ fun BaseInAppNotification.sendTextNotification(pendingIntent: PendingIntent) {
 
 fun SocialNotification.sendImageNotification(pendingIntent: PendingIntent, isBigImage: Boolean) {
     val notificationManager = ZoneApplication.getContext().getNotificationManager().setNotificationChannel()
-    val notificationBuilder = getNotificationBuilder(SpannableStringBuilder(notificationMessage), pendingIntent)
+    val notificationBuilder = getNotificationBuilder(if (notificationMessage != null) SpannableStringBuilder(notificationMessage) else SpannableStringBuilder(), pendingIntent)
     try {
         ZoneApplication.getContext().doAsync {
             val boardIconBitmap = Glide.with(ZoneApplication.getContext())

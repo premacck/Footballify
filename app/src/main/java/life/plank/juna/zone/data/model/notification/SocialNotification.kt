@@ -12,7 +12,7 @@ data class SocialNotification(
         var action: String,
         var isRead: Boolean,
         var isSeen: Boolean,
-        var notificationMessage: String,
+        var notificationMessage: String? = "",
 //        User related fields
         var parentId: String,
         var childId: String? = null,

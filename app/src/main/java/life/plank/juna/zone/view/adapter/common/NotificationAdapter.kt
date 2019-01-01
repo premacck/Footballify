@@ -26,7 +26,7 @@ class NotificationAdapter(private val activity: BaseJunaCardActivity) : Recycler
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         notificationList[position].run {
             holder.itemView.run {
-                notification_message.text = notificationMessage.formatMentions()
+                notification_message.text = notificationMessage?.formatMentions()
                 notification_time.text = getTimeAgo(date)
                 Glide.with(activity)
                         .load(lastActorIcon)

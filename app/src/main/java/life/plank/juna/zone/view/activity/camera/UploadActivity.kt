@@ -51,6 +51,29 @@ class UploadActivity : AppCompatActivity() {
     private var filePath: String? = null
     private var mHandler: Handler? = null
 
+    companion object {
+
+        private val TAG = UploadActivity::class.java.canonicalName
+        private const val CAMERA_AND_STORAGE_PERMISSIONS = 15
+
+        /**
+         * Method to launch [UploadActivity] to upload image or audio which is already saved in gallery or media storage
+         * Provide mediaFilePath param when uploading image or video provided from [CameraFragment]
+         */
+        fun launch(from: Activity, openFrom: String, boardId: String?, vararg mediaFilePath: String) {
+            if (boardId != null) {
+                val intent = Intent(from, UploadActivity::class.java)
+                intent.putExtra(from.getString(R.string.intent_open_from), openFrom)
+                intent.putExtra(from.getString(R.string.intent_board_id), boardId)
+                if (mediaFilePath.isNotEmpty()) {
+                    intent.putExtra(from.getString(R.string.intent_file_path), mediaFilePath[0])
+                }
+                from.startActivity(intent)
+                from.overridePendingTransition(R.anim.float_up, R.anim.sink_up)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload)
@@ -306,29 +329,6 @@ class UploadActivity : AppCompatActivity() {
                 ref.get()!!.play_btn.visibility = View.VISIBLE
                 ref.get()!!.mHandler = Handler()
                 ref.get()!!.mHandler!!.postDelayed({ ref.get()!!.root_layout.smoothScrollTo(0, ref.get()!!.root_layout.bottom) }, 1500)
-            }
-        }
-    }
-
-    companion object {
-
-        private val TAG = UploadActivity::class.java.canonicalName
-        private const val CAMERA_AND_STORAGE_PERMISSIONS = 15
-
-        /**
-         * Method to launch [UploadActivity] to upload image or audio which is already saved in gallery or media storage
-         * Provide mediaFilePath param when uploading image or video provided from [CameraFragment]
-         */
-        fun launch(from: Activity, openFrom: String, boardId: String?, vararg mediaFilePath: String) {
-            if (boardId != null) {
-                val intent = Intent(from, UploadActivity::class.java)
-                intent.putExtra(from.getString(R.string.intent_open_from), openFrom)
-                intent.putExtra(from.getString(R.string.intent_board_id), boardId)
-                if (mediaFilePath.isNotEmpty()) {
-                    intent.putExtra(from.getString(R.string.intent_file_path), mediaFilePath[0])
-                }
-                from.startActivity(intent)
-                from.overridePendingTransition(R.anim.float_up, R.anim.sink_up)
             }
         }
     }

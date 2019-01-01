@@ -36,6 +36,7 @@ class GalleryAdapter(private val activity: CustomCameraActivity, private var isF
                         CreateCardActivity.launch(activity, itemPath)
                     } else {
                         UploadActivity.launch(activity, if (isForImage) IMAGE else VIDEO, activity.boardId, itemPath)
+                        activity.finish()
                     }
                 }
             }

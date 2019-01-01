@@ -5,6 +5,7 @@ import android.graphics.*
 import android.graphics.drawable.*
 import android.media.*
 import android.net.Uri
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
@@ -29,6 +31,7 @@ import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.time.DateUtil.*
+import life.plank.juna.zone.util.toro.*
 import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.adapter.common.EmojiAdapter
@@ -48,6 +51,7 @@ class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
     private var emojiBottomSheetBehavior: BottomSheetBehavior<*>? = null
     private var emojiAdapter: EmojiAdapter? = null
     private var authService: AuthorizationService? = null
+    private var exoPlayer: SimpleExoPlayer? = null
 
     companion object {
         private val TAG = PostDetailFragment::class.java.simpleName
@@ -133,9 +137,23 @@ class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
         feed_title_text_view.isSelected = true
     }
 
-    private fun bindFeetContent() {
-        val mediaPlayer = MediaPlayer()
+    override fun onPause() {
+        super.onPause()
+        exoPlayer?.pause()
+        if (SDK_INT <= 23) releaseExoPlayer()
+    }
 
+    override fun onStop() {
+        super.onStop()
+        if (SDK_INT > 23) releaseExoPlayer()
+    }
+
+    private fun releaseExoPlayer() {
+        exoPlayer?.release()
+        exoPlayer = null
+    }
+
+    private fun bindFeetContent() {
         if (feedEntry.feedItem.user != null) {
             Glide.with(this)
                     .load(feedEntry.feedItem.user!!.profilePictureUrl)
@@ -184,7 +202,6 @@ class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
 
         when (feedEntry.feedItem.contentType) {
             NEWS, IMAGE -> {
-                mediaPlayer.stop()
                 setVisibilities(VISIBLE, GONE, GONE)
                 try {
                     val urlToLoad = if (feedEntry.feedItem.contentType == NEWS)
@@ -217,7 +234,7 @@ class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
                 }
             }
             AUDIO -> {
-                mediaPlayer.stop()
+                val mediaPlayer = MediaPlayer()
                 setVisibilities(VISIBLE, GONE, GONE)
                 feed_image_view.setImageResource(R.drawable.ic_mic_white)
 
@@ -246,15 +263,19 @@ class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
 
             }
             VIDEO -> {
-                mediaPlayer.stop()
                 setVisibilities(GONE, VISIBLE, GONE)
                 val videoUriString = feedEntry.feedItem.url
                 val videoUri = Uri.parse(videoUriString)
-                captured_video_view.setVideoURI(videoUri)
-                captured_video_view.start()
+
+                exoPlayer = ExoBuilder
+                        .with(this)
+                        .withMediaSource(videoUri)
+                        .applyTo(video_player)
+                        .addPlayPauseListener(video_player, play_pause, video_loading_progress)
+
+                video_player_container.onDebouncingClick { exoPlayer?.toggle() }
             }
             ROOT_COMMENT -> {
-                mediaPlayer.stop()
                 setVisibilities(GONE, GONE, VISIBLE)
                 feed_text_view.setRootCommentPost(feedEntry.feedItem)
             }
@@ -305,7 +326,7 @@ class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
 
     private fun setVisibilities(imageViewVisibility: Int, videoViewVisibility: Int, textViewVisibility: Int) {
         feed_image_view.visibility = imageViewVisibility
-        captured_video_view.visibility = videoViewVisibility
+        video_player.visibility = videoViewVisibility
         feed_text_view.visibility = textViewVisibility
     }
 

@@ -17,7 +17,7 @@ data class InAppNotification(
         var footballLiveData: FootballLiveData? = null
 ) : Parcelable {
     constructor(socialNotification: SocialNotification) : this(
-            SpannableStringBuilder(socialNotification.notificationMessage),
+            if (socialNotification.notificationMessage != null) SpannableStringBuilder(socialNotification.notificationMessage) else SpannableStringBuilder(),
             getTimeAgo(socialNotification.date),
             socialNotification
     )

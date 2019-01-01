@@ -12,7 +12,9 @@ import kotlinx.android.synthetic.main.item_board_tile.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.view.UIDisplayUtil.setupFeedEntryByMasonryLayout
 import life.plank.juna.zone.util.view.setRootCommentPost
+import org.jetbrains.anko.*
 
 /**
  * Created by plank-prachi on 4/10/2018.
@@ -76,18 +78,23 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRe
         holder.itemView.play_btn.visibility = playBtnVisibility
     }
 
-    fun update(boardFeed: List<FeedEntry>) {
-        if (!this.boardFeed.isEmpty()) {
-            this.boardFeed.clear()
+    fun update(feedEntryList: List<FeedEntry>) {
+        doAsync {
+            if (boardFeed.isNotEmpty()) boardFeed.clear()
+
+            boardFeed.addAll(feedEntryList)
+            setupFeedEntryByMasonryLayout(boardFeed)
+            uiThread { notifyDataSetChanged() }
         }
-        this.boardFeed.addAll(boardFeed)
-        notifyDataSetChanged()
     }
 
-    fun updateNewPost(feedItem: FeedEntry) {
-        if (!boardFeed.contains(feedItem)) {
-            boardFeed.add(0, feedItem)
-            notifyItemInserted(0)
+    fun updateNewPost(feedEntry: FeedEntry) {
+        doAsync {
+            if (!boardFeed.any { it.feedItem.id == feedEntry.feedItem.id }) {
+                boardFeed.add(0, feedEntry)
+            }
+            setupFeedEntryByMasonryLayout(boardFeed)
+            uiThread { notifyDataSetChanged() }
         }
     }
 
