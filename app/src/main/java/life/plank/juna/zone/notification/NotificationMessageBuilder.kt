@@ -12,7 +12,7 @@ import life.plank.juna.zone.util.common.JunaDataUtil.*
 
 fun BaseInAppNotification.getNotificationMessage(): SpannableStringBuilder {
     return when {
-        this is SocialNotification -> SpannableStringBuilder(notificationMessage)
+        this is SocialNotification -> if (notificationMessage != null) SpannableStringBuilder(notificationMessage) else SpannableStringBuilder()
         this is FootballLiveData -> buildNotificationMessage()
         else -> SpannableStringBuilder()
     }
