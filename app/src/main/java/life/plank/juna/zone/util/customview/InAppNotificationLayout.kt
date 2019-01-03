@@ -11,7 +11,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.item_in_app_notification.view.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.notification.InAppNotification
+import life.plank.juna.zone.data.model.FootballLiveData
+import life.plank.juna.zone.data.model.notification.*
 import life.plank.juna.zone.notification.triggerNotificationAction
 import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 
@@ -45,16 +46,16 @@ class InAppNotificationLayout @JvmOverloads constructor(
     }
 
     private fun InAppNotification.updateImageViews() {
-        when {
-            socialNotification != null -> {
+        if (notificationObject == null) return
+        when (notificationObject) {
+            is SocialNotification -> {
                 image_layout.makeInvisible()
+                (notificationObject as SocialNotification).run {
+                    if (isNullOrEmpty(privateBoardIcon) && isNullOrEmpty(homeTeamIcon) && isNullOrEmpty(awayTeamIcon)) {
+                        notification_image.visibility = View.GONE
+                        (notification_message_layout.layoutParams as FrameLayout.LayoutParams).marginStart = 0
+                    }
 
-                if (isNullOrEmpty(socialNotification?.privateBoardIcon) && isNullOrEmpty(socialNotification?.homeTeamIcon) && isNullOrEmpty(socialNotification?.awayTeamIcon)) {
-                    notification_image.visibility = View.GONE
-                    (notification_message_layout.layoutParams as FrameLayout.LayoutParams).marginStart = 0
-                }
-
-                socialNotification?.run {
                     if (!isNullOrEmpty(privateBoardIcon)) {
                         loadSingleIcon(privateBoardIcon!!)
                     } else if (!isNullOrEmpty(homeTeamIcon) && !isNullOrEmpty(awayTeamIcon)) {
@@ -62,19 +63,22 @@ class InAppNotificationLayout @JvmOverloads constructor(
                     }
                 }
             }
-            footballLiveData != null -> {
-                loadDoubleIcons(footballLiveData?.homeTeamLogo!!, footballLiveData?.visitingTeamLogo!!)
+            is FootballLiveData -> {
+                (notificationObject as FootballLiveData).run { loadDoubleIcons(homeTeamLogo, visitingTeamLogo) }
+            }
+            is CardNotification -> {
+                (notificationObject as CardNotification).run { loadSingleIcon(profilePicUrl) }
             }
         }
     }
 
-    private fun loadSingleIcon(iconUrl: String) {
+    private fun loadSingleIcon(iconUrl: String?) {
         Glide.with(this).load(iconUrl)
                 .apply(RequestOptions.overrideOf(getDp(85f).toInt(), getDp(85f).toInt()))
                 .into(notification_image)
     }
 
-    private fun loadDoubleIcons(homeTeamLogo: String, visitingTeamLogo: String) {
+    private fun loadDoubleIcons(homeTeamLogo: String?, visitingTeamLogo: String?) {
         image_layout.makeVisible()
         notification_image.setImageDrawable(resources.getDrawable(R.drawable.ic_match_bg, null))
         Glide.with(this@InAppNotificationLayout).load(homeTeamLogo)

@@ -13,8 +13,7 @@ import life.plank.juna.zone.util.time.getTimeAgo
 data class InAppNotification(
         var message: @RawValue SpannableStringBuilder,
         var subMessage: String = findString(R.string.now),
-        var socialNotification: SocialNotification? = null,
-        var footballLiveData: FootballLiveData? = null
+        var notificationObject: BaseInAppNotification? = null
 ) : Parcelable {
     constructor(socialNotification: SocialNotification) : this(
             if (socialNotification.notificationMessage != null) SpannableStringBuilder(socialNotification.notificationMessage) else SpannableStringBuilder(),
@@ -25,6 +24,12 @@ data class InAppNotification(
     constructor(footballLiveData: FootballLiveData) : this(
             footballLiveData.buildNotificationMessage(),
             findString(R.string.now),
-            footballLiveData = footballLiveData
+            footballLiveData
+    )
+
+    constructor(cardNotification: CardNotification) : this(
+            SpannableStringBuilder(cardNotification.notificationMessage),
+            findString(R.string.now),
+            cardNotification
     )
 }

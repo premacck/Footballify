@@ -5,7 +5,7 @@ import android.content.Context
 import com.google.gson.Gson
 import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.FootballLiveData
-import life.plank.juna.zone.data.model.notification.SocialNotification
+import life.plank.juna.zone.data.model.notification.*
 import life.plank.juna.zone.data.network.dagger.module.NetworkModule.GSON
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
@@ -13,12 +13,13 @@ import org.jetbrains.anko.*
 import org.json.JSONObject
 
 fun dispatch(dataPayload: Map<String, String>) {
-    if (dataPayload.containsKey(findString(R.string.intent_action))) {
-//        Data payload contains social interaction notification
-        dispatchSocialNotification(dataPayload)
-    } else if (dataPayload.containsKey(findString(R.string.intent_live_data_type))) {
-//        Data payload contains football live data notification
-        dispatchLiveFootballNotification(dataPayload)
+    when {
+        dataPayload.containsKey(findString(R.string.intent_action)) -> //        Data payload contains social interaction notification
+            dispatchSocialNotification(dataPayload)
+        dataPayload.containsKey(findString(R.string.intent_live_data_type)) -> //        Data payload contains football live data notification
+            dispatchLiveFootballNotification(dataPayload)
+        dataPayload.containsKey(findString(R.string.intent_card_notification_type)) -> //        Data payload contains cards' notification
+            dispatchCardNotification(dataPayload)
     }
 }
 
@@ -43,6 +44,19 @@ fun dispatchLiveFootballNotification(dataPayload: Map<String, String>) {
                 zoneLiveData.sendInAppNotification()
             } else {
                 zoneLiveData.prepareDrawerNotification()
+            }
+        }
+    }
+}
+
+fun dispatchCardNotification(dataPayload: Map<String, String>) {
+    ZoneApplication.getContext().doAsync {
+        val cardNotification = Gson().fromJson<CardNotification>(JSONObject(dataPayload).toString(), CardNotification::class.java)
+        uiThread {
+            if (it.isForeground()) {
+                cardNotification.sendInAppNotification()
+            } else {
+                cardNotification.prepareDrawerNotification()
             }
         }
     }

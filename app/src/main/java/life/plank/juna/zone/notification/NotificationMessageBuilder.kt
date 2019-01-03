@@ -14,6 +14,7 @@ fun BaseInAppNotification.getNotificationMessage(): SpannableStringBuilder {
     return when {
         this is SocialNotification -> if (notificationMessage != null) SpannableStringBuilder(notificationMessage) else SpannableStringBuilder()
         this is FootballLiveData -> buildNotificationMessage()
+        this is CardNotification -> SpannableStringBuilder(notificationMessage)
         else -> SpannableStringBuilder()
     }
 }

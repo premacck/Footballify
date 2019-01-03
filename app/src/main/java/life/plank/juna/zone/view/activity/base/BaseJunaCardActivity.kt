@@ -17,10 +17,10 @@ abstract class BaseJunaCardActivity : BaseCardActivity() {
 
     private val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.hasExtra(getString(R.string.intent_zone_live_data))) {
-                handleInAppNotification(intent.getParcelableExtra<FootballLiveData>(getString(R.string.intent_zone_live_data)))
-            } else if (intent.hasExtra(getString(R.string.intent_juna_notification))) {
-                handleInAppNotification(intent.getParcelableExtra<SocialNotification>(getString(R.string.intent_juna_notification)))
+            when {
+                intent.hasExtra(getString(R.string.intent_zone_live_data)) -> handleInAppNotification(intent.getParcelableExtra<FootballLiveData>(getString(R.string.intent_zone_live_data)))
+                intent.hasExtra(getString(R.string.intent_juna_notification)) -> handleInAppNotification(intent.getParcelableExtra<SocialNotification>(getString(R.string.intent_juna_notification)))
+                intent.hasExtra(getString(R.string.intent_card_notification)) -> handleInAppNotification(intent.getParcelableExtra<CardNotification>(getString(R.string.intent_card_notification)))
             }
         }
     }

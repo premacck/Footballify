@@ -16,6 +16,7 @@ import life.plank.juna.zone.util.common.customToast
 import life.plank.juna.zone.view.CardPreviewFragment
 import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.activity.camera.CustomCameraActivity
+import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.io.*
 import javax.inject.Inject
@@ -51,8 +52,12 @@ class CreateCardActivity : BaseJunaCardActivity() {
         }
 
         if (!filePath.isNullOrEmpty()) {
-            val imageBitmap = BitmapFactory.decodeFile(filePath)
-            profile_image_view.setImageBitmap(imageBitmap)
+            doAsync {
+                val imageBitmap = BitmapFactory.decodeFile(filePath)
+                uiThread {
+                    profile_image_view.setImageBitmap(imageBitmap)
+                }
+            }
         }
         detector = FaceDetector.Builder(applicationContext)
                 .setTrackingEnabled(false)
