@@ -60,6 +60,13 @@ fun FootballLiveData.prepareDrawerNotification() {
     }
 }
 
+/**
+ * Method to send card notification in the notification drawer
+ */
+fun CardNotification.prepareDrawerNotification() {
+    sendTextNotification(PendingIntent.getActivity(ZoneApplication.getContext(), 0, getCardNotificationIntent(), FLAG_ONE_SHOT))
+}
+
 fun BaseInAppNotification.sendTextNotification(pendingIntent: PendingIntent) {
     val notificationMessage = getNotificationMessage()
     ZoneApplication.getContext()

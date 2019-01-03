@@ -28,6 +28,15 @@ fun FootballLiveData.sendInAppNotification() {
     )
 }
 
+/**
+ * Method to send in-app card notification
+ */
+fun CardNotification.sendInAppNotification() {
+    ZoneApplication.getContext().sendBroadcast(
+            Intent(findString(intent_in_app_notification)).putExtra(findString(intent_card_notification), this)
+    )
+}
+
 fun BaseJunaCardActivity.handleInAppNotification(socialNotification: SocialNotification) {
     when (socialNotification.action) {
         findString(intent_invite) -> showInAppNotification(InAppNotification(socialNotification))
@@ -54,4 +63,8 @@ fun BaseJunaCardActivity.handleInAppNotification(footballLiveData: FootballLiveD
     } ?: footballLiveData.sendCustomizedNotification {
         showInAppNotification(InAppNotification(footballLiveData))
     }
+}
+
+fun BaseJunaCardActivity.handleInAppNotification(cardNotification: CardNotification) {
+    showInAppNotification(InAppNotification(cardNotification))
 }

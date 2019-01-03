@@ -5,11 +5,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.StringDef;
 
 import static life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_BASIC_INTERACTION;
 import static life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
 import static life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_HOME;
 import static life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME;
+import static life.plank.juna.zone.util.common.AppConstants.CardNotificationType.AVAILABLE;
+import static life.plank.juna.zone.util.common.AppConstants.CardNotificationType.MODIFIED;
+import static life.plank.juna.zone.util.common.AppConstants.CardNotificationType.PUBLISHED;
+import static life.plank.juna.zone.util.common.AppConstants.CardNotificationType.READY_TO_CREATE;
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
 import static life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
@@ -183,5 +188,14 @@ public class AppConstants {
         int BOOM_MENU_SETTINGS_AND_HOME = 1;
         int BOOM_MENU_HOME = 2;
         int BOOM_MENU_BASIC_INTERACTION = 3;
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    @StringDef({READY_TO_CREATE, PUBLISHED, AVAILABLE, MODIFIED})
+    public @interface CardNotificationType {
+        String READY_TO_CREATE = "READY_TO_CREATE";
+        String PUBLISHED = "PUBLISHED";
+        String AVAILABLE = "AVAILABLE";
+        String MODIFIED = "MODIFIED";
     }
 }

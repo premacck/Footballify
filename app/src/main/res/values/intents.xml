@@ -32,4 +32,7 @@
     <string name="intent_kick">kick</string>
     <string name="intent_is_board">is_board</string>
     <string name="voice_search">Voice Search</string>
+
+    <string name="intent_card_notification">cardNotification</string>
+    <string name="intent_card_notification_type">cardNotificationType</string>
 </resources>
