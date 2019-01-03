@@ -98,6 +98,8 @@ class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
 
     override fun getFeedEntries(): List<FeedEntry> = feedEntries
 
+    override fun getFeedEntry(position: Int): FeedEntry = feedEntries[position]
+
     override fun getTheBoardId(): String? = boardId
 
     override fun onSocialNotificationReceive(socialNotification: SocialNotification) {

@@ -230,13 +230,7 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
         }
     }
 
-    override fun fireOnItemLongClick(index: Int, v: View): Boolean {
-        if (parentFragment is FeedEntryContainer) {
-            context?.vibrate(20)
-            (parentFragment as FeedEntryContainer).showFeedItemPeekPopup(index)
-        }
-        return true
-    }
+    override fun fireOnItemLongClick(index: Int, v: View): Boolean = false
 
     override fun onPollSelected(pollAnswerRequest: PollAnswerRequest) {
         restApi.postBoardPollAnswer(pollAnswerRequest, getToken()).setObserverThreadsAndSmartSubscribe({

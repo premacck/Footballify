@@ -112,11 +112,49 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
+        <life.plank.juna.zone.util.customview.ShimmerRelativeLayout
             android:id="@+id/feed_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:transitionName="board_tile_transition">
+
+            <com.google.android.exoplayer2.ui.AspectRatioFrameLayout
+                android:id="@+id/video_player_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:animateLayoutChanges="true"
+                android:minHeight="1dp"
+                android:visibility="gone"
+                app:resize_mode="fixed_width">
+
+                <com.google.android.exoplayer2.ui.PlayerView
+                    android:id="@+id/video_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    app:resize_mode="fixed_width"
+                    app:shutter_background_color="@color/black"
+                    app:surface_type="texture_view"
+                    app:use_controller="false" />
+
+                <ImageView
+                    android:id="@+id/play_pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/videos"
+                    android:src="@drawable/play" />
+
+                <ProgressBar
+                    android:id="@+id/video_loading_progress"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+            </com.google.android.exoplayer2.ui.AspectRatioFrameLayout>
 
             <ImageView
                 android:id="@+id/feed_image_view"
@@ -125,12 +163,6 @@
                 android:layout_centerInParent="true"
                 android:contentDescription="@string/thumbnail"
                 android:scaleType="centerCrop" />
-
-            <VideoView
-                android:id="@+id/captured_video_view"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/feed_text_view"
@@ -143,9 +175,10 @@
                 android:textSize="20sp"
                 android:visibility="visible" />
 
-        </RelativeLayout>
+        </life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
 
         <include layout="@layout/layout_interaction_component" />
 
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

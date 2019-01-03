@@ -2,6 +2,8 @@ package life.plank.juna.zone.view.controller
 
 import androidx.annotation.StringRes
 import com.airbnb.epoxy.AutoModel
+import com.prembros.facilis.activity.BaseCardActivity
+import com.prembros.facilis.fragment.BaseFragment
 import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
@@ -26,7 +28,11 @@ class FeedEntryGridController(private val feedEntryContainer: FeedEntryContainer
                             .id(feedEntryList.indexOf(it))
                             .withFeedItem(it.feedItem)
                             .onClick { feedEntryContainer.openFeedEntry(feedEntryList.indexOf(it)) }
-                            .onLongClick { feedEntryContainer.showFeedItemPeekPopup(feedEntryList.indexOf(it)) }
+                            .onLongClick(Pair(
+                                    feedEntryContainer.getFeedItemPeekPopup(feedEntryList.indexOf(it)),
+                                    ((feedEntryContainer as? BaseFragment)?.activity as? BaseCardActivity)
+                                            ?: (feedEntryContainer as BaseCardActivity)
+                            ))
                             .addTo(this)
                 }
             }

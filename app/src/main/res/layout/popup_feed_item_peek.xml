@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_peek_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,32 +9,17 @@
         android:id="@+id/blur_layout"
         style="@style/BlurLayoutFullScreen" />
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:scrollbars="vertical">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/board_tiles_full_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
-            app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
-            tools:listitem="@layout/football_feed_detail_row" />
-
-    </ScrollView>
+    <include
+        android:id="@+id/detail_peek"
+        layout="@layout/football_feed_detail_row" />
 
     <TextView
         android:id="@+id/recycler_view_drag_area"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:layout_alignTop="@+id/board_tiles_full_recycler_view"
         android:layout_marginStart="80dp"
         android:layout_marginEnd="80dp"
-        app:layout_anchor="@+id/board_tiles_full_recycler_view"
+        app:layout_anchor="@+id/detail_peek"
         app:layout_anchorGravity="top" />
 
     <include
