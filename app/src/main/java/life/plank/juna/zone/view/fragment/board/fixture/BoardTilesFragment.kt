@@ -242,9 +242,9 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
         }, {
             val pollAnswer = it.body()
             if (pollAnswer != null) {
-                pollBindingModel!!.poll.totalVotes = pollAnswer.totalVotes
-                pollBindingModel!!.poll.userSelection = pollAnswer.userSelection
-                pollBindingModel!!.poll.choices = pollAnswer.choices
+                pollBindingModel?.poll?.totalVotes = pollAnswer.totalVotes
+                pollBindingModel?.poll?.userSelection = pollAnswer.userSelection
+                pollBindingModel?.poll?.choices = pollAnswer.choices
                 board_poll.pollSelected(pollBindingModel!!.poll)
             }
         }, this)
