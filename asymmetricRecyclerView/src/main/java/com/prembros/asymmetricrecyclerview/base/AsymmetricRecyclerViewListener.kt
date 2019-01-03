@@ -6,5 +6,7 @@ interface AsymmetricRecyclerViewListener {
 
     fun fireOnItemClick(index: Int, v: View)
 
-    fun fireOnItemLongClick(index: Int, v: View): Boolean
+    fun fireOnItemLongClick(index: Int, v: View): Boolean = false
+
+    fun setOnItemPopupListener(index: Int, view: View) {}
 }

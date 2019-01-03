@@ -19,4 +19,6 @@ interface AsymmetricView {
     fun fireOnItemClick(index: Int, v: View)
 
     fun fireOnItemLongClick(index: Int, v: View): Boolean
+
+    fun setOnItemPopupListener(index: Int, view: View) {}
 }

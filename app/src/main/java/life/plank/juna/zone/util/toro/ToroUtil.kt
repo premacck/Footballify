@@ -71,6 +71,11 @@ fun SimpleExoPlayer.addPlayPauseListener(
     return this
 }
 
+fun SimpleExoPlayer.playWhenReady(): SimpleExoPlayer {
+    playWhenReady = true
+    return this
+}
+
 fun Context.getExoPlayer() = ToroExo.with(this).requestPlayer(ToroUtil.exoCreator)
 
 fun Fragment.getExoPlayer() = context!!.getExoPlayer()

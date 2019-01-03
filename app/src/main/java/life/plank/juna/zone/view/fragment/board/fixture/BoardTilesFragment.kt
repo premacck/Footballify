@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.prembros.asymmetricrecyclerview.base.AsymmetricRecyclerViewListener
 import com.prembros.asymmetricrecyclerview.widget.AsymmetricRecyclerViewAdapter
+import com.prembros.facilis.activity.BaseCardActivity
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_board_tiles.*
@@ -31,6 +32,7 @@ import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.*
 import life.plank.juna.zone.view.fragment.board.fixture.extra.*
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
+import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import org.jetbrains.anko.support.v4.toast
 import java.net.HttpURLConnection
 import java.util.*
@@ -50,6 +52,7 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
     private var pollBindingModel: PollBindingModel? = null
     private var emojiBottomSheetBehavior: BottomSheetBehavior<*>? = null
     private var emojiAdapter: EmojiAdapter? = null
+    private var feedItemList: MutableList<FeedEntry>? = ArrayList()
 
     companion object {
         private val TAG = BoardTilesFragment::class.java.simpleName
@@ -135,7 +138,7 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
         val padding = resources.getDimensionPixelSize(R.dimen.recycler_padding)
         board_tiles_list.requestedHorizontalSpacing = padding
         board_tiles_list.setClickListener(this)
-        board_tiles_list.adapter = AsymmetricRecyclerViewAdapter(context!!, board_tiles_list, adapter!!)
+        board_tiles_list.adapter = AsymmetricRecyclerViewAdapter(context!!, board_tiles_list, adapter!!).withPopupClick()
     }
 
     fun updateNewPost(feedItem: FeedEntry) {
@@ -185,7 +188,7 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
                 }, {
                     when (it.code()) {
                         HttpURLConnection.HTTP_OK -> {
-                            val feedItemList = it.body()
+                            feedItemList = it.body()
                             if (!isNullOrEmpty(feedItemList)) {
                                 updateUi(true, 0)
                                 adapter?.update(feedItemList!!)
@@ -230,10 +233,13 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
         }
     }
 
-    override fun fireOnItemLongClick(index: Int, v: View): Boolean {
-        context?.vibrate(20)
-        fireOnItemClick(index, v)
-        return true
+    override fun setOnItemPopupListener(index: Int, view: View) {
+        feedItemList?.get(index)?.run {
+            LongPopupClickListener.inside(activity as BaseCardActivity)
+                    .withVibration()
+                    .withPopup(FeedItemPeekPopup.newInstance(this, boardId, true))
+                    .setOn(view)
+        }
     }
 
     override fun onPollSelected(pollAnswerRequest: PollAnswerRequest) {
@@ -242,9 +248,9 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
         }, {
             val pollAnswer = it.body()
             if (pollAnswer != null) {
-                pollBindingModel!!.poll.totalVotes = pollAnswer.totalVotes
-                pollBindingModel!!.poll.userSelection = pollAnswer.userSelection
-                pollBindingModel!!.poll.choices = pollAnswer.choices
+                pollBindingModel?.poll?.totalVotes = pollAnswer.totalVotes
+                pollBindingModel?.poll?.userSelection = pollAnswer.userSelection
+                pollBindingModel?.poll?.choices = pollAnswer.choices
                 board_poll.pollSelected(pollBindingModel!!.poll)
             }
         }, this)
