@@ -16,7 +16,6 @@ import life.plank.juna.zone.view.activity.camera.UploadActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity;
 import life.plank.juna.zone.view.activity.zone.ZoneActivity;
-import life.plank.juna.zone.view.adapter.common.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.cardmaker.CreateCardActivity;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.CommentaryPopup;
@@ -54,8 +53,6 @@ import life.plank.juna.zone.view.fragment.zone.ZoneFragment;
 public interface UiComponent {
 
     void inject(TokenActivity tokenActivity);
-
-    void inject(BoardFeedDetailAdapter boardFeedDetailAdapter);
 
     void inject(CreateBoardActivity createBoardActivity);
 

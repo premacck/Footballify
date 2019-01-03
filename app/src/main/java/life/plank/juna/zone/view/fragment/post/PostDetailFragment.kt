@@ -192,7 +192,6 @@ class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
             description_text_view.text = feedEntry.feedItem.description
         }
 
-        feedEntry.feedInteractions
         pin_image_view.setImageResource(
                 if (feedEntry.feedInteractions.hasPinned)
                     R.drawable.ic_pin_active
@@ -325,10 +324,9 @@ class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
 
     private fun setVisibilities(imageViewVisibility: Int, videoViewVisibility: Int, textViewVisibility: Int) {
         feed_image_view.visibility = imageViewVisibility
-        video_player.visibility = videoViewVisibility
+        video_player_container.visibility = videoViewVisibility
         feed_text_view.visibility = textViewVisibility
     }
 
     override fun onEmojiPosted(emoji: Emoji) {}
-
 }

@@ -268,7 +268,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {}
 
-    override fun showFeedItemPeekPopup(position: Int) = pushPopup(FeedItemPeekPopup.newInstance(feedEntries, null, true, null, position))
+    override fun getFeedItemPeekPopup(position: Int) = FeedItemPeekPopup.newInstance(feedEntries[position], null, true)
 
     override fun openFeedEntry(position: Int) = pushFragment(PostDetailContainerFragment.newInstance(feedEntries, "", position))
 

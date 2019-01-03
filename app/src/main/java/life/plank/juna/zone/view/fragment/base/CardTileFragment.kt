@@ -27,8 +27,8 @@ abstract class CardTileFragment : BaseJunaCard(), FeedEntryContainer {
         }
     }
 
-    override fun showFeedItemPeekPopup(position: Int) =
-            pushPopup(FeedItemPeekPopup.newInstance(getFeedEntries(), getTheBoardId(), true, null, position))
+    override fun getFeedItemPeekPopup(position: Int) =
+            FeedItemPeekPopup.newInstance(getFeedEntry(position), getTheBoardId(), true)
 
     protected fun getFeedEntryDetails(restApi: RestApi, socialNotification: SocialNotification) {
         restApi.getFeedEntry(socialNotification.childId, getToken()).setObserverThreadsAndSmartSubscribe({
@@ -42,6 +42,8 @@ abstract class CardTileFragment : BaseJunaCard(), FeedEntryContainer {
     }
 
     abstract fun getFeedEntries(): List<FeedEntry>
+
+    abstract fun getFeedEntry(position: Int): FeedEntry
 
     abstract fun updateForumComments()
 

@@ -23,11 +23,8 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRe
 
     val boardFeed: MutableList<FeedEntry> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardMediaViewHolder {
-        return BoardMediaViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_board_tile, parent, false)
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardMediaViewHolder =
+            BoardMediaViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_board_tile, parent, false))
 
     override fun onBindViewHolder(holder: BoardMediaViewHolder, position: Int) {
         val feedItem = boardFeed[position].feedItem

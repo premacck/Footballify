@@ -170,6 +170,8 @@ class MatchBoardFragment : BaseMatchFragment(), BoardHeaderListener {
 
     override fun getFeedEntries(): List<FeedEntry> = feedEntries
 
+    override fun getFeedEntry(position: Int): FeedEntry = feedEntries[position]
+
     override fun getTheBoardId(): String? = board.id
 
     override fun currentChildFragment(): Fragment? = boardPagerAdapter?.currentFragment

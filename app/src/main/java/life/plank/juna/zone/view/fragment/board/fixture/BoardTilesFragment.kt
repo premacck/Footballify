@@ -231,10 +231,8 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
     }
 
     override fun fireOnItemLongClick(index: Int, v: View): Boolean {
-        if (parentFragment is FeedEntryContainer) {
-            context?.vibrate(20)
-            (parentFragment as FeedEntryContainer).showFeedItemPeekPopup(index)
-        }
+        context?.vibrate(20)
+        fireOnItemClick(index, v)
         return true
     }
 
