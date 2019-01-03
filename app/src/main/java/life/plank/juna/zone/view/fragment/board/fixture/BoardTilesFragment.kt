@@ -230,7 +230,11 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
         }
     }
 
-    override fun fireOnItemLongClick(index: Int, v: View): Boolean = false
+    override fun fireOnItemLongClick(index: Int, v: View): Boolean {
+        context?.vibrate(20)
+        fireOnItemClick(index, v)
+        return true
+    }
 
     override fun onPollSelected(pollAnswerRequest: PollAnswerRequest) {
         restApi.postBoardPollAnswer(pollAnswerRequest, getToken()).setObserverThreadsAndSmartSubscribe({
