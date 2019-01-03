@@ -84,6 +84,10 @@ class AsymmetricRecyclerView(context: Context, attrs: AttributeSet) : RecyclerVi
         return listener?.fireOnItemLongClick(index, v) ?: false
     }
 
+    override fun setOnItemPopupListener(index: Int, view: View) {
+        listener?.setOnItemPopupListener(index, view)
+    }
+
     fun setRequestedColumnCount(requestedColumnCount: Int) {
         viewImpl.requestedColumnCount = requestedColumnCount
     }

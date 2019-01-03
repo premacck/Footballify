@@ -26,6 +26,16 @@ class AsymmetricRecyclerViewAdapter<T : RecyclerView.ViewHolder>(
         })
     }
 
+    fun withLongClick(): AsymmetricRecyclerViewAdapter<T> {
+        adapterImpl.isLongClickEnabled = true
+        return this
+    }
+
+    fun withPopupClick(): AsymmetricRecyclerViewAdapter<T> {
+        adapterImpl.isPopupClickEnabled = true
+        return this
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = adapterImpl.onCreateViewHolder()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = adapterImpl.onBindViewHolder(holder, position, recyclerView)

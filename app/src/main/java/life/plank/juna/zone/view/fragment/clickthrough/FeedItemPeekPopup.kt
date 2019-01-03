@@ -204,9 +204,8 @@ class FeedItemPeekPopup : BaseBlurPopup(), EmojiContainer {
                 exoPlayer = ExoBuilder
                         .with(this)
                         .withMediaSource(videoUri)
-                        .withContainer(video_player_container)
                         .applyTo(video_player)
-                        .addPlayPauseListener(video_player, play_pause, video_loading_progress)
+                        .playWhenReady()
             }
             ROOT_COMMENT -> {
                 setVisibilities(View.GONE, View.GONE, View.VISIBLE)

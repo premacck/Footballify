@@ -28,12 +28,14 @@ class AdapterImpl<T : RecyclerView.ViewHolder>(
         private val context: Context,
         private val asymmetricAdapter: AsymmetricBaseAdapter<T>,
         private val listView: AsymmetricView
-) : View.OnClickListener, View.OnLongClickListener {
+) : View.OnClickListener {
     private val itemsPerRow = SparseArray<RowInfo>()
     private val linearLayoutPool: ObjectPool<LinearLayout> = ObjectPool(LinearLayoutPoolObjectFactory(context))
     private val viewHoldersMap = ArrayMap<Int, ObjectPool<AsymmetricViewHolder<T>>>()
     private val debugEnabled: Boolean = listView.isDebugging
     private var asyncTask: ProcessRowsTask<T>? = null
+    var isLongClickEnabled: Boolean = false
+    var isPopupClickEnabled: Boolean = false
 
     val rowCount: Int
         get() = itemsPerRow.size()
@@ -84,7 +86,7 @@ class AdapterImpl<T : RecyclerView.ViewHolder>(
         listView.fireOnItemClick(rowItem.rowItem.index, v)
     }
 
-    override fun onLongClick(v: View): Boolean {
+    fun onLongClick(v: View): Boolean {
         val rowItem = v.tag as ViewState<T>
         return listView.fireOnItemLongClick(rowItem.rowItem.index, v)
     }
@@ -134,7 +136,18 @@ class AdapterImpl<T : RecyclerView.ViewHolder>(
                 val view = viewHolder.itemView
                 view.tag = ViewState(viewType, currentItem, viewHolder)
                 view.setOnClickListener(this)
-                view.setOnLongClickListener(this)
+
+                if (isLongClickEnabled) {
+                    view.setOnLongClickListener {
+                        val rowItem = it.tag as ViewState<T>
+                        return@setOnLongClickListener listView.fireOnItemLongClick(rowItem.rowItem.index, it)
+                    }
+                }
+
+                if (isPopupClickEnabled) {
+                    val rowItem = view.tag as ViewState<T>
+                    listView.setOnItemPopupListener(rowItem.rowItem.index, view)
+                }
 
                 spaceLeftInColumn -= currentItem.item.rowSpan
                 currentIndex = 0
