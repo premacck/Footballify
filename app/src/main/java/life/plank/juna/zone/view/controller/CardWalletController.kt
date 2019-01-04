@@ -9,9 +9,7 @@ class CardWalletController : EpoxyController<List<JunaCard>>() {
     override fun buildModels(cards: List<JunaCard>?) {
         cards?.forEach { junaCard ->
             CardWalletViewModel_()
-                    .withName(junaCard.owner.displayName)
-                    .withHandle(junaCard.owner.handle)
-                    .withProfilePic(junaCard.owner.profilePictureUrl)
+                    .withUser(junaCard.owner)
                     .withBorder(junaCard.template.cardColor)
                     .addTo(this)
         }
