@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchParentSize"
     android:animateLayoutChanges="true"
+    android:background="@color/white"
     tools:context=".view.activity.card.CardWalletActivity">
 
     <life.plank.juna.zone.util.customview.ZoneToolBar
@@ -21,9 +22,10 @@
         <life.plank.juna.zone.util.epoxy.EpoxyRecycler
             android:id="@+id/card_wallet_list"
             style="@style/MatchParentSize"
+            android:background="@drawable/bg_grey_gradient"
             android:clipToPadding="false"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingBottom="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_card_wallet" />
 

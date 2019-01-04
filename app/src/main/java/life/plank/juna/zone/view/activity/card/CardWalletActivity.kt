@@ -53,7 +53,7 @@ class CardWalletActivity : BaseJunaCardActivity() {
                             val cards = response.body()
                             if (!isNullOrEmpty(cards)) {
                                 updateUi(true)
-                                cardWalletController.setData(cards)
+                                cardWalletController.setData(cards, false)
                             } else {
                                 updateUi(false, R.string.no_wallet_content)
                             }
