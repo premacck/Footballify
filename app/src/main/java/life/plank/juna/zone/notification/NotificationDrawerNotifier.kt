@@ -23,6 +23,8 @@ private const val CHANNEL_ID = "juna_notification_channel"
 private const val TAG = "DrawerNotifier"
 private const val GROUP_SOCIAL_NOTIFICATION = "life.plank.juna.zone.SOCIAL_NOTIFICATION"
 private const val GROUP_LIVE_FOOTBALL_NOTIFICATION = "life.plank.juna.zone.LIVE_FOOTBALL_NOTIFICATION"
+private const val GROUP_CARD_NOTIFICATION = "life.plank.juna.zone.CARD_NOTIFICATION"
+private const val GROUP_NONE = "life.plank.juna.zone.GROUP_NONE"
 
 /**
  * Method to send social interaction notification in the notification drawer
@@ -75,8 +77,16 @@ fun BaseInAppNotification.sendTextNotification(pendingIntent: PendingIntent) {
             .notify(toString().asciiToInt(),
                     getNotificationBuilder(notificationMessage, pendingIntent)
                             .setStyle(NotificationCompat.BigTextStyle().bigText(notificationMessage))
-                            .setGroup(if (this is SocialNotification) GROUP_SOCIAL_NOTIFICATION else GROUP_LIVE_FOOTBALL_NOTIFICATION)
-                            .setGroupSummary(true)
+                            .setGroup(when (this) {
+                                is SocialNotification -> GROUP_SOCIAL_NOTIFICATION
+                                is FootballLiveData -> GROUP_LIVE_FOOTBALL_NOTIFICATION
+                                is CardNotification -> GROUP_CARD_NOTIFICATION
+                                else -> GROUP_NONE
+                            })
+                            .setGroupSummary(when (this) {
+                                is SocialNotification, is FootballLiveData, is CardNotification -> true
+                                else -> false
+                            })
                             .build())
 }
 
