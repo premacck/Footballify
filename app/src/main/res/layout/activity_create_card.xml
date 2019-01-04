@@ -4,32 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <life.plank.juna.zone.util.customview.ZoneToolBar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
         android:clipToPadding="false"
         android:isScrollContainer="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
-            android:layout_marginEnd="17dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
+
+            <life.plank.juna.zone.util.customview.ZoneToolBar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:notificationBellVisibility="invisible" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="17dp"
                 android:fontFamily="@font/raleway_semibold"
-                android:lineSpacingExtra="8sp"
                 android:text="@string/welcome_to_juna"
                 android:textColor="@color/grey"
                 android:textSize="20sp" />
@@ -37,101 +36,112 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginEnd="17dp"
                 android:fontFamily="@font/rajdhani_medium"
-                android:lineSpacingExtra="6sp"
                 android:text="@string/fill_data"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
             <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="8dp">
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:cardUseCompatPadding="true">
 
-                <RelativeLayout
+                <ImageView
+                    android:id="@+id/profile_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignStart="@+id/photo_frame"
+                    android:layout_alignTop="@+id/photo_frame"
+                    android:layout_alignEnd="@+id/photo_frame"
+                    android:layout_alignBottom="@+id/photo_frame"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="48dp"
+                    android:layout_marginBottom="68dp"
+                    android:background="@color/black_50"
+                    android:contentDescription="@string/profile_pic"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/photo_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:contentDescription="@string/frame"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_photo_frame" />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/camera"
+                    android:layout_width="46dp"
+                    android:layout_height="37dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/camera_capture_button"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_camera" />
 
-                        <ImageView
-                            android:id="@+id/profile_image_view"
-                            android:layout_width="340dp"
-                            android:layout_height="380dp"
-                            android:layout_marginTop="35dp"
-                            android:scaleType="centerCrop" />
+                <TextView
+                    android:id="@+id/card_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/name_text_view"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="410dp"
+                    android:layout_marginEnd="200dp"
+                    android:layout_marginBottom="60dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/rajdhani_semibold"
+                    android:letterSpacing="0.02"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="#093971"
+                    android:textSize="12sp" />
 
-                        <ImageView
-                            android:layout_width="340dp"
-                            android:layout_height="380dp"
-                            android:layout_marginTop="30dp"
-                            android:background="@color/black_50"
-                            android:scaleType="centerCrop" />
-
-                        <ProgressBar
-                            android:id="@+id/progress_bar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true" />
-
-                    </RelativeLayout>
-
-                    <ImageView
-                        android:layout_width="340dp"
-                        android:layout_height="500dp"
-                        android:src="@drawable/img_photo_frame" />
-
-                    <ImageView
-                        android:id="@+id/camera"
-                        android:layout_width="46dp"
-                        android:layout_height="37dp"
-                        android:layout_centerInParent="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_camera" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="410dp"
-                        android:fontFamily="@font/rajdhani_semibold"
-                        android:letterSpacing="0.02"
-                        android:text="#1402"
-                        android:textColor="#093971"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="425dp"
-                        android:fontFamily="@font/rajdhani_semibold"
-                        android:text="Jane Doe"
-                        android:textColor="#093971"
-                        android:textSize="24sp" />
-
-                </RelativeLayout>
+                <TextView
+                    android:id="@+id/name_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_marginBottom="25dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/rajdhani_semibold"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="#093971"
+                    android:textSize="24sp" />
 
             </androidx.cardview.widget.CardView>
 
             <Button
                 android:id="@+id/proceed_button"
-                android:layout_width="222dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/button_background"
                 android:fontFamily="@font/raleway_bold"
+                android:paddingStart="50dp"
+                android:paddingEnd="50dp"
                 android:text="@string/proceed"
                 android:textColor="@color/white"
                 android:textSize="19sp" />
 
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
     <FrameLayout

@@ -21,7 +21,6 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.io.*
 import javax.inject.Inject
 
-
 class CreateCardActivity : BaseJunaCardActivity() {
 
     @Inject
@@ -55,7 +54,7 @@ class CreateCardActivity : BaseJunaCardActivity() {
             doAsync {
                 val imageBitmap = BitmapFactory.decodeFile(filePath)
                 uiThread {
-                    profile_image_view.setImageBitmap(imageBitmap)
+                    profile_pic.setImageBitmap(imageBitmap)
                 }
             }
         }
