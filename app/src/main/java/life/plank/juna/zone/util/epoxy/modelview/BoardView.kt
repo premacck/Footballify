@@ -16,6 +16,7 @@ import life.plank.juna.zone.util.common.AppConstants
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.time.DateUtil
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
+import life.plank.juna.zone.util.view.initLayout
 
 @ModelView(autoLayout = ModelView.Size.WRAP_WIDTH_WRAP_HEIGHT)
 class BoardView @JvmOverloads constructor(
@@ -28,7 +29,7 @@ class BoardView @JvmOverloads constructor(
     private val glide: RequestManager = Glide.with(this)
 
     init {
-        View.inflate(context, R.layout.item_image_and_title, this)
+        initLayout(R.layout.item_image_and_title)
 //        TODO: extend LinearLayout and un-comment following lines if using <merge> tag in XML layout
 //        orientation = LinearLayout.VERTICAL
 //        gravity = Gravity.CENTER

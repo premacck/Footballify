@@ -182,6 +182,14 @@
         <item name="cardUseCompatPadding">true</item>
     </style>
 
+    <style name="CardView.Default.WrapHeight">
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="cardElevation">8dp</item>
+    </style>
+
     <style name="DragArea">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">60dp</item>

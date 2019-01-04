@@ -3,7 +3,6 @@ package life.plank.juna.zone.util.epoxy.modelview
 import android.content.Context
 import android.text.SpannableStringBuilder
 import android.util.AttributeSet
-import android.view.View
 import android.widget.FrameLayout
 import com.airbnb.epoxy.*
 import com.bumptech.glide.*
@@ -17,6 +16,7 @@ import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.time.DateUtil
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.view.initLayout
 import life.plank.juna.zone.view.controller.ForumReplyController
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
 
@@ -31,7 +31,7 @@ class CommentView @JvmOverloads constructor(
     private val glide: RequestManager = Glide.with(this)
 
     init {
-        View.inflate(context, R.layout.item_post_comment, this)
+        initLayout(R.layout.item_post_comment)
     }
 
     @ModelProp

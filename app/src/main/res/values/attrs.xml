@@ -9,6 +9,10 @@
             <enum name="visible" value="0" />
             <enum name="invisible" value="1" />
         </attr>
+        <attr name="notificationBellVisibility" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="CircularAppCompatImageView">

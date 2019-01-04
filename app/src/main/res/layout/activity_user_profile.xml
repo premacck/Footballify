@@ -218,6 +218,31 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
+            <FrameLayout
+                android:id="@+id/open_wallet_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="14dp"
+                android:foreground="@drawable/ripple_dark_rect_curved_corners"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/ic_wallet"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="@font/rajdhani_bold"
+                    android:gravity="center"
+                    android:text="@string/your_wallet"
+                    android:textColor="@color/grey"
+                    android:textSize="20sp" />
+
+            </FrameLayout>
+
             <androidx.cardview.widget.CardView style="@style/CardView.Default">
 
                 <RelativeLayout

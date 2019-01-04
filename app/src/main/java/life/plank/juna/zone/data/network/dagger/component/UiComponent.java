@@ -13,10 +13,11 @@ import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.UserNotificationActivity;
 import life.plank.juna.zone.view.activity.board.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.camera.UploadActivity;
+import life.plank.juna.zone.view.activity.card.CardWalletActivity;
+import life.plank.juna.zone.view.activity.card.CreateCardActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity;
 import life.plank.juna.zone.view.activity.zone.ZoneActivity;
-import life.plank.juna.zone.view.cardmaker.CreateCardActivity;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.CommentaryPopup;
 import life.plank.juna.zone.view.fragment.board.fixture.LineupFragment;
@@ -129,6 +130,9 @@ public interface UiComponent {
     void inject(ShareLinkPopup shareLinkPopup);
 
     void inject(CreateCardActivity createCardActivity);
+
+    void inject(CardWalletActivity cardWalletActivity);
+
     @Subcomponent.Builder
     interface Builder {
         UiComponent build();

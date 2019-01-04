@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.cardmaker
+package life.plank.juna.zone.view.activity.card
 
 import android.app.Activity
 import android.content.*

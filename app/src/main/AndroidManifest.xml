@@ -128,8 +128,9 @@
             android:name=".view.activity.profile.UserProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.cardmaker.CreateCardActivity"
+            android:name=".view.activity.card.CreateCardActivity"
             android:screenOrientation="portrait" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="${crashlyticsApiKey}" />
@@ -164,6 +165,7 @@
             android:parentActivityName=".view.activity.home.HomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".view.activity.card.CardWalletActivity"></activity>
     </application>
 
 </manifest>
