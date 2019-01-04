@@ -6,6 +6,7 @@ import android.widget.FrameLayout
 import com.airbnb.epoxy.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.prembros.facilis.util.onReducingClick
 import kotlinx.android.synthetic.main.item_card_wallet.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.card.CardUser
@@ -26,6 +27,7 @@ class CardWalletView @JvmOverloads constructor(context: Context, attrs: Attribut
                 .load(cardUser.profilePictureUrl)
                 .apply(RequestOptions.placeholderOf(R.drawable.shimmer_rectangle).error(R.drawable.ic_place_holder))
                 .into(profile_pic)
+        onReducingClick { }
     }
 
     @ModelProp

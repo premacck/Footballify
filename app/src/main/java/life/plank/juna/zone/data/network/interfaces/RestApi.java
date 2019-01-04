@@ -25,6 +25,8 @@ import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.model.Zones;
 import life.plank.juna.zone.data.model.card.JunaCard;
+import life.plank.juna.zone.data.model.card.JunaCardTemplate;
+import life.plank.juna.zone.data.model.notification.CardNotification;
 import life.plank.juna.zone.data.model.notification.SocialNotification;
 import life.plank.juna.zone.data.model.poll.Poll;
 import life.plank.juna.zone.data.model.poll.PollAnswerRequest;
@@ -37,7 +39,9 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -314,4 +318,19 @@ public interface RestApi {
 
     @GET(CARD_SUFFIX + "/wallet")
     Observable<Response<List<JunaCard>>> getCardWallet(@Header("Authorization") String authHeader);
+
+    @POST(CARD_SUFFIX)
+    Observable<Response<JunaCard>> createCard(@Body JunaCardTemplate cardTemplate, @Header("Authorization") String authHeader);
+
+    @PUT(CARD_SUFFIX + "/{id}/publish")
+    Observable<Response<JunaCard>> publishCard(@Path("id") String cardId, @Header("Authorization") String authHeader);
+
+    @PATCH(CARD_SUFFIX)
+    Observable<Response<JunaCard>> updateCard(@Body JunaCardTemplate cardTemplate, @Header("Authorization") String authHeader);
+
+    @GET(CARD_SUFFIX + "/cardNotifications")
+    Observable<Response<List<CardNotification>>> getCardNotifications(@Header("Authorization") String authHeader);
+
+    @PATCH(CARD_SUFFIX + "/cardNotifications")
+    Observable<Response<Void>> markCardNotificationRead(@Header("Authorization") String authHeader);
 }
