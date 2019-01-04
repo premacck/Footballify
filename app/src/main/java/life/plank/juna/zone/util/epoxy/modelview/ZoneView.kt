@@ -2,7 +2,6 @@ package life.plank.juna.zone.util.epoxy.modelview
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.FrameLayout
 import com.airbnb.epoxy.*
 import com.prembros.facilis.util.*
@@ -11,6 +10,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
+import life.plank.juna.zone.util.view.initLayout
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class ZoneView @JvmOverloads constructor(
@@ -20,7 +20,7 @@ class ZoneView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
     init {
-        View.inflate(context, R.layout.item_zone_user_feed, this)
+        initLayout(R.layout.item_zone_user_feed)
     }
 
     @ModelProp

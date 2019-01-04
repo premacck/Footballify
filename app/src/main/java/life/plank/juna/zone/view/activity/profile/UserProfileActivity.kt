@@ -19,6 +19,7 @@ import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToke
 import life.plank.juna.zone.util.time.DateUtil.getIsoFormattedDate
 import life.plank.juna.zone.util.view.UIDisplayUtil
 import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
+import life.plank.juna.zone.view.activity.card.CardWalletActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.adapter.user.*
 import life.plank.juna.zone.view.controller.BoardController
@@ -96,6 +97,7 @@ class UserProfileActivity : BaseJunaCardActivity() {
             PreferenceManager.App.saveEnterToSend(isChecked)
             comment_enter_btn_switch.text = if (isChecked) comment_enter_btn_switch.textOn else comment_enter_btn_switch.textOff
         }
+        open_wallet_btn.onDebouncingClick { launch<CardWalletActivity>() }
     }
 
     private fun getImageResourceFromGallery() {

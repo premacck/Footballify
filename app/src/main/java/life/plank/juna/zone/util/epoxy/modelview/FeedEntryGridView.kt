@@ -2,7 +2,6 @@ package life.plank.juna.zone.util.epoxy.modelview
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.FrameLayout
 import com.airbnb.epoxy.*
 import com.bumptech.glide.Glide
@@ -13,6 +12,7 @@ import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.item_board_grid_row.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedItem
+import life.plank.juna.zone.util.view.initLayout
 
 @ModelView(autoLayout = ModelView.Size.WRAP_WIDTH_WRAP_HEIGHT)
 class FeedEntryGridView @JvmOverloads constructor(
@@ -25,7 +25,7 @@ class FeedEntryGridView @JvmOverloads constructor(
     private val glide = Glide.with(this)
 
     init {
-        View.inflate(context, R.layout.item_board_grid_row, this)
+        initLayout(R.layout.item_board_grid_row)
     }
 
     @ModelProp

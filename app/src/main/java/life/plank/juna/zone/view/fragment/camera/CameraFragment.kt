@@ -15,7 +15,7 @@ import life.plank.juna.zone.util.common.FileHandler
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import life.plank.juna.zone.view.activity.camera.UploadActivity
-import life.plank.juna.zone.view.cardmaker.CreateCardActivity
+import life.plank.juna.zone.view.activity.card.CreateCardActivity
 import org.jetbrains.anko.sdk27.coroutines.onTouch
 import org.jetbrains.anko.support.v4.runOnUiThread
 import java.io.*

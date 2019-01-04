@@ -264,4 +264,8 @@
     <string name="load_more_text">.\t\t.\t\t.</string>
     <string name="videos">Videos</string>
     <string name="images">Images</string>
+    <string name="wallet">Wallet</string>
+    <string name="no_wallet_content">Your wallet is currently empty.\nWallets you\'ll collect in the future will appear here</string>
+    <string name="failed_to_get_wallet">Failed to get wallet contents,\nswipe down to retry</string>
+    <string name="your_wallet">Your Wallet</string>
 </resources>

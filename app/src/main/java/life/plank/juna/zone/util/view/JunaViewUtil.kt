@@ -1,11 +1,14 @@
 package life.plank.juna.zone.util.view
 
-import android.view.View
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.view.*
 import android.widget.TextView
+import androidx.annotation.LayoutRes
 import com.ahamed.multiviewadapter.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.leocardz.link.preview.library.*
-import com.prembros.facilis.util.isNullOrEmpty
+import com.prembros.facilis.util.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedItem
 import life.plank.juna.zone.util.common.*
@@ -82,5 +85,29 @@ fun TextView.setRootCommentPost(feedItem: FeedItem) {
         val comment: String = feedItem.title.replace("^\"|\"$".toRegex(), "")
         background = getCommentColor(comment)
         text = getCommentText(comment)?.toString()?.formatLinks()?.formatMentions()
+    }
+}
+
+fun ViewGroup.initLayout(@LayoutRes layoutRes: Int) {
+    View.inflate(context, layoutRes, this)
+}
+
+fun View.setBorder(color: Int, borderWidth: Int = getDp(1f).toInt(), cornerRadius: Float = getDp(8f)) {
+    val gradientDrawable = GradientDrawable().apply {
+        orientation = GradientDrawable.Orientation.LEFT_RIGHT
+        setStroke(borderWidth, color)
+        setCornerRadius(cornerRadius)
+    }
+    background = gradientDrawable
+}
+
+fun String.getCardColor(): Int {
+    return when (this) {
+        "BLUE" -> Color.BLUE
+        "BRONZE" -> 0xFFCD7F32.toInt()
+        "SILVER" -> 0xFFC0C0C0.toInt()
+        "GOLD" -> 0xFFFFD700.toInt()
+        "BLACK" -> Color.BLACK
+        else -> Color.WHITE
     }
 }

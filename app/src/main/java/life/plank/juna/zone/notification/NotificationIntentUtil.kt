@@ -10,8 +10,8 @@ import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.CardNotificationType.*
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
+import life.plank.juna.zone.view.activity.card.CreateCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
-import life.plank.juna.zone.view.cardmaker.CreateCardActivity
 import life.plank.juna.zone.view.fragment.board.user.JoinBoardPopup
 import org.jetbrains.anko.*
 

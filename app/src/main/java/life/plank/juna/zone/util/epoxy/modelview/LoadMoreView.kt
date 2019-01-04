@@ -2,11 +2,11 @@ package life.plank.juna.zone.util.epoxy.modelview
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.FrameLayout
 import com.airbnb.epoxy.*
 import com.prembros.facilis.util.onDebouncingClick
 import life.plank.juna.zone.R
+import life.plank.juna.zone.util.view.initLayout
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class LoadMoreView @JvmOverloads constructor(
@@ -19,7 +19,7 @@ class LoadMoreView @JvmOverloads constructor(
     private var isForNextPage: Boolean = true
 
     init {
-        View.inflate(context, R.layout.item_load_more, this)
+        initLayout(R.layout.item_load_more)
     }
 
     @ModelProp

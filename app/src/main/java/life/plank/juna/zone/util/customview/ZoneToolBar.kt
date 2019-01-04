@@ -42,6 +42,7 @@ class ZoneToolBar @JvmOverloads constructor(context: Context,
 
         val array = context.obtainStyledAttributes(attrs, R.styleable.ZoneToolBar)
         notification_badge?.visibility = if (array.getInt(R.styleable.ZoneToolBar_notificationBadgeVisibility, 1) == 1) View.INVISIBLE else View.VISIBLE
+        toolbar_notification?.visibility = if (array.getInt(R.styleable.ZoneToolBar_notificationBellVisibility, 0) == 1) View.INVISIBLE else View.VISIBLE
         try {
             title = array?.getString(R.styleable.ZoneToolBar_title)
             setProfilePic(array.getResourceId(R.styleable.ZoneToolBar_profilePic, R.drawable.ic_default_profile))
@@ -60,7 +61,7 @@ class ZoneToolBar @JvmOverloads constructor(context: Context,
         toolbar_notification.visibility = visibility
     }
 
-    fun setProfilePic(url: String) {
+    fun setProfilePic(url: String?) {
         if (isNullOrEmpty(url)) {
             setProfilePic(R.drawable.ic_default_profile)
             return

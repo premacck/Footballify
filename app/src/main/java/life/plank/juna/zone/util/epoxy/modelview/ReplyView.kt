@@ -3,7 +3,6 @@ package life.plank.juna.zone.util.epoxy.modelview
 import android.content.Context
 import android.text.SpannableStringBuilder
 import android.util.AttributeSet
-import android.view.View
 import android.widget.FrameLayout
 import com.airbnb.epoxy.*
 import com.bumptech.glide.Glide
@@ -15,6 +14,7 @@ import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.time.DateUtil
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.view.initLayout
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
 import org.jetbrains.anko.*
 
@@ -32,7 +32,7 @@ class ReplyView @JvmOverloads constructor(
     private var position: Int = -1
 
     init {
-        View.inflate(context, R.layout.item_base_comment, this)
+        initLayout(R.layout.item_base_comment)
     }
 
     @ModelProp

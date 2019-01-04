@@ -24,6 +24,7 @@ import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.model.Zones;
+import life.plank.juna.zone.data.model.card.JunaCard;
 import life.plank.juna.zone.data.model.notification.SocialNotification;
 import life.plank.juna.zone.data.model.poll.Poll;
 import life.plank.juna.zone.data.model.poll.PollAnswerRequest;
@@ -51,6 +52,7 @@ public interface RestApi {
 
     String FOOTBALL_SUFFIX = "football";
     String ZONE_BACKEND_SUFFIX = "backend";
+    String CARD_SUFFIX = "cards";
     String FEED_FLOWS_SUFFIX = "feedflows";
 
     //working
@@ -309,4 +311,7 @@ public interface RestApi {
 
     @GET(FOOTBALL_SUFFIX + "/matches/nextMatches")
     Observable<Response<List<NextMatch>>> getNextMatches(@Query("leagues") List<String> userSelectedLeagues, @Header("Authorization") String authHeader);
+
+    @GET(CARD_SUFFIX + "/wallet")
+    Observable<Response<List<JunaCard>>> getCardWallet(@Header("Authorization") String authHeader);
 }
