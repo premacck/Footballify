@@ -245,7 +245,7 @@
     <string name="enter_button_will_create_a_new_line">Enter button will create a new line</string>
     <string name="enter_button_will_send_the_comment">Enter button will send the comment</string>
     <string name="comments">Comments</string>
-    <string name="share_link_title">Do you wanna share the link that you’ve copied?</string>
+    <string name="share_link_title">Do you want to share the link that you’ve copied?</string>
     <string name="link">https://www.premierleague.com/news/675769</string>
     <string name="link_title">Can Saints call on spirit of 1999?</string>
     <string name="link_summary">A look at the teams fighting relegation as Mark Hughes and Saints look to repeat strong finish of 1998/99 to avoid drop.</string>
@@ -278,4 +278,9 @@
     <string name="error_text">errorText</string>
     <string name="card_wallet_header">cardWalletHeader</string>
     <string name="create_card">Create card</string>
+    <string name="update_card">Update card</string>
+    <string name="add_a_photo_for_your_card">Add a photo for your card\n\n\n\n\nand click the button below</string>
+    <string name="failed_to_create_card">Failed to create card</string>
+    <string name="failed_to_update_card">Failed to update card</string>
+    <string name="cannot_update_same_photo_twice">Cannot update the same photo twice, try selecting a new one</string>
 </resources>

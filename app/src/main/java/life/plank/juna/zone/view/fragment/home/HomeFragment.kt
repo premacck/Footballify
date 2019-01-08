@@ -1,8 +1,5 @@
 package life.plank.juna.zone.view.fragment.home
 
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -235,16 +232,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     private fun showPopup() {
-        val signUpDialog = Dialog(context!!)
         authService = AuthorizationService(context!!)
-        signUpDialog.setContentView(R.layout.signup_dialogue)
-
-        signUpDialog.findViewById<View>(R.id.drag_handle).setOnClickListener { signUpDialog.dismiss() }
-
-        signUpDialog.findViewById<View>(R.id.signup_button).setOnClickListener { AuthUtil.loginOrRefreshToken(activity, authService, null, false) }
-        val window = signUpDialog.window
-        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        signUpDialog.show()
+        showSignupPopup(authService!!)
     }
 
     private fun startShimmers() {

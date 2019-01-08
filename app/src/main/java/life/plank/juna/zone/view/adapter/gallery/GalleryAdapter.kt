@@ -9,7 +9,6 @@ import kotlinx.android.synthetic.main.item_gallery.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.view.activity.camera.*
-import life.plank.juna.zone.view.activity.card.CreateCardActivity
 import java.util.*
 
 class GalleryAdapter(private val activity: CustomCameraActivity, private var isForImage: Boolean) : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
@@ -33,7 +32,7 @@ class GalleryAdapter(private val activity: CustomCameraActivity, private var isF
 
                 onDebouncingClick {
                     if (activity.boardId.isEmpty()) {
-                        CreateCardActivity.launch(activity, itemPath)
+                        activity.setResult(itemPath)
                     } else {
                         UploadActivity.launch(activity, if (isForImage) IMAGE else VIDEO, activity.boardId, itemPath)
                         activity.finish()

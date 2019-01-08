@@ -10,6 +10,7 @@ data class CardUser(
         var handle: String,
         var displayName: String,
         var profilePictureUrl: String? = null,
+        var cardPictureUrl: String? = null,
         var followersCount: Int = 0,
         var cardCount: Int = 0
 ) : Parcelable

@@ -16,7 +16,6 @@ import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
-import okhttp3.*
 import java.io.File
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -74,17 +73,13 @@ class BoardPreviewPopup : BaseBlurPopup() {
     override fun getBackgroundLayout(): ViewGroup? = root_blur_layout
 
     private fun createBoard() {
-        val fileToUpload = File(filePath)
-        val requestBody = RequestBody.create(MediaType.parse(getString(R.string.media_type_image)), fileToUpload)
-        val image = MultipartBody.Part.createFormData("", fileToUpload.name, requestBody)
+        val image = File(filePath).createMultiPartImage()
+        val name = board.displayName?.createRequestBody()
+        val zone = board.zone?.createRequestBody()
+        val description = board.description?.createRequestBody()
+        val color = board.color?.createRequestBody()
 
-        val name = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.displayName!!)
-        val zone = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.zone!!)
-        val description = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.description!!)
-        val color = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.color!!)
-
-        val token = getToken()
-        restApi.createPrivateBoard(board.boardType, name, zone, description, color, image, token).setObserverThreadsAndSmartSubscribe({
+        restApi.createPrivateBoard(board.boardType, name, zone, description, color, image, getToken()).setObserverThreadsAndSmartSubscribe({
                     Log.e(TAG, it.message)
             errorToast(R.string.could_not_create_board, it)
                 }, {

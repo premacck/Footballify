@@ -80,7 +80,7 @@ class ProfileCardFragment : BaseJunaCard() {
                 }
                 else -> errorToast(R.string.failed_to_get_card_details, response)
             }
-        })
+        }, this)
     }
 
     private fun cardIdAvailableOnly() = junaCard == null && !isNullOrEmpty(cardId)

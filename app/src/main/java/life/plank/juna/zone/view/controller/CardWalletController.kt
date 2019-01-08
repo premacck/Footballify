@@ -26,7 +26,7 @@ class CardWalletController(private val activity: Activity) : EpoxyController3<Re
         cardWalletHeader.withHeader(if (isCollection) R.string.collection else R.string.creations)
                 .withHeaderCount(if (isCollection) findString(R.string.collection_status, 25, 30) else null)
                 .withHeaderAction(if (isCollection) R.string.increase_capacity else R.string.create_new)
-                .onClick { activity.launch<CreateCardActivity>() }
+                .onClick { CreateCardActivity.launch(activity) }
                 .addTo(this)
 
         textModelView
