@@ -264,8 +264,8 @@
     <string name="load_more_text">.\t\t.\t\t.</string>
     <string name="videos">Videos</string>
     <string name="images">Images</string>
-    <string name="wallet">Wallet</string>
-    <string name="no_wallet_content">Your wallet is currently empty.\nWallets you\'ll collect in the future will appear here</string>
+    <string name="card_wallet">Card wallet</string>
+    <string name="no_wallet_content">Your wallet is currently empty.\nCards you\'ll create or collect in the future will appear here</string>
     <string name="failed_to_get_wallet">Failed to get wallet contents,\nswipe down to retry</string>
     <string name="your_wallet">Your Wallet</string>
     <string name="frame">Frame</string>
@@ -274,4 +274,8 @@
     <string name="increase_capacity">Increase capacity</string>
     <string name="create_new">Create new</string>
     <string name="creations">Creations</string>
+    <string name="failed_to_get_card_details">Failed to get card details</string>
+    <string name="error_text">errorText</string>
+    <string name="card_wallet_header">cardWalletHeader</string>
+    <string name="create_card">Create card</string>
 </resources>

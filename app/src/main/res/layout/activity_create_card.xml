@@ -20,29 +20,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:title="@string/create_card"
                 app:notificationBellVisibility="invisible" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="17dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="17dp"
-                android:fontFamily="@font/raleway_semibold"
-                android:text="@string/welcome_to_juna"
-                android:textColor="@color/grey"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="17dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="17dp"
-                android:fontFamily="@font/rajdhani_medium"
-                android:text="@string/fill_data"
-                android:textColor="@color/grey"
-                android:textSize="16sp" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -51,29 +30,35 @@
                 app:cardElevation="8dp"
                 app:cardUseCompatPadding="true">
 
-                <ImageView
-                    android:id="@+id/profile_pic"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignStart="@+id/photo_frame"
-                    android:layout_alignTop="@+id/photo_frame"
-                    android:layout_alignEnd="@+id/photo_frame"
-                    android:layout_alignBottom="@+id/photo_frame"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="48dp"
-                    android:layout_marginBottom="68dp"
-                    android:background="@color/black_50"
-                    android:contentDescription="@string/profile_pic"
-                    android:scaleType="centerCrop" />
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/photo_frame"
-                    android:layout_width="match_parent"
-                    android:layout_height="500dp"
-                    android:contentDescription="@string/frame"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_photo_frame" />
+                    <ImageView
+                        android:id="@+id/profile_pic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignStart="@+id/photo_frame"
+                        android:layout_alignTop="@+id/photo_frame"
+                        android:layout_alignEnd="@+id/photo_frame"
+                        android:layout_alignBottom="@+id/photo_frame"
+                        android:layout_marginStart="48dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginEnd="48dp"
+                        android:layout_marginBottom="68dp"
+                        android:background="@color/black_50"
+                        android:contentDescription="@string/profile_pic"
+                        android:scaleType="centerCrop" />
+
+                    <ImageView
+                        android:id="@+id/photo_frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="500dp"
+                        android:contentDescription="@string/frame"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/img_photo_frame" />
+
+                </RelativeLayout>
 
                 <ProgressBar
                     android:id="@+id/progress_bar"
