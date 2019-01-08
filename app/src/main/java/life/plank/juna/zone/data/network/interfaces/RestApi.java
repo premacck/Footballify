@@ -319,11 +319,14 @@ public interface RestApi {
     @GET(CARD_SUFFIX + "/wallet")
     Observable<Response<List<JunaCard>>> getCardWallet(@Header("Authorization") String authHeader);
 
+    @GET(CARD_SUFFIX + "/{id}")
+    Observable<Response<JunaCard>> getCardDetail(@Path("id") String cardId, @Header("Authorization") String authHeader);
+
     @POST(CARD_SUFFIX)
     Observable<Response<JunaCard>> createCard(@Body JunaCardTemplate cardTemplate, @Header("Authorization") String authHeader);
 
     @PUT(CARD_SUFFIX + "/{id}/publish")
-    Observable<Response<JunaCard>> publishCard(@Path("id") String cardId, @Header("Authorization") String authHeader);
+    Observable<Response<Void>> publishCard(@Path("id") String cardId, @Header("Authorization") String authHeader);
 
     @PATCH(CARD_SUFFIX)
     Observable<Response<JunaCard>> updateCard(@Body JunaCardTemplate cardTemplate, @Header("Authorization") String authHeader);

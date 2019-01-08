@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:notificationBellVisibility="invisible"
-        app:title="@string/wallet" />
+        app:title="@string/card_wallet" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -21,7 +21,8 @@
 
         <life.plank.juna.zone.util.epoxy.EpoxyRecycler
             android:id="@+id/card_wallet_list"
-            style="@style/MatchParentSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_grey_gradient"
             android:clipToPadding="false"
             android:paddingTop="8dp"
@@ -30,19 +31,6 @@
             tools:listitem="@layout/item_card_wallet" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <TextView
-        android:id="@+id/no_data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:fontFamily="@font/rajdhani_semibold"
-        android:gravity="center"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:textColor="@color/grey"
-        android:textSize="16sp"
-        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/popup_container"
