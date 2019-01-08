@@ -142,7 +142,7 @@ class CreateCardActivity : BaseJunaCardActivity() {
         val targetW = 600
         val targetH = 600
         val bmOptions = BitmapFactory.Options()
-        bmOptions.inPreferredConfig = Bitmap.Config.RGB_565
+        bmOptions.inPreferredConfig = Bitmap.Config.RGB_565         //Required for Face detection!
         bmOptions.inJustDecodeBounds = true
         BitmapFactory.decodeStream(contentResolver.openInputStream(uri), null, bmOptions)
         val photoW = bmOptions.outWidth
