@@ -14,11 +14,11 @@ import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.FileHandler
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import life.plank.juna.zone.view.activity.camera.UploadActivity
-import life.plank.juna.zone.view.activity.card.CreateCardActivity
+import life.plank.juna.zone.view.activity.camera.*
+import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.onTouch
 import org.jetbrains.anko.support.v4.runOnUiThread
-import java.io.*
+import java.io.File
 
 class CameraFragment : Fragment() {
 
@@ -134,12 +134,17 @@ class CameraFragment : Fragment() {
                                 layout_busy_progress_bar.visibility = View.GONE
                                 if (isBoard) {
                                     UploadActivity.launch(activity!!, IMAGE, boardId, FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap))
+                                    activity?.finish()
                                 } else {
-                                    CreateCardActivity.launch(activity!!, FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap))
+                                    doAsync {
+                                        val filePath = FileHandler.saveImageFile(imageFolder, cameraKitImage.bitmap)
+                                        uiThread {
+                                            (activity as? CustomCameraActivity)?.setResult(filePath)
+                                        }
+                                    }
                                 }
-                                activity?.finish()
                             }
-                        } catch (e: IOException) {
+                        } catch (e: Exception) {
                             Log.e(TAG, "onTouchCapture(): ", e)
                         }
                     }

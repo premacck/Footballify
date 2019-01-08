@@ -10,6 +10,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.view.UIDisplayUtil.setupSwipeGesture
 import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
+import life.plank.juna.zone.view.activity.card.CreateCardActivity.Companion.GET_PHOTO_FOR_CARD
 import life.plank.juna.zone.view.fragment.camera.*
 
 class CustomCameraActivity : BaseJunaCardActivity() {
@@ -23,7 +24,11 @@ class CustomCameraActivity : BaseJunaCardActivity() {
             val intent = Intent(from, CustomCameraActivity::class.java)
             intent.putExtra(from.getString(R.string.intent_board_id), boardId)
             intent.putExtra(from.getString(R.string.intent_is_board), isBoard)
-            from.startActivity(intent)
+            if (isBoard) {
+                from.startActivity(intent)
+            } else {
+                from.startActivityForResult(intent, GET_PHOTO_FOR_CARD)
+            }
             from.overridePendingTransition(R.anim.float_up, R.anim.sink_up)
         }
     }
@@ -43,6 +48,11 @@ class CustomCameraActivity : BaseJunaCardActivity() {
         camera_view_pager.adapter = pagerAdapter
     }
 
+    fun setResult(filePath: String) {
+        setResult(Activity.RESULT_OK, Intent().apply { putExtra(getString(R.string.intent_file_path), filePath) })
+        finish()
+    }
+
     class CameraPagerAdapter(fm: FragmentManager, val boardId: String, private val isBoard: Boolean) : FragmentPagerAdapter(fm) {
 
         var currentFragment: Fragment? = null
@@ -54,9 +64,7 @@ class CustomCameraActivity : BaseJunaCardActivity() {
             }
         }
 
-        override fun getCount(): Int {
-            return 2
-        }
+        override fun getCount(): Int = 2
 
         override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
             if (currentFragment !== `object`) {

@@ -1,8 +1,7 @@
 package life.plank.juna.zone.view.fragment.post
 
-import android.app.Dialog
-import android.graphics.*
-import android.graphics.drawable.*
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.media.*
 import android.net.Uri
 import android.os.Build.VERSION.SDK_INT
@@ -46,7 +45,7 @@ class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
     @Inject
     lateinit var restApi: RestApi
 
-    lateinit var feedEntry: FeedEntry
+    private lateinit var feedEntry: FeedEntry
     lateinit var boardId: String
     private var emojiBottomSheetBehavior: BottomSheetBehavior<*>? = null
     private var emojiAdapter: EmojiAdapter? = null
@@ -118,18 +117,8 @@ class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
     }
 
     private fun showPopup() {
-        val signUpDialog = Dialog(context!!)
         authService = AuthorizationService(context!!)
-        signUpDialog.setContentView(R.layout.signup_dialogue)
-
-        signUpDialog.findViewById<View>(R.id.drag_handle).setOnClickListener { signUpDialog.dismiss() }
-
-        signUpDialog.findViewById<View>(R.id.signup_button).setOnClickListener {
-            AuthUtil.loginOrRefreshToken(activity, authService, null, false)
-        }
-        val window = signUpDialog.window
-        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        signUpDialog.show()
+        showSignupPopup(authService!!)
     }
 
     override fun onResume() {

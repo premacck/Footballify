@@ -42,6 +42,7 @@ import life.plank.juna.zone.view.fragment.onboarding.SearchUserPopup;
 import life.plank.juna.zone.view.fragment.onboarding.TeamSelectionFragment;
 import life.plank.juna.zone.view.fragment.post.PostDetailFragment;
 import life.plank.juna.zone.view.fragment.profile.EditProfilePopup;
+import life.plank.juna.zone.view.fragment.profile.ProfileCardFragment;
 import life.plank.juna.zone.view.fragment.share.ShareLinkPopup;
 import life.plank.juna.zone.view.fragment.zone.ZoneFragment;
 
@@ -132,6 +133,8 @@ public interface UiComponent {
     void inject(CreateCardActivity createCardActivity);
 
     void inject(CardWalletActivity cardWalletActivity);
+
+    void inject(ProfileCardFragment profileCardFragment);
 
     @Subcomponent.Builder
     interface Builder {

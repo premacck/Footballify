@@ -1,18 +1,16 @@
 package life.plank.juna.zone.view.activity.card
 
 import android.os.Bundle
-import androidx.annotation.StringRes
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.activity_card_wallet.*
 import life.plank.juna.zone.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.util.common.AppConstants.NEW_LINE
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.controller.CardWalletController
-import java.net.HttpURLConnection.HTTP_OK
+import java.net.HttpURLConnection.*
 import javax.inject.Inject
 
 class CardWalletActivity : BaseJunaCardActivity() {
@@ -38,7 +36,7 @@ class CardWalletActivity : BaseJunaCardActivity() {
     }
 
     private fun initRecyclerView() {
-        cardWalletController = CardWalletController()
+        cardWalletController = CardWalletController(this)
         card_wallet_list.setController(cardWalletController)
     }
 
@@ -46,30 +44,18 @@ class CardWalletActivity : BaseJunaCardActivity() {
         restApi.getCardWallet(getToken())
                 .onTerminate { if (isRefreshing) swipe_refresh_layout.isRefreshing = false }
                 .setObserverThreadsAndSmartSubscribe({ e ->
-                    updateUi(false, R.string.failed_to_get_wallet, e.message)
+                    cardWalletController.setData(null, false, e.message)
                 }, { response ->
-                    when (response.code()) {
-                        HTTP_OK -> {
-                            val cards = response.body()
-                            if (!isNullOrEmpty(cards)) {
-                                updateUi(true)
-                                cardWalletController.setData(cards, false)
-                            } else {
-                                updateUi(false, R.string.no_wallet_content)
+                    val cards = response.body()
+                    cardWalletController.setData(
+                            response,
+                            false,
+                            when (response.code()) {
+                                HTTP_OK, HTTP_NOT_FOUND -> if (!isNullOrEmpty(cards)) null else getString(R.string.no_wallet_content)
+                                else -> getString(R.string.failed_to_get_wallet)
                             }
-                        }
-                        else -> updateUi(false, R.string.failed_to_get_wallet, response.code().toString())
-                    }
+                    )
                 })
-    }
-
-    private fun updateUi(isDataAvailable: Boolean, @StringRes message: Int = R.string.something_went_wrong, errorMessage: String? = null) {
-        if (isDataAvailable) card_wallet_list.makeVisible() else card_wallet_list.makeInvisible()
-        if (isDataAvailable) no_data.makeGone() else no_data.makeVisible()
-        if (!isDataAvailable) no_data.text = StringBuilder(getString(message))
-                .maybeAppend(NEW_LINE, errorMessage != null)
-                .maybeAppend("Error : ", errorMessage != null)
-                .maybeAppend(errorMessage, errorMessage != null)
     }
 
     override fun getFragmentContainer(): Int = R.id.popup_container

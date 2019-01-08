@@ -1,13 +1,10 @@
 package life.plank.juna.zone.util.common
 
-import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.content.*
+import android.graphics.*
 import android.net.Uri
 import android.os.Environment
-import android.os.Environment.DIRECTORY_MOVIES
-import android.os.Environment.DIRECTORY_PICTURES
+import android.os.Environment.*
 import android.util.Log
 import android.view.View
 import life.plank.juna.zone.R
@@ -16,9 +13,7 @@ import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.getScreenshot
 import org.apache.commons.io.FileUtils
 import org.jetbrains.anko.doAsync
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -96,7 +91,7 @@ class FileHandler {
          * Method to create a new image file in the media folder
          */
         @Throws(IOException::class)
-        fun saveImageFile(mediaFolder: File, bitmap: Bitmap): String {
+        fun saveImageFile(mediaFolder: File = createMediaFolderIfNotExists(true), bitmap: Bitmap): String {
             val mediaFile = File.createTempFile(getFilePrefix(true), getContext().getString(R.string.jpg_extension), mediaFolder)
             saveBitmap(bitmap, mediaFile)
             updateMediaStoreDatabase(mediaFile.absolutePath)

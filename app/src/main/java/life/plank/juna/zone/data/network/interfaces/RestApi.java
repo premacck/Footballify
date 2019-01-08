@@ -25,7 +25,6 @@ import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.model.Zones;
 import life.plank.juna.zone.data.model.card.JunaCard;
-import life.plank.juna.zone.data.model.card.JunaCardTemplate;
 import life.plank.juna.zone.data.model.notification.CardNotification;
 import life.plank.juna.zone.data.model.notification.SocialNotification;
 import life.plank.juna.zone.data.model.poll.Poll;
@@ -319,14 +318,23 @@ public interface RestApi {
     @GET(CARD_SUFFIX + "/wallet")
     Observable<Response<List<JunaCard>>> getCardWallet(@Header("Authorization") String authHeader);
 
+    @GET(CARD_SUFFIX + "/{id}")
+    Observable<Response<JunaCard>> getCardDetail(@Path("id") String cardId, @Header("Authorization") String authHeader);
+
+    @Multipart
     @POST(CARD_SUFFIX)
-    Observable<Response<JunaCard>> createCard(@Body JunaCardTemplate cardTemplate, @Header("Authorization") String authHeader);
+    Observable<Response<JunaCard>> createCard(@Part("cardColor") String cardColor,
+                                              @Part MultipartBody.Part image,
+                                              @Header("Authorization") String authHeader);
+
+    @Multipart
+    @PATCH(CARD_SUFFIX)
+    Observable<Response<JunaCard>> updateCard(@Part("cardColor") String cardColor,
+                                              @Part MultipartBody.Part image,
+                                              @Header("Authorization") String authHeader);
 
     @PUT(CARD_SUFFIX + "/{id}/publish")
-    Observable<Response<JunaCard>> publishCard(@Path("id") String cardId, @Header("Authorization") String authHeader);
-
-    @PATCH(CARD_SUFFIX)
-    Observable<Response<JunaCard>> updateCard(@Body JunaCardTemplate cardTemplate, @Header("Authorization") String authHeader);
+    Observable<Response<Void>> publishCard(@Path("id") String cardId, @Header("Authorization") String authHeader);
 
     @GET(CARD_SUFFIX + "/cardNotifications")
     Observable<Response<List<CardNotification>>> getCardNotifications(@Header("Authorization") String authHeader);

@@ -7,11 +7,13 @@ import androidx.annotation.StringRes
 import life.plank.juna.zone.*
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.view.fragment.base.BaseJunaFragment
+import okhttp3.*
 import org.jetbrains.anko.*
 import retrofit2.Response
 import rx.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.io.File
 
 fun <T> Observable<T>.setObserverThreadsAndSubscribe(subscriber: Subscriber<in T>): Subscription {
     return this.subscribeOn(Schedulers.io())
@@ -85,3 +87,8 @@ fun getCustomToast(message: CharSequence, duration: Int = Toast.LENGTH_LONG): To
         return toast
     }
 }
+
+fun File.createMultiPartImage(partName: String = ""): MultipartBody.Part =
+        MultipartBody.Part.createFormData(partName, name, RequestBody.create(MediaType.parse(findString(R.string.media_type_image)), this))
+
+fun String.createRequestBody(): RequestBody = RequestBody.create(MediaType.parse(findString(R.string.text_content_type)), this)
