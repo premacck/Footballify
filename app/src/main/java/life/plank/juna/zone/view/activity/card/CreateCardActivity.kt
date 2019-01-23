@@ -15,6 +15,7 @@ import life.plank.juna.zone.data.model.card.JunaCard
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
+import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.activity.camera.CustomCameraActivity
@@ -47,6 +48,8 @@ class CreateCardActivity : BaseJunaCardActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_card)
         ZoneApplication.getApplication().uiComponent.inject(this)
+
+        name_text_view.text = PreferenceManager.CurrentUser.getDisplayName()
         when {
             intent.hasExtra(getString(R.string.intent_file_path)) ->
                 resolveCardPicForCreation(intent)
@@ -68,7 +71,6 @@ class CreateCardActivity : BaseJunaCardActivity() {
             uiThread {
                 profile_pic.setImageBitmap(bitmap)
 
-                initFaceDetector()
                 setOnClickListeners(false)
             }
         }
@@ -80,17 +82,7 @@ class CreateCardActivity : BaseJunaCardActivity() {
 
         no_photo_text_view.makeGone()
         proceed_button.setText(R.string.update_card)
-        initFaceDetector()
         setOnClickListeners(true)
-    }
-
-    private fun initFaceDetector() {
-//        detector = FaceDetector.Builder(applicationContext)
-//                .setTrackingEnabled(false)
-//                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
-//                .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
-//                .setMode(FaceDetector.ACCURATE_MODE)
-//                .build()
     }
 
     private fun setOnClickListeners(isEditing: Boolean) {
@@ -179,7 +171,7 @@ class CreateCardActivity : BaseJunaCardActivity() {
 
     private fun handleCardResponse(response: Response<JunaCard>) {
         when (response.code()) {
-            HTTP_OK, HTTP_CREATED -> response.body()?.run { pushFragment(ProfileCardFragment.newInstance(this)) }
+            HTTP_OK, HTTP_CREATED -> response.body()?.run { pushFragment(ProfileCardFragment.newInstance(this, true)) }
             else -> errorToast(R.string.failed_to_update_card, response)
         }
     }

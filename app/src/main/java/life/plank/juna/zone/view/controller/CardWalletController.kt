@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.controller
 
-import android.app.Activity
 import com.airbnb.epoxy.AutoModel
 import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.R
@@ -10,10 +9,12 @@ import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.epoxy.EpoxyController3
 import life.plank.juna.zone.util.epoxy.modelview.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
+import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.activity.card.CreateCardActivity
+import life.plank.juna.zone.view.fragment.profile.ProfileCardFragment
 import retrofit2.Response
 
-class CardWalletController(private val activity: Activity) : EpoxyController3<Response<List<JunaCard>>, Boolean, String>() {
+class CardWalletController(private val activity: BaseJunaCardActivity) : EpoxyController3<Response<List<JunaCard>>, Boolean, String>() {
 
     @AutoModel
     lateinit var cardWalletHeader: CardWalletHeaderModel_
@@ -43,6 +44,7 @@ class CardWalletController(private val activity: Activity) : EpoxyController3<Re
                     .id(junaCard.id)
                     .withUser(junaCard.owner)
                     .withBorder(junaCard.template.cardColor)
+                    .onClick { activity.pushFragment(ProfileCardFragment.newInstance(junaCard, true)) }
                     .addTo(this)
         }
     }

@@ -37,4 +37,5 @@
     <string name="intent_card_notification_type">cardNotificationType</string>
     <string name="intent_card_id">cardId</string>
     <string name="intent_juna_card">junaCard</string>
+    <string name="intent_is_following">isFollowing</string>
 </resources>
