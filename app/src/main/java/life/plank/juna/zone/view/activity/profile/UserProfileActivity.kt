@@ -23,7 +23,7 @@ import life.plank.juna.zone.view.activity.card.CardWalletActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.adapter.user.*
 import life.plank.juna.zone.view.controller.BoardController
-import life.plank.juna.zone.view.fragment.profile.*
+import life.plank.juna.zone.view.fragment.profile.EditProfilePopup
 import okhttp3.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk27.coroutines.*
@@ -89,9 +89,6 @@ class UserProfileActivity : BaseJunaCardActivity() {
             } else {
                 customToast(R.string.add_permission)
             }
-        }
-        toolbar_profile_pic.onDebouncingClick {
-            pushFragment(ProfileCardFragment.newInstance(), true)
         }
         comment_enter_btn_switch.onCheckedChange { _, isChecked ->
             PreferenceManager.App.saveEnterToSend(isChecked)

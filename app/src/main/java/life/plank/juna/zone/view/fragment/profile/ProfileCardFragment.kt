@@ -13,6 +13,7 @@ import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.fragment.base.BaseJunaCard
+import org.jetbrains.anko.support.v4.toast
 import java.net.HttpURLConnection.HTTP_OK
 import javax.inject.Inject
 
@@ -23,12 +24,26 @@ class ProfileCardFragment : BaseJunaCard() {
 
     private var cardId: String? = null
     private var junaCard: JunaCard? = null
+    private var isFollowing: Boolean = false
 
     companion object {
+        const val CARD_OBJECT_AVAILABLE = 1
+        const val CARD_ID_AVAILABLE = 2
+        const val CARD_NOT_AVAILABLE = 3
         val TAG: String = ProfileCardFragment::class.java.simpleName
-        fun newInstance(): ProfileCardFragment = ProfileCardFragment()
-        fun newInstance(cardId: String): ProfileCardFragment = ProfileCardFragment().apply { arguments = Bundle().apply { putString(findString(R.string.intent_card_id), cardId) } }
-        fun newInstance(junaCard: JunaCard): ProfileCardFragment = ProfileCardFragment().apply { arguments = Bundle().apply { putParcelable(findString(R.string.intent_juna_card), junaCard) } }
+        fun newInstance(cardId: String, isFollowing: Boolean): ProfileCardFragment = ProfileCardFragment().apply {
+            arguments = Bundle().apply {
+                putString(findString(R.string.intent_card_id), cardId)
+                putBoolean(findString(R.string.intent_is_following), isFollowing)
+            }
+        }
+
+        fun newInstance(junaCard: JunaCard, isFollowing: Boolean): ProfileCardFragment = ProfileCardFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(findString(R.string.intent_juna_card), junaCard)
+                putBoolean(findString(R.string.intent_is_following), isFollowing)
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +51,7 @@ class ProfileCardFragment : BaseJunaCard() {
         arguments?.run {
             cardId = getString(getString(R.string.intent_card_id))
             junaCard = getParcelable(getString(R.string.intent_juna_card))
+            isFollowing = getBoolean(getString(R.string.intent_is_following), false)
         }
         ZoneApplication.getApplication().uiComponent.inject(this)
     }
@@ -45,27 +61,23 @@ class ProfileCardFragment : BaseJunaCard() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        options_menu.fadeIn().then { collect_description_text.fadeIn().then { collect_button.fadeIn() } }
+        resolveFollowState()
 
-        collect_button.onDebouncingClick {
-            pushFragment(ProfileCardDetailFragment.newInstance(), true)
+        when (cardLaunchArgumentState()) {
+            CARD_OBJECT_AVAILABLE -> updateUi()
+            CARD_ID_AVAILABLE -> getCardDetail()
+            else -> {
+                toast(R.string.card_details_not_provided)
+                doAfterDelay(1000) { parentActivity().onBackPressed() }
+            }
         }
-
-        if (cardIdAvailableOnly()) {
-            getCardDetail()
-            return
-        }
-        updateUi()
     }
 
-    private fun updateUi() {
-        junaCard?.run {
-            Glide.with(this@ProfileCardFragment)
-                    .load(owner.profilePictureUrl)
-                    .into(profile_pic)
-            name_text_view.text = owner.handle
-            followers_count.text = owner.followersCount.toString()
-            card_count.text = owner.cardCount.toString()
+    private fun resolveFollowState() {
+        collect_description_text.visibility = if (isFollowing) View.GONE else View.VISIBLE
+        collect_button.visibility = if (isFollowing) View.GONE else View.VISIBLE
+        (if (isFollowing) root_card else collect_button).onDebouncingClick {
+            pushFragment(ProfileCardDetailFragment.newInstance(), true)
         }
     }
 
@@ -83,7 +95,22 @@ class ProfileCardFragment : BaseJunaCard() {
         }, this)
     }
 
-    private fun cardIdAvailableOnly() = junaCard == null && !isNullOrEmpty(cardId)
+    private fun updateUi() {
+        junaCard?.run {
+            Glide.with(this@ProfileCardFragment)
+                    .load(owner.profilePictureUrl)
+                    .into(profile_pic)
+            name_text_view.text = owner.handle
+            followers_count.text = owner.followersCount.toString()
+            card_count.text = owner.cardCount.toString()
+        }
+    }
+
+    private fun cardLaunchArgumentState() = when {
+        junaCard != null -> CARD_OBJECT_AVAILABLE
+        !isNullOrEmpty(cardId) -> CARD_ID_AVAILABLE
+        else -> CARD_NOT_AVAILABLE
+    }
 
     override fun getBackgroundBlurLayout(): BlurLayout? = blur_layout
 

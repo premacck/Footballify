@@ -283,4 +283,5 @@
     <string name="failed_to_create_card">Failed to create card</string>
     <string name="failed_to_update_card">Failed to update card</string>
     <string name="cannot_update_same_photo_twice">Cannot update the same photo twice, try selecting a new one</string>
+    <string name="card_details_not_provided">Card Details not provided</string>
 </resources>

@@ -18,7 +18,7 @@
         android:background="@null"
         android:contentDescription="@string/options_menu"
         android:src="@drawable/ic_options"
-        android:tint="@color/white_40" />
+        android:tint="@color/grey" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/root_card"
@@ -167,7 +167,7 @@
         android:gravity="center_horizontal"
         android:lineSpacingExtra="3sp"
         android:text="@string/collect_to_follow_this_person"
-        android:textColor="@color/white"
+        android:textColor="@color/grey"
         android:textSize="12sp" />
 
     <Button

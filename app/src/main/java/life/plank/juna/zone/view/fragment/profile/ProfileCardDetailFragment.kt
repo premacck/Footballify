@@ -27,8 +27,8 @@ class ProfileCardDetailFragment : BaseJunaCard() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initCardRecyclerView()
-        var initialText = bio.text
-        var initialTextViewLines = bio.lineCount
+        val initialText = bio.text
+        val initialTextViewLines = bio.lineCount
 
         bio.post {
             if (bio.lineCount > maxLines) {
