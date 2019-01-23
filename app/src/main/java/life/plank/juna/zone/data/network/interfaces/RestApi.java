@@ -315,25 +315,25 @@ public interface RestApi {
     @GET(FOOTBALL_SUFFIX + "/matches/nextMatches")
     Observable<Response<List<NextMatch>>> getNextMatches(@Query("leagues") List<String> userSelectedLeagues, @Header("Authorization") String authHeader);
 
-    @GET(CARD_SUFFIX + "/wallet")
+    @GET(CARD_SUFFIX + "/cards/wallet")
     Observable<Response<List<JunaCard>>> getCardWallet(@Header("Authorization") String authHeader);
 
-    @GET(CARD_SUFFIX + "/{id}")
+    @GET(CARD_SUFFIX + "/cards/{id}")
     Observable<Response<JunaCard>> getCardDetail(@Path("id") String cardId, @Header("Authorization") String authHeader);
 
     @Multipart
-    @POST(CARD_SUFFIX)
+    @POST(CARD_SUFFIX + "/cards")
     Observable<Response<JunaCard>> createCard(@Part("cardColor") String cardColor,
                                               @Part MultipartBody.Part image,
                                               @Header("Authorization") String authHeader);
 
     @Multipart
-    @PATCH(CARD_SUFFIX)
+    @PATCH(CARD_SUFFIX + "/cards")
     Observable<Response<JunaCard>> updateCard(@Part("cardColor") String cardColor,
                                               @Part MultipartBody.Part image,
                                               @Header("Authorization") String authHeader);
 
-    @PUT(CARD_SUFFIX + "/{id}/publish")
+    @PUT(CARD_SUFFIX + "/cards/{id}/publish")
     Observable<Response<Void>> publishCard(@Path("id") String cardId, @Header("Authorization") String authHeader);
 
     @GET(CARD_SUFFIX + "/cardNotifications")

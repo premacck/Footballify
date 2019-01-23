@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.activity;
+package life.plank.juna.zone.view.activity.auth;
 
 /**
  * Created by plank-dhamini on 15/02/18.
@@ -48,7 +48,7 @@ public class IdentityProvider {
             R.string.b2c_name,
             android.R.color.holo_green_dark);
 
-    public static IdentityProvider idpList[] = new IdentityProvider[]{B2C_SignUpIn};
+    public static IdentityProvider idpList[] = new IdentityProvider[] {B2C_SignUpIn};
 
     public static final List<IdentityProvider> PROVIDERS = Arrays.asList(idpList);
     @NonNull
@@ -90,6 +90,7 @@ public class IdentityProvider {
     private Uri mRedirectUri;
     private String mPolicy;
     private String mScope;
+
     IdentityProvider(
             @NonNull String name,
             @BoolRes int enabledRes,

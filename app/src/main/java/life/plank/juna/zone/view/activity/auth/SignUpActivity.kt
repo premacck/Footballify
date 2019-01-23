@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.activity
+package life.plank.juna.zone.view.activity.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,11 +10,8 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.SignUpModel
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.errorToast
-import retrofit2.Response
-import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import life.plank.juna.zone.util.common.*
+import org.jetbrains.anko.intentFor
 import java.net.HttpURLConnection
 import java.util.*
 import javax.inject.Inject
@@ -49,7 +46,7 @@ class SignUpActivity : AppCompatActivity() {
         sign_up.onDebouncingClick { signUp() }
 
         sign_in_card.onDebouncingClick {
-            startActivity(Intent(this, SignInActivity::class.java))
+            startActivity(intentFor<SignInActivity>())
             finish()
         }
     }
@@ -57,33 +54,22 @@ class SignUpActivity : AppCompatActivity() {
     private fun signUp() {
         val signUpModel = SignUpModel(UUID.randomUUID().toString(), username_edit_text.text.toString().trim { it <= ' ' },
                 email_edit_text.text.toString().trim { it <= ' ' }, "USA", "Washington DC", "email", "Sam", "Jackson")
-        restApi.createUser(signUpModel)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<Response<SignUpModel>>() {
-                    override fun onCompleted() {
-                        Log.i(TAG, "onCompleted: ")
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Log.e(TAG, "onError: $e")
-                        errorToast(R.string.something_went_wrong, e)
-                    }
-
-                    override fun onNext(response: Response<SignUpModel>) {
-                        when (response.code()) {
-                            HttpURLConnection.HTTP_CREATED -> {
-                                val intentSubmit = Intent(this@SignUpActivity, SignInActivity::class.java)
-                                startActivity(intentSubmit)
-                            }
-                            HttpURLConnection.HTTP_FORBIDDEN -> errorToast(R.string.username_exists, response)
-                            else -> {
-                                errorToast(R.string.something_went_wrong, response)
-                                Log.e(TAG, response.message())
-                            }
-                        }
-                    }
-                })
+        restApi.createUser(signUpModel).setObserverThreadsAndSmartSubscribe({ error ->
+            Log.e(TAG, "onError: $error")
+            errorToast(R.string.something_went_wrong, error)
+        }, { response ->
+            when (response.code()) {
+                HttpURLConnection.HTTP_CREATED -> {
+                    val intentSubmit = Intent(this@SignUpActivity, SignInActivity::class.java)
+                    startActivity(intentSubmit)
+                }
+                HttpURLConnection.HTTP_FORBIDDEN -> errorToast(R.string.username_exists, response)
+                else -> {
+                    errorToast(R.string.something_went_wrong, response)
+                    Log.e(TAG, response.message())
+                }
+            }
+        })
     }
 
     override fun onBackPressed() {

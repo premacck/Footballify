@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.activity;
+package life.plank.juna.zone.view.activity.auth;
 
 import android.content.Intent;
 import android.os.Bundle;

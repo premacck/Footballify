@@ -5,7 +5,7 @@ import android.view.*
 import com.bumptech.glide.Glide
 import com.prembros.facilis.util.*
 import io.alterac.blurkit.BlurLayout
-import kotlinx.android.synthetic.main.user_profile_card.*
+import kotlinx.android.synthetic.main.fragment_profile_card.*
 import life.plank.juna.zone.*
 import life.plank.juna.zone.data.model.card.JunaCard
 import life.plank.juna.zone.data.network.interfaces.RestApi
@@ -41,7 +41,7 @@ class ProfileCardFragment : BaseJunaCard() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-            inflater.inflate(R.layout.user_profile_card, container, false)
+            inflater.inflate(R.layout.fragment_profile_card, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

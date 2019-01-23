@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view
+package life.plank.juna.zone.view.fragment.profile
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
