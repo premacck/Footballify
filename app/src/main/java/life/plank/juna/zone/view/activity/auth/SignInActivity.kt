@@ -1,6 +1,5 @@
-package life.plank.juna.zone.view.activity
+package life.plank.juna.zone.view.activity.auth
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +11,7 @@ import life.plank.juna.zone.util.common.JunaDataUtil.isValidEmail
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import net.openid.appauth.AuthorizationService
+import org.jetbrains.anko.intentFor
 
 class SignInActivity : AppCompatActivity() {
 
@@ -36,16 +36,16 @@ class SignInActivity : AppCompatActivity() {
 
         login.onDebouncingClick { AuthUtil.loginOrRefreshToken(this, authService, null, false) }
 
-        forgot_password_text_view.onDebouncingClick { startActivity(Intent(this, AuthForgotPasswordActivity::class.java)) }
+        forgot_password_text_view.onDebouncingClick { startActivity(intentFor<AuthForgotPasswordActivity>()) }
 
         sign_up_card.onDebouncingClick {
-            startActivity(Intent(this, SignUpActivity::class.java))
+            startActivity(intentFor<SignUpActivity>())
             finish()
         }
 
         skip_login.onDebouncingClick {
             PreferenceManager.CurrentUser.saveUserLoginStatus(false)
-            startActivity(Intent(this@SignInActivity, HomeActivity::class.java))
+            startActivity(intentFor<HomeActivity>())
         }
     }
 

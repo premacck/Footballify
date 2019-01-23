@@ -7,16 +7,20 @@ import androidx.appcompat.app.AppCompatActivity
 import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 import life.plank.juna.zone.*
-import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.*
+import life.plank.juna.zone.view.activity.auth.SignInActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import net.openid.appauth.AuthorizationService
+import org.jetbrains.anko.intentFor
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
+/**
+ * The launcher activity. This activity is launched when starting the app from drawer.
+ */
 class SplashScreenActivity : AppCompatActivity() {
 
     @Inject
@@ -58,7 +62,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 AuthUtil.loginOrRefreshToken(this, authService, null, true)
             }
         } else {
-            startActivity(Intent(this@SplashScreenActivity, SignInActivity::class.java))
+            startActivity(intentFor<SignInActivity>())
             finish()
         }
     }
@@ -72,7 +76,7 @@ class SplashScreenActivity : AppCompatActivity() {
                     val user = it.body()
                     if (user != null) {
                         PreferenceManager.CurrentUser.saveUser(user)
-                        if (isNullOrEmpty<UserPreference>(user.userPreferences)) {
+                        if (isNullOrEmpty(user.userPreferences)) {
                             startActivity(Intent(this@SplashScreenActivity, SelectZoneActivity::class.java))
                         } else {
                             startActivity(Intent(this@SplashScreenActivity, HomeActivity::class.java))

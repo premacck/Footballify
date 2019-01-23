@@ -21,9 +21,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager;
-import life.plank.juna.zone.view.activity.IdentityProvider;
-import life.plank.juna.zone.view.activity.SignInActivity;
-import life.plank.juna.zone.view.activity.TokenActivity;
+import life.plank.juna.zone.view.activity.auth.IdentityProvider;
+import life.plank.juna.zone.view.activity.auth.SignInActivity;
+import life.plank.juna.zone.view.activity.auth.TokenActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 
 import static com.prembros.facilis.util.DataUtilKt.isNullOrEmpty;
@@ -79,6 +79,9 @@ public class AuthUtil {
         }
     }
 
+    /**
+     * Method for starting the token refresh process
+     */
     private static void makeTokenRefreshRequest(Activity activity, AuthorizationService authService, AuthState authState, ProgressDialog progressDialog) {
         ClientAuthentication clientAuthentication;
         try {
@@ -103,6 +106,9 @@ public class AuthUtil {
         });
     }
 
+    /**
+     * Method for starting the sign up process
+     */
     private static void makeRegistrationRequest(
             Activity activity, AuthorizationService authService,
             @NonNull AuthorizationServiceConfiguration serviceConfig,
@@ -135,6 +141,9 @@ public class AuthUtil {
                 });
     }
 
+    /**
+     * Method for starting the login process
+     */
     private static void makeAuthRequest(
             Activity activity, AuthorizationService authService, @NonNull AuthorizationServiceConfiguration serviceConfig,
             @NonNull IdentityProvider idp,

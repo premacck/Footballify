@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.activity;
+package life.plank.juna.zone.view.activity.auth;
 
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -32,6 +32,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.sharedpreference.PreferenceManager;
+import life.plank.juna.zone.view.activity.SelectZoneActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -58,9 +59,9 @@ public class TokenActivity extends AppCompatActivity {
     private static final String EXTRA_AUTH_STATE = "authState";
     @Inject
     Retrofit retrofit;
-    private AuthState mAuthState;
     @Inject
     AuthorizationService mAuthService;
+    private AuthState mAuthState;
     private JSONObject mUserInfoJson;
     private RestApi restApi;
     private ProgressDialog progressDialog;
@@ -78,6 +79,18 @@ public class TokenActivity extends AppCompatActivity {
         }
 
         return PendingIntent.getActivity(context, request.hashCode(), intent, 0);
+    }
+
+    static AuthState getAuthStateFromIntent(Intent intent) {
+        if (!intent.hasExtra(EXTRA_AUTH_STATE)) {
+            throw new IllegalArgumentException("The AuthState instance is missing in the intent.");
+        }
+        try {
+            return AuthState.jsonDeserialize(intent.getStringExtra(EXTRA_AUTH_STATE));
+        } catch (JSONException ex) {
+            Log.e(TAG, "Malformed AuthState JSON saved", ex);
+            throw new IllegalArgumentException("The AuthState instance is missing in the intent.");
+        }
     }
 
     @Override
@@ -132,18 +145,6 @@ public class TokenActivity extends AppCompatActivity {
             } else {
                 Log.e(TAG, "Authorization failed: " + ex);
             }
-        }
-    }
-
-    static AuthState getAuthStateFromIntent(Intent intent) {
-        if (!intent.hasExtra(EXTRA_AUTH_STATE)) {
-            throw new IllegalArgumentException("The AuthState instance is missing in the intent.");
-        }
-        try {
-            return AuthState.jsonDeserialize(intent.getStringExtra(EXTRA_AUTH_STATE));
-        } catch (JSONException ex) {
-            Log.e(TAG, "Malformed AuthState JSON saved", ex);
-            throw new IllegalArgumentException("The AuthState instance is missing in the intent.");
         }
     }
 

@@ -19,7 +19,6 @@ import retrofit2.Response
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
 
-
 class UserNotificationActivity : BaseJunaCardActivity() {
 
     @Inject
