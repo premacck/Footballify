@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.provider.MediaStore.Images.Media
 import android.view.View
 import android.widget.ToggleButton
-import com.facebook.internal.Utility.isNullOrEmpty
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.activity_create_board.*
 import life.plank.juna.zone.*
