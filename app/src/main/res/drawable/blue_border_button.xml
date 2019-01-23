@@ -8,7 +8,7 @@
         android:topRightRadius="30dp" />
     <stroke
         android:width="3px"
-        android:color="@color/accent" />
+        android:color="@color/colorAccent" />
     <padding
         android:bottom="0dp"
         android:left="0dp"

@@ -9,11 +9,11 @@ sourceSets {
 }
 
 dependencies {
-    def domainDependencies = rootProject.ext.domainDependencies
-    def domainTestDependencies = rootProject.ext.domainTestDependencies
+    def dataDependencies = rootProject.ext.dataDependencies
+//    def domainTestDependencies = rootProject.ext.domainTestDependencies
 
-    compileOnly domainDependencies.javaxAnnotation
+    compileOnly dataDependencies.javaxAnnotation
 
-    implementation domainDependencies.javaxInject
+    implementation dataDependencies.javaxInject
 
 }

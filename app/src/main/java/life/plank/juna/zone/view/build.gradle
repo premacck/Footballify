@@ -29,21 +29,10 @@ android {
 
 dependencies {
     def viewDependencies = rootProject.ext.viewDependencies
-    def viewTestDependencies = rootProject.ext.viewTestDependencies
     def dataDependencies = rootProject.ext.dataDependencies
 
-    implementation viewDependencies.butterKnife
     implementation viewDependencies.rxAndroid
     implementation viewDependencies.rxJava
-    implementation viewDependencies.rxBinding
-    implementation viewDependencies.rxBindingDesign
-    implementation viewDependencies.rxBindingRecyclerview
-    implementation viewDependencies.materialSearchView
-    implementation viewDependencies.materialDesignDimens
-    implementation viewDependencies.materialize
-    implementation viewDependencies.facebookSdk
-    implementation viewDependencies.twitterSdk
-    implementation viewDependencies.nineoldandroids
     implementation viewDependencies.recyclerViewAnimator
     implementation viewDependencies.glide
     implementation viewDependencies.lottie
@@ -52,13 +41,10 @@ dependencies {
     implementation viewDependencies.circularImageView
     implementation viewDependencies.mpAndroidChart
     implementation viewDependencies.overflowPagerIndicator
-    implementation viewDependencies.flexbox
     implementation viewDependencies.multiViewAdapter
     implementation dataDependencies.dagger
     annotationProcessor dataDependencies.daggerCompiler
     kapt dataDependencies.daggerCompiler
-    annotationProcessor viewDependencies.butterKnifeCompiler
-    kapt viewDependencies.butterKnifeCompiler
-    compileOnly viewDependencies.javaxAnnotation
+    compileOnly dataDependencies.javaxAnnotation
 
 }

@@ -80,7 +80,6 @@ import life.plank.juna.zone.util.customview.TopGravityDrawable;
 
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 import static android.text.style.DynamicDrawableSpan.ALIGN_BASELINE;
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.prembros.facilis.util.DataUtilKt.isNullOrEmpty;
 import static life.plank.juna.zone.util.common.AppConstants.SPACE;
 
@@ -142,7 +141,7 @@ public class UIDisplayUtil {
 
     public static String getAudioPath(Uri uri) {
         String[] data = {MediaStore.Audio.Media.DATA};
-        CursorLoader loader = new CursorLoader(getApplicationContext(), uri, data, null, null, null);
+        CursorLoader loader = new CursorLoader(ZoneApplication.getContext(), uri, data, null, null, null);
         Cursor cursor = loader.loadInBackground();
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
         cursor.moveToFirst();

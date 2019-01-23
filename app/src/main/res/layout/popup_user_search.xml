@@ -98,7 +98,7 @@
             android:fontFamily="@font/raleway_semibold"
             android:text="@string/invite_string"
             android:textAllCaps="false"
-            android:textColor="@color/accent"
+            android:textColor="@color/colorAccent"
             android:textSize="20sp" />
 
         <ImageView

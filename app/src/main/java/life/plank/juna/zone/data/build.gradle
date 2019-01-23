@@ -19,7 +19,7 @@ android {
 
 dependencies {
     def dataDependencies = rootProject.ext.dataDependencies
-    def testDependencies = rootProject.ext.dataTestDependencies
+//    def testDependencies = rootProject.ext.dataTestDependencies
 
     implementation 'org.apache.commons:commons-lang3:3.0'
     compileOnly dataDependencies.javaxAnnotation

@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">@android:color/transparent</color>
     <color name="colorAccent">#00bfe8</color>
+    <!--<color name="colorAccent">#FF4081</color>-->
     <color name="colorDisabled">#19555555</color>
     <color name="mainGradientStart">#c86dd7</color>
     <color name="mainGradientEnd">#3023ae</color>
@@ -90,5 +91,7 @@
     <color name="green_gradient_two">#b4ec51</color>
     <color name="orange_gradient_one">#f76b1c</color>
     <color name="orange_gradient_two">#fad961</color>
+    <color name="material_brown_400">#8D6E63</color>
+    <color name="material_brown_700">#5D4037</color>
 
 </resources>

@@ -58,7 +58,7 @@ class ProfileCardDetailFragment : BaseJunaCard() {
 
         val truncatedSpannableString = SpannableString(displayText)
         val startIndex = displayText.indexOf(suffix)
-        truncatedSpannableString.setSpan(ForegroundColorSpan(context?.getColor(R.color.accent)!!), startIndex, startIndex + suffix.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        truncatedSpannableString.setSpan(ForegroundColorSpan(context?.getColor(R.color.colorAccent)!!), startIndex, startIndex + suffix.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         textView.text = truncatedSpannableString
     }
 

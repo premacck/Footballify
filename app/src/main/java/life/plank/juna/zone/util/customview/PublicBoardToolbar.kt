@@ -11,7 +11,6 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.tabs.TabLayout
@@ -51,7 +50,6 @@ class PublicBoardToolbar @JvmOverloads constructor(
 
     private fun init(context: Context, attrs: AttributeSet?) {
         val rootView = View.inflate(context, R.layout.public_board_toolbar, this)
-        ButterKnife.bind(this, rootView)
         val array = context.obtainStyledAttributes(attrs, R.styleable.PublicBoardToolbar)
 
         val initWithDefaults = array.getBoolean(R.styleable.PublicBoardToolbar_useDefaults, true)
