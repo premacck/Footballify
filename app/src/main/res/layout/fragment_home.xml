@@ -24,12 +24,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <life.plank.juna.zone.util.customview.ZoneToolBar
+                <life.plank.juna.zone.component.customview.ZoneToolBar
                     android:id="@+id/feed_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <life.plank.juna.zone.util.epoxy.EpoxyRecycler
+                <life.plank.juna.zone.view.base.component.EpoxyRecycler
                     android:id="@+id/user_boards_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                     android:paddingStart="9dp"
                     android:paddingEnd="9dp"
                     android:visibility="visible"
-                    app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
+                    app:layoutManager="life.plank.juna.zone.view.base.component.HorizontalLinearLayoutManager"
                     tools:listitem="@layout/item_image_and_title" />
 
                 <include
@@ -51,7 +51,7 @@
                     android:layout_alignTop="@+id/user_boards_recycler_view"
                     android:layout_alignBottom="@+id/user_boards_recycler_view" />
 
-                <life.plank.juna.zone.util.epoxy.EpoxyRecycler
+                <life.plank.juna.zone.view.base.component.EpoxyRecycler
                     android:id="@+id/user_zone_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                     android:paddingStart="3dp"
                     android:paddingEnd="3dp"
                     android:visibility="invisible"
-                    app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
+                    app:layoutManager="life.plank.juna.zone.view.base.component.HorizontalLinearLayoutManager"
                     tools:listitem="@layout/item_zone_user_feed" />
 
                 <include
@@ -106,6 +106,6 @@
         android:layout_alignTop="@+id/user_feed_recycler_view"
         android:layout_marginTop="350dp" />
 
-    <life.plank.juna.zone.util.customview.BoomMenu style="@style/BoomMenuDefault" />
+    <life.plank.juna.zone.component.customview.BoomMenu style="@style/BoomMenuDefault" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

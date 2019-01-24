@@ -3,12 +3,13 @@ package life.plank.juna.zone.notification
 import android.text.SpannableStringBuilder
 import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.R.string.*
-import life.plank.juna.zone.data.model.FootballLiveData
+import life.plank.juna.zone.data.model.football.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
-import life.plank.juna.zone.data.network.dagger.module.NetworkModule.GSON
+import life.plank.juna.zone.injection.module.NetworkModule.GSON
+import life.plank.juna.zone.service.CommonDataService.findString
+import life.plank.juna.zone.service.MatchDataService
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.JunaDataUtil.*
 
 fun BaseInAppNotification.getNotificationMessage(): SpannableStringBuilder {
     return when {
@@ -20,36 +21,8 @@ fun BaseInAppNotification.getNotificationMessage(): SpannableStringBuilder {
 }
 
 /**
- * Method to get suitable text for the social interaction notification message
- */
-fun SocialNotification.buildNotificationMessage(): SpannableStringBuilder {
-    val leadingString = findString(someone).bold()
-    val spannableStringBuilder = SpannableStringBuilder(leadingString).append(SINGLE_SPACE)
-    when (action) {
-        findString(intent_invite) ->
-            spannableStringBuilder.append(findString(invited_you_to_board_x))
-        findString(intent_post) ->
-            spannableStringBuilder.append(findString(posted_on_board_x))
-        findString(intent_comment) -> {
-            if (isNullOrEmpty(siblingId)) {
-                spannableStringBuilder.append(findString(commented_on_board_x))
-            } else {
-                spannableStringBuilder.append(findString(replied_on_))
-            }
-        }
-        findString(intent_react) -> {
-            if (isNullOrEmpty(siblingId)) {
-                spannableStringBuilder.append(findString(reacted_on_board_x))
-            } else {
-                spannableStringBuilder.append(findString(reacted_on_your_post))
-            }
-        }
-    }
-    return spannableStringBuilder.append(parentId)
-}
-
-/**
  * Method to get suitable text for the social live football data message
+ * TODO: Shift this message building logic to backend
  */
 fun FootballLiveData.buildNotificationMessage(): SpannableStringBuilder {
     val header = "$homeTeamName ${findString(vs)} $visitingTeamName:"
@@ -85,7 +58,7 @@ fun FootballLiveData.buildNotificationMessage(): SpannableStringBuilder {
             val liveTimeStatus = getLiveTimeStatus(GSON)
             when (liveTimeStatus?.timeStatus) {
                 LIVE -> spannableStringBuilder.append(findString(match_is_now_live))
-                else -> spannableStringBuilder.append(getDisplayTimeStatus(liveTimeStatus?.timeStatus))
+                else -> spannableStringBuilder.append(MatchDataService.getDisplayTimeStatus(liveTimeStatus?.timeStatus))
             }
         }
         LINEUPS_DATA -> spannableStringBuilder.append(findString(lineups_are_now_available))

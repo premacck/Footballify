@@ -6,7 +6,7 @@
     android:animateLayoutChanges="true"
     android:background="@color/white">
 
-    <life.plank.juna.zone.util.customview.ZoneToolBar
+    <life.plank.juna.zone.component.customview.ZoneToolBar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

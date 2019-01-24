@@ -77,7 +77,7 @@
 
     </LinearLayout>
 
-    <life.plank.juna.zone.util.customview.BoomMenu style="@style/BoomMenuDefault" />
+    <life.plank.juna.zone.component.customview.BoomMenu style="@style/BoomMenuDefault" />
 
     <ImageView
         style="@style/DragHandleLightImageView"

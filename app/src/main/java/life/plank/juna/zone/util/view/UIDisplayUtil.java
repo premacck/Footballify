@@ -73,10 +73,10 @@ import androidx.renderscript.RenderScript;
 import androidx.renderscript.ScriptIntrinsicBlur;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.model.Emoji;
-import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.component.customview.TopGravityDrawable;
+import life.plank.juna.zone.data.model.board.Emoji;
+import life.plank.juna.zone.data.model.feed.FeedEntry;
 import life.plank.juna.zone.util.common.AppConstants;
-import life.plank.juna.zone.util.customview.TopGravityDrawable;
 
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 import static android.text.style.DynamicDrawableSpan.ALIGN_BASELINE;
@@ -113,18 +113,6 @@ public class UIDisplayUtil {
         emojiList.add(new Emoji(0x1F92E, 0));
         emojiList.add(new Emoji(0x1F924, 0));
         emojiList.add(new Emoji(0x1F92B, 0));
-    }
-
-    @Nullable
-    public static Drawable getCommentColor(String comment) {
-        if (isNullOrEmpty(comment)) return null;
-        return DrawableHashMap.getDrawableMap().get(comment.substring(0, comment.indexOf("$")));
-    }
-
-    @Nullable
-    public static CharSequence getCommentText(String comment) {
-        if (isNullOrEmpty(comment)) return null;
-        return comment.substring(comment.indexOf("$") + 1);
     }
 
     public static void blurBitmapWithRenderscript(RenderScript rs, Bitmap bitmap2) {

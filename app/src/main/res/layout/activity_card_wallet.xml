@@ -5,9 +5,9 @@
     style="@style/MatchParentSize"
     android:animateLayoutChanges="true"
     android:background="@color/white"
-    tools:context=".view.activity.card.CardWalletActivity">
+    tools:context=".view.user.card.CardWalletActivity">
 
-    <life.plank.juna.zone.util.customview.ZoneToolBar
+    <life.plank.juna.zone.component.customview.ZoneToolBar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         style="@style/MatchParentSize"
         android:layout_below="@+id/toolbar">
 
-        <life.plank.juna.zone.util.epoxy.EpoxyRecycler
+        <life.plank.juna.zone.view.base.component.EpoxyRecycler
             android:id="@+id/card_wallet_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.*
+import life.plank.juna.zone.component.customview.BoomMenu
+import life.plank.juna.zone.sharedpreference.IdToken
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.*
-import life.plank.juna.zone.util.customview.BoomMenu
-import life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
-import life.plank.juna.zone.view.activity.PostCommentActivity
-import life.plank.juna.zone.view.activity.camera.*
-import life.plank.juna.zone.view.activity.home.HomeActivity
-import life.plank.juna.zone.view.activity.profile.UserProfileActivity
+import life.plank.juna.zone.view.camera.*
+import life.plank.juna.zone.view.feed.PostCommentActivity
+import life.plank.juna.zone.view.home.HomeActivity
+import life.plank.juna.zone.view.user.profile.UserProfileActivity
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.find
 
@@ -185,7 +185,7 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
             View.OnClickListener {
                 when (position) {
                     0 -> {
-                        if (isNullOrEmpty(getToken())) {
+                        if (isNullOrEmpty(IdToken)) {
                             Toast.makeText(activity, R.string.login_signup_to_view_profile, Toast.LENGTH_SHORT).show()
                         } else {
                             UserProfileActivity.launch(activity)
@@ -249,7 +249,7 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
             View.OnClickListener {
                 when (position) {
                     0 -> {
-                        if (isNullOrEmpty(getToken())) {
+                        if (isNullOrEmpty(IdToken)) {
                             Toast.makeText(activity, R.string.login_signup_to_view_profile, Toast.LENGTH_SHORT).show()
                         } else {
                             UserProfileActivity.launch(activity)

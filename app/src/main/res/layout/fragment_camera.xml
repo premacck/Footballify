@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:animateLayoutChanges="true"
-    tools:context=".view.fragment.camera.CameraFragment">
+    tools:context=".view.camera.CameraFragment">
 
     <com.wonderkiln.camerakit.CameraView
         android:id="@+id/camera_view"

@@ -23,7 +23,7 @@
                 android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
-                <life.plank.juna.zone.util.customview.BoardPoll
+                <life.plank.juna.zone.component.customview.BoardPoll
                     android:id="@+id/board_poll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <life.plank.juna.zone.util.customview.BoomMenu style="@style/BoomMenuDefault" />
+    <life.plank.juna.zone.component.customview.BoomMenu style="@style/BoomMenuDefault" />
 
     <include layout="@layout/emoji_bottom_sheet" />
 

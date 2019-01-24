@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.camera.CustomCameraActivity">
+    tools:context=".view.camera.CustomCameraActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/root_card"
@@ -17,7 +17,7 @@
         app:cardElevation="6dp"
         app:cardUseCompatPadding="true">
 
-        <life.plank.juna.zone.util.customview.VerticalViewPager
+        <life.plank.juna.zone.component.customview.VerticalViewPager
             android:id="@+id/camera_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

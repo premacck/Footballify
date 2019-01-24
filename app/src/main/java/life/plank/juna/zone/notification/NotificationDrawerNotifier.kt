@@ -13,9 +13,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.*
 import life.plank.juna.zone.R.string.*
-import life.plank.juna.zone.data.model.FootballLiveData
+import life.plank.juna.zone.data.model.football.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
-import life.plank.juna.zone.util.common.JunaDataUtil.findString
+import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.util.common.asciiToInt
 import org.jetbrains.anko.*
 

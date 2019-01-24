@@ -1,17 +1,11 @@
 package life.plank.juna.zone.data.local.db
 
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import androidx.room.*
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.local.dao.LeagueDao
-import life.plank.juna.zone.data.local.dao.MatchDetailsDao
+import life.plank.juna.zone.data.local.dao.*
 import life.plank.juna.zone.data.local.model.LeagueInfo
-import life.plank.juna.zone.data.local.typeconverter.DateConverter
-import life.plank.juna.zone.data.local.typeconverter.LineupsConverter
-import life.plank.juna.zone.data.local.typeconverter.MatchConverter
-import life.plank.juna.zone.data.model.MatchDetails
+import life.plank.juna.zone.data.local.typeconverter.*
+import life.plank.juna.zone.data.model.football.MatchDetails
 
 @Database(version = 1, exportSchema = false, entities = [
     MatchDetails::class,

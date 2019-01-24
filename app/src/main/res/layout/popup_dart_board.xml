@@ -249,7 +249,7 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_dart" />
 
-        <life.plank.juna.zone.util.customview.CircularTextView
+        <life.plank.juna.zone.component.customview.CircularTextView
             android:id="@+id/dart_remaining_count_text_view"
             android:layout_width="30dp"
             android:layout_height="30dp"

@@ -12,8 +12,8 @@ import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
-import life.plank.juna.zone.data.model.MatchFixture;
-import life.plank.juna.zone.data.model.Stadium;
+import life.plank.juna.zone.data.model.football.MatchFixture;
+import life.plank.juna.zone.data.model.football.Stadium;
 
 public class MatchFixtureDiffCallback extends DiffUtil.Callback{
 

@@ -21,7 +21,7 @@
             android:background="@drawable/board_blur_bg"
             android:orientation="vertical">
 
-            <life.plank.juna.zone.util.customview.PublicBoardToolbar
+            <life.plank.juna.zone.component.customview.PublicBoardToolbar
                 android:id="@+id/board_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

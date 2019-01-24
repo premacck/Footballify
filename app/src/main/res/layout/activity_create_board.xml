@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        tools:context=".view.activity.board.CreateBoardActivity">
+        tools:context=".view.board.CreateBoardActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:gravity="start"
             android:orientation="vertical">
 
-            <life.plank.juna.zone.util.customview.ZoneToolBar
+            <life.plank.juna.zone.component.customview.ZoneToolBar
                 android:id="@+id/tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -197,7 +197,7 @@
                 android:layout_marginEnd="16dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
-                app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
+                app:layoutManager="life.plank.juna.zone.view.base.component.HorizontalLinearLayoutManager"
                 tools:listitem="@layout/item_board_color_theme" />
 
             <TextView
@@ -229,7 +229,7 @@
                     android:layout_weight="1"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
-                    app:layoutManager="life.plank.juna.zone.util.view.HorizontalLinearLayoutManager"
+                    app:layoutManager="life.plank.juna.zone.view.base.component.HorizontalLinearLayoutManager"
                     tools:listitem="@layout/item_board_icon" />
 
                 <Button

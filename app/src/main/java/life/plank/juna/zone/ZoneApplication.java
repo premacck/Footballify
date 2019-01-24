@@ -8,17 +8,14 @@ import com.google.gson.Gson;
 
 import io.alterac.blurkit.BlurKit;
 import io.fabric.sdk.android.Fabric;
-import life.plank.juna.zone.data.network.dagger.component.AppComponent;
-import life.plank.juna.zone.data.network.dagger.component.DaggerAppComponent;
-import life.plank.juna.zone.data.network.dagger.component.DaggerViewModelComponent;
-import life.plank.juna.zone.data.network.dagger.component.NetworkComponent;
-import life.plank.juna.zone.data.network.dagger.component.UiComponent;
-import life.plank.juna.zone.data.network.dagger.component.ViewModelComponent;
-import life.plank.juna.zone.data.network.dagger.module.ContextModule;
+import life.plank.juna.zone.injection.component.AppComponent;
+import life.plank.juna.zone.injection.component.DaggerAppComponent;
+import life.plank.juna.zone.injection.component.DaggerViewModelComponent;
+import life.plank.juna.zone.injection.component.NetworkComponent;
+import life.plank.juna.zone.injection.component.UiComponent;
+import life.plank.juna.zone.injection.component.ViewModelComponent;
+import life.plank.juna.zone.injection.module.ContextModule;
 
-/**
- * Created by plank-sobia on 9/19/2017.
- */
 public class ZoneApplication extends Application {
 
     private static ZoneApplication zoneApplication;

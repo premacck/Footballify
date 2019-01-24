@@ -18,7 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <life.plank.juna.zone.util.customview.ShimmerRelativeLayout
+                <life.plank.juna.zone.component.customview.ShimmerRelativeLayout
                     android:id="@+id/feed_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                         android:textSize="20sp"
                         android:visibility="visible" />
 
-                </life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
+                </life.plank.juna.zone.component.customview.ShimmerRelativeLayout>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_pic"

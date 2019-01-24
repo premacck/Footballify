@@ -43,7 +43,7 @@
 
         </LinearLayout>
 
-        <life.plank.juna.zone.util.customview.NextMatchLayout
+        <life.plank.juna.zone.component.customview.NextMatchLayout
             android:id="@+id/time_to_next_match"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

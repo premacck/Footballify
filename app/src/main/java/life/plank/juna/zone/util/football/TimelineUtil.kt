@@ -1,12 +1,12 @@
 package life.plank.juna.zone.util.football
 
 import com.prembros.facilis.util.isNullOrEmpty
-import life.plank.juna.zone.data.model.*
+import life.plank.juna.zone.data.model.football.*
 import life.plank.juna.zone.util.common.AppConstants.*
 import java.util.*
 
 fun getAllTimelineEvents(commentaries: List<Commentary>, matchEventList: MutableList<MatchEvent>): List<MatchEvent>? {
-    if (isNullOrEmpty<Commentary>(commentaries) || isNullOrEmpty<MatchEvent>(matchEventList)) {
+    if (isNullOrEmpty(commentaries) || isNullOrEmpty(matchEventList)) {
         return null
     }
 

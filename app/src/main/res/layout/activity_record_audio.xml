@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="life.plank.juna.zone.view.activity.RecordAudioActivity">
+    tools:context="life.plank.juna.zone.view.feed.media.RecordAudioActivity">
 
     <ImageView
         android:id="@+id/audio_image_view"

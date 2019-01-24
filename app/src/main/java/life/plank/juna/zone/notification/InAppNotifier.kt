@@ -4,11 +4,11 @@ import android.content.Intent
 import com.prembros.facilis.util.findFragment
 import life.plank.juna.zone.R.string.*
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.FootballLiveData
+import life.plank.juna.zone.data.model.football.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
-import life.plank.juna.zone.util.common.JunaDataUtil.findString
-import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
-import life.plank.juna.zone.view.fragment.base.*
+import life.plank.juna.zone.service.CommonDataService.findString
+import life.plank.juna.zone.view.base.BaseJunaCardActivity
+import life.plank.juna.zone.view.base.fragment.*
 
 /**
  * Method to send in-app social interaction notification
