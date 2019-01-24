@@ -5,8 +5,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import com.bvapp.arcmenulibrary.ArcMenu
+import com.bvapp.arcmenulibrary.widget.FloatingActionButton
 import kotlinx.android.synthetic.main.boom_menu.view.*
 import life.plank.juna.zone.R
+import org.jetbrains.anko.find
 
 class BoomMenu @JvmOverloads constructor(
         context: Context,
@@ -25,27 +27,27 @@ class BoomMenu @JvmOverloads constructor(
 
     fun toggleBoomMenu(): Boolean {
         if (isOpen()) {
-            arc_menu.fabArcMenu.performClick()
+            arc_menu_btn.find<FloatingActionButton>(com.bvapp.arcmenulibrary.R.id.fabArcMenu).performClick()
             return true
         }
         return false
     }
 
-    fun get(): ArcMenu = arc_menu
+    fun get(): ArcMenu = arc_menu_btn
 
-    fun isOpen() = arc_menu.isOpen
+    fun isOpen() = arc_menu_btn.isOpen
 
-    fun menuIn() = arc_menu.menuIn()
+    fun menuIn() = arc_menu_btn.menuIn()
 
-    fun menuOut() = arc_menu.menuOut()
+    fun menuOut() = arc_menu_btn.menuOut()
 
     fun show() {
-        arc_menu.show()
+        arc_menu_btn.show()
         visibility = View.VISIBLE
     }
 
     fun hide() {
-        arc_menu.hide()
+        arc_menu_btn.hide()
         removeCallbacks(hideRunnable)
         postDelayed(hideRunnable, 500)
     }

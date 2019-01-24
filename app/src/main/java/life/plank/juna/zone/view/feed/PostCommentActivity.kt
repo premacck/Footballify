@@ -15,8 +15,8 @@ import com.bumptech.glide.request.transition.Transition
 import com.leocardz.link.preview.library.*
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.content_post_comment.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.R.string.blue_color
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.api.*
 import life.plank.juna.zone.data.model.feed.FeedItem
 import life.plank.juna.zone.service.CommonDataService.findString
@@ -35,10 +35,10 @@ class PostCommentActivity : BaseJunaCardActivity() {
     @Inject
     lateinit var restApi: RestApi
 
-    private var commentBg: String = findString(blue_color)
+    private var commentBg: String = findString(R.string.blue_color)
     private var boardId: String? = null
     private var userId: String? = null
-    internal lateinit var highlight: Drawable
+    private lateinit var highlight: Drawable
 
     private lateinit var backgroundColorSwitches: Array<ImageView>
     private val textCrawler: TextCrawler = TextCrawler()
@@ -60,7 +60,7 @@ class PostCommentActivity : BaseJunaCardActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.content_post_comment)
-        (application as ZoneApplication).uiComponent.inject(this)
+        ZoneApplication.getApplication().uiComponent.inject(this)
 
         backgroundColorSwitches = arrayOf(blue, purple, green, orange)
 
