@@ -217,7 +217,7 @@ class MatchBoardFragment : BaseMatchFragment(), BoardHeaderListener {
         var currentFragment: Fragment? = null
         private val ref: WeakReference<MatchBoardFragment> = WeakReference(matchBoardFragment)
 
-        override fun getItem(position: Int): Fragment? {
+        override fun getItem(position: Int): Fragment {
             return ref.get()?.run {
                 when (position) {
                     0 -> MatchStatsFragment.newInstance(matchDetails)
@@ -225,9 +225,9 @@ class MatchBoardFragment : BaseMatchFragment(), BoardHeaderListener {
                     2 -> MatchMediaFragment.newInstance(matchDetails)
                     3 -> ForumFragment.newInstance(board.id)
                     4 -> BoardTilesFragment.newInstance(board.id, board.isActive)
-                    else -> null
+                    else -> BoardTilesFragment.newInstance(board.id, board.isActive)
                 }
-            }
+            } ?: throw RuntimeException("MatchBoardFragment's WeakReference is null")
         }
 
         override fun getPageTitle(position: Int): CharSequence? {

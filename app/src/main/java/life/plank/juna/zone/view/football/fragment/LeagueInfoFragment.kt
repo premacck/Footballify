@@ -84,14 +84,14 @@ class LeagueInfoFragment : BaseJunaCard() {
         super.onDestroy()
     }
 
-    class LeagueInfoPagerAdapter(fm: FragmentManager?, private val league: League) : FragmentStatePagerAdapter(fm) {
+    class LeagueInfoPagerAdapter(fm: FragmentManager, private val league: League) : FragmentStatePagerAdapter(fm) {
 
-        override fun getItem(position: Int): Fragment? {
+        override fun getItem(position: Int): Fragment {
             return when (position) {
                 0 -> FixtureFragment.newInstance(league)
                 1 -> StandingsFragment.newInstance(league)
                 2 -> LeagueStatsFragment.newInstance(league)
-                else -> null
+                else -> LeagueStatsFragment.newInstance(league)
             }
         }
 

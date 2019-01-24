@@ -144,12 +144,12 @@ class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
 
         var currentFragment: Fragment? = null
 
-        override fun getItem(position: Int): Fragment? {
+        override fun getItem(position: Int): Fragment {
             return when (position) {
                 0 -> PrivateBoardInfoFragment.newInstance(board.description!!, board.id, board.owner.displayName, board.displayName!!)
                 1 -> ForumFragment.newInstance(board.id)
                 2 -> BoardTilesFragment.newInstance(board.id, true)
-                else -> null
+                else -> BoardTilesFragment.newInstance(board.id, true)
             }
         }
 

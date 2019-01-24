@@ -7,8 +7,8 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.prembros.asymmetricrecyclerview.base.AsymmetricRecyclerViewListener
-import com.prembros.asymmetricrecyclerview.widget.AsymmetricRecyclerViewAdapter
+import com.prembros.asymrecycler.library.base.AsymRecyclerListener
+import com.prembros.asymrecycler.library.widget.AsymRecyclerAdapter
 import com.prembros.facilis.activity.BaseCardActivity
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
@@ -38,7 +38,7 @@ import java.util.Objects.requireNonNull
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, PollContainer, EmojiContainer {
+class BoardTilesFragment : BaseJunaFragment(), AsymRecyclerListener, PollContainer, EmojiContainer {
 
     @Inject
     lateinit var restApi: RestApi
@@ -136,7 +136,7 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
         val padding = resources.getDimensionPixelSize(R.dimen.recycler_padding)
         board_tiles_list.requestedHorizontalSpacing = padding
         board_tiles_list.setClickListener(this)
-        board_tiles_list.adapter = AsymmetricRecyclerViewAdapter(context!!, board_tiles_list, adapter!!).withPopupClick()
+        board_tiles_list.adapter = AsymRecyclerAdapter(context!!, board_tiles_list, adapter!!).withPopupClick()
     }
 
     fun updateNewPost(feedItem: FeedEntry) {
@@ -225,7 +225,7 @@ class BoardTilesFragment : BaseJunaFragment(), AsymmetricRecyclerViewListener, P
 
     override fun onEmojiPosted(emoji: Emoji) = getTopEmoji()
 
-    override fun fireOnItemClick(index: Int, v: View) {
+    override fun onAsymmetricRecyclerItemClick(index: Int, v: View) {
         adapter?.boardFeed?.get(index)?.run {
             (parentFragment as? FeedEntryContainer)?.openFeedEntry(adapter?.boardFeed!!, boardId, index)
         }
