@@ -5,8 +5,8 @@ import android.view.View.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
-import com.prembros.asymmetricrecyclerview.base.AsymmetricItem
-import com.prembros.asymmetricrecyclerview.widget.WrappedAsymmetricRecyclerAdapter
+import com.prembros.asymrecycler.library.base.AsymItem
+import com.prembros.asymrecycler.library.widget.WrappedAsymRecyclerAdapter
 import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.item_board_tile.view.*
 import life.plank.juna.zone.R
@@ -16,10 +16,7 @@ import life.plank.juna.zone.util.view.UIDisplayUtil.setupFeedEntryByMasonryLayou
 import life.plank.juna.zone.view.base.setRootCommentPost
 import org.jetbrains.anko.*
 
-/**
- * Created by plank-prachi on 4/10/2018.
- */
-class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRecyclerAdapter<BoardMediaAdapter.BoardMediaViewHolder>() {
+class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymRecyclerAdapter<BoardMediaAdapter.BoardMediaViewHolder>() {
 
     val boardFeed: MutableList<FeedEntry> = ArrayList()
 
@@ -95,7 +92,7 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRe
         }
     }
 
-    override fun getItem(position: Int): AsymmetricItem = boardFeed[position]
+    override fun getItem(position: Int): AsymItem = boardFeed[position]
 
     override fun getItemCount(): Int = boardFeed.size
 
