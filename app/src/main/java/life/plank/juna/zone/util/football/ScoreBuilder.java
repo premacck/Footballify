@@ -49,28 +49,28 @@ public class ScoreBuilder {
                 .getScore();
     }
 
-    public ScoreBuilder spacingByPage(boolean isBoard) {
+    private ScoreBuilder spacingByPage(boolean isBoard) {
         stringBuilder.append(isBoard ? SPACE : WIDE_SPACE);
         return this;
     }
 
-    public ScoreBuilder dashingByPage(boolean isBoard) {
+    private ScoreBuilder dashingByPage(boolean isBoard) {
         stringBuilder.append(isBoard ? DASH : WIDE_DASH);
         return this;
     }
 
-    public ScoreBuilder setGoals(int goals) {
+    private ScoreBuilder setGoals(int goals) {
         stringBuilder.append(goals);
         return this;
     }
 
-    public ScoreBuilder setGoals(int homeGoals, int homePenaltyGoals) {
+    private ScoreBuilder setGoals(int homeGoals, int homePenaltyGoals) {
         stringBuilder.append(homeGoals)
                 .append(" (").append(homePenaltyGoals).append(") ");
         return this;
     }
 
-    public String getScore() {
+    private String getScore() {
         return stringBuilder.toString();
     }
 }

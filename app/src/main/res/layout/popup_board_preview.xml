@@ -54,7 +54,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <life.plank.juna.zone.util.customview.GenericToolbar
+                        <life.plank.juna.zone.component.customview.GenericToolbar
                             android:id="@+id/preview_toolbar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

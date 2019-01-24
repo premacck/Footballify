@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchParentSize"
-    tools:context="life.plank.juna.zone.view.activity.PostCommentActivity">
+    tools:context="life.plank.juna.zone.view.feed.PostCommentActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/root_card"
@@ -32,7 +32,7 @@
                         android:orientation="vertical"
                         android:visibility="gone">
 
-                        <life.plank.juna.zone.util.customview.ShimmerRelativeLayout
+                        <life.plank.juna.zone.component.customview.ShimmerRelativeLayout
                             android:id="@+id/link_thumbnail_shimmer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -53,7 +53,7 @@
                                 android:contentDescription="@string/blur_background"
                                 android:src="@drawable/bg_gradient_white_top" />
 
-                        </life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
+                        </life.plank.juna.zone.component.customview.ShimmerRelativeLayout>
 
                         <TextView
                             android:layout_width="wrap_content"

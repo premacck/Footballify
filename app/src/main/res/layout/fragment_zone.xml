@@ -79,7 +79,7 @@
             style="@style/DragHandleLightImageView"
             android:contentDescription="@string/thumbnail" />
 
-        <life.plank.juna.zone.util.customview.BoomMenu style="@style/BoomMenuDefault" />
+        <life.plank.juna.zone.component.customview.BoomMenu style="@style/BoomMenuDefault" />
 
     </androidx.cardview.widget.CardView>
 

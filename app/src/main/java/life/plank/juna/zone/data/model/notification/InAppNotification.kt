@@ -4,9 +4,9 @@ import android.os.Parcelable
 import android.text.SpannableStringBuilder
 import kotlinx.android.parcel.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.FootballLiveData
+import life.plank.juna.zone.data.model.football.FootballLiveData
 import life.plank.juna.zone.notification.buildNotificationMessage
-import life.plank.juna.zone.util.common.JunaDataUtil.findString
+import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.util.time.getTimeAgo
 
 @Parcelize

@@ -60,7 +60,7 @@
 
     </RelativeLayout>
 
-    <life.plank.juna.zone.util.customview.CircularTextView
+    <life.plank.juna.zone.component.customview.CircularTextView
         android:id="@+id/minute"
         android:layout_width="24dp"
         android:layout_height="24dp"

@@ -2,10 +2,7 @@ package life.plank.juna.zone.data.local.dao
 
 import androidx.room.*
 import life.plank.juna.zone.data.local.model.LeagueInfo
-import life.plank.juna.zone.data.model.FixtureByMatchDay
-import life.plank.juna.zone.data.model.PlayerStats
-import life.plank.juna.zone.data.model.Standings
-import life.plank.juna.zone.data.model.TeamStats
+import life.plank.juna.zone.data.model.football.*
 
 @Dao
 interface LeagueDao {

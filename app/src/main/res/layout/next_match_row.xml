@@ -7,7 +7,7 @@
     android:layout_marginBottom="5dp"
     app:cardCornerRadius="8dp">
 
-    <life.plank.juna.zone.util.customview.ShimmerRelativeLayout
+    <life.plank.juna.zone.component.customview.ShimmerRelativeLayout
         android:id="@+id/time_to_next_match_shimmer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -131,6 +131,6 @@
             android:textColor="@color/faded_red"
             android:textSize="15sp" />
 
-    </life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
+    </life.plank.juna.zone.component.customview.ShimmerRelativeLayout>
 
 </androidx.cardview.widget.CardView>

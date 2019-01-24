@@ -5,11 +5,11 @@ import android.app.ActivityManager
 import android.content.Context
 import com.google.gson.Gson
 import life.plank.juna.zone.*
-import life.plank.juna.zone.data.model.FootballLiveData
+import life.plank.juna.zone.data.model.football.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
-import life.plank.juna.zone.data.network.dagger.module.NetworkModule.GSON
+import life.plank.juna.zone.injection.module.NetworkModule.GSON
+import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import org.jetbrains.anko.*
 import org.json.JSONObject
 

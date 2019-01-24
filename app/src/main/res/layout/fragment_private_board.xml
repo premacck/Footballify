@@ -16,7 +16,7 @@
 
         <RelativeLayout style="@style/MatchParentSize">
 
-            <life.plank.juna.zone.util.customview.GenericToolbar
+            <life.plank.juna.zone.component.customview.GenericToolbar
                 android:id="@+id/private_board_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

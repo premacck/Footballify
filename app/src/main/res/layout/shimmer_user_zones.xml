@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<life.plank.juna.zone.util.customview.ShimmerRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<life.plank.juna.zone.component.customview.ShimmerRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/shimmer_user_zones"
     android:layout_height="wrap_content">
@@ -17,4 +17,4 @@
 
     </LinearLayout>
 
-</life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
+</life.plank.juna.zone.component.customview.ShimmerRelativeLayout>

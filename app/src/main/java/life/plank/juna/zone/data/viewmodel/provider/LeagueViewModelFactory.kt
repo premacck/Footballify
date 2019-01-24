@@ -1,8 +1,6 @@
 package life.plank.juna.zone.data.viewmodel.provider
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-
+import androidx.lifecycle.*
 import life.plank.juna.zone.data.viewmodel.LeagueViewModel
 
 class LeagueViewModelFactory(private val leagueId: Long) : ViewModelProvider.Factory {

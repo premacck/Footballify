@@ -5,7 +5,7 @@
     style="@style/MatchParentSize">
 
     <com.bvapp.arcmenulibrary.ArcMenu
-        android:id="@+id/arc_menu"
+        android:id="@+id/arc_menu_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="34dp"

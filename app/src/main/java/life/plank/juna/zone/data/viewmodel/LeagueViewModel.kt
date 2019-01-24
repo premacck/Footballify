@@ -1,18 +1,13 @@
 package life.plank.juna.zone.data.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import androidx.room.RoomDatabase
+import life.plank.juna.zone.data.api.*
 import life.plank.juna.zone.data.local.model.LeagueInfo
 import life.plank.juna.zone.data.local.repository.LeagueRepository
-import life.plank.juna.zone.data.model.*
-import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.football.convertToFixtureByMatchDayList
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import life.plank.juna.zone.data.model.football.*
+import org.jetbrains.anko.*
 
 /**
  * [ViewModel] class for getting data from the [RoomDatabase] and API calls, and updating the [LiveData] that the UI will be observing.
@@ -32,7 +27,7 @@ class LeagueViewModel : ViewModel() {
      * The calling view should start observing fixtureLiveData before calling this method
      */
     fun getFixturesFromRestApi(league: League, restApi: RestApi) {
-        restApi.getFixtures(league.seasonName, league.name, league.countryName).setObserverThreadsAndSmartSubscribe({ Log.e(TAG, it.message, it) }, {
+        restApi.getFixtures(league.seasonName!!, league.name, league.countryName!!).setObserverThreadsAndSmartSubscribe({ Log.e(TAG, it.message, it) }, {
             it.body()?.run { fixtureLiveData.value = convertToFixtureByMatchDayList() }
         })
     }

@@ -4,15 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import life.plank.juna.zone.*
 import life.plank.juna.zone.R.string.*
-import life.plank.juna.zone.data.model.FootballLiveData
+import life.plank.juna.zone.component.helper.*
+import life.plank.juna.zone.data.model.football.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
-import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.util.common.AppConstants.CardNotificationType.*
-import life.plank.juna.zone.util.common.JunaDataUtil.findString
-import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
-import life.plank.juna.zone.view.activity.card.CreateCardActivity
-import life.plank.juna.zone.view.activity.home.HomeActivity
-import life.plank.juna.zone.view.fragment.board.user.JoinBoardPopup
+import life.plank.juna.zone.util.common.customToast
+import life.plank.juna.zone.view.base.BaseJunaCardActivity
+import life.plank.juna.zone.view.board.fragment.user.JoinBoardPopup
+import life.plank.juna.zone.view.home.HomeActivity
+import life.plank.juna.zone.view.user.card.CreateCardActivity
 import org.jetbrains.anko.*
 
 // todo: doc: //

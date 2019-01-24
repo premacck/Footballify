@@ -1,18 +1,14 @@
 package life.plank.juna.zone.data.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import androidx.room.RoomDatabase
 import life.plank.juna.zone.R
+import life.plank.juna.zone.data.api.*
 import life.plank.juna.zone.data.local.repository.MatchDetailRepository
-import life.plank.juna.zone.data.model.MatchDetails
-import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.data.model.football.MatchDetails
 import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.common.setObserverThreadsAndSmartSubscribe
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 import java.net.HttpURLConnection.HTTP_OK
 
 /**

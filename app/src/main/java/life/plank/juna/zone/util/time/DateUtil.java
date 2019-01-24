@@ -17,7 +17,7 @@ import java.util.TimeZone;
 import androidx.core.content.res.ResourcesCompat;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.model.MatchFixture;
+import life.plank.juna.zone.data.model.football.MatchFixture;
 import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal;
 import life.plank.juna.zone.util.common.StringUtilKt;
 

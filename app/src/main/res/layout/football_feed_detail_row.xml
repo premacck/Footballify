@@ -112,7 +112,7 @@
 
         </RelativeLayout>
 
-        <life.plank.juna.zone.util.customview.ShimmerRelativeLayout
+        <life.plank.juna.zone.component.customview.ShimmerRelativeLayout
             android:id="@+id/feed_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -159,7 +159,7 @@
                 android:textSize="20sp"
                 android:visibility="visible" />
 
-        </life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
+        </life.plank.juna.zone.component.customview.ShimmerRelativeLayout>
 
         <include layout="@layout/layout_interaction_component" />
 

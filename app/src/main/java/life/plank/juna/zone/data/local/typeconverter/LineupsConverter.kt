@@ -5,8 +5,7 @@ package life.plank.juna.zone.data.local.typeconverter
 import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.Formation
-import life.plank.juna.zone.data.model.FormationList
+import life.plank.juna.zone.data.model.football.*
 
 // todo: doc //
 class LineupsConverter {
