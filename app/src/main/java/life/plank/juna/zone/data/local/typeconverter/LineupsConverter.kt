@@ -8,6 +8,7 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Formation
 import life.plank.juna.zone.data.model.FormationList
 
+// todo: doc //
 class LineupsConverter {
 
     @TypeConverter

@@ -48,6 +48,7 @@ import static life.plank.juna.zone.util.time.DateUtil.getDateDiffFromToday;
 import static life.plank.juna.zone.util.time.DateUtil.getFutureMatchTime;
 import static life.plank.juna.zone.util.time.DateUtil.getTimeDiffFromNow;
 
+// todo: doc: after refactoring describe purpose for every class //
 public class JunaDataUtil {
 
     public static String findString(@StringRes int stringRes) {

@@ -1,5 +1,6 @@
 package life.plank.juna.zone.notification
 
+// todo: doc: //
 import android.app.ActivityManager
 import android.content.Context
 import com.google.gson.Gson

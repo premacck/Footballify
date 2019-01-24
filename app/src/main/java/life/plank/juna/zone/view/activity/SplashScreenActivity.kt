@@ -67,6 +67,7 @@ class SplashScreenActivity : AppCompatActivity() {
         }
     }
 
+    /* todo: doc: */
     private fun getUserPreference() {
         restApi.getUser(getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "onError: $it")

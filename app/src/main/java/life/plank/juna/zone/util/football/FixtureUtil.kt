@@ -8,7 +8,7 @@ import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.time.DateUtil.getDateDiff
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.Companion.fixtureByMatchDayList
 import java.util.*
-
+// todo: this belongs in data //
 fun MutableList<MatchFixture>.convertToFixtureByMatchDayList(): MutableList<FixtureByMatchDay> {
     fixtureByMatchDayList.clear()
     forEach {

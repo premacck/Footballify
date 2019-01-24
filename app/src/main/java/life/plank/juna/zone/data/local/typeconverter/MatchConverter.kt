@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.*
 
+// todo: doc //
 class MatchConverter {
     @TypeConverter
     fun highlightsListFromString(highlightsListString: String?): List<Highlights>? {

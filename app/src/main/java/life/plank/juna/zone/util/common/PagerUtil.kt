@@ -8,7 +8,7 @@ import life.plank.juna.zone.util.common.JunaDataUtil.findString
 import life.plank.juna.zone.view.activity.base.BaseJunaCardActivity
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
-
+// todo: doc: describe purpose here //
 fun CardTileFragment.getPositionFromIntentIfAny(pagerAdapter: PagerAdapter?): Int {
     return activity?.getActionFromIntent()?.run {
         (activity as? BaseJunaCardActivity)?.intent?.removeExtra(findString(R.string.intent_action))

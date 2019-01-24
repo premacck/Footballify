@@ -33,6 +33,7 @@ import static life.plank.juna.zone.util.common.RestUtilKt.errorLog;
 import static life.plank.juna.zone.util.common.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.sharedpreference.PreferenceManager.Auth.getToken;
 
+// todo: delete unused methods //
 /**
  * Class for Aggregating multiple API calls.
  */

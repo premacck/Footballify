@@ -15,6 +15,7 @@ import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.fragment.board.user.JoinBoardPopup
 import org.jetbrains.anko.*
 
+// todo: doc: //
 fun SocialNotification.getSocialNotificationIntent(): Intent {
     return ZoneApplication.getContext().run {
         when (action) {

@@ -3,6 +3,7 @@ package life.plank.juna.zone.data.model.firebase
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
+// todo: delete //
 @Parcelize
 data class BoardNotification(
         var contentType: String = "",
