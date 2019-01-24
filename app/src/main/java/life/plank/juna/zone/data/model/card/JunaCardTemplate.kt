@@ -7,4 +7,10 @@ import life.plank.juna.zone.util.common.AppConstants.CardNotificationType.READY_
 import java.util.*
 
 @Parcelize
-data class JunaCardTemplate(var cardColor: String, var datePublished: Date = Date(), @CardNotificationType var status: String = READY_TO_CREATE, var issuer: CardUser? = null) : Parcelable
+data class JunaCardTemplate(
+        var cardColor: String = "GOLD",
+        var datePublished: Date = Date(),
+        @CardNotificationType var status: String = READY_TO_CREATE,
+        var issuer: CardUser? = null,
+        var layout: String = "34"
+) : Parcelable

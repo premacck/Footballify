@@ -55,7 +55,7 @@ public interface RestApi {
 
     String FOOTBALL_SUFFIX = "football";
     String ZONE_BACKEND_SUFFIX = "backend";
-    String CARD_SUFFIX = "cards";
+    String CARD_SUFFIX = "card";
     String FEED_FLOWS_SUFFIX = "feedflows";
 
     //working
@@ -323,7 +323,7 @@ public interface RestApi {
 
     @Multipart
     @POST(CARD_SUFFIX + "/cards")
-    Observable<Response<JunaCard>> createCard(@Part("cardColor") String cardColor,
+    Observable<Response<JunaCard>> createCard(@Query("cardColor") String cardColor,
                                               @Part MultipartBody.Part image,
                                               @Header("Authorization") String authHeader);
 
