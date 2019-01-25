@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        tools:context=".view.board.CreateBoardActivity">
+        tools:context=".ui.board.CreateBoardActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -197,7 +197,7 @@
                 android:layout_marginEnd="16dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
-                app:layoutManager="life.plank.juna.zone.view.base.component.HorizontalLinearLayoutManager"
+                app:layoutManager="life.plank.juna.zone.ui.base.component.HorizontalLinearLayoutManager"
                 tools:listitem="@layout/item_board_color_theme" />
 
             <TextView
@@ -229,7 +229,7 @@
                     android:layout_weight="1"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
-                    app:layoutManager="life.plank.juna.zone.view.base.component.HorizontalLinearLayoutManager"
+                    app:layoutManager="life.plank.juna.zone.ui.base.component.HorizontalLinearLayoutManager"
                     tools:listitem="@layout/item_board_icon" />
 
                 <Button

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchParentSize"
-    tools:context=".view.feed.PostDetailFragment">
+    tools:context=".ui.feed.PostDetailFragment">
 
     <io.alterac.blurkit.BlurLayout
         android:id="@+id/blur_layout"

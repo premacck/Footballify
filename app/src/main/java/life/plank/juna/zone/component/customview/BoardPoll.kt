@@ -13,12 +13,12 @@ import kotlinx.android.synthetic.main.item_poll.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.board.poll.*
 import life.plank.juna.zone.service.MatchDataService
+import life.plank.juna.zone.ui.board.adapter.match.bindingmodel.PollBindingModel
+import life.plank.juna.zone.ui.board.fragment.fixture.PollContainer
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.AppConstants.PollValue.*
 import life.plank.juna.zone.util.time.DateUtil
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import life.plank.juna.zone.view.board.adapter.match.bindingmodel.PollBindingModel
-import life.plank.juna.zone.view.board.fragment.fixture.PollContainer
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 

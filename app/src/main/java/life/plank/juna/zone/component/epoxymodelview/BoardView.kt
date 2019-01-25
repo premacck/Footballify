@@ -16,7 +16,7 @@ import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.util.common.AppConstants
 import life.plank.juna.zone.util.time.DateUtil
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import life.plank.juna.zone.view.base.initLayout
+import life.plank.juna.zone.ui.base.initLayout
 
 @ModelView(autoLayout = ModelView.Size.WRAP_WIDTH_WRAP_HEIGHT)
 class BoardView @JvmOverloads constructor(

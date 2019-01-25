@@ -29,7 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <life.plank.juna.zone.view.base.component.EpoxyRecycler
+                <life.plank.juna.zone.ui.base.component.EpoxyRecycler
                     android:id="@+id/user_boards_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                     android:layout_alignTop="@+id/user_boards_recycler_view"
                     android:layout_alignBottom="@+id/user_boards_recycler_view" />
 
-                <life.plank.juna.zone.view.base.component.EpoxyRecycler
+                <life.plank.juna.zone.ui.base.component.EpoxyRecycler
                     android:id="@+id/user_zone_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -14,7 +14,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.football.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
 import life.plank.juna.zone.notification.triggerNotificationAction
-import life.plank.juna.zone.view.base.BaseJunaCardActivity
+import life.plank.juna.zone.ui.base.BaseJunaCardActivity
 
 class InAppNotificationLayout @JvmOverloads constructor(
         context: Context,

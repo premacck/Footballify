@@ -12,7 +12,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.view.board.fragment.user.PrivateBoardInfoFragment;
+import life.plank.juna.zone.ui.board.fragment.user.PrivateBoardInfoFragment;
 
 import static life.plank.juna.zone.service.CommonDataService.findString;
 import static life.plank.juna.zone.sharedpreference.SubscriptionPreferenceKt.isSubscribed;

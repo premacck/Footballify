@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchParentSize"
-    tools:context="life.plank.juna.zone.view.feed.PostCommentActivity">
+    tools:context="life.plank.juna.zone.ui.feed.PostCommentActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/root_card"

@@ -21,7 +21,7 @@ import life.plank.juna.zone.data.model.football.PlayerStats;
 import life.plank.juna.zone.data.model.football.Standings;
 import life.plank.juna.zone.data.model.football.TeamStats;
 import life.plank.juna.zone.util.common.AppConstants;
-import life.plank.juna.zone.view.board.fragment.user.PrivateBoardFragment;
+import life.plank.juna.zone.ui.board.fragment.user.PrivateBoardFragment;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

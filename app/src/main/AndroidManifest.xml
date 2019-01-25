@@ -45,7 +45,7 @@
         </service>
 
         <activity
-            android:name=".view.SplashScreenActivity"
+            android:name=".ui.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
@@ -66,10 +66,10 @@
         </receiver>
 
         <activity
-            android:name="life.plank.juna.zone.view.auth.SignUpActivity"
+            android:name="life.plank.juna.zone.ui.auth.SignUpActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="life.plank.juna.zone.view.camera.UploadActivity"
+            android:name="life.plank.juna.zone.ui.camera.UploadActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize|screenLayout|uiMode"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
@@ -85,44 +85,44 @@
         </provider>
 
         <activity
-            android:name=".view.feed.media.AudioRecorderActivity"
+            android:name=".ui.feed.media.AudioRecorderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.feed.media.RecordAudioActivity"
+            android:name=".ui.feed.media.RecordAudioActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".view.feed.media.PostRecordedAudioActivity"
+            android:name=".ui.feed.media.PostRecordedAudioActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="life.plank.juna.zone.view.auth.AuthForgotPasswordActivity"
+            android:name="life.plank.juna.zone.ui.auth.AuthForgotPasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".view.feed.PostCommentActivity"
+            android:name=".ui.feed.PostCommentActivity"
             android:label="@string/title_activity_post_comment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateVisible" />
         <activity
-            android:name=".view.zone.SelectZoneActivity"
+            android:name=".ui.zone.SelectZoneActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="life.plank.juna.zone.view.auth.SignInActivity"
+            android:name="life.plank.juna.zone.ui.auth.SignInActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="life.plank.juna.zone.view.board.CreateBoardActivity"
+            android:name="life.plank.juna.zone.ui.board.CreateBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="life.plank.juna.zone.view.auth.TokenActivity"
+            android:name="life.plank.juna.zone.ui.auth.TokenActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.user.profile.UserProfileActivity"
+            android:name=".ui.user.profile.UserProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="life.plank.juna.zone.view.user.card.CreateCardActivity"
+            android:name="life.plank.juna.zone.ui.user.card.CreateCardActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
@@ -130,14 +130,14 @@
             android:value="${crashlyticsApiKey}" />
 
         <activity
-            android:name=".view.notification.UserNotificationActivity"
+            android:name=".ui.notification.UserNotificationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="life.plank.juna.zone.view.camera.CustomCameraActivity"
+            android:name="life.plank.juna.zone.ui.camera.CustomCameraActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.home.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
@@ -154,12 +154,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.zone.ZoneActivity"
+            android:name=".ui.zone.ZoneActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:parentActivityName=".view.home.HomeActivity"
+            android:parentActivityName=".ui.home.HomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name="life.plank.juna.zone.view.user.card.CardWalletActivity"></activity>
+        <activity android:name="life.plank.juna.zone.ui.user.card.CardWalletActivity"></activity>
     </application>
 
 </manifest>

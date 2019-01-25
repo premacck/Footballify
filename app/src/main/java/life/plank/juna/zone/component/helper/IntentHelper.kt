@@ -15,10 +15,10 @@ import life.plank.juna.zone.notification.getBoardIdFromIntent
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.service.LeagueDataService
 import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.view.base.BaseJunaCardActivity
-import life.plank.juna.zone.view.board.fragment.fixture.MatchBoardFragment
-import life.plank.juna.zone.view.board.fragment.user.PrivateBoardFragment
-import life.plank.juna.zone.view.home.HomeActivity
+import life.plank.juna.zone.ui.base.BaseJunaCardActivity
+import life.plank.juna.zone.ui.board.fragment.fixture.MatchBoardFragment
+import life.plank.juna.zone.ui.board.fragment.user.PrivateBoardFragment
+import life.plank.juna.zone.ui.home.HomeActivity
 import org.jetbrains.anko.*
 import retrofit2.Response
 import java.net.HttpURLConnection

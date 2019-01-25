@@ -7,7 +7,7 @@ import com.airbnb.epoxy.*
 import com.prembros.facilis.util.setMargin
 import kotlinx.android.synthetic.main.item_text_view.view.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.view.base.initLayout
+import life.plank.juna.zone.ui.base.initLayout
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class TextModelView @JvmOverloads constructor(

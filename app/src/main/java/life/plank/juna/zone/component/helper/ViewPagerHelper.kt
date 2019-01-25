@@ -5,9 +5,9 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.notification.*
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.view.base.BaseJunaCardActivity
-import life.plank.juna.zone.view.base.fragment.CardTileFragment
-import life.plank.juna.zone.view.board.fragment.user.PrivateBoardFragment
+import life.plank.juna.zone.ui.base.BaseJunaCardActivity
+import life.plank.juna.zone.ui.base.fragment.CardTileFragment
+import life.plank.juna.zone.ui.board.fragment.user.PrivateBoardFragment
 
 // todo: doc: describe purpose here //
 fun CardTileFragment.getPositionFromIntentIfAny(pagerAdapter: PagerAdapter?): Int {

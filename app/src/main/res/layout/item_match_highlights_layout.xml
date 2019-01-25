@@ -15,7 +15,7 @@
         android:paddingEnd="2.5dp"
         android:paddingStart="2.5dp"
         android:paddingBottom="4dp"
-        app:layoutManager="life.plank.juna.zone.view.base.component.HorizontalLinearLayoutManager"
+        app:layoutManager="life.plank.juna.zone.ui.base.component.HorizontalLinearLayoutManager"
         tools:listitem="@layout/item_highlights" />
 
     <cz.intik.overflowindicator.OverflowPagerIndicator

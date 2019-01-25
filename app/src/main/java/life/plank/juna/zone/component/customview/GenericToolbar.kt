@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.layout_private_board_tabs.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.component.customview.CustomPopup.showOptionPopup
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
-import life.plank.juna.zone.view.common.*
+import life.plank.juna.zone.ui.common.*
 import org.jetbrains.anko.find
 
 class GenericToolbar @JvmOverloads constructor(

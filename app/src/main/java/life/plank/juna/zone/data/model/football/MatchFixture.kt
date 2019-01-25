@@ -6,7 +6,7 @@ import com.google.gson.annotations.*
 import kotlinx.android.parcel.*
 import life.plank.juna.zone.util.common.AppConstants
 import life.plank.juna.zone.util.time.DateUtil
-import life.plank.juna.zone.view.football.fragment.LeagueInfoFragment
+import life.plank.juna.zone.ui.football.fragment.LeagueInfoFragment
 import java.util.*
 
 @Entity

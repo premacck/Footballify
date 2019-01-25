@@ -10,7 +10,7 @@ import life.plank.juna.zone.data.model.football.LiveScoreData;
 import life.plank.juna.zone.data.model.football.LiveTimeStatus;
 import life.plank.juna.zone.data.model.football.MatchDetails;
 import life.plank.juna.zone.data.model.football.MatchFixture;
-import life.plank.juna.zone.view.football.fragment.LeagueInfoFragment;
+import life.plank.juna.zone.ui.football.fragment.LeagueInfoFragment;
 
 import static com.prembros.facilis.util.DataUtilKt.isNullOrEmpty;
 import static life.plank.juna.zone.service.MatchDataService.Live.updateScoreLocally;

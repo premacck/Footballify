@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.zone_tool_bar.view.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.view.common.*
+import life.plank.juna.zone.ui.common.*
 
 class ZoneToolBar @JvmOverloads constructor(context: Context,
                                             attrs: AttributeSet? = null,
