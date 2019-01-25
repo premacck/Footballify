@@ -4,7 +4,7 @@ import android.util.Log
 import life.plank.juna.zone.*
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.view.base.fragment.BaseJunaFragment
+import life.plank.juna.zone.ui.base.fragment.BaseJunaFragment
 import okhttp3.*
 import org.jetbrains.anko.runOnUiThread
 import rx.*

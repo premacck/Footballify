@@ -7,8 +7,8 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.football.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.view.base.BaseJunaCardActivity
-import life.plank.juna.zone.view.base.fragment.*
+import life.plank.juna.zone.ui.base.BaseJunaCardActivity
+import life.plank.juna.zone.ui.base.fragment.*
 
 /**
  * Method to send in-app social interaction notification

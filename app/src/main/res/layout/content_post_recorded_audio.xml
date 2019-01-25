@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="life.plank.juna.zone.view.feed.media.PostRecordedAudioActivity"
+    tools:context="life.plank.juna.zone.ui.feed.media.PostRecordedAudioActivity"
     tools:showIn="@layout/activity_post_recorded_audio">
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"

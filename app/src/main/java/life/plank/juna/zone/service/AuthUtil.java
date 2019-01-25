@@ -21,10 +21,10 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.sharedpreference.CurrentUser;
-import life.plank.juna.zone.view.auth.IdentityProvider;
-import life.plank.juna.zone.view.auth.SignInActivity;
-import life.plank.juna.zone.view.auth.TokenActivity;
-import life.plank.juna.zone.view.home.HomeActivity;
+import life.plank.juna.zone.ui.auth.IdentityProvider;
+import life.plank.juna.zone.ui.auth.SignInActivity;
+import life.plank.juna.zone.ui.auth.TokenActivity;
+import life.plank.juna.zone.ui.home.HomeActivity;
 
 import static com.prembros.facilis.util.DataUtilKt.isNullOrEmpty;
 import static life.plank.juna.zone.sharedpreference.AuthPrefsKt.getSavedAuthState;

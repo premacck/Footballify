@@ -10,7 +10,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.api.RestApi
 import life.plank.juna.zone.data.model.user.UserPreference
 import life.plank.juna.zone.sharedpreference.CurrentUser
-import life.plank.juna.zone.view.base.initLayout
+import life.plank.juna.zone.ui.base.initLayout
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class ZoneView @JvmOverloads constructor(

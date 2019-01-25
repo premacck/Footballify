@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.common.WebCard">
+    tools:context=".ui.common.WebCard">
 
     <io.alterac.blurkit.BlurLayout
         android:id="@+id/root_blur_layout"

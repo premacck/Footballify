@@ -18,10 +18,10 @@ import life.plank.juna.zone.sharedpreference.IdToken
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
-import life.plank.juna.zone.view.camera.*
-import life.plank.juna.zone.view.feed.PostCommentActivity
-import life.plank.juna.zone.view.home.HomeActivity
-import life.plank.juna.zone.view.user.profile.UserProfileActivity
+import life.plank.juna.zone.ui.camera.*
+import life.plank.juna.zone.ui.feed.PostCommentActivity
+import life.plank.juna.zone.ui.home.HomeActivity
+import life.plank.juna.zone.ui.user.profile.UserProfileActivity
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.find
 

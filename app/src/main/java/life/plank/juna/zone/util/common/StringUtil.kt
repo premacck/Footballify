@@ -11,8 +11,8 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.football.Commentary
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import life.plank.juna.zone.view.base.BaseJunaCardActivity
-import life.plank.juna.zone.view.common.WebCard
+import life.plank.juna.zone.ui.base.BaseJunaCardActivity
+import life.plank.juna.zone.ui.common.WebCard
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.regex.Pattern

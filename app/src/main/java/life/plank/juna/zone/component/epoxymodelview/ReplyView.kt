@@ -14,8 +14,8 @@ import life.plank.juna.zone.data.model.feed.FeedItemComment
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.time.DateUtil
 import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
-import life.plank.juna.zone.view.base.fragment.BaseCommentContainerFragment
-import life.plank.juna.zone.view.base.initLayout
+import life.plank.juna.zone.ui.base.fragment.BaseCommentContainerFragment
+import life.plank.juna.zone.ui.base.initLayout
 import org.jetbrains.anko.*
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)

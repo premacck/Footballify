@@ -3,10 +3,10 @@ package life.plank.juna.zone.injection.module;
 import dagger.Module;
 import dagger.Provides;
 import life.plank.juna.zone.injection.scope.UiScope;
-import life.plank.juna.zone.view.board.adapter.creation.BoardColorThemeAdapter;
-import life.plank.juna.zone.view.board.adapter.creation.BoardIconAdapter;
-import life.plank.juna.zone.view.user.adapter.GetCoinsAdapter;
-import life.plank.juna.zone.view.user.adapter.LastTransactionsAdapter;
+import life.plank.juna.zone.ui.board.adapter.creation.BoardColorThemeAdapter;
+import life.plank.juna.zone.ui.board.adapter.creation.BoardIconAdapter;
+import life.plank.juna.zone.ui.user.adapter.GetCoinsAdapter;
+import life.plank.juna.zone.ui.user.adapter.LastTransactionsAdapter;
 
 @Module
 public class AdaptersModule {

@@ -10,7 +10,7 @@ import com.prembros.facilis.util.onElevatingClick
 import kotlinx.android.synthetic.main.item_card_wallet.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.card.CardUser
-import life.plank.juna.zone.view.base.*
+import life.plank.juna.zone.ui.base.*
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class CardWalletView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {

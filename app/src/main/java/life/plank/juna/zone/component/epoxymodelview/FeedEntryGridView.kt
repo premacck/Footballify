@@ -12,7 +12,7 @@ import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.item_board_grid_row.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.feed.FeedItem
-import life.plank.juna.zone.view.base.initLayout
+import life.plank.juna.zone.ui.base.initLayout
 
 @ModelView(autoLayout = ModelView.Size.WRAP_WIDTH_WRAP_HEIGHT)
 class FeedEntryGridView @JvmOverloads constructor(

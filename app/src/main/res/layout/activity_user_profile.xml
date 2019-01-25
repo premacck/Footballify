@@ -405,7 +405,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:layout_below="@+id/get_coins_header"
-                        app:layoutManager="life.plank.juna.zone.view.base.component.HorizontalLinearLayoutManager"
+                        app:layoutManager="life.plank.juna.zone.ui.base.component.HorizontalLinearLayoutManager"
                         tools:listitem="@layout/item_get_coins" />
 
                 </RelativeLayout>
