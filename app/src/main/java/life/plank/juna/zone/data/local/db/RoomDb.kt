@@ -3,7 +3,7 @@ package life.plank.juna.zone.data.local.db
 import androidx.room.*
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.local.dao.*
-import life.plank.juna.zone.data.local.model.LeagueInfo
+import life.plank.juna.zone.data.model.football.LeagueInfo
 import life.plank.juna.zone.data.local.typeconverter.*
 import life.plank.juna.zone.data.model.football.MatchDetails
 

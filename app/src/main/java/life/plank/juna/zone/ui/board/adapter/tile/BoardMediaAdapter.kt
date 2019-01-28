@@ -27,7 +27,6 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymRecycler
         val feedItem = boardFeed[position].feedItem
         val view = holder.itemView
 
-        //TODO: remove this null check after the backend returns the user profile picture
         if (feedItem.user != null) {
             glide.load(feedItem.user!!.profilePictureUrl)
                     .apply(RequestOptions.centerCropTransform()

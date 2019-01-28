@@ -32,10 +32,10 @@ import static life.plank.juna.zone.sharedpreference.AuthPrefsKt.saveAuthState;
 import static life.plank.juna.zone.sharedpreference.AuthPrefsKt.saveTokens;
 import static life.plank.juna.zone.sharedpreference.AuthPrefsKt.saveTokensValidity;
 
-public class AuthUtil {
+public class AuthService {
 
     private static final String EXTRA_FAILED = "failed";
-    private static final String TAG = AuthUtil.class.getSimpleName();
+    private static final String TAG = AuthService.class.getSimpleName();
 
     /**
      * @param activity           the calling activity.

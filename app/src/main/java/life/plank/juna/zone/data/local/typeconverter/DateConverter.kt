@@ -3,7 +3,10 @@ package life.plank.juna.zone.data.local.typeconverter
 import androidx.room.TypeConverter
 import java.util.*
 
-// todo: doc //
+
+/**
+ * Type converter for [Date] properties
+ */
 class DateConverter {
 
     @TypeConverter

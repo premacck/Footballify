@@ -1,6 +1,5 @@
 package life.plank.juna.zone.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +7,7 @@ import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 import life.plank.juna.zone.*
 import life.plank.juna.zone.data.api.*
-import life.plank.juna.zone.service.AuthUtil
+import life.plank.juna.zone.service.AuthService
 import life.plank.juna.zone.sharedpreference.*
 import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.ui.auth.SignInActivity
@@ -60,7 +59,7 @@ class SplashScreenActivity : AppCompatActivity() {
             if (checkTokenValidity(R.string.pref_id_token_validity)) {
                 getUserPreference()
             } else {
-                AuthUtil.loginOrRefreshToken(this, authService, null, true)
+                AuthService.loginOrRefreshToken(this, authService, null, true)
             }
         } else {
             startActivity(intentFor<SignInActivity>())
@@ -68,7 +67,10 @@ class SplashScreenActivity : AppCompatActivity() {
         }
     }
 
-    /* todo: doc: */
+    /**
+     * Function to get the user preferences when ID and refresh tokens are both valid.
+     * * In case of a successful response, if user doesn't have any preferences saved, launch [SelectZoneActivity], else launch [HomeActivity]
+     */
     private fun getUserPreference() {
         restApi.getUser().setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "onError: $it")
@@ -79,9 +81,9 @@ class SplashScreenActivity : AppCompatActivity() {
                     if (user != null) {
                         CurrentUser.saveUser(user)
                         if (isNullOrEmpty(user.userPreferences)) {
-                            startActivity(Intent(this@SplashScreenActivity, SelectZoneActivity::class.java))
+                            startActivity(intentFor<SelectZoneActivity>())
                         } else {
-                            startActivity(Intent(this@SplashScreenActivity, HomeActivity::class.java))
+                            startActivity(intentFor<HomeActivity>())
                         }
                     }
                     finish()

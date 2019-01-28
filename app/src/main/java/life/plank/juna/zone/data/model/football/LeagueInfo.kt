@@ -1,9 +1,8 @@
-package life.plank.juna.zone.data.local.model
+package life.plank.juna.zone.data.model.football
 
 import android.os.Parcelable
 import androidx.room.*
 import kotlinx.android.parcel.*
-import life.plank.juna.zone.data.model.football.*
 import java.util.Collections.emptyList
 
 @Entity

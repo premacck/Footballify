@@ -125,6 +125,7 @@ play {
     track = releaseTrack
 }
 
+//TODO: convert dependency usage to clean architecture
 dependencies {
     implementation 'com.github.premacck:facilis:1.0.1'
     implementation 'com.github.premacck:AsymRecycler:1.0.0'

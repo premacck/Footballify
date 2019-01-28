@@ -73,7 +73,6 @@ import androidx.renderscript.RenderScript;
 import androidx.renderscript.ScriptIntrinsicBlur;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.component.customview.TopGravityDrawable;
 import life.plank.juna.zone.data.model.board.Emoji;
 import life.plank.juna.zone.data.model.feed.FeedEntry;
 import life.plank.juna.zone.util.common.AppConstants;
@@ -93,7 +92,7 @@ public class UIDisplayUtil {
     public static final Typeface SEMI_BOLD_TYPEFACE = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "fonts/rajdhani_semibold.ttf");
     public static final StyleSpan SEMI_BOLD_STYLE = new StyleSpan(SEMI_BOLD_TYPEFACE.getStyle());
 
-    //TODO: Remove once implemented on backend
+    //TODO: Remove once emojis are implemented on backend
     public static ArrayList<Emoji> emoji = new ArrayList<>();
 
     static {
@@ -371,18 +370,6 @@ public class UIDisplayUtil {
                         R.color.white :
                         R.color.background_color
         ));
-    }
-
-    public static Drawable getTopGravityDrawable(@DrawableRes int drawableRes) {
-        if (drawableRes == -1) {
-            return null;
-        } else {
-            Drawable drawable = ZoneApplication.getContext().getResources().getDrawable(drawableRes, null);
-            TopGravityDrawable topGravityDrawable = new TopGravityDrawable(drawable);
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-            topGravityDrawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-            return topGravityDrawable;
-        }
     }
 
     /**

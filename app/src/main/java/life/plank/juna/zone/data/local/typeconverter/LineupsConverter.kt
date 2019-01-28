@@ -7,7 +7,9 @@ import com.google.gson.reflect.TypeToken
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.football.*
 
-// todo: doc //
+/**
+ * Type converter for [List] of [Formation] and [FormationList] related properties
+ */
 class LineupsConverter {
 
     @TypeConverter
