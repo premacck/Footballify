@@ -8,10 +8,10 @@ import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.fragment_profile_card.*
 import life.plank.juna.zone.*
 import life.plank.juna.zone.data.api.*
-import life.plank.juna.zone.data.model.card.JunaCard
+import life.plank.juna.zone.data.model.card.JunaCardTemplate
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.ui.base.fragment.BaseJunaCard
+import life.plank.juna.zone.util.common.errorToast
 import org.jetbrains.anko.support.v4.toast
 import java.net.HttpURLConnection.HTTP_OK
 import javax.inject.Inject
@@ -22,7 +22,7 @@ class ProfileCardFragment : BaseJunaCard() {
     lateinit var restApi: RestApi
 
     private var cardId: String? = null
-    private var junaCard: JunaCard? = null
+    private var cardTemplate: JunaCardTemplate? = null
     private var isFollowing: Boolean = false
 
     companion object {
@@ -37,9 +37,9 @@ class ProfileCardFragment : BaseJunaCard() {
             }
         }
 
-        fun newInstance(junaCard: JunaCard, isFollowing: Boolean): ProfileCardFragment = ProfileCardFragment().apply {
+        fun newInstance(cardTemplate: JunaCardTemplate, isFollowing: Boolean): ProfileCardFragment = ProfileCardFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(findString(R.string.intent_juna_card), junaCard)
+                putParcelable(findString(R.string.intent_juna_card), cardTemplate)
                 putBoolean(findString(R.string.intent_is_following), isFollowing)
             }
         }
@@ -49,7 +49,7 @@ class ProfileCardFragment : BaseJunaCard() {
         super.onCreate(savedInstanceState)
         arguments?.run {
             cardId = getString(getString(R.string.intent_card_id))
-            junaCard = getParcelable(getString(R.string.intent_juna_card))
+            cardTemplate = getParcelable(getString(R.string.intent_juna_card))
             isFollowing = getBoolean(getString(R.string.intent_is_following), false)
         }
         ZoneApplication.getApplication().uiComponent.inject(this)
@@ -86,7 +86,7 @@ class ProfileCardFragment : BaseJunaCard() {
         }, { response ->
             when (response.code()) {
                 HTTP_OK -> {
-                    junaCard = response.body()
+                    cardTemplate = response.body()?.template
                     updateUi()
                 }
                 else -> errorToast(R.string.failed_to_get_card_details, response)
@@ -95,18 +95,18 @@ class ProfileCardFragment : BaseJunaCard() {
     }
 
     private fun updateUi() {
-        junaCard?.run {
+        cardTemplate?.run {
             Glide.with(this@ProfileCardFragment)
-                    .load(owner.profilePictureUrl)
+                    .load(issuer?.profilePictureUrl)
                     .into(profile_pic)
-            name_text_view.text = owner.handle
-            followers_count.text = owner.followersCount.toString()
-            card_count.text = owner.cardCount.toString()
+            name_text_view.text = issuer?.handle
+            followers_count.text = issuer?.followersCount.toString()
+            card_count.text = issuer?.cardCount.toString()
         }
     }
 
     private fun cardLaunchArgumentState() = when {
-        junaCard != null -> CARD_OBJECT_AVAILABLE
+        cardTemplate != null -> CARD_OBJECT_AVAILABLE
         !isNullOrEmpty(cardId) -> CARD_ID_AVAILABLE
         else -> CARD_NOT_AVAILABLE
     }

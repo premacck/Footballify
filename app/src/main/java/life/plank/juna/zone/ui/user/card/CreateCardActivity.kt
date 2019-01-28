@@ -12,13 +12,13 @@ import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.activity_create_card.*
 import life.plank.juna.zone.*
 import life.plank.juna.zone.data.api.*
-import life.plank.juna.zone.data.model.card.JunaCard
+import life.plank.juna.zone.data.model.card.*
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.sharedpreference.CurrentUser
-import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
 import life.plank.juna.zone.ui.camera.CustomCameraActivity
 import life.plank.juna.zone.ui.user.profile.ProfileCardFragment
+import life.plank.juna.zone.util.common.*
 import org.jetbrains.anko.*
 import retrofit2.Response
 import java.io.*
@@ -151,7 +151,7 @@ class CreateCardActivity : BaseJunaCardActivity() {
             no_photo_text_view.makeVisible()
             return
         }
-        restApi.createCard("BLUE", File(filePath).createMultiPartImage())
+        restApi.createCard(JunaCardTemplate.Builder().color("BLUE").layout("34").build(), File(filePath).createMultiPartImage())
                 .setObserverThreadsAndSmartSubscribe({
                     errorToast(R.string.failed_to_create_card, it)
                 }, { handleCardResponse(it) })
@@ -168,7 +168,7 @@ class CreateCardActivity : BaseJunaCardActivity() {
                 }, { handleCardResponse(it) })
     }
 
-    private fun handleCardResponse(response: Response<JunaCard>) {
+    private fun handleCardResponse(response: Response<JunaCardTemplate>) {
         when (response.code()) {
             HTTP_OK, HTTP_CREATED -> response.body()?.run { pushFragment(ProfileCardFragment.newInstance(this, true)) }
             else -> errorToast(R.string.failed_to_update_card, response)

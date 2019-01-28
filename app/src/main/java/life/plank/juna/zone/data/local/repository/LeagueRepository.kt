@@ -2,7 +2,7 @@ package life.plank.juna.zone.data.local.repository
 
 import androidx.annotation.WorkerThread
 import life.plank.juna.zone.data.local.dao.LeagueDao
-import life.plank.juna.zone.data.local.model.LeagueInfo
+import life.plank.juna.zone.data.model.football.LeagueInfo
 import life.plank.juna.zone.data.model.football.*
 import life.plank.juna.zone.data.viewmodel.LeagueViewModel
 import org.jetbrains.anko.doAsync

@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import life.plank.juna.zone.*
-import life.plank.juna.zone.service.AuthUtil
+import life.plank.juna.zone.service.AuthService
 import life.plank.juna.zone.service.CommonDataService.isValidEmail
 import life.plank.juna.zone.sharedpreference.CurrentUser
 import life.plank.juna.zone.ui.home.HomeActivity
@@ -26,7 +26,7 @@ class SignInActivity : AppCompatActivity() {
 
         if (resources.getBoolean(R.bool.is_dev_environment)) {
             email_edit_text.setText(getString(R.string.azure_login_username))
-            AuthUtil.loginOrRefreshToken(this, authService, null, false)
+            AuthService.loginOrRefreshToken(this, authService, null, false)
         }
         initListeners()
     }
@@ -34,7 +34,7 @@ class SignInActivity : AppCompatActivity() {
     private fun initListeners() {
         arrayOf(email_edit_text, password_edit_text).onTextChanged { login.visibility = if (isValidEmail(email_edit_text.text)) View.VISIBLE else View.INVISIBLE }
 
-        login.onDebouncingClick { AuthUtil.loginOrRefreshToken(this, authService, null, false) }
+        login.onDebouncingClick { AuthService.loginOrRefreshToken(this, authService, null, false) }
 
         forgot_password_text_view.onDebouncingClick { startActivity(intentFor<AuthForgotPasswordActivity>()) }
 

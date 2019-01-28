@@ -1,7 +1,7 @@
 package life.plank.juna.zone.data.local.dao
 
 import androidx.room.*
-import life.plank.juna.zone.data.local.model.LeagueInfo
+import life.plank.juna.zone.data.model.football.LeagueInfo
 import life.plank.juna.zone.data.model.football.*
 
 @Dao

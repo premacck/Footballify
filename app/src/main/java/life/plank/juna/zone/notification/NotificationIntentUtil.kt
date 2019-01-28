@@ -16,7 +16,9 @@ import life.plank.juna.zone.ui.home.HomeActivity
 import life.plank.juna.zone.ui.user.card.CreateCardActivity
 import org.jetbrains.anko.*
 
-// todo: doc: //
+/**
+ * Function to get the intent which contains the relevant extras to be used by boards to handle the [SocialNotification] notification
+ */
 fun SocialNotification.getSocialNotificationIntent(): Intent {
     return ZoneApplication.getContext().run {
         when (action) {
@@ -46,6 +48,9 @@ fun SocialNotification.getSocialNotificationIntent(): Intent {
     }
 }
 
+/**
+ * Function to get the intent which contains the relevant extras to be used by boards to handle the [FootballLiveData] notification
+ */
 fun FootballLiveData.getLiveFootballNotificationIntent(): Intent {
     return ZoneApplication.getContext().run {
         intentFor<HomeActivity>(
@@ -55,6 +60,9 @@ fun FootballLiveData.getLiveFootballNotificationIntent(): Intent {
     }
 }
 
+/**
+ * Function to get the intent which contains the relevant extras to be used by boards to handle the [CardNotification] notification
+ */
 fun CardNotification.getCardNotificationIntent(): Intent {
     return ZoneApplication.getContext().run {
         when (cardNotificationType) {
@@ -71,6 +79,21 @@ fun CardNotification.getCardNotificationIntent(): Intent {
     }
 }
 
+/**
+ * Common function to apply the intent with respective extras and trigger the launch of respective board/card when opening an [InAppNotification]
+ */
+fun InAppNotification.triggerNotificationAction(baseCardActivity: BaseJunaCardActivity?) {
+    if (notificationObject == null) return
+    when (notificationObject) {
+        is SocialNotification -> baseCardActivity?.triggerNotificationIntent((notificationObject as SocialNotification).getSocialNotificationIntent())
+        is FootballLiveData -> baseCardActivity?.triggerNotificationIntent((notificationObject as FootballLiveData).getLiveFootballNotificationIntent())
+        is CardNotification -> baseCardActivity?.triggerNotificationIntent((notificationObject as CardNotification).getCardNotificationIntent())
+    }
+}
+
+/**
+ * Function to apply the intent with respective extras and trigger the launch of respective board when opening a notification from notification feed
+ */
 fun BaseJunaCardActivity.triggerNotificationIntent(intent: Intent) {
     this.intent = intent
     restApi()?.run {
@@ -98,6 +121,9 @@ fun BaseJunaCardActivity.triggerNotificationIntent(intent: Intent) {
     } ?: customToast(R.string.rest_api_is_null)
 }
 
+/**
+ * Function to handle and open the respective board, if [SocialNotification] extras are found in the intent.
+ */
 fun BaseJunaCardActivity.handleSocialNotificationIntentIfAny() {
     intent?.run {
         if (!hasExtra(getString(intent_action)) || !hasExtra(getString(intent_board_id))) return
@@ -115,6 +141,16 @@ fun BaseJunaCardActivity.handleSocialNotificationIntentIfAny() {
     }
 }
 
+/**
+ * Function to handle and open the respective board, if [FootballLiveData] extras are found in the intent.
+ */
+fun BaseJunaCardActivity.handleFootballLiveDataNotificationIntentIfAny() {
+    if (!intent.hasExtra(getString(match_id_string))) return
+
+    restApi()?.run { launchMatchBoard(this, intent.getLongExtra(getString(match_id_string), 0)) }
+}
+
+//region Helper functions to get extras related to SocialNotification and FootballLiveData
 fun Activity.getLiveDataTypeFromIntent(): String? = intent?.getStringExtra(getString(intent_live_data_type))
 
 fun Activity.getActionFromIntent(): String? = intent?.getStringExtra(getString(intent_action))
@@ -124,18 +160,4 @@ fun Activity.getBoardIdFromIntent(): String? = intent?.getStringExtra(getString(
 fun Activity.getChildIdFromIntent(): String? = intent?.getStringExtra(getString(intent_child_id))
 
 fun Activity.getSiblingIdFromIntent(): String? = intent?.getStringExtra(getString(intent_sibling_id))
-
-fun BaseJunaCardActivity.handleFootballLiveDataNotificationIntentIfAny() {
-    if (!intent.hasExtra(getString(match_id_string))) return
-
-    restApi()?.run { launchMatchBoard(this, intent.getLongExtra(getString(match_id_string), 0)) }
-}
-
-fun InAppNotification.triggerNotificationAction(baseCardActivity: BaseJunaCardActivity?) {
-    if (notificationObject == null) return
-    when (notificationObject) {
-        is SocialNotification -> baseCardActivity?.triggerNotificationIntent((notificationObject as SocialNotification).getSocialNotificationIntent())
-        is FootballLiveData -> baseCardActivity?.triggerNotificationIntent((notificationObject as FootballLiveData).getLiveFootballNotificationIntent())
-        is CardNotification -> baseCardActivity?.triggerNotificationIntent((notificationObject as CardNotification).getCardNotificationIntent())
-    }
-}
+//endregion

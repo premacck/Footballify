@@ -44,7 +44,6 @@ class MatchStatsAdapter(private val matchDetails: MatchDetails, private val glid
     //region Initializations
     private fun initAndAddCommentaryDataManager() {
         commentaryDataManager = DataItemManager(this, CommentaryBindingModel.from(matchDetails))
-//        TODO: modify listener in next pull request
         addDataManagerAndRegisterBinder(commentaryDataManager, CommentaryBinder(listener))
     }
 
@@ -55,7 +54,6 @@ class MatchStatsAdapter(private val matchDetails: MatchDetails, private val glid
 
     private fun initAndAddStandingsDataManager() {
         standingsDataManager = DataItemManager(this, StandingsBindingModel.from(matchDetails))
-//        TODO: remove listener in next pull request
         addDataManagerAndRegisterBinder(standingsDataManager, StandingsBinder())
     }
 

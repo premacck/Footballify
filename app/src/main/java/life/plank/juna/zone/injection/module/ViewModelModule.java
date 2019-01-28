@@ -5,7 +5,7 @@ import java.util.List;
 import androidx.lifecycle.MutableLiveData;
 import dagger.Module;
 import dagger.Provides;
-import life.plank.juna.zone.data.local.model.LeagueInfo;
+import life.plank.juna.zone.data.model.football.LeagueInfo;
 import life.plank.juna.zone.data.model.football.FixtureByMatchDay;
 import life.plank.juna.zone.data.model.football.PlayerStats;
 import life.plank.juna.zone.data.model.football.Standings;

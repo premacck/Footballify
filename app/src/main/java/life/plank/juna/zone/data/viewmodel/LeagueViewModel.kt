@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.room.RoomDatabase
 import life.plank.juna.zone.data.api.*
-import life.plank.juna.zone.data.local.model.LeagueInfo
+import life.plank.juna.zone.data.model.football.LeagueInfo
 import life.plank.juna.zone.data.local.repository.LeagueRepository
 import life.plank.juna.zone.data.model.football.*
 import org.jetbrains.anko.*

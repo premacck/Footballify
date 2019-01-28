@@ -50,6 +50,9 @@ inline fun <reified T : BaseJunaCardActivity> Activity.launchWithBoard(boardId: 
     }
 }
 
+/**
+ * Function to handle the scenario when a board is accessed through "ju.na/board/..." link from outside the app.
+ */
 fun BaseJunaCardActivity.handleDeepLinkIntentIfAny() {
     intent?.data?.pathSegments?.run {
         if (isNotEmpty() && size >= 2) {
@@ -145,7 +148,15 @@ fun BaseJunaCardActivity.launchMatchBoard(restApi: RestApi, matchId: Long) {
     RestApiAggregator.getBoardAndMatchDetails(restApi, matchId).setObserverThreadsAndSmartSubscribe({
         errorToast(R.string.could_not_navigate_to_board, it)
     }, {
-        launchMatchBoard(it.first, it.second)
+        if (it.first == null) {
+            toast(R.string.board_details_not_found)
+            return@setObserverThreadsAndSmartSubscribe
+        }
+        if (it.second == null) {
+            toast(R.string.match_details_not_found)
+            return@setObserverThreadsAndSmartSubscribe
+        }
+        launchMatchBoard(it.first!!, it.second!!)
     })
 }
 

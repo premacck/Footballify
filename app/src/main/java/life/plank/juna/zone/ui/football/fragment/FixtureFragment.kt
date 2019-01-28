@@ -8,7 +8,7 @@ import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.fragment_fixture.*
 import life.plank.juna.zone.*
 import life.plank.juna.zone.data.api.RestApi
-import life.plank.juna.zone.data.local.model.LeagueInfo
+import life.plank.juna.zone.data.model.football.LeagueInfo
 import life.plank.juna.zone.data.model.football.*
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.util.common.AppConstants.*

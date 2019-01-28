@@ -4,12 +4,16 @@ import androidx.viewpager.widget.PagerAdapter
 import life.plank.juna.zone.R
 import life.plank.juna.zone.notification.*
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
 import life.plank.juna.zone.ui.base.fragment.CardTileFragment
+import life.plank.juna.zone.ui.board.fragment.fixture.MatchBoardFragment
+import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.ui.board.fragment.user.PrivateBoardFragment
 
-// todo: doc: describe purpose here //
+/**
+ * Helper method to determine which tab to switch in the board ([MatchBoardFragment] or [PrivateBoardFragment]),
+ * if there is an "intent_action" or "intent_live_data_type" String passed in the activity's intent.
+ */
 fun CardTileFragment.getPositionFromIntentIfAny(pagerAdapter: PagerAdapter?): Int {
     return activity?.getActionFromIntent()?.run {
         (activity as? BaseJunaCardActivity)?.intent?.removeExtra(findString(R.string.intent_action))

@@ -27,7 +27,7 @@ import static life.plank.juna.zone.util.common.AppConstants.PollValue.DRAW;
 import static life.plank.juna.zone.util.common.AppConstants.PollValue.HOME;
 
 /**
- * Created by plank-hasan on 2/9/2018.
+ * Class containing the constants used in the app
  */
 public class AppConstants {
     public static final String FOOTBALL_FEEDS_HEADER_KEY = "newsfeed-continuation-token";

@@ -19,9 +19,6 @@ import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 
 import static life.plank.juna.zone.util.view.UIDisplayUtil.getDp;
 
-/**
- * TODO: Delete this class after the implementation of design gesture navigation
- */
 public class OnSwipeTouchListener implements OnTouchListener {
 
     private static final String TAG = OnSwipeTouchListener.class.getSimpleName();

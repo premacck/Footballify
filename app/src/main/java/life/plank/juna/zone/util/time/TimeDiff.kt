@@ -19,7 +19,7 @@ private const val DAYS_AGO = "days ago"
 fun getTimeAgo(date: Date): String {
     val time = date.time
     try {
-//        TODO: un-comment/remove after checking values returned from backend
+//        TODO: un-comment/remove after checking values returned from backend are in seconds or milliseconds
 //        if (time < 1000000000000L) {
 //            // if timestamp given in seconds, convert to millis
 //            time *= 1000

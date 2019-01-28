@@ -3,7 +3,7 @@ package life.plank.juna.zone.data.api
 import com.google.gson.JsonObject
 import life.plank.juna.zone.data.model.board.*
 import life.plank.juna.zone.data.model.board.poll.*
-import life.plank.juna.zone.data.model.card.JunaCard
+import life.plank.juna.zone.data.model.card.*
 import life.plank.juna.zone.data.model.feed.*
 import life.plank.juna.zone.data.model.football.*
 import life.plank.juna.zone.data.model.notification.*
@@ -290,15 +290,15 @@ interface RestApi {
 
     @Multipart
     @POST("$CARD_SUFFIX/cards")
-    fun createCard(@Query("cardColor") cardColor: String,
+    fun createCard(@Query("cardTemplate") cardTemplate: String,
                    @Part image: MultipartBody.Part,
-                   @Header("Authorization") authHeader: String? = IdToken): Observable<Response<JunaCard>>
+                   @Header("Authorization") authHeader: String? = IdToken): Observable<Response<JunaCardTemplate>>
 
     @Multipart
     @PATCH("$CARD_SUFFIX/cards")
-    fun updateCard(@Part("cardColor") cardColor: String,
+    fun updateCard(@Part("cardTemplate") cardTemplate: String,
                    @Part image: MultipartBody.Part,
-                   @Header("Authorization") authHeader: String? = IdToken): Observable<Response<JunaCard>>
+                   @Header("Authorization") authHeader: String? = IdToken): Observable<Response<JunaCardTemplate>>
 
     @PUT("$CARD_SUFFIX/cards/{id}/publish")
     fun publishCard(@Path("id") cardId: String, @Header("Authorization") authHeader: String? = IdToken): Observable<Response<Void>>

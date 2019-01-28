@@ -6,11 +6,11 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.component.epoxymodelview.*
 import life.plank.juna.zone.data.model.card.JunaCard
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
 import life.plank.juna.zone.ui.base.component.EpoxyController3
 import life.plank.juna.zone.ui.user.profile.ProfileCardFragment
+import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import retrofit2.Response
 
 class CardWalletController(private val activity: BaseJunaCardActivity) : EpoxyController3<Response<MutableList<JunaCard>>, Boolean, String>() {
@@ -43,7 +43,7 @@ class CardWalletController(private val activity: BaseJunaCardActivity) : EpoxyCo
                     .id(junaCard.id)
                     .withUser(junaCard.owner)
                     .withBorder(junaCard.template.cardColor)
-                    .onClick { activity.pushFragment(ProfileCardFragment.newInstance(junaCard, true)) }
+                    .onClick { activity.pushFragment(ProfileCardFragment.newInstance(junaCard.template, true)) }
                     .addTo(this)
         }
     }
