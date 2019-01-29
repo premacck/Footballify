@@ -3,6 +3,9 @@ package life.plank.juna.zone.service;
 import android.text.TextUtils;
 import android.util.Patterns;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,18 +20,22 @@ import static com.prembros.facilis.util.DataUtilKt.isNullOrEmpty;
  */
 public class CommonDataService {
 
+    @NotNull
     public static String findString(@StringRes int stringRes) {
         return ZoneApplication.getContext().getString(stringRes);
     }
 
+    @NotNull
     public static CharSequence findString(@StringRes int stringRes, Object... formatArgs) {
         return ZoneApplication.getContext().getString(stringRes, formatArgs);
     }
 
+    @NotNull
     public static Integer findInt(@IntegerRes int integerRes) {
         return ZoneApplication.getContext().getResources().getInteger(integerRes);
     }
 
+    @Contract("null -> false")
     public static boolean isValidEmail(CharSequence target) {
         return (target != null && !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }

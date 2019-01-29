@@ -116,7 +116,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
     }
     testOptions {
-        unitTests.returnDefaultValues = true
+        unitTests{
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
         animationsDisabled = true
     }
 }
@@ -179,8 +182,11 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.1.1'
     androidTestImplementation 'org.mockito:mockito-android:2.6.3'
 
+    debugImplementation 'androidx.fragment:fragment-testing:1.1.0-alpha03'
+    testImplementation 'com.google.truth:truth:0.42'
     testImplementation 'androidx.test:core:1.1.0'
     testImplementation "org.robolectric:robolectric:4.1"
+    testImplementation "org.robolectric:shadows-supportv4:3.8"
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.6.3'
 }
