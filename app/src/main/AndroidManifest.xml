@@ -159,7 +159,9 @@
             android:parentActivityName=".ui.home.HomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name="life.plank.juna.zone.ui.user.card.CardWalletActivity"></activity>
+        <activity
+            android:name="life.plank.juna.zone.ui.user.card.CardWalletActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

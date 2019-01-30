@@ -3,6 +3,7 @@ package life.plank.juna.zone.ui.user.profile
 import android.os.Bundle
 import android.view.*
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.prembros.facilis.util.*
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.fragment_profile_card.*
@@ -76,7 +77,7 @@ class ProfileCardFragment : BaseJunaCard() {
         collect_description_text.visibility = if (isFollowing) View.GONE else View.VISIBLE
         collect_button.visibility = if (isFollowing) View.GONE else View.VISIBLE
         (if (isFollowing) root_card else collect_button).onDebouncingClick {
-            pushFragment(ProfileCardDetailFragment.newInstance(), true)
+            pushFragment(ProfileCardDetailFragment.newInstance(cardTemplate!!))
         }
     }
 
@@ -97,8 +98,13 @@ class ProfileCardFragment : BaseJunaCard() {
     private fun updateUi() {
         cardTemplate?.run {
             Glide.with(this@ProfileCardFragment)
+                    .load(issuer?.cardPictureUrl)
+                    .apply(RequestOptions.placeholderOf(R.drawable.shimmer_rectangle))
+                    .into(card_pic)
+            Glide.with(this@ProfileCardFragment)
                     .load(issuer?.profilePictureUrl)
-                    .into(profile_pic)
+                    .apply(RequestOptions.placeholderOf(R.drawable.shimmer_circle))
+                    .into(profile_image_view)
             name_text_view.text = issuer?.handle
             followers_count.text = issuer?.followersCount.toString()
             card_count.text = issuer?.cardCount.toString()

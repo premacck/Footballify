@@ -19,16 +19,37 @@
         style="@style/MatchParentSize"
         android:layout_below="@+id/toolbar">
 
-        <life.plank.juna.zone.ui.base.component.EpoxyRecycler
-            android:id="@+id/card_wallet_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_grey_gradient"
-            android:clipToPadding="false"
-            android:paddingTop="8dp"
-            android:paddingBottom="20dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_card_wallet" />
+        <androidx.core.widget.NestedScrollView style="@style/MatchParentSize">
+
+            <LinearLayout
+                style="@style/MatchParentSize"
+                android:orientation="vertical">
+
+                <life.plank.juna.zone.ui.base.component.EpoxyRecycler
+                    android:id="@+id/card_wallet_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey_gradient"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="20dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_card_wallet" />
+
+                <life.plank.juna.zone.ui.base.component.EpoxyRecycler
+                    android:id="@+id/card_creation_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey_gradient"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="20dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_card_wallet" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

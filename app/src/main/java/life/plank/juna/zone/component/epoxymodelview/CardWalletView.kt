@@ -24,7 +24,7 @@ class CardWalletView @JvmOverloads constructor(context: Context, attrs: Attribut
         name_text_view.text = cardUser.displayName
         handle_text_view.text = cardUser.handle
         Glide.with(this)
-                .load(cardUser.profilePictureUrl)
+                .load(cardUser.cardPictureUrl)
                 .apply(RequestOptions.placeholderOf(R.drawable.shimmer_rectangle).error(R.drawable.ic_place_holder))
                 .into(profile_pic)
     }
