@@ -290,13 +290,13 @@ interface RestApi {
 
     @Multipart
     @POST("$CARD_SUFFIX/cards")
-    fun createCard(@Query("cardTemplate") cardTemplate: String,
+    fun createCard(@Query("cardColor") cardColor: String,
                    @Part image: MultipartBody.Part,
                    @Header("Authorization") authHeader: String? = IdToken): Observable<Response<JunaCardTemplate>>
 
     @Multipart
     @PATCH("$CARD_SUFFIX/cards")
-    fun updateCard(@Part("cardTemplate") cardTemplate: String,
+    fun updateCard(@Part("cardColor") cardColor: String,
                    @Part image: MultipartBody.Part,
                    @Header("Authorization") authHeader: String? = IdToken): Observable<Response<JunaCardTemplate>>
 

@@ -11,9 +11,9 @@ import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.item_board_tile.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.feed.FeedEntry
+import life.plank.juna.zone.ui.base.setRootCommentPost
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.setupFeedEntryByMasonryLayout
-import life.plank.juna.zone.ui.base.setRootCommentPost
 import org.jetbrains.anko.*
 
 class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymRecyclerAdapter<BoardMediaAdapter.BoardMediaViewHolder>() {
@@ -77,7 +77,8 @@ class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymRecycler
 
             boardFeed.addAll(feedEntryList)
             setupFeedEntryByMasonryLayout(boardFeed)
-            uiThread { notifyDataSetChanged() }
+            uiThread {
+                notifyDataSetChanged() }
         }
     }
 
