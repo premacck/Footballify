@@ -10,7 +10,7 @@ import life.plank.juna.zone.data.model.football.*
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.util.view.UIDisplayUtil.getScreenSize
 import life.plank.juna.zone.ui.base.fragment.BaseJunaFragment
-import life.plank.juna.zone.ui.board.adapter.match.BoardMediaAdapter
+import life.plank.juna.zone.ui.board.adapter.match.MatchMediaAdapter
 import javax.inject.Inject
 
 class MatchMediaFragment : BaseJunaFragment() {
@@ -21,7 +21,7 @@ class MatchMediaFragment : BaseJunaFragment() {
     lateinit var gson: Gson
 
     lateinit var matchDetails: MatchDetails
-    private var adapter: BoardMediaAdapter? = null
+    private var adapter: MatchMediaAdapter? = null
 
     companion object {
         fun newInstance(matchDetails: MatchDetails) = MatchMediaFragment().apply { arguments = Bundle().apply { putParcelable(findString(R.string.match_id_string), matchDetails) } }
@@ -41,7 +41,7 @@ class MatchMediaFragment : BaseJunaFragment() {
     }
 
     private fun prepareRecyclerView() {
-        adapter = BoardMediaAdapter(matchDetails, getScreenSize(activity)[0])
+        adapter = MatchMediaAdapter(matchDetails, getScreenSize(activity)[0])
         list_board_info.adapter = adapter
     }
 

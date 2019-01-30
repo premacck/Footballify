@@ -12,18 +12,5 @@ data class JunaCardTemplate(
         var cardColor: String = "GOLD",
         var datePublished: Date = Date(),
         @CardNotificationType var status: String = READY_TO_CREATE,
-        var issuer: CardUser? = null,
-        var layout: String = "34"
-) : Parcelable {
-
-    class Builder {
-
-        private val template: StringBuilder = StringBuilder("{")
-
-        fun color(color: String): Builder = apply { template.append("\"cardColor\":\"$color\", ") }
-
-        fun layout(layout: String): Builder = apply { template.append("\"layout\":\"$layout\"") }
-
-        fun build() = template.append("}").toString()
-    }
-}
+        var issuer: CardUser? = null
+) : Parcelable

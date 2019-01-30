@@ -151,7 +151,7 @@ class CreateCardActivity : BaseJunaCardActivity() {
             no_photo_text_view.makeVisible()
             return
         }
-        restApi.createCard(JunaCardTemplate.Builder().color("BLUE").layout("34").build(), File(filePath).createMultiPartImage())
+        restApi.createCard("BLUE", File(filePath).createMultiPartImage())
                 .setObserverThreadsAndSmartSubscribe({
                     errorToast(R.string.failed_to_create_card, it)
                 }, { handleCardResponse(it) })

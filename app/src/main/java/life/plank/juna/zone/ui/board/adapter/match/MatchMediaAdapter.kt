@@ -3,14 +3,14 @@ package life.plank.juna.zone.ui.board.adapter.match
 import com.ahamed.multiviewadapter.*
 import life.plank.juna.zone.data.model.football.*
 import life.plank.juna.zone.service.CommonDataService.validateAndUpdateList
-import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal
-import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.*
-import life.plank.juna.zone.util.time.DateUtil.getMatchTimeValue
 import life.plank.juna.zone.ui.base.addDataManagerAndRegisterBinder
 import life.plank.juna.zone.ui.board.adapter.match.binder.MatchHighlightsBinder
 import life.plank.juna.zone.ui.board.adapter.match.bindingmodel.HighlightsBindingModel
+import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal
+import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.*
+import life.plank.juna.zone.util.time.DateUtil.getMatchTimeValue
 
-class BoardMediaAdapter(private val matchDetails: MatchDetails, private val screenWidth: Int) : RecyclerAdapter() {
+class MatchMediaAdapter(private val matchDetails: MatchDetails, private val screenWidth: Int) : RecyclerAdapter() {
 
     private var highlightsDataManager: DataItemManager<HighlightsBindingModel>? = null
 
