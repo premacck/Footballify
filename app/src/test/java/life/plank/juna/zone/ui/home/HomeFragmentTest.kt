@@ -18,8 +18,4 @@ class HomeFragmentTest {
         val fragmentScenario = launchFragmentInContainer<HomeFragment>()
 //        homeFragment = SupportFragmentController.of<HomeFragment>(HomeFragment.newInstance()).create().start().resume().get()
     }
-
-    @Test
-    @Throws(Exception::class)
-    fun shouldBeNotNull() = assert(homeFragment != null)
 }
