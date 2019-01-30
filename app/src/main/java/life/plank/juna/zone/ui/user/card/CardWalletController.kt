@@ -4,7 +4,7 @@ import com.airbnb.epoxy.AutoModel
 import com.prembros.facilis.util.isNullOrEmpty
 import life.plank.juna.zone.R
 import life.plank.juna.zone.component.epoxymodelview.*
-import life.plank.juna.zone.data.model.card.JunaCard
+import life.plank.juna.zone.data.model.card.*
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
 import life.plank.juna.zone.ui.base.component.EpoxyController3
@@ -24,9 +24,16 @@ class CardWalletController(private val activity: BaseJunaCardActivity) : EpoxyCo
         val cards = response?.body()
 
         cardWalletHeader.withHeader(if (isCollection) R.string.collection else R.string.creations)
-                .withHeaderCount(if (isCollection) findString(R.string.collection_status, 25, 30) else null)
+                .withHeaderCount(if (isCollection) findString(R.string.collection_status, cards?.size ?: 0, cards?.getCardLimit() ?: 0) else null)
                 .withHeaderAction(if (isCollection) R.string.increase_capacity else R.string.create_new)
-                .onClick { CreateCardActivity.launch(activity) }
+                .onClick {
+                    if (isCollection) {
+//                        TODO: implement increase capacity feature here
+                        customToast("Increase capacity!")
+                    } else {
+                        CreateCardActivity.launch(activity)
+                    }
+                }
                 .addTo(this)
 
         textModelView
@@ -41,7 +48,7 @@ class CardWalletController(private val activity: BaseJunaCardActivity) : EpoxyCo
         cards?.forEach { junaCard ->
             CardWalletViewModel_()
                     .id(junaCard.id)
-                    .withUser(junaCard.owner)
+                    .withUser(junaCard.template.issuer!!)
                     .withBorder(junaCard.template.cardColor)
                     .onClick { activity.pushFragment(ProfileCardFragment.newInstance(junaCard.template, true)) }
                     .addTo(this)

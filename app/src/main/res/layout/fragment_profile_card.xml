@@ -125,7 +125,7 @@
             app:cardCornerRadius="8dp">
 
             <ImageView
-                android:id="@+id/profile_pic"
+                android:id="@+id/card_pic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/profile_pic"
@@ -144,6 +144,14 @@
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_info" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image_view"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom|start"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="25dp" />
 
         <ImageView
             style="@style/DragHandleImageView"

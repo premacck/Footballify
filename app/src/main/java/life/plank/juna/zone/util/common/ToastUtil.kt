@@ -9,6 +9,8 @@ import life.plank.juna.zone.service.CommonDataService
 import org.jetbrains.anko.*
 import retrofit2.Response
 
+fun customToast(message: CharSequence) = getCustomToast(message, Toast.LENGTH_SHORT)?.show()
+
 fun customToast(@StringRes message: Int) = getCustomToast(CommonDataService.findString(message), Toast.LENGTH_SHORT)?.show()
 
 fun errorToast(@StringRes prependMessage: Int, response: Response<*>) = getCustomToast("${CommonDataService.findString(prependMessage)}\n\nCode: ${response.code()}\nMessage: ${response.body()}")?.show()

@@ -6,18 +6,17 @@ import android.graphics.*
 import android.media.FaceDetector
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import com.bumptech.glide.Glide
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.activity_create_card.*
 import life.plank.juna.zone.*
 import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.data.local.CardMockData
 import life.plank.juna.zone.data.model.card.*
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.sharedpreference.CurrentUser
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
 import life.plank.juna.zone.ui.camera.CustomCameraActivity
-import life.plank.juna.zone.ui.user.profile.ProfileCardFragment
 import life.plank.juna.zone.util.common.*
 import org.jetbrains.anko.*
 import retrofit2.Response
@@ -33,14 +32,18 @@ class CreateCardActivity : BaseJunaCardActivity() {
     private var junaCard: JunaCard? = null
     private var detector: FaceDetector? = null
     private var imageUri: Uri? = null
-    private var bitmap: Bitmap? = null
 
     companion object {
         const val GET_PHOTO_FOR_CARD = 101
         const val MAX_FACES_LIMIT = 20
+        const val CREATE_CARD_REQUEST_CODE = 1
         private val TAG = CreateCardActivity::class.java.simpleName
-        fun launch(from: Activity, mediaFilePath: String? = null) = from.run { startActivity(intentFor<CreateCardActivity>(findString(R.string.intent_file_path) to mediaFilePath)) }
-        fun launch(from: Activity, junaCard: JunaCard) = from.run { startActivity(intentFor<CreateCardActivity>(findString(R.string.intent_juna_card) to junaCard)) }
+        fun launch(from: Activity, mediaFilePath: String? = null) = from.run {
+            startActivityForResult(intentFor<CreateCardActivity>(findString(R.string.intent_file_path) to mediaFilePath), CREATE_CARD_REQUEST_CODE)
+        }
+        fun launch(from: Activity, junaCard: JunaCard) = from.run {
+            startActivityForResult(intentFor<CreateCardActivity>(findString(R.string.intent_juna_card) to junaCard), CREATE_CARD_REQUEST_CODE)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +80,7 @@ class CreateCardActivity : BaseJunaCardActivity() {
 
     private fun resolveCardPicForEditing() {
         junaCard = intent.getParcelableExtra(getString(R.string.intent_juna_card))
-        Glide.with(this).load(junaCard?.owner?.cardPictureUrl).into(profile_pic)
+        Glide.with(this).load(junaCard?.template?.issuer?.cardPictureUrl).into(profile_pic)
 
         no_photo_text_view.makeGone()
         proceed_button.setText(R.string.update_card)
@@ -89,13 +92,16 @@ class CreateCardActivity : BaseJunaCardActivity() {
             CustomCameraActivity.launch(this@CreateCardActivity, "", false)
         }
         proceed_button.onDebouncingClick {
-            if (!isNullOrEmpty(filePath)) {
+//        TODO: remove following line and un-comment the commented part below to use API calls instead of mocked data
+            handleCardResponse(Response.success(CardMockData.randomMockedCardTemplate))
+
+            /*if (!isNullOrEmpty(filePath)) {
                 try {
                     scanFace(isEditing)
                 } catch (e: Exception) {
                     Log.e(TAG, "scanFace(): ", e)
                 }
-            } else customToast(R.string.select_image_to_upload)
+            } else customToast(R.string.select_image_to_upload)*/
         }
     }
 
@@ -104,11 +110,9 @@ class CreateCardActivity : BaseJunaCardActivity() {
         val faces = arrayOfNulls<FaceDetector.Face>(MAX_FACES_LIMIT)
         doAsync {
             imageUri = Uri.fromFile(File(filePath))
-            bitmap = decodeBitmapUri(imageUri!!)
+            val bitmap = decodeBitmapUri(imageUri!!)
             if (bitmap != null) {
-                bitmap?.let { bitmap ->
-                    detector = FaceDetector(bitmap.width, bitmap.height, MAX_FACES_LIMIT)
-                }
+                detector = FaceDetector(bitmap.width, bitmap.height, MAX_FACES_LIMIT)
                 val faceCount = detector?.findFaces(bitmap, faces) ?: 0
 
                 uiThread {
@@ -170,9 +174,12 @@ class CreateCardActivity : BaseJunaCardActivity() {
 
     private fun handleCardResponse(response: Response<JunaCardTemplate>) {
         when (response.code()) {
-            HTTP_OK, HTTP_CREATED -> response.body()?.run { pushFragment(ProfileCardFragment.newInstance(this, true)) }
-            else -> errorToast(R.string.failed_to_update_card, response)
+            HTTP_OK, HTTP_CREATED -> response.body()?.run {
+                setResult(RESULT_OK, Intent().putExtra(getString(R.string.intent_juna_card), this))
+            } ?: setResult(RESULT_CANCELED, Intent().putExtra(getString(R.string.response_code), response.code()))
+            else -> setResult(RESULT_CANCELED, Intent().putExtra(getString(R.string.response_code), response.code()))
         }
+        finish()
     }
 
     override fun getFragmentContainer(): Int = R.id.popup_container
@@ -183,10 +190,5 @@ class CreateCardActivity : BaseJunaCardActivity() {
         when (requestCode) {
             GET_PHOTO_FOR_CARD -> if (resultCode == Activity.RESULT_OK && data != null) resolveCardPicForCreation(data)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        bitmap?.recycle()
     }
 }
