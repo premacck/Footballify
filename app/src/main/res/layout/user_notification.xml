@@ -9,7 +9,8 @@
     <life.plank.juna.zone.component.customview.ZoneToolBar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:bottomDividerVisibility="visible" />
 
     <TextView
         android:id="@+id/clear_text"

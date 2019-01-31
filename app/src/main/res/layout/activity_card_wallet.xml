@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:notificationBellVisibility="invisible"
+        app:bottomDividerVisibility="visible"
         app:title="@string/card_wallet" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

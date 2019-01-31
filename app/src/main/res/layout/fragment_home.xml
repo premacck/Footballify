@@ -27,7 +27,8 @@
                 <life.plank.juna.zone.component.customview.ZoneToolBar
                     android:id="@+id/feed_header"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    app:bottomDividerVisibility="invisible" />
 
                 <life.plank.juna.zone.ui.base.component.EpoxyRecycler
                     android:id="@+id/user_boards_recycler_view"

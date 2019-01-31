@@ -2,22 +2,26 @@ package life.plank.juna.zone.component.customview
 
 import android.app.Activity
 import android.content.Context
-import android.util.*
+import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.isNullOrEmpty
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.zone_tool_bar.view.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.ui.common.*
+import life.plank.juna.zone.ui.common.CustomViewListener
+import life.plank.juna.zone.ui.common.ZoneToolbarListener
 
-class ZoneToolBar @JvmOverloads constructor(context: Context,
-                                            attrs: AttributeSet? = null,
-                                            defStyleAttr: Int = 0,
-                                            defStyleRes: Int = 0)
-    : LinearLayout(context, attrs, defStyleAttr, defStyleRes), CustomViewListener {
+class ZoneToolBar @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = 0,
+        defStyleRes: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr, defStyleRes), CustomViewListener {
 
     private var listener: ZoneToolbarListener? = null
 
@@ -43,6 +47,7 @@ class ZoneToolBar @JvmOverloads constructor(context: Context,
         val array = context.obtainStyledAttributes(attrs, R.styleable.ZoneToolBar)
         notification_badge?.visibility = if (array.getInt(R.styleable.ZoneToolBar_notificationBadgeVisibility, 1) == 1) View.INVISIBLE else View.VISIBLE
         toolbar_notification?.visibility = if (array.getInt(R.styleable.ZoneToolBar_notificationBellVisibility, 0) == 1) View.INVISIBLE else View.VISIBLE
+        bottom_divider?.visibility = if (array.getInt(R.styleable.ZoneToolBar_bottomDividerVisibility, 0) == 1) View.INVISIBLE else View.VISIBLE
         try {
             title = array?.getString(R.styleable.ZoneToolBar_title)
             setProfilePic(array.getResourceId(R.styleable.ZoneToolBar_profilePic, R.drawable.ic_default_profile))

@@ -21,6 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:notificationBellVisibility="invisible"
+                app:bottomDividerVisibility="invisible"
                 app:title="@string/create_card" />
 
             <androidx.cardview.widget.CardView

@@ -3,12 +3,13 @@ package life.plank.juna.zone.component.epoxymodelview
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import com.airbnb.epoxy.*
+import com.airbnb.epoxy.ModelProp
+import com.airbnb.epoxy.ModelView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.prembros.facilis.activity.BaseCardActivity
 import com.prembros.facilis.dialog.BaseBlurPopup
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.item_board_grid_row.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.feed.FeedItem
@@ -49,10 +50,4 @@ class FeedEntryGridView @JvmOverloads constructor(
 
     @ModelProp(value = [ModelProp.Option.DoNotHash])
     fun onClick(listener: () -> Unit) = onDebouncingClick { listener() }
-
-    @ModelProp(value = [ModelProp.Option.DoNotHash])
-    fun onLongClick(pair: Pair<BaseBlurPopup, BaseCardActivity>) = LongPopupClickListener.inside(pair.second)
-            .withVibration()
-            .withPopup(pair.first)
-            .setOn(this)
 }
