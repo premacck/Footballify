@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package life.plank.juna.zone.ui.auth
 
 import android.app.PendingIntent
@@ -25,7 +27,6 @@ import javax.inject.Inject
 /**
  * Client to the Native Oauth library.
  */
-@Suppress("DEPRECATION")
 class TokenActivity : AppCompatActivity() {
     @Inject
     lateinit var restApi: RestApi
@@ -72,7 +73,7 @@ class TokenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupProgressDialog()
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
 
         handleSavedInstanceStateIfAny(savedInstanceState)
 

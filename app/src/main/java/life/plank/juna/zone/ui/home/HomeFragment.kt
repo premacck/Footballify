@@ -6,20 +6,20 @@ import android.view.*
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.doAfterDelay
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.shimmer_user_boards.*
 import kotlinx.android.synthetic.main.shimmer_user_feed.*
 import kotlinx.android.synthetic.main.shimmer_user_zones.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.component.customview.ShimmerRelativeLayout
-import life.plank.juna.zone.component.helper.*
+import life.plank.juna.zone.component.helper.launch
+import life.plank.juna.zone.component.helper.showSignupPopup
 import life.plank.juna.zone.data.api.*
 import life.plank.juna.zone.data.model.feed.FeedEntry
 import life.plank.juna.zone.sharedpreference.*
-import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_BASIC_INTERACTION
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
 import life.plank.juna.zone.ui.base.fragment.FlatTileFragment
 import life.plank.juna.zone.ui.board.BoardController
@@ -28,6 +28,9 @@ import life.plank.juna.zone.ui.feed.*
 import life.plank.juna.zone.ui.notification.UserNotificationActivity
 import life.plank.juna.zone.ui.user.profile.UserProfileActivity
 import life.plank.juna.zone.ui.zone.ZoneController
+import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_BASIC_INTERACTION
+import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.view.*
 import net.openid.appauth.AuthorizationService
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -52,7 +55,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -2,14 +2,16 @@ package life.plank.juna.zone.ui.user.card
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.FaceDetector
 import android.net.Uri
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.activity_create_card.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.api.*
 import life.plank.juna.zone.data.local.CardMockData
 import life.plank.juna.zone.data.model.card.*
@@ -17,10 +19,12 @@ import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.sharedpreference.CurrentUser
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
 import life.plank.juna.zone.ui.camera.CustomCameraActivity
-import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.util.common.customToast
+import life.plank.juna.zone.util.common.errorToast
 import org.jetbrains.anko.*
 import retrofit2.Response
-import java.io.*
+import java.io.File
+import java.io.FileNotFoundException
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
 
@@ -49,7 +53,7 @@ class CreateCardActivity : BaseJunaCardActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_card)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
 
         name_text_view.text = CurrentUser.displayName
         when {
@@ -112,7 +116,9 @@ class CreateCardActivity : BaseJunaCardActivity() {
             imageUri = Uri.fromFile(File(filePath))
             val bitmap = decodeBitmapUri(imageUri!!)
             if (bitmap != null) {
-                detector = FaceDetector(bitmap.width, bitmap.height, MAX_FACES_LIMIT)
+                bitmap.let { localBitmap ->
+                    detector = FaceDetector(localBitmap.width, localBitmap.height, MAX_FACES_LIMIT)
+                }
                 val faceCount = detector?.findFaces(bitmap, faces) ?: 0
 
                 uiThread {

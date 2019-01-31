@@ -2,10 +2,13 @@ package life.plank.juna.zone.ui.home
 
 import android.app.Activity
 import android.os.Bundle
-import life.plank.juna.zone.*
-import life.plank.juna.zone.component.helper.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.component.helper.handleBoardIntentIfAny
+import life.plank.juna.zone.component.helper.handleDeepLinkIntentIfAny
 import life.plank.juna.zone.data.api.RestApi
-import life.plank.juna.zone.notification.*
+import life.plank.juna.zone.notification.handleFootballLiveDataNotificationIntentIfAny
+import life.plank.juna.zone.notification.handleSocialNotificationIntentIfAny
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
 import org.jetbrains.anko.*
 import javax.inject.Inject
@@ -28,7 +31,7 @@ class HomeActivity : BaseJunaCardActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
 
         pushFragment(HomeFragment.newInstance(), false)
 

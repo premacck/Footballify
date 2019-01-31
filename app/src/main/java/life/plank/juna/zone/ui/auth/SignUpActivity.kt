@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.onDebouncingClick
+import com.prembros.facilis.util.onTextChanged
 import kotlinx.android.synthetic.main.activity_sign_up.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.data.model.user.SignUpModel
 import life.plank.juna.zone.util.common.errorToast
 import org.jetbrains.anko.intentFor
@@ -28,7 +31,7 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
 
         initListeners()
     }

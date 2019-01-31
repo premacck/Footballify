@@ -1,7 +1,8 @@
 package life.plank.juna.zone.ui.zone
 
 import android.os.Bundle
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.component.helper.handleBoardIntentIfAny
 import life.plank.juna.zone.data.api.RestApi
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
@@ -15,7 +16,7 @@ class ZoneActivity : BaseJunaCardActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_zone)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
 
         pushFragment(ZoneContainerFragment.newInstance(), false)
 

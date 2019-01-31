@@ -1,19 +1,23 @@
 package life.plank.juna.zone.ui.football.fragment
 
-import android.os.*
+import android.os.Bundle
+import android.os.Parcelable
 import android.view.*
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.isNullOrEmpty
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.fragment_league_stats.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.api.*
 import life.plank.juna.zone.data.model.football.*
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.ui.base.fragment.BaseLeagueFragment
-import life.plank.juna.zone.ui.football.adapter.league.*
+import life.plank.juna.zone.ui.football.adapter.league.PlayerStatsAdapter
+import life.plank.juna.zone.ui.football.adapter.league.TeamStatsAdapter
+import life.plank.juna.zone.util.common.AppConstants.*
 import javax.inject.Inject
 
 class LeagueStatsFragment : BaseLeagueFragment() {
@@ -31,7 +35,7 @@ class LeagueStatsFragment : BaseLeagueFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         arguments?.run { league = getParcelable(getString(R.string.intent_league))!! }
     }
 

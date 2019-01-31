@@ -1,24 +1,27 @@
 package life.plank.juna.zone.ui.board
 
 import android.app.Activity
-import android.content.*
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore.Images.Media
 import android.view.View
 import android.widget.ToggleButton
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.activity_create_board.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.api.RestApi
 import life.plank.juna.zone.data.model.board.Board
 import life.plank.juna.zone.sharedpreference.CurrentUser
+import life.plank.juna.zone.ui.base.BaseJunaCardActivity
+import life.plank.juna.zone.ui.board.adapter.creation.BoardColorThemeAdapter
+import life.plank.juna.zone.ui.board.adapter.creation.BoardIconAdapter
+import life.plank.juna.zone.ui.board.fragment.user.BoardPreviewPopup
 import life.plank.juna.zone.util.common.AppConstants.GALLERY_IMAGE_RESULT
 import life.plank.juna.zone.util.common.customToast
 import life.plank.juna.zone.util.view.UIDisplayUtil
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import life.plank.juna.zone.ui.base.BaseJunaCardActivity
-import life.plank.juna.zone.ui.board.adapter.creation.*
-import life.plank.juna.zone.ui.board.fragment.user.BoardPreviewPopup
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import javax.inject.Inject
 
@@ -37,7 +40,7 @@ class CreateBoardActivity : BaseJunaCardActivity() {
     companion object {
         fun launch(packageContext: Context, username: String) {
             val intent = Intent(packageContext, CreateBoardActivity::class.java)
-            intent.putExtra(ZoneApplication.getContext().getString(R.string.username), username)
+            intent.putExtra(ZoneApplication.appContext.getString(R.string.username), username)
             packageContext.startActivity(intent)
         }
     }
@@ -45,7 +48,7 @@ class CreateBoardActivity : BaseJunaCardActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_board)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
 
         zones = arrayOf(football, music, drama, tune, skill, other)
         private_board_color_list.adapter = boardColorThemeAdapter
@@ -58,7 +61,7 @@ class CreateBoardActivity : BaseJunaCardActivity() {
 
         CurrentUser.profilePicUrl?.run { tool_bar.setProfilePic(this) }
         tool_bar.isNotificationViewVisible(View.GONE)
-        user_greeting.text = getString(R.string.hi_user, intent.getStringExtra(ZoneApplication.getContext().getString(R.string.username)))
+        user_greeting.text = getString(R.string.hi_user, intent.getStringExtra(ZoneApplication.appContext.getString(R.string.username)))
 
         setupListeners()
     }

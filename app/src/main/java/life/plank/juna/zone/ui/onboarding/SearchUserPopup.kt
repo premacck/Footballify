@@ -8,16 +8,20 @@ import android.view.*
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.isNullOrEmpty
+import com.prembros.facilis.util.onDebouncingClick
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_user_search.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.component.helper.startVoiceRecognitionActivity
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.data.model.user.User
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.ui.base.fragment.SearchablePopup
+import life.plank.juna.zone.util.common.AppConstants
+import life.plank.juna.zone.util.common.errorToast
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
@@ -42,7 +46,7 @@ class SearchUserPopup : SearchablePopup(), View.OnTouchListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         arguments?.run {
             boardId = getString(getString(R.string.intent_board_id))!!
             boardName = getString(getString(R.string.board_title))!!

@@ -2,11 +2,14 @@ package life.plank.juna.zone.util.common
 
 import android.annotation.SuppressLint
 import android.util.Log
-import android.widget.*
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.StringRes
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.service.CommonDataService
-import org.jetbrains.anko.*
+import org.jetbrains.anko.layoutInflater
+import org.jetbrains.anko.runOnUiThread
 import retrofit2.Response
 
 fun customToast(message: CharSequence) = getCustomToast(message, Toast.LENGTH_SHORT)?.show()
@@ -21,7 +24,7 @@ fun errorLog(tag: String, @StringRes prependMessage: Int, response: Response<*>)
 
 @SuppressLint("InflateParams")
 fun getCustomToast(message: CharSequence, duration: Int = Toast.LENGTH_LONG): Toast? {
-    ZoneApplication.getContext().run {
+    ZoneApplication.appContext.run {
         var toast: Toast? = null
         runOnUiThread {
             toast = Toast(this)

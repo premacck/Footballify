@@ -8,8 +8,10 @@ import com.prembros.facilis.dialog.BaseBlurPopup
 import com.prembros.facilis.util.onDebouncingClick
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_dart_board.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.data.model.user.User
 import javax.inject.Inject
 
@@ -26,7 +28,7 @@ class DartBoardPopup : BaseBlurPopup() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =

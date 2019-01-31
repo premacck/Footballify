@@ -3,14 +3,17 @@ package life.plank.juna.zone.notification
 import android.app.ActivityManager
 import android.content.Context
 import com.google.gson.Gson
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.football.FootballLiveData
-import life.plank.juna.zone.data.model.notification.*
+import life.plank.juna.zone.data.model.notification.CardNotification
+import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.firebase.JunaNotificationService
 import life.plank.juna.zone.injection.module.NetworkModule.GSON
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.util.common.AppConstants.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.json.JSONObject
 
 /**
@@ -33,7 +36,7 @@ fun dispatch(dataPayload: Map<String, String>) {
  * If the app is in foreground, then an 'in-app' notification will be sent, else notification will be sent in the notification drawer
  */
 fun dispatchSocialNotification(dataPayload: Map<String, String>) {
-    ZoneApplication.getContext().doAsync {
+    ZoneApplication.appContext.doAsync {
         val junaNotification = GSON.fromJson<SocialNotification>(GSON.toJsonTree(dataPayload.toMap()), SocialNotification::class.java)
         uiThread {
             if (it.isForeground()) {
@@ -50,7 +53,7 @@ fun dispatchSocialNotification(dataPayload: Map<String, String>) {
  * If the app is in foreground, then an 'in-app' notification will be sent, else notification will be sent in the notification drawer
  */
 fun dispatchLiveFootballNotification(dataPayload: Map<String, String>) {
-    ZoneApplication.getContext().doAsync {
+    ZoneApplication.appContext.doAsync {
         val zoneLiveData = Gson().fromJson<FootballLiveData>(JSONObject(dataPayload).toString(), FootballLiveData::class.java)
         uiThread {
             if (it.isForeground()) {
@@ -67,7 +70,7 @@ fun dispatchLiveFootballNotification(dataPayload: Map<String, String>) {
  * If the app is in foreground, then an 'in-app' notification will be sent, else notification will be sent in the notification drawer
  */
 fun dispatchCardNotification(dataPayload: Map<String, String>) {
-    ZoneApplication.getContext().doAsync {
+    ZoneApplication.appContext.doAsync {
         val cardNotification = Gson().fromJson<CardNotification>(JSONObject(dataPayload).toString(), CardNotification::class.java)
         uiThread {
             if (it.isForeground()) {

@@ -12,16 +12,18 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.prembros.facilis.util.isNullOrEmpty
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.component.customview.BoomMenu
 import life.plank.juna.zone.sharedpreference.IdToken
-import life.plank.juna.zone.util.common.AppConstants.*
-import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.*
-import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
-import life.plank.juna.zone.ui.camera.*
+import life.plank.juna.zone.ui.camera.CustomCameraActivity
+import life.plank.juna.zone.ui.camera.UploadActivity
 import life.plank.juna.zone.ui.feed.PostCommentActivity
 import life.plank.juna.zone.ui.home.HomeActivity
 import life.plank.juna.zone.ui.user.profile.UserProfileActivity
+import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.*
+import life.plank.juna.zone.util.view.UIDisplayUtil.getDp
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.find
 
@@ -90,7 +92,7 @@ fun BoomMenu.setupWith(recyclerView: RecyclerView) {
 }
 
 fun getBoomMenuTitles(@BoomMenuPage page: Int): Array<String>? {
-    val resources: Resources = ZoneApplication.getContext().resources
+    val resources: Resources = ZoneApplication.appContext.resources
     return when (page) {
         BOOM_MENU_FULL -> {
             resources.getStringArray(R.array.boom_menu_titles_full)

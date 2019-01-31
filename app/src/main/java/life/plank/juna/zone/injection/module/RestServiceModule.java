@@ -34,7 +34,7 @@ public class RestServiceModule {
     @Provides
     public Retrofit getRetrofit(@Named("header") OkHttpClient okHttpClient, Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
         return new Retrofit.Builder()
-                .baseUrl(ZoneApplication.getContext().getString(R.string.backend_base_url))
+                .baseUrl(ZoneApplication.Companion.getAppContext().getString(R.string.backend_base_url))
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(nullOnEmptyConverterFactory)

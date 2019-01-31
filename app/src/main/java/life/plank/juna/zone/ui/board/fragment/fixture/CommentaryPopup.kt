@@ -7,11 +7,13 @@ import com.prembros.facilis.dialog.BaseBlurPopup
 import com.prembros.facilis.util.isNullOrEmpty
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_commentary.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.data.model.football.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.model.football.Commentary
+import life.plank.juna.zone.data.model.football.FootballLiveData
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.common.AppConstants.COMMENTARY_DATA
 import life.plank.juna.zone.ui.board.adapter.match.CommentaryAdapter
+import life.plank.juna.zone.util.common.AppConstants.COMMENTARY_DATA
 import javax.inject.Inject
 
 class CommentaryPopup : BaseBlurPopup() {
@@ -28,7 +30,7 @@ class CommentaryPopup : BaseBlurPopup() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         commentaryList = arguments?.getParcelableArrayList(getString(R.string.commentary))!!
     }
 

@@ -4,19 +4,21 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.lifecycle.Observer
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.doAfterDelay
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.fragment_fixture.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.api.RestApi
-import life.plank.juna.zone.data.model.football.LeagueInfo
 import life.plank.juna.zone.data.model.football.*
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.ui.base.fragment.BaseLeagueFragment
 import life.plank.juna.zone.ui.football.LeagueContainer
 import life.plank.juna.zone.ui.football.adapter.fixture.FixtureMatchdayAdapter
 import life.plank.juna.zone.ui.football.fragment.LeagueInfoFragment.Companion.fixtureByMatchDayList
-import org.jetbrains.anko.*
+import life.plank.juna.zone.util.common.AppConstants.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import javax.inject.Inject
 
 class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
@@ -36,7 +38,7 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         if (arguments == null) {
             onNoMatchesFound()
             return

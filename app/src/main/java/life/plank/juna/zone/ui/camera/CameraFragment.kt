@@ -9,14 +9,16 @@ import androidx.fragment.app.Fragment
 import com.prembros.facilis.util.onDebouncingClick
 import com.wonderkiln.camerakit.CameraKit.Constants.*
 import kotlinx.android.synthetic.main.fragment_camera.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.service.FileHandler
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onTouch
 import org.jetbrains.anko.support.v4.runOnUiThread
+import org.jetbrains.anko.uiThread
 import java.io.File
 
 class CameraFragment : Fragment() {
@@ -100,7 +102,7 @@ class CameraFragment : Fragment() {
                         if (pendingVideoCapture) {
                             capturingVideo = true
                             camera_capture.setImageResource(R.drawable.camera_active)
-                            camera_capture.startAnimation(AnimationUtils.loadAnimation(ZoneApplication.getContext(), R.anim.camera_active))
+                            camera_capture.startAnimation(AnimationUtils.loadAnimation(ZoneApplication.appContext, R.anim.camera_active))
                             setExtraButtonsVisibility(View.INVISIBLE)
                             camera_view.captureVideo { cameraKitVideo ->
                                 runOnUiThread {

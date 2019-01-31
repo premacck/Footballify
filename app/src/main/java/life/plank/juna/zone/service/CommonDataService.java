@@ -22,17 +22,17 @@ public class CommonDataService {
 
     @NotNull
     public static String findString(@StringRes int stringRes) {
-        return ZoneApplication.getContext().getString(stringRes);
+        return ZoneApplication.Companion.getAppContext().getString(stringRes);
     }
 
     @NotNull
     public static CharSequence findString(@StringRes int stringRes, Object... formatArgs) {
-        return ZoneApplication.getContext().getString(stringRes, formatArgs);
+        return ZoneApplication.Companion.getAppContext().getString(stringRes, formatArgs);
     }
 
     @NotNull
     public static Integer findInt(@IntegerRes int integerRes) {
-        return ZoneApplication.getContext().getResources().getInteger(integerRes);
+        return ZoneApplication.Companion.getAppContext().getResources().getInteger(integerRes);
     }
 
     @Contract("null -> false")

@@ -7,18 +7,19 @@ import android.util.Log
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.prembros.facilis.util.removeFragmentIfExists
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.api.*
 import life.plank.juna.zone.data.model.board.Board
 import life.plank.juna.zone.data.model.football.MatchDetails
 import life.plank.juna.zone.notification.getBoardIdFromIntent
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.service.LeagueDataService
-import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
 import life.plank.juna.zone.ui.board.fragment.fixture.MatchBoardFragment
 import life.plank.juna.zone.ui.board.fragment.user.PrivateBoardFragment
 import life.plank.juna.zone.ui.home.HomeActivity
+import life.plank.juna.zone.util.common.*
 import org.jetbrains.anko.*
 import retrofit2.Response
 import java.net.HttpURLConnection
@@ -166,6 +167,6 @@ fun startVoiceRecognitionActivity(fragment: Fragment) {
     val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
     intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
             RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, ZoneApplication.getApplication().getString(R.string.voice_search))
+    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, ZoneApplication.application.getString(R.string.voice_search))
     fragment.startActivityForResult(intent, AppConstants.VOICE_RECOGNITION_REQUEST_CODE)
 }

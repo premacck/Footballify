@@ -150,16 +150,16 @@ public class DateUtil {
         int dateDiff = getDateDiffFromToday(matchStartTime);
         switch (dateDiff) {
             case -1:
-                return ZoneApplication.getContext().getString(R.string.yesterday);
+                return ZoneApplication.Companion.getAppContext().getString(R.string.yesterday);
             case 0:
-                SpannableStringBuilder builder = new SpannableStringBuilder(ZoneApplication.getContext().getString(R.string.today));
+                SpannableStringBuilder builder = new SpannableStringBuilder(ZoneApplication.Companion.getAppContext().getString(R.string.today));
                 builder.setSpan(
-                        new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), R.color.fab_button_pink, null)),
+                        new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.Companion.getAppContext().getResources(), R.color.fab_button_pink, null)),
                         0, 5, SPAN_EXCLUSIVE_EXCLUSIVE
                 );
                 return builder;
             case 1:
-                return ZoneApplication.getContext().getString(R.string.tomorrow);
+                return ZoneApplication.Companion.getAppContext().getString(R.string.tomorrow);
             default:
                 return HEADER_DATE_FORMAT.format(matchStartTime);
         }
@@ -169,11 +169,11 @@ public class DateUtil {
         int dateDiff = getDateDiffFromToday(matchStartTime);
         switch (dateDiff) {
             case -1:
-                return ZoneApplication.getContext().getString(R.string.yesterday);
+                return ZoneApplication.Companion.getAppContext().getString(R.string.yesterday);
             case 0:
-                return ZoneApplication.getContext().getString(R.string.today);
+                return ZoneApplication.Companion.getAppContext().getString(R.string.today);
             case 1:
-                return ZoneApplication.getContext().getString(R.string.tomorrow);
+                return ZoneApplication.Companion.getAppContext().getString(R.string.tomorrow);
             default:
                 return TIMELINE_HEADER_DATE_FORMAT.format(matchStartTime);
         }
@@ -256,7 +256,7 @@ public class DateUtil {
         SpannableString timeToNextMatch;
         long timeDiffFromNow = getAbsoluteTimeDiffFromNow(matchStartTime);
         timeToNextMatch = timeDiffFromNow > 0 ?
-                new SpannableString(ZoneApplication.getContext().getString(R.string.match_status, getTimeInHourMinuteFormat(timeDiffFromNow))) :
+                new SpannableString(ZoneApplication.Companion.getAppContext().getString(R.string.match_status, getTimeInHourMinuteFormat(timeDiffFromNow))) :
                 timeDiffFromNow > -NINETY_FIVE_MINUTES_MILLIS ?
                         StringUtilKt.bold(LIVE, 0, LIVE.length()) :
                         null;

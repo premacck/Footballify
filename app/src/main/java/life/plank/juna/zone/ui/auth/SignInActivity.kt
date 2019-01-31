@@ -3,9 +3,11 @@ package life.plank.juna.zone.ui.auth
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.onDebouncingClick
+import com.prembros.facilis.util.onTextChanged
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.service.AuthService
 import life.plank.juna.zone.service.CommonDataService.isValidEmail
 import life.plank.juna.zone.sharedpreference.CurrentUser
@@ -20,7 +22,7 @@ class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         CurrentUser.saveUserLoginStatus(false)
         authService = AuthorizationService(this)
 

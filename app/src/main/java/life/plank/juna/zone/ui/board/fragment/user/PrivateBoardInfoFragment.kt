@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import kotlinx.android.synthetic.main.fragment_private_board_info.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.data.model.user.User
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.sharedpreference.CurrentUser
-import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.ui.base.fragment.BaseJunaFragment
 import life.plank.juna.zone.ui.board.adapter.user.BoardMembersViewAdapter
+import life.plank.juna.zone.util.common.customToast
+import life.plank.juna.zone.util.common.errorToast
 import java.net.HttpURLConnection
 import java.util.*
 import javax.inject.Inject
@@ -51,7 +54,7 @@ class PrivateBoardInfoFragment : BaseJunaFragment() {
             displayName = getString(getString(R.string.pref_display_name))!!
             boardName = getString(getString(R.string.board_name))!!
         }
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

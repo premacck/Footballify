@@ -7,8 +7,10 @@ import com.bumptech.glide.request.RequestOptions
 import com.prembros.facilis.util.*
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.fragment_profile_card.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.data.model.card.JunaCardTemplate
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.ui.base.fragment.BaseJunaCard
@@ -53,7 +55,7 @@ class ProfileCardFragment : BaseJunaCard() {
             cardTemplate = getParcelable(getString(R.string.intent_juna_card))
             isFollowing = getBoolean(getString(R.string.intent_is_following), false)
         }
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =

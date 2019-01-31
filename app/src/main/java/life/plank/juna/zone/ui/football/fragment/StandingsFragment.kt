@@ -6,11 +6,14 @@ import android.view.*
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.doAfterDelay
+import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.fragment_standings.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.api.*
-import life.plank.juna.zone.data.model.football.*
+import life.plank.juna.zone.data.model.football.League
+import life.plank.juna.zone.data.model.football.Standings
 import life.plank.juna.zone.service.CommonDataService
 import life.plank.juna.zone.ui.base.fragment.BaseLeagueFragment
 import life.plank.juna.zone.ui.football.adapter.league.StandingTableAdapter
@@ -30,7 +33,7 @@ class StandingsFragment : BaseLeagueFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         arguments?.run {
             league = getParcelable(getString(R.string.intent_league))!!
         }

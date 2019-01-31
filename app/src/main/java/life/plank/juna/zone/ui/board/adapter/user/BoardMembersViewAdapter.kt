@@ -4,7 +4,8 @@ import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_user.view.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.component.customview.CustomPopup
 import life.plank.juna.zone.data.model.user.User
 import life.plank.juna.zone.service.CommonDataService.findString
@@ -34,7 +35,7 @@ class BoardMembersViewAdapter(
                 .into(holder.itemView.image)
 
         if (userList[position].displayName == findString(R.string.invite_string)) {
-            holder.itemView.image.background = ZoneApplication.getContext().getDrawable(R.drawable.new_board_circle)
+            holder.itemView.image.background = ZoneApplication.appContext.getDrawable(R.drawable.new_board_circle)
         }
 
         holder.itemView.image.onClick {

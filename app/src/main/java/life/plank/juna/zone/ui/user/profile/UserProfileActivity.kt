@@ -10,22 +10,28 @@ import com.bumptech.glide.request.RequestOptions
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import kotlinx.android.synthetic.main.zone_tool_bar.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.component.helper.*
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.component.helper.handleBoardIntentIfAny
+import life.plank.juna.zone.component.helper.launch
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.data.model.board.Board
-import life.plank.juna.zone.sharedpreference.*
-import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.util.time.DateUtil.getIsoFormattedDate
-import life.plank.juna.zone.util.view.UIDisplayUtil
+import life.plank.juna.zone.sharedpreference.AppPrefs
+import life.plank.juna.zone.sharedpreference.CurrentUser
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
 import life.plank.juna.zone.ui.board.BoardController
 import life.plank.juna.zone.ui.home.HomeActivity
-import life.plank.juna.zone.ui.user.adapter.*
+import life.plank.juna.zone.ui.user.adapter.GetCoinsAdapter
+import life.plank.juna.zone.ui.user.adapter.LastTransactionsAdapter
 import life.plank.juna.zone.ui.user.card.CardWalletActivity
+import life.plank.juna.zone.util.common.*
+import life.plank.juna.zone.util.time.DateUtil.getIsoFormattedDate
+import life.plank.juna.zone.util.view.UIDisplayUtil
 import okhttp3.*
 import org.jetbrains.anko.*
-import org.jetbrains.anko.sdk27.coroutines.*
+import org.jetbrains.anko.sdk27.coroutines.onCheckedChange
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.io.File
 import java.net.HttpURLConnection
 import java.text.DateFormatSymbols
@@ -53,7 +59,7 @@ class UserProfileActivity : BaseJunaCardActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_profile)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
 
         settings_toolbar.title = getString(R.string.settings)
         initRecyclerView()
@@ -166,7 +172,7 @@ class UserProfileActivity : BaseJunaCardActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     data?.data?.run {
-                        filePath = UIDisplayUtil.getPathForGalleryImageView(this@run, ZoneApplication.getContext())
+                        filePath = UIDisplayUtil.getPathForGalleryImageView(this@run, ZoneApplication.appContext)
                         uploadProfilePicture(this@run)
                     }
                 } catch (e: Exception) {

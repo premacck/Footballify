@@ -7,13 +7,16 @@ import android.view.*
 import com.prembros.facilis.dialog.BaseBlurPopup
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_board_preview.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.component.helper.launchWithBoard
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.data.model.board.Board
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.ui.home.HomeActivity
+import life.plank.juna.zone.util.common.customToast
+import life.plank.juna.zone.util.common.errorToast
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -33,7 +36,7 @@ class JoinBoardPopup : BaseBlurPopup() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         arguments?.run { boardId = getString(getString(R.string.intent_board_id))!! }
     }
 

@@ -5,14 +5,17 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.activity_splash_screen.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.service.AuthService
-import life.plank.juna.zone.sharedpreference.*
-import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.sharedpreference.CurrentUser
+import life.plank.juna.zone.sharedpreference.checkTokenValidity
 import life.plank.juna.zone.ui.auth.SignInActivity
 import life.plank.juna.zone.ui.home.HomeActivity
 import life.plank.juna.zone.ui.zone.SelectZoneActivity
+import life.plank.juna.zone.util.common.errorToast
 import net.openid.appauth.AuthorizationService
 import org.jetbrains.anko.intentFor
 import java.net.HttpURLConnection
@@ -35,7 +38,7 @@ class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
 
         authService = AuthorizationService(this)
         animation_view.setSpeed(3.0f)

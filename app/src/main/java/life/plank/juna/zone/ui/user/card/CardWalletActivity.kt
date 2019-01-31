@@ -4,8 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import com.prembros.facilis.util.doAfterDelay
 import kotlinx.android.synthetic.main.activity_card_wallet.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.api.*
 import life.plank.juna.zone.data.local.CardMockData
 import life.plank.juna.zone.data.model.card.JunaCardTemplate
 import life.plank.juna.zone.sharedpreference.CurrentUser
@@ -13,7 +14,8 @@ import life.plank.juna.zone.ui.base.BaseJunaCardActivity
 import life.plank.juna.zone.ui.user.card.CreateCardActivity.Companion.CREATE_CARD_REQUEST_CODE
 import life.plank.juna.zone.ui.user.profile.ProfileCardFragment
 import life.plank.juna.zone.util.common.errorToast
-import okhttp3.*
+import okhttp3.MediaType
+import okhttp3.ResponseBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -28,7 +30,7 @@ class CardWalletActivity : BaseJunaCardActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_card_wallet)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
 
         initViews()
         initRecyclerView()

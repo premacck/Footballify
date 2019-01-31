@@ -7,13 +7,15 @@ import androidx.annotation.StringRes
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_board_info.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.api.*
-import life.plank.juna.zone.data.model.football.*
+import life.plank.juna.zone.data.model.football.MatchDetails
+import life.plank.juna.zone.data.model.football.MatchEvent
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.ui.base.fragment.BaseJunaFragment
 import life.plank.juna.zone.ui.board.adapter.match.LineupsAdapter
+import life.plank.juna.zone.util.common.errorToast
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
@@ -34,7 +36,7 @@ class LineupFragment : BaseJunaFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         arguments?.run { matchDetails = getParcelable(getString(R.string.match_id_string))!! }
     }
 

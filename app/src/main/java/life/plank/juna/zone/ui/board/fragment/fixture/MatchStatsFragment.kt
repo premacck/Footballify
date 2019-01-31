@@ -7,14 +7,16 @@ import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.prembros.facilis.util.isNullOrEmpty
 import kotlinx.android.synthetic.main.fragment_board_info.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.api.*
 import life.plank.juna.zone.data.model.football.*
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.time.DateUtil.getTimeDiffFromNow
-import life.plank.juna.zone.ui.base.fragment.*
+import life.plank.juna.zone.ui.base.fragment.BaseBoardFragment
+import life.plank.juna.zone.ui.base.fragment.BaseJunaCard
 import life.plank.juna.zone.ui.board.adapter.match.MatchStatsAdapter
 import life.plank.juna.zone.ui.football.MatchStatsListener
+import life.plank.juna.zone.util.time.DateUtil.getTimeDiffFromNow
 import java.util.*
 import javax.inject.Inject
 
@@ -35,7 +37,7 @@ class MatchStatsFragment : BaseBoardFragment(), MatchStatsListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         arguments?.run { matchDetails = getParcelable(getString(R.string.match_id_string))!! }
     }
 

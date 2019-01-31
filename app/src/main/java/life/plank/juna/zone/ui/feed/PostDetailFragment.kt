@@ -2,7 +2,8 @@ package life.plank.juna.zone.ui.feed
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.media.*
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
@@ -18,24 +19,28 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.isNullOrEmpty
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_post_detail.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.ZoneApplication.getApplication
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.component.helper.showSignupPopup
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.data.model.board.Emoji
 import life.plank.juna.zone.data.model.feed.FeedEntry
 import life.plank.juna.zone.sharedpreference.IdToken
+import life.plank.juna.zone.ui.base.fragment.BaseJunaCardChild
+import life.plank.juna.zone.ui.base.setRootCommentPost
+import life.plank.juna.zone.ui.base.showFor
+import life.plank.juna.zone.ui.emoji.EmojiAdapter
+import life.plank.juna.zone.ui.emoji.EmojiContainer
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.time.DateUtil.*
 import life.plank.juna.zone.util.toro.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import life.plank.juna.zone.ui.base.*
-import life.plank.juna.zone.ui.base.fragment.BaseJunaCardChild
-import life.plank.juna.zone.ui.emoji.*
 import net.openid.appauth.AuthorizationService
 import java.io.IOException
 import java.net.HttpURLConnection.*
@@ -57,15 +62,15 @@ class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
         private val TAG = PostDetailFragment::class.java.simpleName
         fun newInstance(feedEntry: FeedEntry, boardId: String) = PostDetailFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(ZoneApplication.getContext().getString(R.string.intent_feed_items), feedEntry)
-                putString(ZoneApplication.getContext().getString(R.string.intent_board_id), boardId)
+                putParcelable(ZoneApplication.appContext.getString(R.string.intent_feed_items), feedEntry)
+                putString(ZoneApplication.appContext.getString(R.string.intent_board_id), boardId)
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         arguments?.run {
             feedEntry = getParcelable(getString(R.string.intent_feed_items))!!
             boardId = getString(getString(R.string.intent_board_id))!!
@@ -232,7 +237,7 @@ class PostDetailFragment : BaseJunaCardChild(), EmojiContainer {
 
                 mediaPlayer.setAudioAttributes(AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
                 try {
-                    mediaPlayer.setDataSource(ZoneApplication.getContext(), audioUri)
+                    mediaPlayer.setDataSource(ZoneApplication.appContext, audioUri)
                     mediaPlayer.prepare()
                 } catch (e: IOException) {
                     mediaPlayer.stop()

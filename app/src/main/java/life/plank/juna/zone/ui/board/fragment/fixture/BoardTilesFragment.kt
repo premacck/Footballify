@@ -14,23 +14,30 @@ import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_board_tiles.*
 import kotlinx.android.synthetic.main.item_react.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.api.*
 import life.plank.juna.zone.data.model.board.Emoji
-import life.plank.juna.zone.data.model.board.poll.*
+import life.plank.juna.zone.data.model.board.poll.Poll
+import life.plank.juna.zone.data.model.board.poll.PollAnswerRequest
 import life.plank.juna.zone.data.model.feed.FeedEntry
 import life.plank.juna.zone.service.CommonDataService.findString
+import life.plank.juna.zone.ui.base.fragment.BaseJunaFragment
+import life.plank.juna.zone.ui.base.fragment.CardTileFragment
+import life.plank.juna.zone.ui.base.setEmoji
+import life.plank.juna.zone.ui.base.showFor
+import life.plank.juna.zone.ui.board.adapter.match.bindingmodel.PollBindingModel
+import life.plank.juna.zone.ui.board.adapter.tile.BoardMediaAdapter
+import life.plank.juna.zone.ui.board.fragment.fixture.extra.DartBoardPopup
+import life.plank.juna.zone.ui.board.fragment.fixture.extra.KeyBoardPopup
+import life.plank.juna.zone.ui.board.fragment.user.PrivateBoardFragment
+import life.plank.juna.zone.ui.emoji.EmojiAdapter
+import life.plank.juna.zone.ui.emoji.EmojiContainer
+import life.plank.juna.zone.ui.feed.FeedEntryContainer
+import life.plank.juna.zone.ui.feed.FeedItemPeekPopup
 import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_FULL
 import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.addDefaultEmojis
-import life.plank.juna.zone.ui.base.*
-import life.plank.juna.zone.ui.base.fragment.*
-import life.plank.juna.zone.ui.board.adapter.match.bindingmodel.PollBindingModel
-import life.plank.juna.zone.ui.board.adapter.tile.BoardMediaAdapter
-import life.plank.juna.zone.ui.board.fragment.fixture.extra.*
-import life.plank.juna.zone.ui.board.fragment.user.PrivateBoardFragment
-import life.plank.juna.zone.ui.emoji.*
-import life.plank.juna.zone.ui.feed.*
 import org.jetbrains.anko.support.v4.toast
 import java.net.HttpURLConnection
 import java.util.*
@@ -64,7 +71,7 @@ class BoardTilesFragment : BaseJunaFragment(), AsymRecyclerListener, PollContain
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         arguments?.run {
             boardId = getString(getString(R.string.intent_board_id))!!
             isBoardActive = getBoolean(getString(R.string.intent_is_board_active))

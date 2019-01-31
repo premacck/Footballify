@@ -5,7 +5,8 @@ import android.view.*
 import com.prembros.facilis.dialog.BaseBlurPopup
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_share_link.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 
 
 class ShareLinkPopup : BaseBlurPopup() {
@@ -17,7 +18,7 @@ class ShareLinkPopup : BaseBlurPopup() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.popup_share_link, container, false)

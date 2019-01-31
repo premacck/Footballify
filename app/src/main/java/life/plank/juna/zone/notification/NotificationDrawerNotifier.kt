@@ -11,13 +11,15 @@ import androidx.core.app.NotificationCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.prembros.facilis.util.isNullOrEmpty
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
 import life.plank.juna.zone.R.string.*
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.football.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.util.common.asciiToInt
-import org.jetbrains.anko.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 private const val CHANNEL_ID = "juna_notification_channel"
 private const val TAG = "DrawerNotifier"
@@ -31,7 +33,7 @@ private const val GROUP_NONE = "life.plank.juna.zone.GROUP_NONE"
  */
 fun SocialNotification.prepareDrawerNotification() {
     val pendingIntent = PendingIntent.getActivity(
-            ZoneApplication.getContext(),
+            ZoneApplication.appContext,
             0,
             getSocialNotificationIntent(),
             FLAG_ONE_SHOT
@@ -58,7 +60,7 @@ fun SocialNotification.prepareDrawerNotification() {
  */
 fun FootballLiveData.prepareDrawerNotification() {
     sendCustomizedNotification {
-        sendTextNotification(PendingIntent.getActivity(ZoneApplication.getContext(), 0, getLiveFootballNotificationIntent(), FLAG_ONE_SHOT))
+        sendTextNotification(PendingIntent.getActivity(ZoneApplication.appContext, 0, getLiveFootballNotificationIntent(), FLAG_ONE_SHOT))
     }
 }
 
@@ -66,12 +68,12 @@ fun FootballLiveData.prepareDrawerNotification() {
  * Method to send card notification in the notification drawer
  */
 fun CardNotification.prepareDrawerNotification() {
-    sendTextNotification(PendingIntent.getActivity(ZoneApplication.getContext(), 0, getCardNotificationIntent(), FLAG_ONE_SHOT))
+    sendTextNotification(PendingIntent.getActivity(ZoneApplication.appContext, 0, getCardNotificationIntent(), FLAG_ONE_SHOT))
 }
 
 fun BaseInAppNotification.sendTextNotification(pendingIntent: PendingIntent) {
     val notificationMessage = getNotificationMessage()
-    ZoneApplication.getContext()
+    ZoneApplication.appContext
             .getNotificationManager()
             .setNotificationChannel()
             .notify(toString().asciiToInt(),
@@ -91,11 +93,11 @@ fun BaseInAppNotification.sendTextNotification(pendingIntent: PendingIntent) {
 }
 
 fun SocialNotification.sendImageNotification(pendingIntent: PendingIntent, isBigImage: Boolean) {
-    val notificationManager = ZoneApplication.getContext().getNotificationManager().setNotificationChannel()
+    val notificationManager = ZoneApplication.appContext.getNotificationManager().setNotificationChannel()
     val notificationBuilder = getNotificationBuilder(if (notificationMessage != null) SpannableStringBuilder(notificationMessage) else SpannableStringBuilder(), pendingIntent)
     try {
-        ZoneApplication.getContext().doAsync {
-            val boardIconBitmap = Glide.with(ZoneApplication.getContext())
+        ZoneApplication.appContext.doAsync {
+            val boardIconBitmap = Glide.with(ZoneApplication.appContext)
                     .asBitmap()
                     .apply(RequestOptions.circleCropTransform())
                     .load(privateBoardIcon ?: lastActorIcon)
@@ -104,7 +106,7 @@ fun SocialNotification.sendImageNotification(pendingIntent: PendingIntent, isBig
                 notificationBuilder.setLargeIcon(boardIconBitmap).setGroup(GROUP_SOCIAL_NOTIFICATION)
                 if (isBigImage) {
                     doAsync {
-                        val feedItemIconBitmap = Glide.with(ZoneApplication.getContext()).asBitmap().load(feedItemIcon).submit().get()
+                        val feedItemIconBitmap = Glide.with(ZoneApplication.appContext).asBitmap().load(feedItemIcon).submit().get()
                         uiThread {
                             notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(feedItemIconBitmap).bigLargeIcon(null))
                         }
@@ -122,7 +124,7 @@ fun SocialNotification.sendImageNotification(pendingIntent: PendingIntent, isBig
 }
 
 fun getNotificationBuilder(messageBody: SpannableStringBuilder, pendingIntent: PendingIntent): NotificationCompat.Builder {
-    return NotificationCompat.Builder(ZoneApplication.getContext(), CHANNEL_ID)
+    return NotificationCompat.Builder(ZoneApplication.appContext, CHANNEL_ID)
             .setContentText(messageBody)
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

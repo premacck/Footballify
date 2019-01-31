@@ -3,12 +3,16 @@ package life.plank.juna.zone.util.toro
 import android.content.Context
 import android.media.MediaMetadataRetriever
 import android.net.Uri
-import android.view.*
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.ui.*
-import com.google.android.exoplayer2.upstream.cache.*
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
+import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
+import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.prembros.facilis.util.*
 import im.ene.toro.exoplayer.*
 import life.plank.juna.zone.ZoneApplication
@@ -19,9 +23,9 @@ class ToroUtil {
         private const val cacheByteLength = 10 * 1024 * 1024L
         private val config: Config = Config.Builder()
                 .setMediaSourceBuilder(MediaSourceBuilder.LOOPING)
-                .setCache(SimpleCache(File("${ZoneApplication.getContext().filesDir.path}/juna_cache"), LeastRecentlyUsedCacheEvictor(cacheByteLength)))
+                .setCache(SimpleCache(File("${ZoneApplication.appContext.filesDir.path}/juna_cache"), LeastRecentlyUsedCacheEvictor(cacheByteLength)))
                 .build()
-        val exoCreator: ExoCreator = ToroExo.with(ZoneApplication.getContext()).getCreator(config)
+        val exoCreator: ExoCreator = ToroExo.with(ZoneApplication.appContext).getCreator(config)
     }
 }
 

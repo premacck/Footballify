@@ -1,16 +1,20 @@
 package life.plank.juna.zone.ui.football.fragment
 
-import android.os.*
+import android.os.Bundle
+import android.os.Parcelable
 import android.view.*
 import com.bumptech.glide.Glide
 import com.prembros.facilis.dialog.BaseBlurPopup
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_league_info_detail.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.data.model.football.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.model.football.PlayerStats
+import life.plank.juna.zone.data.model.football.TeamStats
 import life.plank.juna.zone.service.CommonDataService.findString
+import life.plank.juna.zone.ui.football.adapter.league.PlayerStatsAdapter
+import life.plank.juna.zone.ui.football.adapter.league.TeamStatsAdapter
 import life.plank.juna.zone.util.common.AppConstants
-import life.plank.juna.zone.ui.football.adapter.league.*
 
 class LeagueInfoDetailPopup : BaseBlurPopup() {
 
@@ -30,7 +34,7 @@ class LeagueInfoDetailPopup : BaseBlurPopup() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         viewToLoad = arguments?.getString(getString(R.string.intent_load_view))!!
     }
 

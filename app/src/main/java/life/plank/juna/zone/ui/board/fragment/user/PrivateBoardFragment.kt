@@ -9,21 +9,25 @@ import androidx.fragment.app.*
 import com.prembros.facilis.util.floatUp
 import kotlinx.android.synthetic.main.fragment_private_board.*
 import kotlinx.android.synthetic.main.layout_board_engagement.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.component.helper.getPositionFromIntentIfAny
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.data.model.board.Board
 import life.plank.juna.zone.data.model.feed.FeedEntry
 import life.plank.juna.zone.data.model.notification.SocialNotification
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.sharedpreference.CurrentUser
-import life.plank.juna.zone.util.common.*
-import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
-import life.plank.juna.zone.ui.base.fragment.*
+import life.plank.juna.zone.ui.base.fragment.BaseJunaCard
+import life.plank.juna.zone.ui.base.fragment.CardTileFragment
 import life.plank.juna.zone.ui.board.fragment.fixture.BoardTilesFragment
 import life.plank.juna.zone.ui.common.BoardHeaderListener
 import life.plank.juna.zone.ui.forum.ForumFragment
+import life.plank.juna.zone.util.common.AppConstants.*
+import life.plank.juna.zone.util.common.customToast
+import life.plank.juna.zone.util.common.errorToast
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
@@ -47,7 +51,7 @@ class PrivateBoardFragment : CardTileFragment(), BoardHeaderListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         board = arguments?.getParcelable(getString(R.string.intent_board))!!
         boardId = board.id
     }

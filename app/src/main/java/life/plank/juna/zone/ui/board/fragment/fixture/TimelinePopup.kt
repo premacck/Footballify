@@ -10,16 +10,19 @@ import com.prembros.facilis.dialog.BaseBlurPopup
 import com.prembros.facilis.util.isNullOrEmpty
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_timeline.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.football.MatchDetails
-import life.plank.juna.zone.service.*
 import life.plank.juna.zone.service.CommonDataService.findString
+import life.plank.juna.zone.service.FixtureListUpdateTask
+import life.plank.juna.zone.service.MatchDataService
+import life.plank.juna.zone.ui.board.adapter.match.TimelineAdapter
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.football.getAllTimelineEvents
 import life.plank.juna.zone.util.time.DateUtil.getTimelineDateHeader
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import life.plank.juna.zone.ui.board.adapter.match.TimelineAdapter
-import org.jetbrains.anko.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.util.*
 import javax.inject.Inject
 
@@ -44,7 +47,7 @@ class TimelinePopup : BaseBlurPopup() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         currentMatchId = arguments?.getLong(getString(R.string.match_id_string), 0)!!
         matchDetails = arguments?.getParcelable(getString(R.string.intent_match_fixture))!!
     }

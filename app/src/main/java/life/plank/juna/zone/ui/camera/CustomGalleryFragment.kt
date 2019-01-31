@@ -9,13 +9,15 @@ import android.widget.ToggleButton
 import androidx.fragment.app.Fragment
 import com.prembros.facilis.util.onClick
 import kotlinx.android.synthetic.main.fragment_custom_gallery.*
-import life.plank.juna.zone.*
 import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.service.camera.PermissionHandler
 import life.plank.juna.zone.service.camera.PermissionHandler.STORAGE_PERMISSION_REQUEST_CODE_GALLERY
 import life.plank.juna.zone.util.view.UIDisplayUtil.toggleZone
-import org.jetbrains.anko.*
-import pub.devrel.easypermissions.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 
 class CustomGalleryFragment : Fragment() {
@@ -53,7 +55,7 @@ class CustomGalleryFragment : Fragment() {
     @AfterPermissionGranted(STORAGE_PERMISSION_REQUEST_CODE_GALLERY)
     private fun loadGallery() {
         if (!isGalleryLoading) {
-            if (EasyPermissions.hasPermissions(ZoneApplication.getContext(), *PermissionHandler.STORAGE_PERMISSIONS)) {
+            if (EasyPermissions.hasPermissions(ZoneApplication.appContext, *PermissionHandler.STORAGE_PERMISSIONS)) {
                 getGalleryItems()
             } else PermissionHandler.requestStoragePermissionsForGallery(activity)
         }
@@ -84,7 +86,7 @@ class CustomGalleryFragment : Fragment() {
                 val projection = arrayOf(MediaStore.MediaColumns.DATA)
                 val orderByDateTaken = if (isForImage) MediaStore.Images.Media.DATE_TAKEN else MediaStore.Video.Media.DATE_TAKEN
 
-                cursor = ZoneApplication.getContext().contentResolver.query(
+                cursor = ZoneApplication.appContext.contentResolver.query(
                         if (isForImage) MediaStore.Images.Media.EXTERNAL_CONTENT_URI else MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                         projection, null, null, "$orderByDateTaken DESC")
                 if (cursor != null) {

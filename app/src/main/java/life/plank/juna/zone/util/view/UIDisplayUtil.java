@@ -88,8 +88,8 @@ import static life.plank.juna.zone.util.common.AppConstants.SPACE;
 
 public class UIDisplayUtil {
 
-    public static final StyleSpan BOLD_STYLE = new StyleSpan(Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "rajdhani_bold.ttf").getStyle());
-    public static final Typeface SEMI_BOLD_TYPEFACE = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "fonts/rajdhani_semibold.ttf");
+    public static final StyleSpan BOLD_STYLE = new StyleSpan(Typeface.createFromAsset(ZoneApplication.Companion.getAppContext().getAssets(), "rajdhani_bold.ttf").getStyle());
+    public static final Typeface SEMI_BOLD_TYPEFACE = Typeface.createFromAsset(ZoneApplication.Companion.getAppContext().getAssets(), "fonts/rajdhani_semibold.ttf");
     public static final StyleSpan SEMI_BOLD_STYLE = new StyleSpan(SEMI_BOLD_TYPEFACE.getStyle());
 
     //TODO: Remove once emojis are implemented on backend
@@ -128,7 +128,7 @@ public class UIDisplayUtil {
 
     public static String getAudioPath(Uri uri) {
         String[] data = {MediaStore.Audio.Media.DATA};
-        CursorLoader loader = new CursorLoader(ZoneApplication.getContext(), uri, data, null, null, null);
+        CursorLoader loader = new CursorLoader(ZoneApplication.Companion.getAppContext(), uri, data, null, null, null);
         Cursor cursor = loader.loadInBackground();
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
         cursor.moveToFirst();
@@ -261,7 +261,7 @@ public class UIDisplayUtil {
     }
 
     public static float getDp(float dp) {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, ZoneApplication.getContext().getResources().getDisplayMetrics());
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, ZoneApplication.Companion.getAppContext().getResources().getDisplayMetrics());
     }
 
     public static void toggleZone(Context context, ToggleButton view, boolean isChecked) {
@@ -365,7 +365,7 @@ public class UIDisplayUtil {
     }
 
     public static void alternateBackgroundColor(View view, int position) {
-        view.setBackgroundColor(ZoneApplication.getContext().getColor(
+        view.setBackgroundColor(ZoneApplication.Companion.getAppContext().getColor(
                 position % 2 == 0 ?
                         R.color.white :
                         R.color.background_color
@@ -393,14 +393,14 @@ public class UIDisplayUtil {
             text.setSpan(BOLD_STYLE, startIndex, startIndex + boldText.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
             if (color != -1) {
                 text.setSpan(
-                        new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), color, null)),
+                        new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.Companion.getAppContext().getResources(), color, null)),
                         startIndex, startIndex + boldText.length(), SPAN_EXCLUSIVE_EXCLUSIVE
                 );
             }
             if (startDrawableRes != -1) {
                 text.insert(0, SPACE);
                 text.setSpan(
-                        new ImageSpan(ZoneApplication.getContext(), startDrawableRes, ALIGN_BASELINE),
+                        new ImageSpan(ZoneApplication.Companion.getAppContext(), startDrawableRes, ALIGN_BASELINE),
                         0, 1, SPAN_EXCLUSIVE_EXCLUSIVE
                 );
             }
@@ -411,15 +411,15 @@ public class UIDisplayUtil {
     public static CharSequence getSpannedString(@StringRes int stringRes) {
         try {
             if (stringRes == R.string.board_yet_to_be_populated) {
-                SpannableStringBuilder builder = new SpannableStringBuilder(ZoneApplication.getContext().getString(stringRes));
+                SpannableStringBuilder builder = new SpannableStringBuilder(ZoneApplication.Companion.getAppContext().getString(stringRes));
                 builder.setSpan(BOLD_STYLE, 31, 56, SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(BOLD_STYLE, 97, 112, SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(
-                        new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), R.color.green, null)),
+                        new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.Companion.getAppContext().getResources(), R.color.green, null)),
                         31, 56, SPAN_EXCLUSIVE_EXCLUSIVE
                 );
                 builder.setSpan(
-                        new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), R.color.text_hint_label_color, null)),
+                        new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.Companion.getAppContext().getResources(), R.color.text_hint_label_color, null)),
                         97, 112, SPAN_EXCLUSIVE_EXCLUSIVE
                 );
                 return builder;
@@ -427,7 +427,7 @@ public class UIDisplayUtil {
         } catch (Exception e) {
             Log.e("getSpannedString()", e.getMessage());
         }
-        return ZoneApplication.getContext().getString(stringRes);
+        return ZoneApplication.Companion.getAppContext().getString(stringRes);
     }
 
     public static void displaySnackBar(View currentView, @StringRes int message) {
@@ -436,7 +436,7 @@ public class UIDisplayUtil {
 
     public static void hideSoftKeyboard(View view) {
         if (view != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) ZoneApplication.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager inputMethodManager = (InputMethodManager) ZoneApplication.Companion.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             assert inputMethodManager != null;
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
@@ -444,7 +444,7 @@ public class UIDisplayUtil {
 
     public static void showSoftKeyboard(View view) {
         if (view != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) ZoneApplication.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager inputMethodManager = (InputMethodManager) ZoneApplication.Companion.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             assert inputMethodManager != null;
             inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }
@@ -455,7 +455,7 @@ public class UIDisplayUtil {
         view.setClickable(isEnabled);
         view.setAlpha(isEnabled ? 1f : 0.5f);
         if (isTintRequired.length > 0 && isTintRequired[0]) {
-            view.setBackgroundTintList(isEnabled ? null : ColorStateList.valueOf(ZoneApplication.getContext().getColor(R.color.colorDisabled)));
+            view.setBackgroundTintList(isEnabled ? null : ColorStateList.valueOf(ZoneApplication.Companion.getAppContext().getColor(R.color.colorDisabled)));
         }
     }
 
@@ -483,7 +483,7 @@ public class UIDisplayUtil {
     }
 
     public static void flipView(View viewToFlip, boolean isVertical) {
-        ObjectAnimator flip = ObjectAnimator.ofFloat(viewToFlip, ZoneApplication.getContext().getString(isVertical ? R.string.rotation_y : R.string.rotation_x), 0f, 180f);
+        ObjectAnimator flip = ObjectAnimator.ofFloat(viewToFlip, ZoneApplication.Companion.getAppContext().getString(isVertical ? R.string.rotation_y : R.string.rotation_x), 0f, 180f);
         flip.setDuration(500);
         flip.start();
     }
@@ -509,11 +509,11 @@ public class UIDisplayUtil {
     }
 
     public static int findColor(@ColorRes int color) {
-        return ZoneApplication.getContext().getColor(color);
+        return ZoneApplication.Companion.getAppContext().getColor(color);
     }
 
     public static Drawable findDrawable(@DrawableRes int drawable) {
-        return ZoneApplication.getContext().getResources().getDrawable(drawable, null);
+        return ZoneApplication.Companion.getAppContext().getResources().getDrawable(drawable, null);
     }
 
     public static int getMasonryLayoutCellSpan(int position) {

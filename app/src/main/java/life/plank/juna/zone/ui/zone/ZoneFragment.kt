@@ -8,18 +8,20 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.follow_league_bottom_sheet.*
 import kotlinx.android.synthetic.main.fragment_team_selection.*
 import kotlinx.android.synthetic.main.fragment_zone.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.data.model.football.League
 import life.plank.juna.zone.service.LeagueDataService.getStaticLeagues
 import life.plank.juna.zone.sharedpreference.CurrentUser
-import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
-import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.util.view.*
 import life.plank.juna.zone.ui.base.fragment.BaseJunaCardChild
 import life.plank.juna.zone.ui.common.OnItemClickListener
 import life.plank.juna.zone.ui.football.adapter.league.LeagueSelectionAdapter
 import life.plank.juna.zone.ui.football.latestMatch.FootballZoneAdapter
+import life.plank.juna.zone.util.common.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
+import life.plank.juna.zone.util.common.errorToast
+import life.plank.juna.zone.util.view.*
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
@@ -41,7 +43,7 @@ class ZoneFragment : BaseJunaCardChild(), OnItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =

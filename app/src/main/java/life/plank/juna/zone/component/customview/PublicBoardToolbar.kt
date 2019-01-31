@@ -3,8 +3,10 @@ package life.plank.juna.zone.component.customview
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
-import android.os.*
-import android.util.*
+import android.os.CountDownTimer
+import android.os.SystemClock
+import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -17,16 +19,18 @@ import com.google.android.material.tabs.TabLayout
 import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.layout_board_engagement.view.*
 import kotlinx.android.synthetic.main.public_board_toolbar.view.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.component.customview.CustomPopup.showOptionPopup
 import life.plank.juna.zone.data.model.football.MatchDetails
 import life.plank.juna.zone.service.MatchDataService
+import life.plank.juna.zone.ui.common.*
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.common.AppConstants.MatchTimeVal.*
-import life.plank.juna.zone.util.time.*
+import life.plank.juna.zone.util.time.DateUtil
 import life.plank.juna.zone.util.time.DateUtil.*
+import life.plank.juna.zone.util.time.getFootballTimeElapsed
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import life.plank.juna.zone.ui.common.*
 import java.util.*
 
 class PublicBoardToolbar @JvmOverloads constructor(
@@ -76,7 +80,7 @@ class PublicBoardToolbar @JvmOverloads constructor(
         setTeamLogo(matchDetails.homeTeam.logoLink, home_team_logo)
         setTeamLogo(matchDetails.awayTeam.logoLink, visiting_team_logo)
         setScore(MatchDataService.getSeparator(matchDetails, win_pointer, true))
-        setBoardTitle(ZoneApplication.getContext().getString(R.string.matchday_) + matchDetails.matchDay)
+        setBoardTitle(ZoneApplication.appContext.getString(R.string.matchday_) + matchDetails.matchDay)
         when (getMatchTimeValue(matchDetails.matchStartTime, false)) {
             MATCH_PAST, MATCH_COMPLETED_TODAY -> {
                 setFullTimeStatus()

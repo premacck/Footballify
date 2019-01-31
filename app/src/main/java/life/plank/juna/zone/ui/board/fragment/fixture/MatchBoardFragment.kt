@@ -8,25 +8,30 @@ import androidx.fragment.app.*
 import androidx.viewpager.widget.PagerAdapter
 import com.github.mikephil.charting.charts.LineChart
 import com.google.gson.Gson
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.isNullOrEmpty
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.fragment_match_board.*
 import kotlinx.android.synthetic.main.layout_board_engagement.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.component.customview.PublicBoardToolbar
 import life.plank.juna.zone.component.helper.*
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.execute
 import life.plank.juna.zone.data.model.board.Board
 import life.plank.juna.zone.data.model.feed.FeedEntry
-import life.plank.juna.zone.data.model.football.*
+import life.plank.juna.zone.data.model.football.League
+import life.plank.juna.zone.data.model.football.MatchDetails
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.service.LeagueDataService
-import life.plank.juna.zone.sharedpreference.*
-import life.plank.juna.zone.util.common.AppConstants.LIVE
-import life.plank.juna.zone.util.common.setCommentaryText
-import life.plank.juna.zone.util.view.UIDisplayUtil.*
+import life.plank.juna.zone.sharedpreference.isSubscribed
+import life.plank.juna.zone.sharedpreference.subscribeTo
 import life.plank.juna.zone.ui.base.fragment.BaseMatchFragment
 import life.plank.juna.zone.ui.common.BoardHeaderListener
 import life.plank.juna.zone.ui.forum.ForumFragment
+import life.plank.juna.zone.util.common.AppConstants.LIVE
+import life.plank.juna.zone.util.common.setCommentaryText
+import life.plank.juna.zone.util.view.UIDisplayUtil.*
 import java.lang.ref.WeakReference
 import java.util.*
 import javax.inject.Inject
@@ -58,7 +63,7 @@ class MatchBoardFragment : BaseMatchFragment(), BoardHeaderListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         arguments?.run {
             board = getParcelable(getString(R.string.intent_board))!!
             matchDetails = getParcelable(getString(R.string.intent_match_fixture))!!

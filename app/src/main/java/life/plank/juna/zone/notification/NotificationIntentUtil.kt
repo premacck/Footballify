@@ -2,25 +2,28 @@ package life.plank.juna.zone.notification
 
 import android.app.Activity
 import android.content.Intent
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
 import life.plank.juna.zone.R.string.*
-import life.plank.juna.zone.component.helper.*
+import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.component.helper.findAndLaunchBoardById
+import life.plank.juna.zone.component.helper.launchMatchBoard
 import life.plank.juna.zone.data.model.football.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.common.AppConstants.CardNotificationType.*
-import life.plank.juna.zone.util.common.customToast
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
 import life.plank.juna.zone.ui.board.fragment.user.JoinBoardPopup
 import life.plank.juna.zone.ui.home.HomeActivity
 import life.plank.juna.zone.ui.user.card.CreateCardActivity
-import org.jetbrains.anko.*
+import life.plank.juna.zone.util.common.AppConstants.CardNotificationType.*
+import life.plank.juna.zone.util.common.customToast
+import org.jetbrains.anko.clearTop
+import org.jetbrains.anko.intentFor
 
 /**
  * Function to get the intent which contains the relevant extras to be used by boards to handle the [SocialNotification] notification
  */
 fun SocialNotification.getSocialNotificationIntent(): Intent {
-    return ZoneApplication.getContext().run {
+    return ZoneApplication.appContext.run {
         when (action) {
             findString(intent_invite) -> {
                 intentFor<HomeActivity>(
@@ -52,7 +55,7 @@ fun SocialNotification.getSocialNotificationIntent(): Intent {
  * Function to get the intent which contains the relevant extras to be used by boards to handle the [FootballLiveData] notification
  */
 fun FootballLiveData.getLiveFootballNotificationIntent(): Intent {
-    return ZoneApplication.getContext().run {
+    return ZoneApplication.appContext.run {
         intentFor<HomeActivity>(
                 findString(match_id_string) to matchId,
                 findString(intent_live_data_type) to liveDataType
@@ -64,7 +67,7 @@ fun FootballLiveData.getLiveFootballNotificationIntent(): Intent {
  * Function to get the intent which contains the relevant extras to be used by boards to handle the [CardNotification] notification
  */
 fun CardNotification.getCardNotificationIntent(): Intent {
-    return ZoneApplication.getContext().run {
+    return ZoneApplication.appContext.run {
         when (cardNotificationType) {
             READY_TO_CREATE -> intentFor<CreateCardActivity>(findString(intent_card_notification_type) to cardNotificationType).clearTop()
             PUBLISHED -> {/*TODO: open card*/ intentFor<HomeActivity>(findString(intent_card_notification_type) to cardNotificationType).clearTop()

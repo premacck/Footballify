@@ -11,16 +11,18 @@ import com.bumptech.glide.Glide
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.fragment_forum.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication.getApplication
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.component.helper.removeIntentExtra
 import life.plank.juna.zone.data.api.*
 import life.plank.juna.zone.data.model.feed.FeedItemComment
-import life.plank.juna.zone.notification.*
+import life.plank.juna.zone.notification.getChildIdFromIntent
+import life.plank.juna.zone.notification.getSiblingIdFromIntent
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.sharedpreference.*
+import life.plank.juna.zone.sharedpreference.AppPrefs
+import life.plank.juna.zone.sharedpreference.CurrentUser
+import life.plank.juna.zone.ui.base.fragment.BaseCommentContainerFragment
 import life.plank.juna.zone.util.common.AppConstants.NEW_LINE
 import life.plank.juna.zone.util.common.errorToast
-import life.plank.juna.zone.ui.base.fragment.BaseCommentContainerFragment
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
 
@@ -42,7 +44,7 @@ class ForumFragment : BaseCommentContainerFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         arguments?.run { boardId = getString(getString(R.string.intent_board_id))!! }
         commentId = activity?.getChildIdFromIntent()
         replyId = activity?.getSiblingIdFromIntent()

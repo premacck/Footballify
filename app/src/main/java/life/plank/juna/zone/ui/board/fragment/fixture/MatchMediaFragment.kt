@@ -4,13 +4,15 @@ import android.os.Bundle
 import android.view.*
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_board_info.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.api.RestApi
-import life.plank.juna.zone.data.model.football.*
+import life.plank.juna.zone.data.model.football.Highlights
+import life.plank.juna.zone.data.model.football.MatchDetails
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.view.UIDisplayUtil.getScreenSize
 import life.plank.juna.zone.ui.base.fragment.BaseJunaFragment
 import life.plank.juna.zone.ui.board.adapter.match.MatchMediaAdapter
+import life.plank.juna.zone.util.view.UIDisplayUtil.getScreenSize
 import javax.inject.Inject
 
 class MatchMediaFragment : BaseJunaFragment() {
@@ -29,7 +31,7 @@ class MatchMediaFragment : BaseJunaFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
         arguments?.run { matchDetails = getParcelable(getString(R.string.match_id_string))!! }
     }
 

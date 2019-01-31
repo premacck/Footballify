@@ -8,13 +8,14 @@ import life.plank.juna.zone.data.model.football.FootballLiveData
 import life.plank.juna.zone.data.model.notification.*
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
-import life.plank.juna.zone.ui.base.fragment.*
+import life.plank.juna.zone.ui.base.fragment.BaseMatchFragment
+import life.plank.juna.zone.ui.base.fragment.CardTileFragment
 
 /**
  * Method to send in-app social interaction notification
  */
 fun SocialNotification.sendInAppNotification() {
-    ZoneApplication.getContext().sendBroadcast(
+    ZoneApplication.appContext.sendBroadcast(
             Intent(findString(intent_in_app_notification)).putExtra(findString(intent_juna_notification), this)
     )
 }
@@ -23,7 +24,7 @@ fun SocialNotification.sendInAppNotification() {
  * Method to send in-app live football data notification
  */
 fun FootballLiveData.sendInAppNotification() {
-    ZoneApplication.getContext().sendBroadcast(
+    ZoneApplication.appContext.sendBroadcast(
             Intent(findString(intent_in_app_notification)).putExtra(findString(intent_zone_live_data), this)
     )
 }
@@ -32,7 +33,7 @@ fun FootballLiveData.sendInAppNotification() {
  * Method to send in-app card notification
  */
 fun CardNotification.sendInAppNotification() {
-    ZoneApplication.getContext().sendBroadcast(
+    ZoneApplication.appContext.sendBroadcast(
             Intent(findString(intent_in_app_notification)).putExtra(findString(intent_card_notification), this)
     )
 }

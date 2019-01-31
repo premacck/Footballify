@@ -1,6 +1,7 @@
 package life.plank.juna.zone.component.helper
 
-import android.graphics.drawable.*
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM
 import android.view.View
 import androidx.annotation.DrawableRes
@@ -8,7 +9,8 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.football.*
 import life.plank.juna.zone.service.CommonDataService.findString
 import life.plank.juna.zone.util.common.AppConstants.*
@@ -16,7 +18,8 @@ import life.plank.juna.zone.util.common.getRandomNumberBetween
 import life.plank.juna.zone.util.football.getAllTimelineEvents
 import life.plank.juna.zone.util.time.DateUtil.FUTURE_DATE_FORMAT
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import org.jetbrains.anko.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -188,7 +191,7 @@ fun loadScrubber(lineChart: LineChart, isRandom: Boolean) = loadScrubber(lineCha
 
 fun loadScrubber(lineChart: LineChart?, scrubberDataList: List<ScrubberData>) {
     prepareScrubber(lineChart)
-    ZoneApplication.getContext().doAsync {
+    ZoneApplication.appContext.doAsync {
         val lineDataSets1 = ArrayList<ILineDataSet>()
         lineDataSets1.add(getLineDataSet(scrubberDataList))
         uiThread {
@@ -202,7 +205,7 @@ fun loadScrubber(lineChart: LineChart?, scrubberDataList: List<ScrubberData>) {
 }
 
 fun loadScrubber(lineChart: LineChart?, commentaryList: List<Commentary>, matchEventList: MutableList<MatchEvent>) {
-    ZoneApplication.getContext().doAsync {
+    ZoneApplication.appContext.doAsync {
         val scrubberDataList: MutableList<ScrubberData> = ArrayList()
         getAllTimelineEvents(commentaryList, matchEventList)?.run {
             if (isNotEmpty()) {

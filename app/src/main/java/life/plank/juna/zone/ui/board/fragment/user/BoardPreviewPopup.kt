@@ -9,13 +9,15 @@ import com.prembros.facilis.dialog.BaseBlurPopup
 import com.prembros.facilis.util.onDebouncingClick
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_board_preview.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.component.helper.launchWithBoard
 import life.plank.juna.zone.data.api.*
 import life.plank.juna.zone.data.model.board.Board
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.ui.user.profile.UserProfileActivity
+import life.plank.juna.zone.util.common.customToast
+import life.plank.juna.zone.util.common.errorToast
 import java.io.File
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -40,7 +42,7 @@ class BoardPreviewPopup : BaseBlurPopup() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
 
         arguments?.run {
             board = getParcelable(getString(R.string.intent_board))!!

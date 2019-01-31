@@ -1,10 +1,11 @@
 package life.plank.juna.zone.data.api
 
 import android.util.Log
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.ui.base.fragment.BaseJunaFragment
+import life.plank.juna.zone.util.common.errorToast
 import okhttp3.*
 import org.jetbrains.anko.runOnUiThread
 import rx.*
@@ -58,9 +59,9 @@ fun <T> Observable<T>.smartSubscribe(fragmentToAttach: Any? = null, onError: (e:
     return subscription
 }
 
-fun <T> Observable<T>.onSubscribe(onSubscribe: () -> Unit): Observable<T> = doOnSubscribe { ZoneApplication.getContext().runOnUiThread { onSubscribe() } }
+fun <T> Observable<T>.onSubscribe(onSubscribe: () -> Unit): Observable<T> = doOnSubscribe { ZoneApplication.appContext.runOnUiThread { onSubscribe() } }
 
-fun <T> Observable<T>.onTerminate(onSubscribe: () -> Unit): Observable<T> = doOnTerminate { ZoneApplication.getContext().runOnUiThread { onSubscribe() } }
+fun <T> Observable<T>.onTerminate(onSubscribe: () -> Unit): Observable<T> = doOnTerminate { ZoneApplication.appContext.runOnUiThread { onSubscribe() } }
 
 fun File.createMultiPartImage(partName: String = ""): MultipartBody.Part =
         MultipartBody.Part.createFormData(partName, name, RequestBody.create(MediaType.parse(findString(R.string.media_type_image)), this))

@@ -6,21 +6,26 @@ import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.util.Log
 import android.view.*
-import android.widget.*
+import android.widget.EditText
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.isNullOrEmpty
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.fragment_team_selection.*
-import life.plank.juna.zone.*
-import life.plank.juna.zone.component.helper.*
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.component.helper.launch
+import life.plank.juna.zone.component.helper.startVoiceRecognitionActivity
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.data.model.football.FootballTeam
 import life.plank.juna.zone.sharedpreference.IdToken
-import life.plank.juna.zone.util.common.AppConstants.VOICE_RECOGNITION_REQUEST_CODE
-import life.plank.juna.zone.util.common.errorToast
 import life.plank.juna.zone.ui.base.fragment.SearchableCard
 import life.plank.juna.zone.ui.zone.ZoneActivity
+import life.plank.juna.zone.util.common.AppConstants.VOICE_RECOGNITION_REQUEST_CODE
+import life.plank.juna.zone.util.common.errorToast
 import rx.Subscription
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -44,7 +49,7 @@ class TeamSelectionFragment : SearchableCard(), View.OnTouchListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
 
         initBottomSheetRecyclerView()
         next.onDebouncingClick { postTeamPref(getString(R.string.football)) }

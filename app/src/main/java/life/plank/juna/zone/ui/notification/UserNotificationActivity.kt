@@ -1,14 +1,17 @@
 package life.plank.juna.zone.ui.notification
 
-import android.content.*
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.StringRes
-import com.prembros.facilis.util.*
+import com.prembros.facilis.util.isNullOrEmpty
+import com.prembros.facilis.util.onDebouncingClick
 import kotlinx.android.synthetic.main.shimmer_notification.*
 import kotlinx.android.synthetic.main.user_notification.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.api.*
 import life.plank.juna.zone.sharedpreference.CurrentUser
 import life.plank.juna.zone.ui.base.BaseJunaCardActivity
@@ -34,7 +37,7 @@ class UserNotificationActivity : BaseJunaCardActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_notification)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
 
         toolbar.title = getString(R.string.notification)
         toolbar.setProfilePic(CurrentUser.profilePicUrl)

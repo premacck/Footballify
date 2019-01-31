@@ -2,9 +2,11 @@ package life.plank.juna.zone.ui.feed
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.media.*
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.net.Uri
-import android.os.*
+import android.os.Build
+import android.os.Bundle
 import android.view.*
 import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
@@ -17,17 +19,18 @@ import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.football_feed_detail_row.*
 import kotlinx.android.synthetic.main.layout_interaction_component.*
 import kotlinx.android.synthetic.main.popup_feed_item_peek.*
-import life.plank.juna.zone.*
+import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.api.RestApi
 import life.plank.juna.zone.data.model.board.Emoji
 import life.plank.juna.zone.data.model.feed.FeedEntry
 import life.plank.juna.zone.service.CommonDataService.findString
+import life.plank.juna.zone.ui.base.setRootCommentPost
+import life.plank.juna.zone.ui.emoji.EmojiContainer
 import life.plank.juna.zone.util.common.AppConstants
 import life.plank.juna.zone.util.common.AppConstants.*
 import life.plank.juna.zone.util.toro.*
 import life.plank.juna.zone.util.view.UIDisplayUtil
-import life.plank.juna.zone.ui.base.setRootCommentPost
-import life.plank.juna.zone.ui.emoji.EmojiContainer
 import java.io.IOException
 import javax.inject.Inject
 
@@ -63,7 +66,7 @@ class FeedItemPeekPopup : BaseBlurPopup(), EmojiContainer {
             isBoardActive = getBoolean(getString(R.string.intent_is_board_active))
             position = getInt(getString(R.string.intent_position))
         }
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -179,7 +182,7 @@ class FeedItemPeekPopup : BaseBlurPopup(), EmojiContainer {
 
                 mediaPlayer.setAudioAttributes(AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
                 try {
-                    mediaPlayer.setDataSource(ZoneApplication.getContext(), audioUri)
+                    mediaPlayer.setDataSource(ZoneApplication.appContext, audioUri)
                     mediaPlayer.prepare()
                 } catch (e: IOException) {
                     mediaPlayer.stop()

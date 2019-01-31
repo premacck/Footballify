@@ -7,23 +7,27 @@ import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
-import com.leocardz.link.preview.library.*
+import com.leocardz.link.preview.library.SourceContent
+import com.leocardz.link.preview.library.TextCrawler
 import com.prembros.facilis.util.*
 import kotlinx.android.synthetic.main.content_post_comment.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.api.*
+import life.plank.juna.zone.data.api.RestApi
+import life.plank.juna.zone.data.api.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.data.model.feed.FeedItem
 import life.plank.juna.zone.service.CommonDataService.findString
-import life.plank.juna.zone.sharedpreference.*
+import life.plank.juna.zone.sharedpreference.CurrentUser
+import life.plank.juna.zone.sharedpreference.IdToken
+import life.plank.juna.zone.ui.base.*
 import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.util.view.UIDisplayUtil.*
-import life.plank.juna.zone.ui.base.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import rx.Subscription
@@ -60,7 +64,7 @@ class PostCommentActivity : BaseJunaCardActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.content_post_comment)
-        ZoneApplication.getApplication().uiComponent.inject(this)
+        ZoneApplication.application.uiComponent.inject(this)
 
         backgroundColorSwitches = arrayOf(blue, purple, green, orange)
 
