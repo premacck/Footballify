@@ -7,8 +7,8 @@ import life.plank.juna.zone.data.model.board.Board
 import life.plank.juna.zone.data.model.board.poll.Poll
 import life.plank.juna.zone.data.model.football.*
 import life.plank.juna.zone.sharedpreference.IdToken
-import life.plank.juna.zone.util.common.*
 import life.plank.juna.zone.ui.board.fragment.user.PrivateBoardFragment
+import life.plank.juna.zone.util.common.*
 import retrofit2.Response
 import rx.Observable
 import java.net.HttpURLConnection.HTTP_OK
@@ -83,8 +83,8 @@ object RestApiAggregator {
     /**
      * Method to get and Follow the Private board while opening the [PrivateBoardFragment]
      */
-    fun getPrivateBoardToOpen(boardId: String, restApi: RestApi): Observable<Board> {
-        return Observable.zip<Response<Board>, Response<JsonObject>, Board>(
+    fun getPrivateBoardToOpen(boardId: String, restApi: RestApi): Observable<Board?> {
+        return Observable.zip<Response<Board>, Response<JsonObject>, Board?>(
                 restApi.getBoardById(boardId, IdToken),
                 restApi.followBoard(boardId, IdToken)
         ) { boardResponse, jsonObjectResponse ->

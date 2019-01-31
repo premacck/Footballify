@@ -163,15 +163,12 @@ public class AuthService {
 
         authService.performAuthorizationRequest(
                 authRequest,
-                TokenActivity.createPostAuthorizationIntent(
-                        activity,
-                        authRequest,
-                        serviceConfig.discoveryDoc,
-                        authState),
+                TokenActivity.Companion.createPostAuthorizationIntent(activity, authRequest.hashCode(), serviceConfig.discoveryDoc, authState),
                 PendingIntent.getActivity(activity, 0, cancelIntent, 0),
                 authService.createCustomTabsIntentBuilder()
                         .setToolbarColor(activity.getResources().getColor(R.color.colorAccent, null))
-                        .build());
+                        .build()
+        );
         activity.finish();
     }
 }
