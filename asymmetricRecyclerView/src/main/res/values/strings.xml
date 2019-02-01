@@ -1,4 +1,0 @@
-<resources>
-    <string name="app_name">Masonry</string>
-    <string name="row_item_info">item %s in row with height %s consumes %s area</string>
-</resources>
